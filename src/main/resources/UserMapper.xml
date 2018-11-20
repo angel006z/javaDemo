@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Lilei">
+
+	<insert id="insertUser"
+		parameterType="com.meida.mybatis.dto.UserDto">
+		insert into tbuser (userName,password) values (#{userName},#{password})
+	</insert>
+
+	<delete id="deleteUser" parameterType="int">
+		delete from tbuser where userid= #{userId}
+	</delete>
+
+	<update id="updateUser"
+		parameterType="com.meida.mybatis.dto.UserDto">
+		update tbuser
+		<set>
+			<if test="userName!=null and userName!=''">userName = #{userName},</if>
+			<if test="password!=null and password!=''">password = #{password}</if>
+		</set>
+		where
+		userId=#{userId}
+	</update>
+
+	<select id="selectCount" resultType="int">
+		select count(1) from tbuser
+	</select>
+
+	<select id="selectUser" resultType="com.meida.mybatis.dto.UserDto"
+		parameterType="com.meida.mybatis.dto.UserDto">
+		select userid UserId,
+		username userName,
+		password
+		from tbuser
+		<where>
+			<if test="userName!=null and userName!=''">userName = #{userName}</if>
+			<if test="password!=null and password!=''">and password = #{password}</if>
+		</where>
+	</select>
+
+
+	<select id="selectUserMap" resultMap="userMap"
+		parameterType="com.meida.mybatis.dto.UserDto">
+		select userid,
+		username,
+		password
+		from tbuser
+		<where>
+			<if test="userName!=null and userName!=''">userName = #{userName}</if>
+			<if test="password!=null and password!=''">and password = #{password}</if>
+		</where>
+	</select>
+
+	<resultMap type="com.meida.mybatis.dto.UserDto" id="userMap">
+		<result property="userId" column="userid" />
+		<result property="userName" column="username" />
+		<result property="password" column="password" />
+	</resultMap>
+</mapper>

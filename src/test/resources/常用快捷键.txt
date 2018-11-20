@@ -1,0 +1,19 @@
+快捷键
+//main alt+/ 
+public static void main(String[] args) {}
+
+//sysout alt+/
+System.out.println(）；
+
+ctrl+shift+F  格式化代码
+
+alt+/ 提示
+
+ctrl+d 删除
+
+ctrl+alt+↓ 复制
+
+alt + ↓ 或↑ 上下移动代码
+
+ctrl+shift+o 头部导包
+
