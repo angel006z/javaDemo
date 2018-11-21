@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title id="title">错误提示</title>
+</head>
+<body>
+    <form id="form1">
+        <div id="divURL"></div>
+        <div id="divMsg"></div>
+        <div id="divErrorRank"></div>
+    </form>
+</body>
+</html>
+<script src="/static/js/require/require/2.2.0/require.js"></script>
+<script src="/static/js/require/config/1.0.1/require.config.js"></script>
+<script type="text/javascript">
+    require(["jquery", "MISSY"], function() {
+        $(function () {
+            var  url = MISSY.getQueryString["url"];                //URL
+            var message = MISSY.getQueryString["msg"];            //信息
+            var errorRank = MISSY.getQueryString["errorrank"];    //错误等级 
+            $("#divURL").html(url);
+            $("#divMsg").html(message);
+            $("#divErrorRank").html(errorRank);
+        });
+    });
+</script>
