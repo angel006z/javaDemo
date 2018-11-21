@@ -21,7 +21,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring-mybatis.xml</param-value>
+		<param-value>classpath:spring-*.xml</param-value>
 	</context-param>
 	 
 	<!-- 配置Spring监听器，可以在容器启动时，加载contextConfigLocation的context-param节点的配置文件 -->
@@ -58,7 +58,7 @@
 		<!-- 配置springMVC需要加载的配置文件 -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
+			<param-value>classpath:spring-*.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>
@@ -92,14 +92,14 @@
 	</session-config>
 
 	<!--================ 指定错误404和500的处理页面 Begin ================ -->
-	<error-page>
+	<!--<error-page>
 		<error-code>404</error-code>
 		<location>/404.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/500.jsp</location>
-	</error-page>
+	</error-page>-->
 	<!--================ 指定错误404和500的处理页面 End ================ -->
 
 	<welcome-file-list>

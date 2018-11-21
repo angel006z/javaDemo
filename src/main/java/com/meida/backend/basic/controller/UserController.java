@@ -10,17 +10,20 @@ import com.meida.base.controller.BaseBackendController;
  * @author BING
  */
 @Controller
-@RequestMapping("/backend/basic/user")
+@RequestMapping(value = "/backend/basic/user")
 public class UserController extends BaseBackendController{
-	
+	//http://localhost:9090/demo/backend/basic/user/list
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
+	//http://localhost:9090/demo/backend/basic/user/detail
 	@RequestMapping(value = "/detail")
 	public ModelAndView detail() {
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
+	
+	
 }

@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+777777
+<a href="http://localhost:9090/demo/backend/basic/user/list">user list</a>
+<a href="http://localhost:9090/demo/backend/basic/user/detail">user detail</a>
 </body>
 </html>

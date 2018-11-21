@@ -1,5 +1,8 @@
 package com.meida.base.controller;
 
-public class BaseController {
+import org.springframework.stereotype.Controller;
+
+
+public class BaseController  {
 
 }
