@@ -5,7 +5,7 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 
-	<display-name>DemoWebApplication</display-name>
+	<display-name>Demo</display-name>
 
 
 	<!--================log4j配置 Begin============== -->
@@ -18,19 +18,21 @@
 
 	<!-- ================Spring配置 Begin================ -->
 	<!-- 设置Spring容器加载所有的配置文件的路径 -->
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-mybatis.xml</param-value>
 	</context-param>
+	 
 	<!-- 配置Spring监听器，可以在容器启动时，加载contextConfigLocation的context-param节点的配置文件 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<!-- ================Spring配置 End================ -->
 
-	<!-- 编码过滤器 -->
+	<!--================Spring编码过滤器 Begin================ -->
 	<filter>
-		<filter-name>encodingFilter</filter-name>
+		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
@@ -38,10 +40,10 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
+		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	<!--================Spring编码过滤器 End================ -->
 
 
 	<!-- 防止spring内存溢出监听器，比如quartz -->
@@ -49,31 +51,59 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
-	<!-- 配置DispatcherServlet -->
+	<!-- ================配置SpringMVC核心调度器 Begin================ -->
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<!-- 配置springMVC需要加载的配置文件 -->
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-*.xml</param-value>
+			<param-value>classpath:spring-mvc.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SpringMVC</servlet-name>
-		<!-- 匹配所有请求，此处也可以配置成 *.do 形式 -->
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<!-- ================配置SpringMVC核心调度器 End================ -->
+	<!-- 激活Tomcat的defaultServlet来处理静态文件（效率较高） -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.ico</url-pattern>
+		<url-pattern>*.eot</url-pattern>
+		<url-pattern>*.svg</url-pattern>
+		<url-pattern>*.ttf</url-pattern>
+		<url-pattern>*.woff</url-pattern>
+		<url-pattern>*.mp3</url-pattern>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+
+
+	<!--设置session过期时间为30分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<!--================ 指定错误404和500的处理页面 Begin ================ -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.jsp</location>
+	</error-page>
+	<!--================ 指定错误404和500的处理页面 End ================ -->
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-
-	<!-- session配置 -->
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
 
 </web-app>
