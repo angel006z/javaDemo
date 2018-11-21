@@ -1,10 +1,12 @@
 package com.meida.test.date;
 
+import java.util.Date;
+
 import com.meida.common.util.DateUtils;
 
 public class DateTest {
 	public static void main(String[] args) {
-		var nowTime = DateUtils.now();
+		Date nowTime = DateUtils.now();
 		System.out.println(DateUtils.formatDate(nowTime, DateUtils.DEFAULT));
 		System.out.println(DateUtils.formatDate(nowTime, DateUtils.DEFAULT_SECOND));
 		

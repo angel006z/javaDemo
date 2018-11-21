@@ -7,7 +7,6 @@ import com.meida.base.controller.BaseBackendController;
 
 /**
  * 角色管理
- * @author BING
  */
 @Controller
 @RequestMapping(value = "/backend/basic/role")

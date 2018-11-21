@@ -20,8 +20,5 @@ public class UserServiceImpl extends BaseBackendServiceImpl<User> implements IUs
 
     @Autowired
     private IUserDao dao;
-
-	
-
-   
+    
 }

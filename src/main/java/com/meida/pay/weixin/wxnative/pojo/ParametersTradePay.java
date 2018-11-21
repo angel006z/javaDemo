@@ -1,5 +1,6 @@
 package com.meida.pay.weixin.wxnative.pojo;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import com.meida.common.util.StringUtils;
 public class ParametersTradePay extends ParametersBuilder {
 	public ParametersTradePay() {		
         fee_type = "CNY";
-        var nowTime=DateUtils.now();
+        Date nowTime=DateUtils.now();
         time_start =DateUtils.formatDate(nowTime,DateUtils.DEFAULT_SECOND) ;
         time_expire = DateUtils.formatDate(DateUtils.addHours(nowTime, 2),DateUtils.DEFAULT_SECOND) ;           
 //        notify_url = WxPayAPI.WxPayConfig.NOTIFY_URL;

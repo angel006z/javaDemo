@@ -26,7 +26,7 @@ public class TradeServiceImpl implements ITradeService {
 
 	@Override
 	public ResultTradePay TradePay(ParametersTradePay builderParameters) {
-		var validateResult = Validate(builderParameters);
+		ResultTradePay validateResult = Validate(builderParameters);
 		if (validateResult.getErrorType() != 1) {
 			String logMsg = String.format("ClassName：%s;MethodName：%s;MethodParameters：%s;Message:返回结果：%s",
 					this.getClass().getName(), "TradePay", JsonUtils.toJSONString(builderParameters), JsonUtils.toJSONString(validateResult));
@@ -34,54 +34,54 @@ public class TradeServiceImpl implements ITradeService {
 			return validateResult;
 		}
 		if (builderParameters.getPayType() == EPayType.Alipay) {
-			var builder = new com.meida.pay.alipay.pcweb.pojo.ParametersTradePay();
+			com.meida.pay.alipay.pcweb.pojo.ParametersTradePay builder = new com.meida.pay.alipay.pcweb.pojo.ParametersTradePay();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setSubject(builderParameters.getSubject());
 			builder.setBody(builderParameters.getBody());
 			builder.setTotal_amount(builderParameters.getTotal_fee());
 			boolean isValidateParameters = builder.Validate();
 			if (!isValidateParameters) {
-				var prrModel = new ResultTradePay();
+				ResultTradePay prrModel = new ResultTradePay();
 				prrModel.setErrorType(0);
 				prrModel.setMessageContent("参数不符合支付宝基本参数要求，请返回重新操作。");
 				return prrModel;
 			} else {
-				var tradeServiceImpl = new com.meida.pay.alipay.pcweb.service.impl.AlipayTradeServiceImpl();
-				var result = tradeServiceImpl.TradePay(builder);
-				var prrModel = new ResultTradePay();
+				com.meida.pay.alipay.pcweb.service.impl.AlipayTradeServiceImpl tradeServiceImpl = new com.meida.pay.alipay.pcweb.service.impl.AlipayTradeServiceImpl();
+				com.meida.pay.alipay.pcweb.pojo.ResultTradePay result = tradeServiceImpl.TradePay(builder);
+				ResultTradePay prrModel = new ResultTradePay();
 				prrModel.setErrorType(result.getErrorType());
 				prrModel.setMessageContent(result.getMessageContent());
 				prrModel.setForm(result.getForm());
 				return prrModel;
 			}
 		} else if (builderParameters.getPayType() == EPayType.Weixin) {
-			var builder = new com.meida.pay.weixin.wxnative.pojo.ParametersTradePay();
+			com.meida.pay.weixin.wxnative.pojo.ParametersTradePay builder = new com.meida.pay.weixin.wxnative.pojo.ParametersTradePay();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setBody(builderParameters.getSubject());
 			builder.setDetail(builderParameters.getBody());
 			builder.setTotal_fee((int) Double.parseDouble(builderParameters.getTotal_fee()) * 100);
 			boolean isValidateParameters = builder.Validate();
 			if (!isValidateParameters) {
-				var prrModel = new ResultTradePay();
+				ResultTradePay prrModel = new ResultTradePay();
 				prrModel.setErrorType(0);
 				prrModel.setMessageContent("参数不符合微信基本参数要求，请返回重新操作。");
 				return prrModel;
 			} else {
-				var tradeServiceImpl = new com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl();
-				var result = tradeServiceImpl.TradePay(builder);
-				var prrModel = new ResultTradePay();
+				com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl tradeServiceImpl = new com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl();
+				com.meida.pay.weixin.wxnative.pojo.ResultTradePay result = tradeServiceImpl.TradePay(builder);
+				ResultTradePay prrModel = new ResultTradePay();
 				prrModel.setErrorType(result.getErrorType());
 				prrModel.setMessageContent(result.getMessageContent());
 				prrModel.setForm(result.getForm());
 				return prrModel;
 			}
 		} else if (builderParameters.getPayType() == EPayType.Banks) {
-			var prrModel = new ResultTradePay();
+			ResultTradePay prrModel = new ResultTradePay();
 			prrModel.setErrorType(0);
 			prrModel.setMessageContent("暂不支持银行支付方式.");
 			return prrModel;
 		} else {
-			var prrModel = new ResultTradePay();
+			ResultTradePay prrModel = new ResultTradePay();
 			prrModel.setErrorType(0);
 			prrModel.setMessageContent("在线支付类型（PayType）参数错误.");
 			return prrModel;
@@ -89,7 +89,7 @@ public class TradeServiceImpl implements ITradeService {
 	}
 
 	private ResultTradePay Validate(ParametersTradePay builderParameters) {
-		var prrModel = new ResultTradePay();
+		ResultTradePay prrModel = new ResultTradePay();
 		if (builderParameters == null) {
 			prrModel.setErrorType(0);
 			prrModel.setMessageContent("ParametersTradePay参数为空.");
