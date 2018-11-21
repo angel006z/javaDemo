@@ -33,6 +33,7 @@ public class DynaProxyLog implements InvocationHandler {
 	                this.delegate.getClass().getClassLoader(), this.delegate
 	                        .getClass().getInterfaces(), this);
 	    }
+	    
 	    /**
 	     * 要处理的对象中的每个方法会被此方法送去JVM调用,也就是说,要处理的对象的方法只能通过此方法调用
 	     * 此方法是动态的,不是手动调用的
@@ -50,10 +51,10 @@ public class DynaProxyLog implements InvocationHandler {
 	            start.invoke(this.proxy, new Object[] { method });
 	            //执行要处理对象的原本方法
 	            result = method.invoke(this.delegate, args);
-	//            反射得到操作者的end方法
+	            //反射得到操作者的end方法
 	            Method end = clazz.getDeclaredMethod("end",
 	                    new Class[] { Method.class });
-	//            反射执行end方法
+	            //反射执行end方法
 	            end.invoke(this.proxy, new Object[] { method });
 	
 	        } catch (Exception e) {

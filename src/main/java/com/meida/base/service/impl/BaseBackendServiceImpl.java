@@ -2,8 +2,8 @@ package com.meida.base.service.impl;
 
 
 import com.meida.base.service.impl.BaseServiceImpl;
-import com.meida.base.service.inter.IBaseService;
+import com.meida.base.service.inter.IBaseBackendService;
 
-public class BaseBackendServiceImpl<T> extends BaseServiceImpl implements IBaseService {
+public abstract class BaseBackendServiceImpl<T> extends BaseServiceImpl<T> implements IBaseBackendService<T> {
 
 }

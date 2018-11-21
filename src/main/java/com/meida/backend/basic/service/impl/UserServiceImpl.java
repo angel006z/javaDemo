@@ -21,47 +21,7 @@ public class UserServiceImpl extends BaseBackendServiceImpl<User> implements IUs
     @Autowired
     private IUserDao dao;
 
-	@Override
-	public Integer queryTotal(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> queryPage(User user, Integer page, Integer pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> query(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteUserById(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
    
 }
