@@ -3,7 +3,7 @@ package com.meida.base.vo;
 public class ResultMessage {
     private String errorCode;
     private String errorMessage;
-
+    
     public String getErrorCode() {
         return errorCode;
     }

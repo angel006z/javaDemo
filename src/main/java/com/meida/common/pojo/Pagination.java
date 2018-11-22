@@ -5,9 +5,13 @@ package com.meida.common.pojo;
  */
 public class Pagination {
 	//Alt+Insert  生成get set
-    public Pagination() {
-        this.pageIndex=0;
+    public Pagination() {        
+        this.currentPage=1;
         this.pageSize=20;
+    }
+    public Pagination(int currentPage,int pageSize) {
+    	this.currentPage=currentPage;
+    	this.pageSize=pageSize;
     }
 
     /**
@@ -15,47 +19,52 @@ public class Pagination {
      */
     private int pageIndex;
     /**
+     * 页
+     */
+    private int currentPage;
+    /**
      * 页大小
      */
     private int pageSize;
     /**
      * 总页数
      */
-    private int totalPages;
+    private int pageCount;
     /**
      * 总记录数
      */
-    private int totalRows;
+    private int totalRecord;
+    
+	public int getPageIndex() {
+		return pageIndex;
+	}
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+	public int getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	public int getPageCount() {
+		return pageCount;
+	}
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+	public int getTotalRecord() {
+		return totalRecord;
+	}
+	public void setTotalRecord(int totalRecord) {
+		this.totalRecord = totalRecord;
+	}   
 
-    public int getPageIndex() {
-        return pageIndex;
-    }
-
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
-
-    public int getTotalRows() {
-        return totalRows;
-    }
-
-    public void setTotalRows(int totalRows) {
-        this.totalRows = totalRows;
-    }
+   
 }

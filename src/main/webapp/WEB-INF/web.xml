@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	version="3.1">
-
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+     version="3.1">
 	<display-name>Demo</display-name>
 
 
@@ -18,12 +16,12 @@
 
 	<!-- ================Spring配置 Begin================ -->
 	<!-- 设置Spring容器加载所有的配置文件的路径 -->
-	
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-*.xml</param-value>
 	</context-param>
-	 
+
 	<!-- 配置Spring监听器，可以在容器启动时，加载contextConfigLocation的context-param节点的配置文件 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -92,14 +90,9 @@
 	</session-config>
 
 	<!--================ 指定错误404和500的处理页面 Begin ================ -->
-	<!--<error-page>
-		<error-code>404</error-code>
-		<location>/404.jsp</location>
-	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/500.jsp</location>
-	</error-page>-->
+	<!--<error-page> <error-code>404</error-code> <location>/404.jsp</location> 
+		</error-page> <error-page> <error-code>500</error-code> <location>/500.jsp</location> 
+		</error-page> -->
 	<!--================ 指定错误404和500的处理页面 End ================ -->
 
 	<welcome-file-list>

@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="renderer" content="webkit" />
-	<title>列表页面</title>
+	<title>${title}列表页面</title>
     <link href="/static/css/normalize.css?v=7.0.0" rel="stylesheet" type="text/css" />
     <link href="/static/css/sysbase.css?v=1.0.0" rel="stylesheet" type="text/css" />
     <link href="/static/css/sysrespond.css?v=1.0.0" rel="stylesheet" type="text/css" />
@@ -16,7 +16,7 @@
     <div class="OperateButtonArea">
         <div id="divOTitle" class="OTitle">用户管理</div>
         <div id="OperateButton" class="OOperateButton">
-            @Html.Raw(ViewBag.OperateButton)
+            ${OperateButton}
         </div>
     </div>
     <!--OperateButton End-->

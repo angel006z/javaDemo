@@ -21,3 +21,8 @@ ctrl+shift+o 头部导包
 编辑xml文件时
 注释：CTRL + SHIFT + /
 取消注释：CTRL + SHIFT + \
+
+插入
+alt + shift + a
+
+
