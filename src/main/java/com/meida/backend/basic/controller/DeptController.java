@@ -45,7 +45,7 @@ public class DeptController extends BaseBackendController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "列表页面");
-		modelAndView.addObject("basePath", request.getContextPath());
+		System.out.println(request.getContextPath());
 		modelAndView.addObject("OperateButton", Utits.AuthOperateButton(request));
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
@@ -65,7 +65,6 @@ public class DeptController extends BaseBackendController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "详细页面");
-		modelAndView.addObject("basePath", request.getContextPath());
 		modelAndView.addObject("OperateButton", Utits.AuthOperateButton(request));
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);

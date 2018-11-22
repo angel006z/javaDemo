@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +8,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta name="renderer" content="webkit" />
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>${title}</title>
-    <link href="<%=basePath %>/static/css/normalize.css?v=7.0.0" rel="stylesheet" type="text/css" />
-    <link href="<%=basePath %>/static/css/sysbase.css?v=1.0.0" rel="stylesheet" type="text/css" />
-    <link href="<%=basePath %>/static/css/sysrespond.css?v=1.0.0" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath() %>/static/css/normalize.css?v=7.0.0" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath() %>/static/css/sysbase.css?v=1.0.0" rel="stylesheet" type="text/css" />
+    <link href="<%=request.getContextPath() %>/static/css/sysrespond.css?v=1.0.0" rel="stylesheet" type="text/css" />
 </head>
 <body class="RightBody">
 
@@ -65,8 +60,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 </body>
 </html>
-<script src="<%=basePath %>/static/js/require/require/2.2.0/require.js"></script>
-<script src="<%=basePath %>/static/js/require/config/1.0.1/require.config.js"></script>
+<script src="<%=request.getContextPath() %>/static/js/require/require/2.2.0/require.js"></script>
+<script src="<%=request.getContextPath() %>/static/js/require/config/1.0.1/require.config.js"></script>
 <script type="text/javascript">
     require(["jquery", "MISSY"], function () {
         var g_AddPageNodeId = $("#txtAddPageNodeId").val();

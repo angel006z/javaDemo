@@ -65,9 +65,6 @@ public class UserController extends BaseBackendController {
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);
 		modelAndView.addObject("DetailPageNodeId", DetailPageNodeId);
 		return modelAndView;
-	}
-	
-	
-	
+	}	
 	
 }
