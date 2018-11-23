@@ -1,0 +1,61 @@
+package ${package.DaoImpl};
+
+import java.util.List;
+import org.springframework.stereotype.Repository;
+
+import ${package.Dao}.${table.daoName};
+import ${package.Info}.${po};
+import ${package.BizBean}.${vo};
+import ${superDaoImplClassPackage};
+import com.demo.base.dao.HQLHelper;
+import com.demo.common.extremetable.QueryPage;
+import com.demo.common.util.StringUtils;
+
+/**
+ * ${table.baseComment}  Dao实现类
+ * @author ${author}
+ * @date ${date}
+ */
+@Repository
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+public class ${table.daoImplName} extends ${superDaoImplClass}<${field.propertyType}, ${po}> implements ${table.daoName} {
+#end#end
+
+	public ${table.daoImplName}() {
+		super(${po}.class);
+	}
+	
+	/**
+	 * 查询${table.baseComment}列表
+	 * @author ${author}
+	 * @date ${date}
+	 * @param condition 查询条件
+	 * @param queryPage 分页信息
+	 * @return
+	 */
+	@Override
+	public List<${po}> find${table.baseName}List(${vo} condition,QueryPage queryPage) {
+		HQLHelper helper = new HQLHelper("${po}");
+		#foreach($field in ${table.fields})#if(${field.name.equals("markDelete")})
+		helper.addEqual("markDelete", "N");
+		#end#end
+if(condition != null){
+		#foreach($field in ${table.fields})#if(${field.propertyType.equals("Long")})
+	if(condition.get${field.capitalName}() != null) {
+				helper.addEqual("${field.propertyName}", condition.get${field.capitalName}());
+			}
+		#end#if(${field.propertyType.equals("String")})
+	if(!StringUtils.isEmpty(condition.get${field.capitalName}())) {
+				helper.addLike("${field.propertyName}", condition.get${field.capitalName}());
+			}
+		#end#end}
+		
+		String hql = helper.getHQL();
+		if(queryPage != null){
+			return this.findByHQL(queryPage, hql);
+		}
+		return this.findByHQL(hql);
+	}
+
+}

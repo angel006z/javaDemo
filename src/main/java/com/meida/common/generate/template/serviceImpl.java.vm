@@ -1,0 +1,160 @@
+package ${package.ServiceImpl};
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import ${package.Info}.${po};
+import ${package.BizBean}.${vo};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+import ${package.Dao}.${table.daoName};
+import com.demo.common.extremetable.QueryPage;
+import com.demo.common.util.PropertyUtils;
+import com.demo.exception.ApplicationException;
+import com.demo.exception.SystemException;
+#foreach($field in ${table.fields})#if(${field.keyFlag})#if(!${field.isAuto})
+import com.demo.base.dao.NumberMachine;
+#end#end#end
+
+#macro( lowOrUp $name $type )
+#if($type.equals("low"))
+#set ($headName = $name.substring(0,1).toLowerCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end
+#if($type.equals("up"))
+#set ($headName = $name.substring(0,1).toUpperCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end#end
+/**
+ * ${table.baseComment} Service实现类
+ * @author ${author}
+ * @date ${date}
+ */
+#set ($serviceName = $table.serviceName)
+#set ($headServiceName = $serviceName.substring(0,1).toLowerCase())
+#set ($serviceNameFinal = $headServiceName + $serviceName.substring(1))
+@Service("${serviceNameFinal}")
+public class ${table.serviceImplName} extends ${superServiceImplClass} implements ${table.serviceName} {
+
+	@Autowired
+	#set ($daoName = $table.daoName)
+    #set ($headDaoName = $daoName.substring(0,1).toLowerCase())
+    #set ($daoNameFinal = $headDaoName + $daoName.substring(1))
+private ${table.daoName} ${daoNameFinal};
+
+	@Override
+	public Object doExecute(Object obj, String command) throws SystemException, ApplicationException {
+		if(COMMAND_SAVE.equals(command)) {
+			add${table.baseName}((${vo})obj);
+		}else if(COMMAND_DELETE_LIST.equals(command)) {
+			delete${table.baseName}List((List<Long>) obj);
+		}else if(COMMAND_UPDATE.equals(command)) {
+			update${table.baseName}((${vo})obj);
+		}
+		return null;
+	}
+	
+	/**
+	 * 添加${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @param vo
+	 */
+	private void add${table.baseName}(${vo} vo) {
+		if(vo != null) {
+			${po} po = new ${po}();
+			PropertyUtils.copyNotNullProperties(po, vo);
+			#foreach($field in ${table.fields})#if(${field.keyFlag})#if(!${field.isAuto})
+po.set${field.capitalName}(NumberMachine.getInstance().get${field.capitalName}());
+			#end#end#end
+${daoNameFinal}.save(po);
+		}
+	}
+	
+	/**
+	 * 批量删除${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @param idList
+	 */
+	#set(${markdelte} = false)#foreach($field in ${table.fields})#if(${field.name.equals("markDelete")})
+	#set(${markdelte} = true)#end#end
+private void delete${table.baseName}List(List<Long> idList) {
+		if(idList != null && idList.size() > 0) {
+			for(Long id : idList) {
+			#if(${markdelte})
+				${daoNameFinal}.markAsDeleted( (${po}) ${daoNameFinal}.findById(id));
+			#else
+${daoNameFinal}.delete( (${po}) ${daoNameFinal}.findById(id));
+			#end
+}
+		}
+	}
+	
+	/**
+	 * 修改${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @param vo
+	 */
+	private void update${table.baseName}(${vo} vo) {
+		if(vo != null) {
+		#foreach($field in ${table.fields})#if(${field.keyFlag})
+	${po} po = (${po}) ${daoNameFinal}.findById(vo.get${field.capitalName}());
+		#else
+	po.set${field.capitalName}(vo.get${field.capitalName}());
+		#end#end
+	${daoNameFinal}.update(po);
+		}
+	}
+	
+	/**
+	 * 条件查询${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @param condition 查询条件
+	 * @param queryPage 分页信息
+	 * @return
+	 */
+	@Override
+	public List<${vo}> find${table.baseName}List(${vo} condition, QueryPage queryPage) {
+		List<${po}> #lowOrUp(${table.baseName}, "low")PoList = ${daoNameFinal}.find${table.baseName}List(condition, queryPage);
+		List<${vo}> #lowOrUp(${table.baseName}, "low")VoList = new ArrayList<${vo}>();
+		if(#lowOrUp(${table.baseName}, "low")PoList != null && #lowOrUp(${table.baseName}, "low")PoList.size() > 0) {
+			for(${po} po : #lowOrUp(${table.baseName}, "low")PoList) {
+				#lowOrUp(${table.baseName}, "low")VoList.add(getVo(po));
+			}
+		}
+		return #lowOrUp(${table.baseName}, "low")VoList;
+	}
+	
+	/**
+	 * 根据id查询${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @param id ${table.baseComment}id
+	 * @return
+	 */
+	@Override
+	public ${vo} find${table.baseName}ById(Long id) {
+		${vo} #lowOrUp(${vo}, "low")=new ${vo}();
+		${po} #lowOrUp(${po}, "low")=(${po}) ${daoNameFinal}.findById(id);
+		PropertyUtils.copyProperties(#lowOrUp(${vo}, "low"), #lowOrUp(${po}, "low"));
+		return #lowOrUp(${vo}, "low");
+	}
+	
+	/**
+	 * ${table.baseComment}po转化为vo
+	 * @author ${author}
+	 * @date ${date}
+	 * @param po
+	 * @return
+	 */
+	private ${vo} getVo(${po} po) {
+		${vo} vo = new ${vo}();
+		PropertyUtils.copyNotNullProperties(vo, po);
+		return vo;
+	}
+}

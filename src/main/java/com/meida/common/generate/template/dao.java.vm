@@ -1,0 +1,30 @@
+package ${package.Dao};
+
+import java.util.List;
+
+import ${package.Info}.${po};
+import ${package.BizBean}.${vo};
+import ${superDaoClassPackage};
+import com.demo.common.extremetable.QueryPage;
+
+/**
+ * ${table.comment} Dao类
+ * @author ${author}
+ * @date ${date}
+ */
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+public interface ${table.daoName} extends ${superDaoClass}<${field.propertyType}, ${po}> {
+#end#end
+
+	/**
+	 * 查询${table.baseComment}列表
+	 * @author ${author}
+	 * @date ${date}
+	 * @param condition 查询条件
+	 * @param queryPage 分页信息
+	 * @return
+	 */
+	public List<${po}> find${table.baseName}List(${vo} condition,QueryPage queryPage);
+	
+}

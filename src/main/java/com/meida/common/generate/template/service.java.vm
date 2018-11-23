@@ -1,0 +1,35 @@
+package ${package.Service};
+
+import java.util.List;
+
+import ${package.BizBean}.${vo};
+import ${superServiceClassPackage};
+import com.demo.common.extremetable.QueryPage;
+
+/**
+ * ${table.comment}  Service
+ * @author ${author}
+ * @date ${date}
+ */
+public interface ${table.serviceName} extends ${superServiceClass} {
+
+	/**
+	 * 查询${table.baseComment}列表
+	 * @author ${author}
+	 * @date ${date}
+	 * @param condition 查询条件
+	 * @param queryPage 分页信息
+	 * @return
+	 */
+	public List<${vo}> find${table.baseName}List(${vo} condition, QueryPage queryPage);
+	
+	/**
+	 * 通过id查询${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @param id ${table.baseComment}id
+	 * @return
+	 */
+	public ${vo} find${table.baseName}ById(Long id);
+	
+}

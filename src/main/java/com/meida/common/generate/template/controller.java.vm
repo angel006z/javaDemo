@@ -1,0 +1,219 @@
+package ${package.Action};
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.demo.common.util.StringUtils;
+
+import ${package.BizBean}.${vo};
+import ${package.Service}.${table.serviceName};
+import com.demo.common.constant.CodeConstants;
+import com.demo.common.constant.Constants;
+import com.demo.common.extremetable.QueryPage;
+import com.alibaba.fastjson.JSONObject;
+import com.demo.common.util.JsonUtils;
+import com.demo.exception.ApplicationException;
+import com.demo.common.objconstant.UIMessageResult;
+import com.demo.base.service.inter.BaseService;
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+#macro( lowOrUp $name $type )
+#if($type.equals("low"))
+#set ($headName = $name.substring(0,1).toLowerCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end
+#if($type.equals("up"))
+#set ($headName = $name.substring(0,1).toUpperCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end#end
+#foreach($field in ${table.fields})#if(${field.keyFlag})
+#set ($tableId = $field.propertyName)#end#end
+/**
+ * ${table.baseComment} Action
+ * @author ${author}
+ * @date ${date}
+ */
+@Controller
+@RequestMapping("${package.baseUrl}/#lowOrUp(${table.controllerName}, "low")")
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private ${table.serviceName} #lowOrUp(${table.serviceName}, "low");
+	
+	/**
+	 * 跳转至${table.baseComment} 列表页面
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("to${table.baseName}Manager.view")
+	public String to${table.baseName}Manager() {
+		return "${package.jspUrl}/${table.managerListName}";
+	}
+	/**
+	 * 获取${table.baseComment}列表json
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("to${table.baseName}List.json")
+	@ResponseBody
+	public JSONObject to${table.baseName}ListJson(${vo} condition, QueryPage queryPage){
+		try {
+			List<${vo}> #lowOrUp(${vo}, "low")VoList = #lowOrUp(${table.serviceName}, "low").find${table.baseName}List(condition, queryPage);
+			returnRows(#lowOrUp(${vo}, "low")VoList);//转化表格需要的格式
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Rows;
+	}
+	
+	/**
+	 * 跳转至${table.baseComment}添加页面
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("toAdd${table.baseName}Page.view")
+	public String toAdd${table.baseName}Page() {
+		return "${package.jspUrl}/${table.addOrUpdateName}";
+	}
+	/**
+	 * 添加${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("add${table.baseName}.save")
+	@ResponseBody
+	public UIMessageResult add${table.baseName}(${vo} #lowOrUp(${vo}, "low")BizBean, HttpServletRequest request) {
+		try {
+			if (checkInput(#lowOrUp(${vo}, "low")BizBean)) {
+				#lowOrUp(${table.serviceName}, "low").execute(#lowOrUp(${vo}, "low")BizBean, BaseService.COMMAND_SAVE);
+				messageResult = new UIMessageResult(Constants.MESSAGE_STATE_SUCCESS, "添加${table.baseComment}信息成功！");
+				addSystemOperateLogInfo("", CodeConstants.SYS_OPERATE_LOG_TYPE_ADD, JsonUtils.object2Json(#lowOrUp(${vo}, "low")BizBean), request);
+			} else {
+				messageResult = new UIMessageResult(Constants.MESSAGE_STATE_ERROR, resultError);
+			}
+		} catch (ApplicationException e) {
+			messageResult = new UIMessageResult(Constants.MESSAGE_STATE_ERROR, "添加${table.baseComment}信息失败！");
+			log.error("添加${table.baseComment}信息失败", e);
+		}
+		return messageResult;
+	}
+	
+	/**
+	 * 跳转至${table.baseComment}修改页面
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("toUpdate${table.baseName}Page.view")
+	public String toUpdate${table.baseName}Page(Long ${tableId}, Model model) {
+		try {
+			if (${tableId} != null && ${tableId} != 0) {
+				${vo} #lowOrUp(${vo}, "low") = #lowOrUp(${table.serviceName}, "low").find${table.baseName}ById(${tableId});
+				model.addAttribute("#lowOrUp(${vo}, "low")", #lowOrUp(${vo}, "low"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "${package.jspUrl}/${table.addOrUpdateName}";
+	}
+
+	/**
+	 * 修改${table.baseComment}
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("update${table.baseName}.update")
+	@ResponseBody
+	public UIMessageResult update${table.baseName}(${vo} #lowOrUp(${vo}, "low"), HttpServletRequest request) {
+		try {
+			if (checkInput(#lowOrUp(${vo}, "low")) && #lowOrUp(${vo}, "low").get#lowOrUp(${tableId}, "up")() != null) {
+				${vo} old${vo} = #lowOrUp(${table.serviceName}, "low").find${table.baseName}ById(#lowOrUp(${vo}, "low").get#lowOrUp(${tableId}, "up")());
+				if (old${vo} != null) {
+					#lowOrUp(${table.serviceName}, "low").execute(#lowOrUp(${vo}, "low"), BaseService.COMMAND_UPDATE);
+					messageResult = new UIMessageResult(Constants.MESSAGE_STATE_SUCCESS,"修改${table.baseComment}信息成功！");
+					Map<String, Object> paramMap = new HashMap<String, Object>();
+					paramMap.put("new${table.baseName}", #lowOrUp(${vo}, "low"));
+					paramMap.put("old${table.baseName}", old${vo});
+					addSystemOperateLogInfo("", CodeConstants.SYS_OPERATE_LOG_TYPE_UPDATE, JsonUtils.object2Json(paramMap), request);
+				}
+			} else {
+				messageResult = new UIMessageResult(Constants.MESSAGE_STATE_ERROR, resultError);
+			}
+		} catch (Exception e) {
+			messageResult = new UIMessageResult(Constants.MESSAGE_STATE_ERROR,"修改${table.baseComment}信息失败！");
+			log.error("修改${table.baseComment}信息失败",e);
+		}
+		return messageResult;
+	}
+	
+	/**
+	 * 删除${table.baseComment}信息
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	@RequestMapping("delete${table.baseName}.delete")
+	@ResponseBody
+	public UIMessageResult delete${table.baseName}(String ids, HttpServletRequest request) {
+		try {
+			if (ids != null && ids.length() > 0) {
+				String[] id = ids.split(",");
+				List<Long> idList = new ArrayList<Long>();
+				for (int i = 0; i < id.length; i++) {
+					idList.add(Long.parseLong(id[i]));
+					${vo} #lowOrUp(${vo}, "low") = #lowOrUp(${table.serviceName}, "low").find${table.baseName}ById(Long.parseLong(id[i]));
+					addSystemOperateLogInfo("", CodeConstants.SYS_OPERATE_LOG_TYPE_DELETE, JsonUtils.object2Json(#lowOrUp(${vo}, "low")), request);
+				}
+				#lowOrUp(${table.serviceName}, "low").execute(idList, BaseService.COMMAND_DELETE_LIST);
+				messageResult = new UIMessageResult(Constants.MESSAGE_STATE_SUCCESS, "删除${table.baseComment}信息成功！");
+			}
+		} catch (ApplicationException e) {
+			messageResult = new UIMessageResult(Constants.MESSAGE_STATE_ERROR,"删除${table.baseComment}信息失败！");
+			log.error("删除${table.baseComment}信息失败！", e);
+		}
+		return messageResult;
+	}
+	
+	/**
+	 * 验证用户输入是否合法
+	 * @author ${author}
+	 * @date ${date}
+	 * @return
+	 */
+	public boolean checkInput(${vo} #lowOrUp(${vo}, "low")) {
+		if (#lowOrUp(${vo}, "low") == null) {
+			return false;
+		}
+		#foreach($field in ${table.fields})#if(!${field.keyFlag} && ${field.propertyType.equals("String")})
+//验证${field.comment}
+		if (StringUtils.isEmpty(#lowOrUp(${vo}, "low").get${field.capitalName}())) {
+			resultError = "${field.comment}不能为空!";
+			return false;
+		}
+		#end#end
+return true;
+	}
+
+}

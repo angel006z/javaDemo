@@ -1,0 +1,78 @@
+package ${package.Info};
+
+#if(${superModelClassPackage})
+import ${superModelClassPackage};
+#end
+#if(${table.hasDate})
+import java.util.Date;
+
+#end
+#if(${field.isAuto})
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+#end
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+/**
+ * ${table.comment} po
+ * @author ${author}
+ * @date ${date}
+ */
+@Entity
+@Table(name = "${table.name}")
+#if(${superModelClass})
+public class ${po} extends ${superModelClass} {
+#else
+public class ${po} extends Convert{
+#end
+
+	private static final long serialVersionUID=1L;
+
+	#foreach($field in ${table.fields})
+/**
+	 * ${field.comment}
+	 */
+	#if(${field.keyFlag})
+@Id
+	#if(${field.isAuto})
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    #end#end
+@Column(name = "${field.name}")
+	private ${field.propertyType} ${field.propertyName};
+	#end
+
+	#foreach($field in ${table.fields})
+    #if(${field.propertyType.equals("Boolean")})
+        #set($getprefix="is")
+    #else
+        #set($getprefix="get")
+    #end
+
+	/**
+	 * 获取  ${field.comment}
+	 */
+	public ${field.propertyType} ${getprefix}${field.capitalName}(){
+        return ${field.propertyName};
+	}
+
+	/**
+	 * 设置  ${field.comment}
+	 */
+	public void set${field.capitalName}(${field.propertyType} ${field.propertyName}){
+	    this.${field.propertyName} = ${field.propertyName};
+	}
+	    #if(${modelBuliderModel})
+	    return this;
+	}
+	    #end
+	#end
+
+	#if(${modelColumnConstant})
+	    #foreach($field in ${table.fields})
+	    public static final String ${field.name.toUpperCase()} = "${field.name}";
+	    #end
+	#end
+}
