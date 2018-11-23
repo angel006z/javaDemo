@@ -3,7 +3,7 @@
 public static void main(String[] args) {}
 
 //sysout alt+/
-System.out.println(）；
+System.out.println()；
 
 ctrl+shift+F  格式化代码
 
@@ -22,7 +22,10 @@ ctrl+shift+o 头部导包
 注释：CTRL + SHIFT + /
 取消注释：CTRL + SHIFT + \
 
-插入
+
+代码块前缀插入代码
 alt + shift + a
+
+
 
 
