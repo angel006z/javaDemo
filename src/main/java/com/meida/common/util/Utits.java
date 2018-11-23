@@ -12,6 +12,7 @@ import org.omg.CORBA.Request;
 import com.meida.backend.basic.po.vAuthRoleNodeButton;
 import com.meida.backend.basic.service.impl.AuthRoleNodeButtonServiceImpl;
 import com.meida.backend.basic.service.impl.AuthRoleNodeServiceImpl;
+import com.meida.backend.basic.service.inter.IAuthRoleNodeButtonService;
 import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.constant.EErrorCode;
 
@@ -40,13 +41,14 @@ public class Utits {
 				.getListByUserIdNodeId(UserId, NodeId, IsSuper);
 		if (listOperateAuthButton == null)
 			listOperateAuthButton = new ArrayList<vAuthRoleNodeButton>();
-			
+
 		StringBuffer buf = new StringBuffer();
 		for (vAuthRoleNodeButton item : listOperateAuthButton) {
-			buf.append(String.format("<a href=\"javascript:void(0);\" hidefocus id=\"%sOperate\" class=\"op-btn\">%s</a>",
-					item.getBtnId(), item.getBtnName()));
+			buf.append(
+					String.format("<a href=\"javascript:void(0);\" hidefocus id=\"%sOperate\" class=\"op-btn\">%s</a>",
+							item.getBtnId(), item.getBtnName()));
 		}
-		
+
 		return buf.toString();
 	}
 
@@ -78,7 +80,6 @@ public class Utits {
 	 * @return
 	 */
 	public static ResultMessage AccessPageAuth(int[] iRangePage, int iCurrentPageNodeId) {
-		
 		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.NoContainsNodeId);
@@ -108,15 +109,86 @@ public class Utits {
 		}
 	}
 
+	/**
+	 * 判断页面上的按钮是否拥有操作权限
+	 * 
+	 * @param iRangePage         能操作该按钮的页面数组
+	 * @param iCurrentPageNodeId 当前操作页面的ID
+	 * @param iCurrentButtonId   当前操作按钮的ID
+	 * @return
+	 */
 	public static ResultMessage IsOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int iCurrentButtonId) {
-		// TODO Auto-generated method stub
-		return null;
+		UUID iUSERID = Utits.CurrentUserId;
+		if (iUSERID == UUIDUtils.Empty) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.NoLogin);
+			resultMessage.setErrorMessage("未登录.");
+			return resultMessage;
+		}
+		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.Error);
+			resultMessage.setErrorMessage("NodeId参数错误：该页面不能操作该功能.");
+			return resultMessage;
+		}
+		IAuthRoleNodeButtonService service = new AuthRoleNodeButtonServiceImpl();
+		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, IsSuper);
+		if (!isFlag) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.NoOperateAuth);
+			resultMessage.setErrorMessage("无操作权限.");
+			return resultMessage;
+		} else {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.Success);
+			resultMessage.setErrorMessage("有操作权限.");
+			return resultMessage;
+		}
 	}
 
+	/**
+	 * 判断页面上的按钮是否拥有操作权限
+	 * 
+	 * @param iRangePage         能操作该按钮的页面数组
+	 * @param iCurrentPageNodeId 当前操作页面的ID
+	 * @param iRangeButton       能操作按钮数组
+	 * @param iCurrentButtonId   当前操作按钮的ID
+	 * @return
+	 */
 	public static ResultMessage IsOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int[] iRangeButton,
 			int iCurrentButtonId) {
-		// TODO Auto-generated method stub
-		return null;
+		UUID iUSERID = Utits.CurrentUserId;
+		if (iUSERID == UUIDUtils.Empty) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.NoLogin);
+			resultMessage.setErrorMessage("未登录.");
+			return resultMessage;
+		}
+		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.Error);
+			resultMessage.setErrorMessage("NodeId参数错误：该页面不能操作该功能.");
+			return resultMessage;
+		}
+		if (!ArrayUtils.contains(iRangeButton, iCurrentButtonId)) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.Error);
+			resultMessage.setErrorMessage("ButtonId参数错误：该按钮不能操作该功能.");
+			return resultMessage;
+		}
+		IAuthRoleNodeButtonService service = new AuthRoleNodeButtonServiceImpl();
+		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, IsSuper);
+		if (!isFlag) {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.NoOperateAuth);
+			resultMessage.setErrorMessage("无操作权限.");
+			return resultMessage;
+		} else {
+			ResultMessage resultMessage = new ResultMessage();
+			resultMessage.setErrorCode(EErrorCode.Success);
+			resultMessage.setErrorMessage("有操作权限.");
+			return resultMessage;
+		}
 	}
 
 }

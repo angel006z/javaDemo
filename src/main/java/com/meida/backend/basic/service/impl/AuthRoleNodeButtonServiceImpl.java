@@ -44,4 +44,10 @@ public class AuthRoleNodeButtonServiceImpl  extends BaseBackendServiceImpl<AuthR
 		
 		return list;
 	}
+
+	@Override
+	public boolean isAuthRoleNodeButton(UUID iUSERID, int iCurrentPageNodeId, int iCurrentButtonId, boolean isSuper) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

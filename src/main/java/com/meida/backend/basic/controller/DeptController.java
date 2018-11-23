@@ -34,7 +34,7 @@ import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.nodepage.EDept;
 
 /**
- * 用户管理
+ * 部门管理
  */
 @Controller
 @RequestMapping(value = "/backend/basic/dept")
@@ -153,6 +153,11 @@ public class DeptController extends BaseBackendController {
 		}
 	}
 
+	/**
+	 * addOrUpdate
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/addOrUpdate")
 	@ResponseBody
 	public String addOrUpdate() {
