@@ -25,9 +25,9 @@ public class Utits {
 	 * 
 	 * @return
 	 */
-	public static String AuthOperateButton(HttpServletRequest request) {
+	public static String AuthOperateButton() {
 		// 页面权限及按钮权限
-		int NodeId = RequestParameters.getInt("NodeId", request);
+		int NodeId = RequestParameters.getInt("NodeId");
 		// 判断登录
 		UUID UserId = Utits.CurrentUserId;
 
@@ -106,6 +106,17 @@ public class Utits {
 			resultMessage.setErrorMessage("有操作权限.");
 			return resultMessage;
 		}
+	}
+
+	public static ResultMessage IsOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int iCurrentButtonId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ResultMessage IsOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int[] iRangeButton,
+			int iCurrentButtonId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

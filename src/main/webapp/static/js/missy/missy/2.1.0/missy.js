@@ -831,11 +831,12 @@ JavaScript脚本命名法规则如下
         {
             if (this.isEmpty(s))
                 return "";
-            s = this.trim(s);
+            //s = this.trim(s);
             /////s = s + "+08:00";//UTC字符串末尾加入北京标准时间
             //s = s.replace(/-/g, "/");
             //var d = new Date(s);//ISO8601格式
-            var d = eval('new ' + s.replace('/', '', 'g').replace('/', '', 'g')); //微软
+            //var d = eval('new ' + s.replace('/', '', 'g').replace('/', '', 'g')); //微软
+            var d = new Date(s);
             var tempYear = d.getFullYear();
             var tempMonth = (d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
             var tempDay = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();

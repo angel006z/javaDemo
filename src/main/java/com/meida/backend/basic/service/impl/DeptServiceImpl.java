@@ -19,6 +19,7 @@ import com.meida.common.util.DateUtils;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class DeptServiceImpl extends BaseBackendServiceImpl<Dept> implements IDeptService {
+	
 	@Autowired
 	private IDeptDao dao;
 
@@ -57,5 +58,7 @@ public class DeptServiceImpl extends BaseBackendServiceImpl<Dept> implements IDe
 		whereItem.setPagination(pagination);
 		return list;
 	}
+
+	
 	
 }

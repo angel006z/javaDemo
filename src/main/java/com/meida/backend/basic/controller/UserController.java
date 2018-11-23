@@ -1,8 +1,5 @@
 package com.meida.backend.basic.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,17 +27,17 @@ public class UserController extends BaseBackendController {
 	private int DetailPageNodeId = EUser.DetailPage;
 
 	@RequestMapping(value = "/list")
-	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView list() {
 		int[] NodePages = { ListPageNodeId };
-		int NodeId = RequestParameters.getInt("NodeId", request);
+		int NodeId = RequestParameters.getInt("NodeId");
 		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
 		if (accessPageAuth.getErrorCode() != EErrorCode.Success) {
-			return this.noAccessPageAuth(accessPageAuth,request);
+			return this.noAccessPageAuth(accessPageAuth);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "列表页面");
-		modelAndView.addObject("OperateButton", Utits.AuthOperateButton(request));
+		modelAndView.addObject("OperateButton", Utits.AuthOperateButton());
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);
@@ -49,17 +46,17 @@ public class UserController extends BaseBackendController {
 	}
 
 	@RequestMapping(value = "/detail")
-	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView detail() {
 		int[] NodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
-		int NodeId = RequestParameters.getInt("NodeId", request);
+		int NodeId = RequestParameters.getInt("NodeId");
 		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
 		if (accessPageAuth.getErrorCode() != EErrorCode.Success) {
-			return this.noAccessPageAuth(accessPageAuth,request);
+			return this.noAccessPageAuth(accessPageAuth);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "详细页面");
-		modelAndView.addObject("OperateButton", Utits.AuthOperateButton(request));
+		modelAndView.addObject("OperateButton", Utits.AuthOperateButton());
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);

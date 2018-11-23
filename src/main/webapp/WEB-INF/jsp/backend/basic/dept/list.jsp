@@ -1,69 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="renderer" content="webkit" />
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>${title}</title>
-    <link href="<%=request.getContextPath() %>/static/css/normalize.css?v=7.0.0" rel="stylesheet" type="text/css" />
-    <link href="<%=request.getContextPath() %>/static/css/sysbase.css?v=1.0.0" rel="stylesheet" type="text/css" />
-    <link href="<%=request.getContextPath() %>/static/css/sysrespond.css?v=1.0.0" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="renderer" content="webkit" />
+<meta name="viewport"
+	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>${title}</title>
+<link
+	href="/static/css/normalize.css?v=7.0.0"
+	rel="stylesheet" type="text/css" />
+<link
+	href="/static/css/sysbase.css?v=1.0.0"
+	rel="stylesheet" type="text/css" />
+<link
+	href="/static/css/sysrespond.css?v=1.0.0"
+	rel="stylesheet" type="text/css" />
 </head>
 <body class="RightBody">
 
-    <!--OperateButton Begin-->
-    <div class="OperateButtonArea">
-        <div id="divOTitle" class="OTitle">部门管理</div>
-        <div id="OperateButton" class="OOperateButton">
-            ${OperateButton }
-        </div>
+	<!--OperateButton Begin-->
+	<div class="OperateButtonArea">
+		<div id="divOTitle" class="OTitle">部门管理</div>
+		<div id="OperateButton" class="OOperateButton">${OperateButton }
+		</div>
 
-    </div>
-    <!--OperateButton End-->
-    <!--Content Begin-->
-    <div class="ContentArea" id="ContentArea">
-        <div class="ConditionArea">
-            <table class="tbCondition">
-                <tr>
-                    <td style="text-align: right;">部门名称：</td>
-                    <td style="text-align: left;"><input type="text" class="input" id="txtDeptName" /></td>
-                    <td style="text-align: center;"><input type="button" id="BtnSearch" class="button" value="查询" /></td>
-                </tr>
-            </table>
-        </div>
-        <div class="tableArea">
-            <table id="tblist" class="tblist">
-                <tr class="odd">
-                    <th class="thcbAll">
-                        <input type="checkbox" align="absmiddle" id="cbListCheckAll" />
-                    </th>
-                    <th style="width:40px;">序号</th>
-                    <th>部门名称</th>
-                    <th>备注</th>
-                    <th style="width: 140px;">操作时间</th>
-                    <th style="width: 60px;">操作</th>
-                </tr>
-            </table>
-            <div id="divPagination"></div>
-        </div>
-    </div>
-    <!--Content End-->
-    
-    <!--PageNodeId Begin-->
-    <input type="hidden" id="txtAddPageNodeId" value="${AddPageNodeId}" />
-    <input type="hidden" id="txtEditPageNodeId" value="${EditPageNodeId}" />
-    <input type="hidden" id="txtDetailPageNodeId" value="${DetailPageNodeId}" />
-    <!--PageNodeId End-->
-    
+	</div>
+	<!--OperateButton End-->
+	<!--Content Begin-->
+	<div class="ContentArea" id="ContentArea">
+		<div class="ConditionArea">
+			<table class="tbCondition">
+				<tr>
+					<td style="text-align: right;">部门名称：</td>
+					<td style="text-align: left;"><input type="text" class="input"
+						id="txtDeptName" /></td>
+					<td style="text-align: center;"><input type="button"
+						id="BtnSearch" class="button" value="查询" /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableArea">
+			<table id="tblist" class="tblist">
+				<tr class="odd">
+					<th class="thcbAll"><input type="checkbox" align="absmiddle"
+						id="cbListCheckAll" /></th>
+					<th style="width: 40px;">序号</th>
+					<th>部门名称</th>
+					<th>备注</th>
+					<th style="width: 140px;">操作时间</th>
+					<th style="width: 60px;">操作</th>
+				</tr>
+			</table>
+			<div id="divPagination"></div>
+		</div>
+	</div>
+	<!--Content End-->
+
+	<!--PageNodeId Begin-->
+	<input type="hidden" id="txtAddPageNodeId" value="${AddPageNodeId}" />
+	<input type="hidden" id="txtEditPageNodeId" value="${EditPageNodeId}" />
+	<input type="hidden" id="txtDetailPageNodeId"
+		value="${DetailPageNodeId}" />
+	<!--PageNodeId End-->
+
 </body>
 </html>
-<script src="<%=request.getContextPath() %>/static/js/require/require/2.2.0/require.js"></script>
-<script src="<%=request.getContextPath() %>/static/js/require/config/1.0.1/require.config.js"></script>
+<script src="/static/js/jquery/jquery/1.11.3/jquery.js"
+	type="text/javascript"></script>
+<script src="/static/js/layer/layer/3.1.1/layer.js"
+	type="text/javascript"></script>
+<script src="/static/js/missy/missy/2.1.0/missy.js"
+	type="text/javascript"></script>
 <script type="text/javascript">
-    require(["jquery", "MISSY"], function () {
         var g_AddPageNodeId = $("#txtAddPageNodeId").val();
         var g_EditPageNodeId = $("#txtEditPageNodeId").val();
         var g_DetailPageNodeId = $("#txtDetailPageNodeId").val();
@@ -100,7 +111,7 @@
             var colNumber = $("#tblist tr th").length;
             $.ajax({
                 type: "post",
-                url: "SearchList",
+                url: "searchList",
                 data: {
                     DeptName: $("#txtDeptName").val(),
                     NodeId: g_NodeId,
@@ -150,7 +161,7 @@
                         buf.push("<td>" + (i + 1) + "</td>");
                         buf.push("<td>" + model.deptName + "</td>");
                         buf.push("<td>" + model.remark + "</td>");
-                        buf.push("<td>" + model.operateDate + "</td>");
+                        buf.push("<td>" + MISSY.formatDate(model.operateDate,4) + "</td>");
                         buf.push("<td><a href=\"detail?NodeId=" + g_DetailPageNodeId + "&Id=" + model.deptId + "\">查看</a></td>");
                         buf.push("</tr>");
                     }
@@ -267,11 +278,10 @@
                 MISSY.iErrorMessage("请选择一项数据.");
         }
 
-        function ConfirmOperateStatus(paramButtonId, paramIds)//OperateStatus操作状态
-        {
+        function ConfirmBatchOperate(paramButtonId, paramIds){
             var layerLoadIndex;
             $.ajax({
-                url: "ListOperateStatus",
+                url: "batchOperate",
                 data: { NodeId: g_NodeId, oButtonId: paramButtonId, ids: paramIds },
                 type: "post",
                 dataType: "json",
@@ -318,7 +328,7 @@
         {
             var paramIds = MISSY.getCheckboxCheckedVal("nameCbox", ",");
             if (paramIds !== "") {
-                MISSY.iConfirmMessage("您确定要禁用吗？", function () { ConfirmOperateStatus(22, paramIds); });
+                MISSY.iConfirmMessage("您确定要禁用吗？", function () { ConfirmBatchOperate(22, paramIds); });
             } else {
                 MISSY.iErrorMessage("请选择一项数据.");
             }
@@ -328,7 +338,7 @@
         {
             var paramIds = MISSY.getCheckboxCheckedVal("nameCbox", ",");
             if (paramIds !== "") {
-                MISSY.iConfirmMessage("您确定要启用吗？", function () { ConfirmOperateStatus(21, paramIds); });
+                MISSY.iConfirmMessage("您确定要启用吗？", function () { ConfirmBatchOperate(21, paramIds); });
             } else {
                 MISSY.iErrorMessage("请选择一项数据.");
             }
@@ -338,7 +348,7 @@
         {
             var paramIds = MISSY.getCheckboxCheckedVal("nameCbox", ",");
             if (paramIds !== "") {
-                MISSY.iConfirmMessage("删除后不可恢复，您确定要删除吗？", function () { ConfirmOperateStatus(3, paramIds); });
+                MISSY.iConfirmMessage("删除后不可恢复，您确定要删除吗？", function () { ConfirmBatchOperate(3, paramIds); });
             } else {
                 MISSY.iErrorMessage("请选择一项数据.");
             }
@@ -346,59 +356,10 @@
         
         function ClickPhyDelete() //PhyDelete
         {
-            var paramIds = MISSY.getCheckboxCheckedVal("nameCbox", ",");
-            if (paramIds !== "") {
-                MISSY.iConfirmMessage("请谨慎操作，删除后数据不可恢复，您确定要删除吗？", function () {
-                    var layerLoadIndex;
-                    $.ajax({
-                        url: "ListPhyDel",
-                        data: { NodeId: g_NodeId, ids: paramIds },
-                        type: "post",
-                        dataType: "json",
-                        beforeSend: function () { layerLoadIndex = MISSY.iShowLoading("正在执行中，请稍候"); },
-                        ContentType: "application/json;charset=utf-8",
-                        success: function (response) {
-                            if (!response) {
-                                MISSY.iErrorReturnNull();
-                                return;
-                            }
-                            switch (response.errorCode) //标记
-                            {
-                                case 0: //错误
-                                    MISSY.iErrorMessage(response.errorMessage);
-                                    return;
-                                case 1: //返回正确数据
-                                    MISSY.iSuccessMessage(response.errorMessage, ClickRefresh);
-                                    return;
-                                case 2: //请求地址不正确
-                                    MISSY.iNoFound(response.errorMessage);
-                                    return;
-                                case 3: //未登录
-                                    MISSY.iNoLogin(response.errorMessage);
-                                    return;
-                                case 4: //无页面权限
-                                    MISSY.iNoPageAuth(response.errorMessage);
-                                    return;
-                                case 5: //无操作权限
-                                    MISSY.iNoOperateAuth(response.errorMessage);
-                                    return;
-                                default:
-                                    MISSY.iErrorMessage(response.errorMessage);
-                                    return;
-                            }
-                        },
-                        error: function (xmlHttpRequest, textStatus, errorThrown) {
-                            MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);
-                            MISSY.iSystemAjaxError();
-                        },
-                        complete: function (xmlHttpRequest, textStatus) {
-                            MISSY.iHideLoading(layerLoadIndex);
-                        }
-                    });
-                });
+        	if (paramIds !== "") {
+                MISSY.iConfirmMessage("请谨慎操作，删除后数据不可恢复，您确定要删除吗？", function () { ConfirmBatchOperate(4, paramIds); });
             } else {
                 MISSY.iErrorMessage("请选择一项数据.");
-            }
+            }            
         }
-    });
 </script>

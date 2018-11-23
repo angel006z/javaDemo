@@ -5,54 +5,48 @@ import java.util.List;
 
 /**
  * 通用业务层
+ * 
  * @param <T>
  */
 public interface IBaseService<T> {
 	/**
-	 * 保存单条记录
+	 * true:保存单条记录
+	 * false:更新单条记录
 	 * @param entity
+	 * @param isAdd
 	 * @return
 	 */
-	public boolean save(T entity);
+	public boolean addOrUpdate(T entity, boolean isAdd);
+	
+	/**
+	 *批执行操作多条记录
+	 * 删除、禁用、启用等
+	 * @param id
+	 * @return
+	 */
+	public boolean batchExecuteByIds(Serializable[] ids,String command);
+	
+	
+	/**
+	 * 根据主键查找用户
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public T getById(Serializable id);
 
-    /**
-     * 更新单条记录
-     * @param entity
-     * @return
-     */
-    public boolean update(T entity);
-    
-    /**
-     * 物理删除单条记录
-     * @param id
-     * @return
-     */
-    public boolean deletePhysicalById(Serializable id);
-    
-    /**
-     * 逻辑删除单条记录
-     * @param id
-     * @return
-     */
-    public boolean deleteLogicById(Serializable id);
-    
-    /**
-     * 根据主键查找用户
-     * @param id
-     * @return
-     */
-    public T getById(Serializable id);
+	/**
+	 * 查询所有记录
+	 * 
+	 * @return
+	 */
+	public List<T> getByAll();
 
-    /**
-     * 查询所有记录
-     * @return
-     */
-    public List<T> getByAll();
-    
-    /**
-     * 查询所有有效记录
-     * @return
-     */
-    public List<T> getByValid();
-    
+	/**
+	 * 查询所有有效记录
+	 * 
+	 * @return
+	 */
+	public List<T> getByValid();
+
 }
