@@ -9,13 +9,20 @@
 	<bean id="helloworld" class="com.meida.test.spring.HelloWorld">
 		<!-- 属性注入：通过setter方法注入Bean的属性值或依赖的对象 -->
 		<!-- 属性注入使用<Property>元素，使用name指定Bean的属性名称，使用value指定Bean的属性的值 -->
-		<property name="name" value="欢迎来到Spring"></property>
+		<property name="name" value="---1欢迎来到Spring---"></property>
 	</bean>
 	
 	<!-- 构造器注入  带参数构造方法 -->
 	<bean id="helloworld2" class="com.meida.test.spring.HelloWorld">
 		<!-- 通过有参构造来进行属性注入  注意：name必需对应HelloWorld构造方法的s-->
 		<constructor-arg name="s" value="222222"></constructor-arg>
-		<property name="name" value="欢迎来到Spring222"></property>
+		<property name="name" value="---2欢迎来到Spring222---"></property>
+	</bean>
+	
+	<!-- scope -->
+	<bean id="helloworld3" class="com.meida.test.spring.HelloWorld" scope="prototype">
+		<!-- 属性注入：通过setter方法注入Bean的属性值或依赖的对象 -->
+		<!-- 属性注入使用<Property>元素，使用name指定Bean的属性名称，使用value指定Bean的属性的值 -->
+		<property name="name" value="---3欢迎来到Spring---"></property>
 	</bean>
 </beans>

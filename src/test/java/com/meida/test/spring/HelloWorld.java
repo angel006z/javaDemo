@@ -14,8 +14,22 @@ public class HelloWorld {
 		System.out.println("调用了设置属性");
 		this.name = name;
 	}	
-
+	public String getName() {
+		return name;
+	}
+	
 	public void sayHello() {
 		System.out.println("Hello: " + name);
 	}
+	
+	
+	public void initialize()
+    {
+        System.out.println("执行了初始化函数！");
+    }
+    public void close()
+    {
+        System.out.println("执行了销毁函数！");
+    }
+	
 }
