@@ -6,150 +6,150 @@ import com.meida.common.util.StringUtils;
 
 public class PackageConfig {
 
-    /**
-     * 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
-     */
-    private String parent = "";
+	/**
+	 * 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
+	 */
+	private String parent = "";
 
-    /**
-     * 父包模块名。
-     */
-    private String moduleName = null;
+	/**
+	 * 父包模块名。
+	 */
+	private String moduleName = null;
 
-    /**
-     * Model PO 包名
-     */
-    private String po = "po";
-    /**
-     * Model VO 包名
-     */
-    private String vo = "vo";
+	/**
+	 * Model PO 包名
+	 */
+	private String po = "po";
+	/**
+	 * Model VO 包名
+	 */
+	private String vo = "vo";
 
-    /**
-     * Service包名
-     */
-    private String service = "service.inter";
+	/**
+	 * Service包名
+	 */
+	private String service = "service.inter";
 
-    /**
-     * Service Impl包名
-     */
-    private String serviceImpl = "service.impl";
-    /**
-     * Mapper包名
-     */
-    private String dao = "dao.inter";
+	/**
+	 * Service Impl包名
+	 */
+	private String serviceImpl = "service.impl";
+	/**
+	 * Mapper包名
+	 */
+	private String dao = "dao.inter";
 
-    /**
-     * Mapper XML包名
-     */
-    private String daoImpl = "dao.impl";
+	/**
+	 * Mapper XML包名
+	 */
+	private String daoImpl = "dao.impl";
 
-    /**
-     * Controller包名
-     */
-    private String controller = "action";
-    
-    /**
-     * url基本路径
-     */
-    public String baseUrl = "";
-    
-    /**
-     * 父文件路径。如果为空，将下面子路径必须写全部， 否则就只需写子路径
-     */
-    private String parentJsp = "";
+	/**
+	 * Controller包名
+	 */
+	private String controller = "controller";
 
-    /**
-     * 父文件模块路径。
-     */
-    private String moduleJspName = "";
+	/**
+	 * url基本路径
+	 */
+	public String baseUrl = "";
 
-    /**
-     * jsp managerList 文件名
-     */
-    private String managerList = "";
-    /**
-     * jsp addOrUpdate 文件名
-     */
-    private String addOrUpdate = "";
+	/**
+	 * 父文件路径。如果为空，将下面子路径必须写全部， 否则就只需写子路径
+	 */
+	private String parentJsp = "";
 
-    public String getParent() {
-        if (!StringUtils.isEmpty(moduleName)) {
-            return parent + "." + moduleName;
-        }
-        return parent;
-    }
+	/**
+	 * 父文件模块路径。
+	 */
+	private String moduleJspName = "";
 
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
+	/**
+	 * jsp managerList 文件名
+	 */
+	private String managerList = "";
+	/**
+	 * jsp addOrUpdate 文件名
+	 */
+	private String addOrUpdate = "";
 
-    public String getModuleName() {
-        return moduleName;
-    }
+	public String getParent() {
+		if (!StringUtils.isEmpty(moduleName)) {
+			return parent + "." + moduleName;
+		}
+		return parent;
+	}
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
+	public void setParent(String parent) {
+		this.parent = parent;
+	}
 
-    public String getService() {
-        return service;
-    }
+	public String getModuleName() {
+		return moduleName;
+	}
 
-    public void setService(String service) {
-        this.service = service;
-    }
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
 
-    public String getServiceImpl() {
-        return serviceImpl;
-    }
+	public String getService() {
+		return service;
+	}
 
-    public void setServiceImpl(String serviceImpl) {
-        this.serviceImpl = serviceImpl;
-    }
+	public void setService(String service) {
+		this.service = service;
+	}
 
-    public String getController() {
-        if (StringUtils.isEmpty(controller)) {
-            return "controller";
-        }
-        return controller;
-    }
+	public String getServiceImpl() {
+		return serviceImpl;
+	}
 
-    public void setController(String controller) {
-        this.controller = controller;
-    }
+	public void setServiceImpl(String serviceImpl) {
+		this.serviceImpl = serviceImpl;
+	}
 
-    public String getPo() {
-        return po;
-    }
+	public String getController() {
+		if (StringUtils.isEmpty(controller)) {
+			return "controller";
+		}
+		return controller;
+	}
 
-    public void setPo(String po) {
-        this.po = po;
-    }
+	public void setController(String controller) {
+		this.controller = controller;
+	}
 
-    public String getVo() {
-        return vo;
-    }
+	public String getPo() {
+		return po;
+	}
 
-    public void setVo(String vo) {
-        this.vo = vo;
-    }
+	public void setPo(String po) {
+		this.po = po;
+	}
 
-    public String getDao() {
-        return dao;
-    }
+	public String getVo() {
+		return vo;
+	}
 
-    public void setDao(String dao) {
-        this.dao = dao;
-    }
+	public void setVo(String vo) {
+		this.vo = vo;
+	}
 
-    public String getDaoImpl() {
-        return daoImpl;
-    }
+	public String getDao() {
+		return dao;
+	}
 
-    public void setDaoImpl(String daoImpl) {
-        this.daoImpl = daoImpl;
-    }
+	public void setDao(String dao) {
+		this.dao = dao;
+	}
+
+	public String getDaoImpl() {
+		return daoImpl;
+	}
+
+	public void setDaoImpl(String daoImpl) {
+		this.daoImpl = daoImpl;
+	}
 
 	public String getParentJsp() {
 		if (StringUtils.isEmpty(moduleJspName)) {

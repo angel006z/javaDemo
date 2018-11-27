@@ -11,7 +11,7 @@ public class ConstVal {
 	
 	public static final String BASEURL = "baseUrl";
 	public static final String JSPURL = "jspUrl";  //跳转页面的路径
-	public static final String BASEPATH = "com/demo/common/generate";  //模板文件的基本路径
+	public static final String BASEPATH = "com/meida/common/generate";  //模板文件的基本路径
     public static final String MODULENAME = "ModuleName";
 
     public static final String PO = "Info";
@@ -74,7 +74,7 @@ public class ConstVal {
 			projectPath = projectPath.getParentFile();
 		}
 		// Java文件路径
-		String javaPath = StringUtils.replaceEach(projectPath+"/src/java/"+StringUtils.lowerCase(packageName), 
+		String javaPath = StringUtils.replaceEach(projectPath+"/src/main/java/"+StringUtils.lowerCase(packageName), 
 				new String[]{"/"}, new String[]{separator});
 		return javaPath;
     }

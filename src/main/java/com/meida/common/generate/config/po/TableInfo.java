@@ -5,123 +5,118 @@ import java.util.List;
 import com.meida.common.util.StringUtils;
 
 /**
- * <p>
  * 表信息，关联到当前字段信息
- * </p>
- *
- * @author YangHu
- * @since 2016/8/30
  */
 public class TableInfo {
 
-    private String name;
-    private String baseName; //表名首字母大写，去下化线
-    private String comment;  //表备注
-    private String baseComment;  //表备注，如果最后字符是表则去除
+	private String name;
+	private String baseName; // 表名首字母大写，去下化线
+	private String comment; // 表备注
+	private String baseComment; // 表备注，如果最后字符是表则去除
 
-    private String poName;
-    private String voName;
-    private String daoName;
-    private String daoImplName;
-    private String serviceName;
-    private String serviceImplName;
-    private String controllerName;
-    
-    private String managerListName; //列表jsp
-    private String addOrUpdateName;	//添加修改jsp
+	private String poName;
+	private String voName;
+	private String daoName;
+	private String daoImplName;
+	private String serviceName;
+	private String serviceImplName;
+	private String controllerName;
 
-    private List<TableField> fields;
-    private String fieldNames;
-    private boolean hasDate;
+	private String managerListName; // 列表jsp
+	private String addOrUpdateName; // 添加修改jsp
 
-    public String getName() {
-        return name;
-    }
+	private List<TableField> fields;
+	private String fieldNames;
+	private boolean hasDate;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getComment() {
-        return comment;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+	public String getComment() {
+		return comment;
+	}
 
-    public String getPoName() {
-        return poName;
-    }
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
-    public void setPoName(String poName) {
-        this.poName = poName;
-    }
+	public String getPoName() {
+		return poName;
+	}
 
-    public String getVoName() {
-        return voName;
-    }
+	public void setPoName(String poName) {
+		this.poName = poName;
+	}
 
-    public void setVoName(String voName) {
-        this.voName = voName;
-    }
+	public String getVoName() {
+		return voName;
+	}
 
-    public String getDaoName() {
-        return daoName;
-    }
+	public void setVoName(String voName) {
+		this.voName = voName;
+	}
 
-    public void setDaoName(String daoName) {
-        this.daoName = daoName;
-    }
+	public String getDaoName() {
+		return daoName;
+	}
 
-    public String getDaoImplName() {
-        return daoImplName;
-    }
+	public void setDaoName(String daoName) {
+		this.daoName = daoName;
+	}
 
-    public void setDaoImplName(String daoImplName) {
-        this.daoImplName = daoImplName;
-    }
+	public String getDaoImplName() {
+		return daoImplName;
+	}
 
-    public String getServiceName() {
-        return serviceName;
-    }
+	public void setDaoImplName(String daoImplName) {
+		this.daoImplName = daoImplName;
+	}
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
+	public String getServiceName() {
+		return serviceName;
+	}
 
-    public String getServiceImplName() {
-        return serviceImplName;
-    }
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
 
-    public void setServiceImplName(String serviceImplName) {
-        this.serviceImplName = serviceImplName;
-    }
+	public String getServiceImplName() {
+		return serviceImplName;
+	}
 
-    public String getControllerName() {
-        return controllerName;
-    }
+	public void setServiceImplName(String serviceImplName) {
+		this.serviceImplName = serviceImplName;
+	}
 
-    public void setControllerName(String controllerName) {
-        this.controllerName = controllerName;
-    }
+	public String getControllerName() {
+		return controllerName;
+	}
 
-    public List<TableField> getFields() {
-        return fields;
-    }
+	public void setControllerName(String controllerName) {
+		this.controllerName = controllerName;
+	}
 
-    public void setFields(List<TableField> fields) {
-        this.fields = fields;
-    }
+	public List<TableField> getFields() {
+		return fields;
+	}
 
-    public String getBaseName() {
+	public void setFields(List<TableField> fields) {
+		this.fields = fields;
+	}
+
+	public String getBaseName() {
 		return baseName;
 	}
 
 	public void setBaseName(String baseName) {
 		this.baseName = baseName;
 	}
-	
+
 	public String getBaseComment() {
 		return baseComment;
 	}
@@ -147,52 +142,52 @@ public class TableInfo {
 	}
 
 	/**
-     * 转换filed实体为xmlmapper中的basecolumn字符串信息
-     *
-     * @return
-     */
-    public String getFieldNames() {
-        if (StringUtils.isEmpty(fieldNames)) {
-            StringBuilder names = new StringBuilder();
-            for (int i = 0; i < fields.size(); i++) {
-                TableField fd = fields.get(i);
-                if (i == fields.size() - 1) {
-                    names.append(cov2col(fd));
-                } else {
-                    names.append(cov2col(fd)).append(", ");
-                }
-            }
-            fieldNames = names.toString();
-        }
-        return fieldNames;
-    }
+	 * 转换filed实体为xmlmapper中的basecolumn字符串信息
+	 *
+	 * @return
+	 */
+	public String getFieldNames() {
+		if (StringUtils.isEmpty(fieldNames)) {
+			StringBuilder names = new StringBuilder();
+			for (int i = 0; i < fields.size(); i++) {
+				TableField fd = fields.get(i);
+				if (i == fields.size() - 1) {
+					names.append(cov2col(fd));
+				} else {
+					names.append(cov2col(fd)).append(", ");
+				}
+			}
+			fieldNames = names.toString();
+		}
+		return fieldNames;
+	}
 
-    /**
-     * 判断字段中是否包含日期类型
-     *
-     * @return 是否
-     */
-    public boolean isHasDate() {
-        for (TableField fieldInfo : fields) {
-            if (fieldInfo.getPropertyType().equals("Date")) {
-                hasDate = true;
-                break;
-            }
-        }
-        return hasDate;
-    }
+	/**
+	 * 判断字段中是否包含日期类型
+	 *
+	 * @return 是否
+	 */
+	public boolean isHasDate() {
+		for (TableField fieldInfo : fields) {
+			if (fieldInfo.getPropertyType().equals("Date")) {
+				hasDate = true;
+				break;
+			}
+		}
+		return hasDate;
+	}
 
-    /**
-     * mapper xml中的字字段添加as
-     *
-     * @param field 字段实体
-     * @return 转换后的信息
-     */
-    private String cov2col(TableField field) {
-        if (null != field) {
-            return field.isConvert() ? field.getName() + " AS " + field.getPropertyName() : field.getName();
-        }
-        return "";
-    }
+	/**
+	 * mapper xml中的字字段添加as
+	 *
+	 * @param field 字段实体
+	 * @return 转换后的信息
+	 */
+	private String cov2col(TableField field) {
+		if (null != field) {
+			return field.isConvert() ? field.getName() + " AS " + field.getPropertyName() : field.getName();
+		}
+		return "";
+	}
 
 }

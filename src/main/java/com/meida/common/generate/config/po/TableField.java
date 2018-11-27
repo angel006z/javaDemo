@@ -1,12 +1,7 @@
 package com.meida.common.generate.config.po;
 
 /**
- * <p>
  * 表字段信息
- * </p>
- *
- * @author YangHu
- * @since 2016-12-03
  */
 public class TableField {
 
