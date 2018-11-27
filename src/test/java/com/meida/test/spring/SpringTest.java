@@ -36,6 +36,7 @@ IoC和DI由什么关系呢？其实它们是同一个概念的不同角度描述
  * <p>1、构造函数注入（Contructor Injection）</p>
  * <p>2、setter注入</p>
  * <p>3、接口注入</p>
+ * <p>4、静态工厂初始化 如类：java.nio.charset.Charset类  forName方法</p>
  * 
  * Spring中装配bean的三种主要方式 
  * <p>在XML中进行显式配置        基于XML的bean定义（需要提供setter方法） </p>
