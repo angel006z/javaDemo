@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 /**
- * spring插件开发包： http://spring.io/tools3/sts/all
+ * spring插件开发包： https://spring.io/tools
  * 
 spring的核心思想是IOC和AOP
 https://www.cnblogs.com/xdp-gacl/p/4249939.html
