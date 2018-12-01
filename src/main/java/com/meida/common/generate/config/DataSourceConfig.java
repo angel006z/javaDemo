@@ -7,12 +7,7 @@ import java.sql.SQLException;
 import com.meida.common.generate.config.rules.DbType;
 
 /**
- * <p>
  * 数据库配置
- * </p>
- *
- * @author YangHu
- * @since 2016/8/30
  */
 public class DataSourceConfig {
 

@@ -1,25 +1,36 @@
+
 package com.meida.test.spring;
 
-import java.util.Date;
-
 public class HelloWorld {
-	
-	private String message;
-	
-	private Date date;
-	
-	public String getMessage() {
-		return message;
+	public HelloWorld() {
+		System.out.println("初始化构造器");
+	}
+	public HelloWorld(String s) {
+		System.out.println("s:" + s);
+	}
+
+	private String name;
+
+	public void setName(String name) {
+		System.out.println("调用了设置属性");
+		this.name = name;
+	}	
+	public String getName() {
+		return name;
 	}
 	
-	public void setMessage(String message) {
-		this.message = message;
+	public void sayHello() {
+		System.out.println("Hello: " + name);
 	}
 	
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+	
+	public void initialize()
+    {
+        System.out.println("执行了初始化函数！");
+    }
+    public void close()
+    {
+        System.out.println("执行了销毁函数！");
+    }
+	
 }

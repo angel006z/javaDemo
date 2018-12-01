@@ -22,10 +22,16 @@
 		<param-value>classpath:spring-*.xml</param-value>
 	</context-param>
 
-	<!-- 配置Spring监听器，可以在容器启动时，加载contextConfigLocation的context-param节点的配置文件 -->
+	<!-- 配置Spring监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	    <listener>
+        <listener-class>com.meida.common.listener.ApplicationListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
 	<!-- ================Spring配置 End================ -->
 
 	<!--================Spring编码过滤器 Begin================ -->

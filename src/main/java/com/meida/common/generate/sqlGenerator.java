@@ -10,23 +10,23 @@ import com.meida.common.generate.config.rules.NamingStrategy;
 
 public class sqlGenerator {
 	
-	private static String auth = "";  //作者
+	private static String auth = "WJQ";  //作者
 	
-	private static String basePackage = "com.demo.backend.ticketSaleManager";  //包名  示例：com.demo.backend.userManager
+	private static String basePackage = "com.meida.backend.ticketSaleManager";  //包名  示例：com.meida.backend.userManager
 	
-	private static String dbDriverName = "com.mysql.jdbc.Driver";  //数据库连接驱动
+	private static String dbDriverName = "com.mysql.cj.jdbc.Driver";  //数据库连接驱动
 	
 	private static String dbUsername = "root";  //数据库用户名
 	
 	private static String dbPassword = "123456";  //数据库密码
 	
 	//数据库连接地址
-	private static String dbUrl = "jdbc:mysql://192.168.18.240:3306/baseticketsystemforjava_5_1?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+	private static String dbUrl = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
 	
-	private static String tableName = "st_sale_info_ticket_order_t";  //数据库表名
+	private static String tableName = "users";  //数据库表名
 	
-	//继承公共po  示例：com.demo.base.po.BaseInfo或com.demo.base.po.BaseApplicationInfo
-	private static String basePo = "com.demo.base.po.BaseApplicationInfo";  
+	//继承公共po  示例：com.meida.base.po.BaseInfo或com.meida.base.po.BaseBackendInfo
+	private static String basePo = "com.meida.base.po.BaseBackendInfo";  
 	
 	
 	
@@ -85,17 +85,17 @@ public class sqlGenerator {
         // 自定义实体po父类
         strategy.setSuperModelClass(basePo);
         // 自定义实体vo父类
-        strategy.setSuperModelVoClass("com.demo.base.vo.BaseBusinessBean");
+        strategy.setSuperModelVoClass("com.meida.base.vo.BaseVo");
         // 自定义 action 父类
-        strategy.setSuperControllerClass("com.demo.base.action.BaseAction");
+        strategy.setSuperControllerClass("com.meida.base.action.BaseBackendController");
         // 自定义 service 父类
-        strategy.setSuperServiceClass("com.demo.base.service.inter.BaseService");
+        strategy.setSuperServiceClass("com.meida.base.service.inter.BaseService");
         // 自定义 service 实现类父类
-        strategy.setSuperServiceImplClass("com.demo.base.service.impl.BaseServiceImpl");
+        strategy.setSuperServiceImplClass("com.meida.base.service.impl.BaseServiceImpl");
         // 自定义 Dao 类父类
-        strategy.setSuperDaoClass("com.demo.base.dao.BaseDao");
+        strategy.setSuperDaoClass("com.meida.base.dao.BaseDao");
         // 自定义 Dao 实现类父类
-        strategy.setSuperDaoImplClass("com.demo.base.dao.BaseDaoImpl");
+        strategy.setSuperDaoImplClass("com.meida.base.dao.BaseDaoImpl");
         // 自定义实体，公共字段
         strategy.setSuperModelColumns(new String[]{"id"});
         // 自定义 mapper 父类
