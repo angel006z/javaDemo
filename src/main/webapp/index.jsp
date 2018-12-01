@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>index</title>
 </head>
 <body>
 <p>${999%4}</p>
@@ -15,5 +16,6 @@ server.xml 的path修改为/  则不需要项目名称
 <a href="http://localhost:9090/backend/basic/user/role?NodeId=200">role list</a>
 <br>
 <a href="http://localhost:9090/backend/basic/dept/list?NodeId=300">dept list</a>
+
 </body>
 </html>
