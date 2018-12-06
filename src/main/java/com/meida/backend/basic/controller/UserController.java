@@ -31,7 +31,7 @@ public class UserController extends BaseBackendController {
 		int[] NodePages = { ListPageNodeId };
 		int NodeId = RequestParameters.getInt("NodeId");
 		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
-		if (accessPageAuth.getErrorCode() != EErrorCode.Success) {
+		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
@@ -50,7 +50,7 @@ public class UserController extends BaseBackendController {
 		int[] NodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int NodeId = RequestParameters.getInt("NodeId");
 		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
-		if (accessPageAuth.getErrorCode() != EErrorCode.Success) {
+		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
@@ -62,6 +62,6 @@ public class UserController extends BaseBackendController {
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);
 		modelAndView.addObject("DetailPageNodeId", DetailPageNodeId);
 		return modelAndView;
-	}	
-	
+	}
+
 }

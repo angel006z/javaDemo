@@ -32,5 +32,23 @@ public class HelloWorld {
 		String b=new String("a1");
 		System.out.println(a==b);
 		System.out.println(a.equals(b));
+		
+		
+		
+		
+/**
+== : 它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不试同一个对象。
+
+equals() : 它的作用也是判断两个对象是否相等。但它一般有两种使用情况(前面第1部分已详细介绍过)：
+                 情况1，类没有覆盖equals()方法。则通过equals()比较该类的两个对象时，等价于通过“==”比较这两个对象。
+                 情况2，类覆盖了equals()方法。一般，我们都覆盖equals()方法来两个对象的内容相等；若它们的内容相等，则返回true(即，认为这两个对象相等)。
+
+
+*/
+		
+		
+		//https://www.cnblogs.com/tonghun/p/6938016.html
+		System.out.println(a.hashCode());
+		System.out.println(b.hashCode());
 	}
 }

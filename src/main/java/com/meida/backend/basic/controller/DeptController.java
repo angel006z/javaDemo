@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,7 +45,7 @@ public class DeptController extends BaseBackendController {
 		int[] NodePages = { ListPageNodeId };
 		int NodeId = RequestParameters.getInt("NodeId");
 		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
-		if (accessPageAuth.getErrorCode() != EErrorCode.Success) {
+		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
@@ -68,7 +64,7 @@ public class DeptController extends BaseBackendController {
 		int[] NodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int NodeId = RequestParameters.getInt("NodeId");
 		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
-		if (accessPageAuth.getErrorCode() != EErrorCode.Success) {
+		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
@@ -95,7 +91,7 @@ public class DeptController extends BaseBackendController {
 		int[] iRangePage = { ListPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("NodeId");
 		ResultMessage tempAuth = Utits.AccessPageAuth(iRangePage, iCurrentPageNodeId);
-		if (tempAuth.getErrorCode() != EErrorCode.Success) {
+		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 		// 当前页
@@ -133,7 +129,7 @@ public class DeptController extends BaseBackendController {
 		int[] iRangePage = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("NodeId");
 		ResultMessage tempAuth = Utits.AccessPageAuth(iRangePage, iCurrentPageNodeId);
-		if (tempAuth.getErrorCode() != EErrorCode.Success) {
+		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 
@@ -167,7 +163,7 @@ public class DeptController extends BaseBackendController {
 		boolean isAdd = iCurrentPageNodeId == AddPageNodeId ? true : false;
 		int iCurrentButtonId = EButtonType.Submit;
 		ResultMessage tempAuth = Utits.IsOperateAuth(iRangePage, iCurrentPageNodeId, iCurrentButtonId);
-		if (tempAuth.getErrorCode() != EErrorCode.Success) {
+		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 
@@ -224,7 +220,7 @@ public class DeptController extends BaseBackendController {
 		int[] iRangeButton = { EButtonType.PhyDelete, EButtonType.Delete, EButtonType.Enable, EButtonType.Disable };
 		int iCurrentButtonId = RequestParameters.getInt("oButtonId");
 		ResultMessage tempAuth = Utits.IsOperateAuth(iRangePage, iCurrentPageNodeId, iRangeButton, iCurrentButtonId);
-		if (tempAuth.getErrorCode() != EErrorCode.Success) {
+		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 
