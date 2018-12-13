@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meida.backend.basic.po.Dept;
+import com.meida.base.dao.impl.BaseDaoImpl;
 import com.meida.base.dao.inter.IBaseDao;
 import com.meida.base.service.inter.IBaseService;
 import com.meida.common.util.constant.EButtonType;
@@ -16,14 +17,14 @@ import com.meida.common.util.constant.EButtonType;
 @Transactional(rollbackFor = Exception.class)
 public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 
-	@Autowired
-	private IBaseDao<T> dao;
+	
+	private IBaseDao<T> baseDao=new BaseDaoImpl<T>();
 	@Override
 	public boolean addOrUpdate(T entity, boolean isAdd) {
 		if (isAdd) {
-			return dao.save(entity);
+			return baseDao.save(entity);
 		} else {
-			return dao.update(entity);
+			return baseDao.update(entity);
 		}
 	}
 
@@ -31,11 +32,11 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 	public boolean batchExecuteByIds(Serializable[] ids, String command) {
 		switch (command) {
 		case "" + EButtonType.PhyDelete:
-			return dao.deletePhysicalById(ids);
+			return baseDao.deletePhysicalById(ids);
 		case "" + EButtonType.Enable:
-			return dao.deleteLogicById(ids);
+			return baseDao.deleteLogicById(ids);
 		case "" + EButtonType.Disable:
-			return dao.deleteLogicById(ids);
+			return baseDao.deleteLogicById(ids);
 		default:
 			return false;
 		}
@@ -44,17 +45,17 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 	
 	@Override
 	public T getById(Serializable id) {
-		return dao.getById(id);
+		return baseDao.getById(id);
 	}
 
 	@Override
 	public List<T> getByAll() {
-		return dao.getByAll();
+		return baseDao.getByAll();
 	}
 
 	@Override
 	public List<T> getByValid() {
-		return dao.getByValid();
+		return baseDao.getByValid();
 	}
 
 }

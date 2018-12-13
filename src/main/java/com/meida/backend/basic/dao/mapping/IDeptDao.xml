@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meida.backend.basic.dao.inter.IDeptDao">
+
+	<resultMap id="myResultMap" type="com.meida.backend.basic.po.Dept">
+		<id property="deptId" column="deptId"></id>
+		<result property="deptCode" column="deptCode"></result>
+		<result property="deptName" column="deptName"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+
+	<select id="getById" parameterType="java.lang.String"
+		resultMap="myResultMap">
+		select deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark from dept where deptId=#{id}
+	</select>
+
+	<select id="getByAll" resultMap="myResultMap">
+		select deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark from dept
+	</select>
+	
+	<select id="getByValid" resultMap="myResultMap">
+		select deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark from dept where isValid=1
+	</select>
+	
+	<insert id="save" parameterType="com.meida.backend.basic.po.Dept">
+		insert into dept (deptId,deptCode,deptName) values
+		(#{deptId},#{deptCode},#{deptName})
+	</insert>
+
+	<update id="update" parameterType="com.meida.backend.basic.po.Dept">
+		update dept set deptCode=#{deptCode},deptName=#{deptName}
+		where deptId=#{deptId}
+	</update>
+
+	<delete id="deletePhysicalById"
+		parameterType="java.lang.String">
+		delete from dept where deptId=#{id}
+	</delete>
+
+	<delete id="deleteLogicById"
+		parameterType="java.lang.String">
+		delete from dept where deptId=#{id}
+	</delete>
+	
+</mapper>

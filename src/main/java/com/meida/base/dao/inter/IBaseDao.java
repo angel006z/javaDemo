@@ -10,17 +10,17 @@ import java.util.List;
 public interface IBaseDao<T> {
 	/**
 	 * 保存单条记录
-	 * @param entity
+	 * @param item
 	 * @return
 	 */
-	public boolean save(T entity);
+	public boolean save(T item);
 
     /**
      * 更新单条记录
-     * @param entity
+     * @param item
      * @return
      */
-    public boolean update(T entity);
+    public boolean update(T item);
     
     /**
      * 物理删除单条记录

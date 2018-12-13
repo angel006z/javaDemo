@@ -10,7 +10,7 @@
 
 	<!--让扫描spring扫描这个包下所有的类，让标注spring注解的类生效 -->
 	<context:component-scan
-		base-package="com.meida.backend.basic.controller" />
+		base-package="com.meida" />
 
 	<mvc:annotation-driven>
 		<!-- 处理请求返回json字符串的中文乱码问题 -->

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.meida.backend.basic.dto.DeptListDto;
 import com.meida.backend.basic.po.Dept;
-import com.meida.backend.basic.service.impl.DeptServiceImpl;
 import com.meida.backend.basic.service.inter.IDeptService;
 import com.meida.base.controller.BaseBackendController;
 import com.meida.base.vo.ResultDetail;
@@ -39,7 +39,10 @@ public class DeptController extends BaseBackendController {
 	private int AddPageNodeId = EDept.AddPage;
 	private int EditPageNodeId = EDept.EditPage;
 	private int DetailPageNodeId = EDept.DetailPage;
-
+	
+	@Autowired
+	private IDeptService deptService;
+   	
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
 		int[] NodePages = { ListPageNodeId };
@@ -106,9 +109,8 @@ public class DeptController extends BaseBackendController {
 		DeptListDto whereItem = new DeptListDto();
 		whereItem.setPagination(new Pagination(iCurrentPage, iPageSize));
 		whereItem.setDeptName(deptName);
-
-		IDeptService service = new DeptServiceImpl();
-		List<Dept> list = service.searchByPageCondition(whereItem);
+		
+		List<Dept> list = deptService.searchByPageCondition(whereItem);
 
 		ResultList resultList = new ResultList();
 		resultList.setErrorCode(EErrorCode.Success);
@@ -132,11 +134,11 @@ public class DeptController extends BaseBackendController {
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
-
+		
 		UUID id = RequestParameters.getGuid("id");
 		if (id != UUIDUtils.Empty) {
-			IDeptService service = new DeptServiceImpl();
-			Dept item = service.getById(id);
+			
+			Dept item = deptService.getById(id);
 			ResultDetail resultDetail = new ResultDetail();
 			resultDetail.setData(item);
 			resultDetail.setErrorCode(EErrorCode.Success);
@@ -191,8 +193,8 @@ public class DeptController extends BaseBackendController {
 		item.setDeptName(DeptName);
 		item.setRemark(Remark);
 
-		IDeptService service = new DeptServiceImpl();
-		boolean isFlag = service.addOrUpdate(item, isAdd);
+		
+		boolean isFlag = deptService.addOrUpdate(item, isAdd);
 		if (isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.Success);
@@ -249,8 +251,8 @@ public class DeptController extends BaseBackendController {
 			return JsonUtils.toJSONString(resultMessage);
 		}
 
-		IDeptService service = new DeptServiceImpl();
-		boolean isFlag = service.batchExecuteByIds(ids, iCurrentButtonId + "");
+		
+		boolean isFlag = deptService.batchExecuteByIds(ids, iCurrentButtonId + "");
 		if (isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.Success);

@@ -13,12 +13,12 @@ import com.meida.base.dao.inter.IBaseDao;
  *
  * @param <T>
  */
-@Repository
 public class BaseDaoImpl<T> implements IBaseDao<T> {
 
 	@Override
 	public boolean save(T entity) {
 		// TODO Auto-generated method stub
+		System.out.println("BaseDaoImpl:save");
 		return false;
 	}
 
