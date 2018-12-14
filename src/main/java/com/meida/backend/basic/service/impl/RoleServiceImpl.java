@@ -6,9 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.meida.backend.basic.po.Role;
 import com.meida.backend.basic.service.inter.IRoleService;
-import com.meida.base.service.impl.BaseBackendServiceImpl;
 
 @Service
-public class RoleServiceImpl  extends BaseBackendServiceImpl<Role> implements IRoleService {
+public class RoleServiceImpl implements IRoleService {
 	
 }

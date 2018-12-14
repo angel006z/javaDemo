@@ -21,7 +21,7 @@ public class DaoTest {
 
     @Test
     public void testDept() {
-    	List<Dept> list =dao.getByAll();
+    	List<Dept> list =dao.getListByAll();
     	for (Dept dept : list) {
 			System.out.println("DeptId:"+dept.getDeptId());
 			System.out.println("DeptName："+dept.getDeptName());

@@ -1,14 +1,17 @@
 package com.meida.backend.basic.dto;
 
-import com.meida.base.dto.BaseBackendDto;
-import com.meida.common.pojo.Pagination;
+import com.meida.base.vo.Pagination;
 
-public class DeptListDto extends BaseBackendDto {
+public class DeptListDto {
+	public DeptListDto() {
+		//pagination=new Pagination();
+	}
 	
+	private String deptCode;
 	private String deptName;
 	
 	private Pagination pagination;
-	
+
 	public Pagination getPagination() {
 		return pagination;
 	}
@@ -23,5 +26,13 @@ public class DeptListDto extends BaseBackendDto {
 
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
+	}
+
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
 	}
 }

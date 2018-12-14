@@ -13,20 +13,21 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class RequestParameters {
 
-	private static String getHttpRequestString(String szString) {
+	private static String getHttpRequestString(String s) {
 		HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		return request.getParameter(szString);
+		return request.getParameter(s);
 	}
 
 	/**
 	 * UUID
 	 * 
-	 * @param szString
+	 * @param s
 	 * @param request
 	 * @return 默认返回Guid.Empty
 	 */
-	public static UUID getGuid(String szString) {
-		String input = getHttpRequestString(szString);
+	public static UUID getGuid(String s) {
+		String input = getHttpRequestString(s);
+		System.out.println("input:"+input);
 		if (StringUtils.isEmpty(input))
 			return UUIDUtils.Empty;
 
@@ -41,43 +42,43 @@ public class RequestParameters {
 	/**
 	 * String
 	 * 
-	 * @param szString
+	 * @param s
 	 * @param request
 	 * @return 默认返回“”
 	 */
-	public static String getString(String szString) {
-		String input = getHttpRequestString(szString);
+	public static String getString(String s) {
+		String input = getHttpRequestString(s);
 		return StringUtils.isEmpty(input) ? "" : input.trim();
 	}
 
 	/**
 	 * String
 	 * 
-	 * @param szString
+	 * @param s
 	 * @param request
 	 * @return 默认返回null
 	 */
-	public static String getStringNull(String szString) {
-		String input = getHttpRequestString(szString);
+	public static String getStringNull(String s) {
+		String input = getHttpRequestString(s);
 		return StringUtils.isEmpty(input) ? null : input.trim();
 	}
 
 	/**
 	 * Date
 	 * 
-	 * @param szString
+	 * @param s
 	 * @param request
 	 * @return 默认返回null
 	 */
-	public static Date getDate(String szString) {
-		String input = getHttpRequestString(szString);
+	public static Date getDate(String s) {
+		String input = getHttpRequestString(s);
 		if (StringUtils.isEmpty(input))
 			return null;
 		return DateUtils.parseDate(input.trim(), DateUtils.DEFAULT_SECOND);
 	}
 
-	public static int getInt(String szString) {
-		String input = getHttpRequestString(szString);
+	public static int getInt(String s) {
+		String input = getHttpRequestString(s);
 		int result = 0;
 		if (StringUtils.isEmpty(input))
 			return result;
@@ -96,8 +97,8 @@ public class RequestParameters {
 	// float:浮点型，含字节数为4，32bit，数值范围为-3.4E38~3.4E38（7个有效位）
 	// double:双精度实型，含字节数为8，64bit数值范围-1.7E308~1.7E308（15个有效位）
 	// decimal:数字型，128bit，不存在精度损失，常用于银行帐目计算。（28个有效位）
-	public static float getFloat(String szString) {
-		String input = getHttpRequestString(szString);
+	public static float getFloat(String s) {
+		String input = getHttpRequestString(s);
 		float result = 0.0f;
 		if (StringUtils.isEmpty(input))
 			return result;
@@ -114,8 +115,8 @@ public class RequestParameters {
 		return result;
 	}
 
-	public static double getDouble(String szString) {
-		String input = getHttpRequestString(szString);
+	public static double getDouble(String s) {
+		String input = getHttpRequestString(s);
 		double result = 0.0d;
 		if (StringUtils.isEmpty(input))
 			return result;
@@ -132,8 +133,8 @@ public class RequestParameters {
 		return result;
 	}
 
-	public static BigDecimal getDecimal(String szString) {
-		String input = getHttpRequestString(szString);
+	public static BigDecimal getDecimal(String s) {
+		String input = getHttpRequestString(s);
 		BigDecimal result = new BigDecimal("0.00");
 		if (StringUtils.isEmpty(input))
 			return result;

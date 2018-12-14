@@ -113,8 +113,8 @@
                 type: "post",
                 url: "searchList",
                 data: {
-                    DeptName: $("#txtDeptName").val(),
-                    NodeId: g_NodeId,
+                    deptName: $("#txtDeptName").val(),
+                    nodeId: g_NodeId,
                     currentPage: paramCurrentPage,
                     pageSize: paramPageSize
                 },
@@ -162,7 +162,7 @@
                         buf.push("<td>" + model.deptName + "</td>");
                         buf.push("<td>" + model.remark + "</td>");
                         buf.push("<td>" + MISSY.formatDate(model.operateDate,4) + "</td>");
-                        buf.push("<td><a href=\"detail?NodeId=" + g_DetailPageNodeId + "&Id=" + model.deptId + "\">查看</a></td>");
+                        buf.push("<td><a href=\"detail?nodeId=" + g_DetailPageNodeId + "&id=" + model.deptId + "\">查看</a></td>");
                         buf.push("</tr>");
                     }
                     if (buf.length <= 0)
@@ -273,7 +273,7 @@
                 }
             }
             if (id !== "")
-                location.href = "detail?NodeId=" + g_EditPageNodeId + "&Id=" + id + "&_r=" + Math.random();
+                location.href = "detail?nodeId=" + g_EditPageNodeId + "&id=" + id + "&_r=" + Math.random();
             else
                 MISSY.iErrorMessage("请选择一项数据.");
         }
@@ -282,7 +282,7 @@
             var layerLoadIndex;
             $.ajax({
                 url: "batchOperate",
-                data: { NodeId: g_NodeId, oButtonId: paramButtonId, ids: paramIds },
+                data: { nodeId: g_NodeId, oButtonId: paramButtonId, ids: paramIds },
                 type: "post",
                 dataType: "json",
                 beforeSend: function () { layerLoadIndex = MISSY.iShowLoading("正在执行中，请稍候"); },

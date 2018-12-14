@@ -14,10 +14,10 @@ import com.meida.backend.basic.dto.DeptListDto;
 import com.meida.backend.basic.po.Dept;
 import com.meida.backend.basic.service.inter.IDeptService;
 import com.meida.base.controller.BaseBackendController;
+import com.meida.base.vo.Pagination;
 import com.meida.base.vo.ResultDetail;
 import com.meida.base.vo.ResultList;
 import com.meida.base.vo.ResultMessage;
-import com.meida.common.pojo.Pagination;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RegexValidate;
@@ -45,9 +45,9 @@ public class DeptController extends BaseBackendController {
    	
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
-		int[] NodePages = { ListPageNodeId };
-		int NodeId = RequestParameters.getInt("NodeId");
-		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
+		int[] nodePages = { ListPageNodeId };
+		int nodeId = RequestParameters.getInt("nodeId");
+		ResultMessage accessPageAuth = Utits.AccessPageAuth(nodePages, nodeId);
 		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
@@ -64,9 +64,9 @@ public class DeptController extends BaseBackendController {
 
 	@RequestMapping(value = "/detail")
 	public ModelAndView detail() {
-		int[] NodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
-		int NodeId = RequestParameters.getInt("NodeId");
-		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
+		int[] nodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
+		int nodeId = RequestParameters.getInt("nodeId");
+		ResultMessage accessPageAuth = Utits.AccessPageAuth(nodePages, nodeId);
 		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
@@ -92,7 +92,7 @@ public class DeptController extends BaseBackendController {
 	public String searchList() {
 		// 权限控制
 		int[] iRangePage = { ListPageNodeId };
-		int iCurrentPageNodeId = RequestParameters.getInt("NodeId");
+		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
 		ResultMessage tempAuth = Utits.AccessPageAuth(iRangePage, iCurrentPageNodeId);
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
@@ -104,13 +104,13 @@ public class DeptController extends BaseBackendController {
 		iPageSize = iPageSize <= 0 ? 5 : iPageSize;
 		iPageSize = iPageSize > 100 ? 100 : iPageSize;
 
-		String deptName = RequestParameters.getString("DeptName");
+		String deptName = RequestParameters.getString("deptName");
 
 		DeptListDto whereItem = new DeptListDto();
 		whereItem.setPagination(new Pagination(iCurrentPage, iPageSize));
 		whereItem.setDeptName(deptName);
 		
-		List<Dept> list = deptService.searchByPageCondition(whereItem);
+		List<Dept> list = deptService.getListByPage(whereItem);
 
 		ResultList resultList = new ResultList();
 		resultList.setErrorCode(EErrorCode.Success);
@@ -129,16 +129,15 @@ public class DeptController extends BaseBackendController {
 	public String initSingle() {
 		// 权限控制
 		int[] iRangePage = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
-		int iCurrentPageNodeId = RequestParameters.getInt("NodeId");
+		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");		
 		ResultMessage tempAuth = Utits.AccessPageAuth(iRangePage, iCurrentPageNodeId);
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 		
 		UUID id = RequestParameters.getGuid("id");
-		if (id != UUIDUtils.Empty) {
-			
-			Dept item = deptService.getById(id);
+		if (id != UUIDUtils.Empty) {			
+			Dept item = deptService.getObjectById(id.toString());
 			ResultDetail resultDetail = new ResultDetail();
 			resultDetail.setData(item);
 			resultDetail.setErrorCode(EErrorCode.Success);
@@ -161,7 +160,7 @@ public class DeptController extends BaseBackendController {
 	public String addOrUpdate() {
 		// 权限控制
 		int[] iRangePage = { AddPageNodeId, EditPageNodeId };
-		int iCurrentPageNodeId = RequestParameters.getInt("NodeId");
+		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
 		boolean isAdd = iCurrentPageNodeId == AddPageNodeId ? true : false;
 		int iCurrentButtonId = EButtonType.Submit;
 		ResultMessage tempAuth = Utits.IsOperateAuth(iRangePage, iCurrentPageNodeId, iCurrentButtonId);
@@ -169,10 +168,10 @@ public class DeptController extends BaseBackendController {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 
-		String DeptCode = RequestParameters.getString("DeptCode");
-		String DeptName = RequestParameters.getString("DeptName");
-		String Remark = RequestParameters.getString("Remark");
-		if (DeptName.length() <= 0) {
+		String deptCode = RequestParameters.getString("deptCode");
+		String deptName = RequestParameters.getString("deptName");
+		String remark = RequestParameters.getString("remark");
+		if (deptName.length() <= 0) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.Error);
 			resultMessage.setErrorMessage("部门名称不能为空.");
@@ -180,7 +179,7 @@ public class DeptController extends BaseBackendController {
 		}
 
 		Dept item = new Dept();
-		UUID id = RequestParameters.getGuid("Id");
+		UUID id = RequestParameters.getGuid("id");
 		if (isAdd) {
 			item.setCreateDate(DateUtils.now());
 			item.setIsValid(1);
@@ -188,11 +187,9 @@ public class DeptController extends BaseBackendController {
 			item.setDeptId(id.toString());
 		}
 		item.setOperateDate(DateUtils.now());
-		item.setDeptCode(DeptCode);
-
-		item.setDeptName(DeptName);
-		item.setRemark(Remark);
-
+		item.setDeptCode(deptCode);
+		item.setDeptName(deptName);
+		item.setRemark(remark);
 		
 		boolean isFlag = deptService.addOrUpdate(item, isAdd);
 		if (isFlag) {
@@ -218,7 +215,7 @@ public class DeptController extends BaseBackendController {
 	public String batchOperate() {
 		// 权限控制
 		int[] iRangePage = { ListPageNodeId };
-		int iCurrentPageNodeId = RequestParameters.getInt("NodeId");
+		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
 		int[] iRangeButton = { EButtonType.PhyDelete, EButtonType.Delete, EButtonType.Enable, EButtonType.Disable };
 		int iCurrentButtonId = RequestParameters.getInt("oButtonId");
 		ResultMessage tempAuth = Utits.IsOperateAuth(iRangePage, iCurrentPageNodeId, iRangeButton, iCurrentButtonId);
@@ -250,7 +247,6 @@ public class DeptController extends BaseBackendController {
 			resultMessage.setErrorMessage("参数不合法.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
-
 		
 		boolean isFlag = deptService.batchExecuteByIds(ids, iCurrentButtonId + "");
 		if (isFlag) {

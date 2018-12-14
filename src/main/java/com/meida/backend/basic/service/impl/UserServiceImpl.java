@@ -7,14 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.meida.backend.basic.po.User;
 import com.meida.backend.basic.service.inter.IUserService;
-import com.meida.base.service.impl.BaseBackendServiceImpl;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserServiceImpl extends BaseBackendServiceImpl<User> implements IUserService {
+public class UserServiceImpl implements IUserService {
 
     
 }

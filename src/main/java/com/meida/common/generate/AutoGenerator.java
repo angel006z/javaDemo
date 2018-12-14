@@ -21,7 +21,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meida.base.po.BaseInfo;
+//import com.meida.base.po.BaseInfo;
 import com.meida.common.generate.config.ConstVal;
 import com.meida.common.generate.config.TemplateConfig;
 import com.meida.common.generate.config.builder.ConfigBuilder;
@@ -104,22 +104,22 @@ public class AutoGenerator extends AbstractGenerator {
             ctx.put("author", config.getGlobalConfig().getAuthor());
             ctx.put("date", date);
             ctx.put("table", tableInfo);
-            //此处是根据大漠业务做的特殊化处理，以为有公共的父类，所有公共参数没必要加在子类实体类里
-            if(superModelClass.contains("BaseApplicationInfo")) {
-            	Field[] baseFields = BaseInfo.class.getDeclaredFields();
-            	String baseFieldsStr = "";
-            	for(Field baseField : baseFields) {
-            		baseFieldsStr += baseField.getName() + ",";
-            	}
-                List<TableField> fieldList = new ArrayList<TableField>();
-                tableInfo.getFields();
-                for(TableField field : tableInfo.getFields()) {
-                	if(!baseFieldsStr.contains(field.getName())) {
-                		fieldList.add(field);
-                	}
-                }
-                tableInfo.setFields(fieldList);
-            }
+//            //此处是根据大漠业务做的特殊化处理，以为有公共的父类，所有公共参数没必要加在子类实体类里
+//            if(superModelClass.contains("BaseApplicationInfo")) {
+//            	Field[] baseFields = BaseInfo.class.getDeclaredFields();
+//            	String baseFieldsStr = "";
+//            	for(Field baseField : baseFields) {
+//            		baseFieldsStr += baseField.getName() + ",";
+//            	}
+//                List<TableField> fieldList = new ArrayList<TableField>();
+//                tableInfo.getFields();
+//                for(TableField field : tableInfo.getFields()) {
+//                	if(!baseFieldsStr.contains(field.getName())) {
+//                		fieldList.add(field);
+//                	}
+//                }
+//                tableInfo.setFields(fieldList);
+//            }
             ctx.put("po", tableInfo.getPoName());
             ctx.put("vo", tableInfo.getVoName());
             ctx.put("modelColumnConstant", config.getStrategyConfig().isModelColumnConstant());

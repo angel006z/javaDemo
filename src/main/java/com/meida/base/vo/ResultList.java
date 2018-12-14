@@ -1,7 +1,5 @@
 package com.meida.base.vo;
 
-import com.meida.common.pojo.Pagination;
-
 public class ResultList extends ResultMessage {
 	private Pagination pagination;
 	/**

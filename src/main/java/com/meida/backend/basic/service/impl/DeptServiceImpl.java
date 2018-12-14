@@ -1,8 +1,7 @@
 package com.meida.backend.basic.service.impl;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,61 +10,60 @@ import com.meida.backend.basic.dao.inter.IDeptDao;
 import com.meida.backend.basic.dto.DeptListDto;
 import com.meida.backend.basic.po.Dept;
 import com.meida.backend.basic.service.inter.IDeptService;
-import com.meida.base.service.impl.BaseBackendServiceImpl;
-import com.meida.common.pojo.Pagination;
-import com.meida.common.util.DateUtils;
+import com.meida.base.vo.Pagination;
+import com.meida.common.util.constant.EButtonType;
 
 @Service
-public class DeptServiceImpl extends BaseBackendServiceImpl<Dept> implements IDeptService {
-	
+public class DeptServiceImpl implements IDeptService {
+
 	@Autowired
 	private IDeptDao deptDao;
-	
-	public List<Dept> searchByPageCondition(DeptListDto whereItem) {
-		int totalRecord=2;
-		int pageCount=1;
-		Pagination pagination=new Pagination();
-		pagination.setTotalRecord(totalRecord);
-		pagination.setPageCount(pageCount);
-		whereItem.setPagination(pagination);
-		return deptDao.getByValid();
-		
-//		
-//		List<Dept> list =new ArrayList<Dept>();
-//		
-//		if(true) {
-//			Dept item =new Dept();
-//			item.setDeptId(UUID.randomUUID().toString());
-//			item.setDeptCode("001");
-//			item.setDeptName("行政人事部");
-//			item.setIsValid(1);
-//			item.setRemark("备注001");
-//			item.setCreateDate(DateUtils.now());
-//			item.setOperateDate(DateUtils.now());
-//			list.add(item);
-//		}
-//		
-//		if(true) {
-//			Dept item =new Dept();
-//			item.setDeptId(UUID.randomUUID().toString());
-//			item.setDeptCode("002");
-//			item.setDeptName("软件部");
-//			item.setIsValid(1);
-//			item.setRemark("备注002");
-//			item.setCreateDate(DateUtils.now());
-//			item.setOperateDate(DateUtils.now());
-//			list.add(item);
-//		}
-//		
-//		int totalRecord=2;
-//		int pageCount=1;
-//		Pagination pagination=new Pagination();
-//		pagination.setTotalRecord(totalRecord);
-//		pagination.setPageCount(pageCount);
-//		whereItem.setPagination(pagination);
-//		return list;
+
+	@Override
+	public boolean addOrUpdate(Dept item, boolean isAdd) {
+		if (isAdd) {
+			return deptDao.save(item) > 0;
+		} else {
+			return deptDao.update(item) > 0;
+		}
 	}
 
-	
-	
+	@Override
+	public boolean batchExecuteByIds(Serializable[] ids, String command) {
+		switch (command) {
+		case "" + EButtonType.PhyDelete:
+			return deptDao.deletePhysicalById(ids) > 0;
+		case "" + EButtonType.Enable:
+			return deptDao.deleteLogicById(ids) > 0;
+		case "" + EButtonType.Disable:
+			return deptDao.deleteLogicById(ids) > 0;
+		default:
+			return false;
+		}
+	}
+
+	@Override
+	public Dept getObjectById(Serializable id) {
+		return deptDao.getObjectById(id);
+	}
+
+	@Override
+	public List<Dept> getListByAll() {
+		return deptDao.getListByAll();
+	}
+
+	@Override
+	public List<Dept> getListByValid() {
+		return deptDao.getListByValid();
+	}
+
+	@Override
+	public List<Dept> getListByPage(DeptListDto whereItem) {
+		long totalRecord = deptDao.getTotalRecord(whereItem);
+		Pagination pagination = new Pagination();
+		pagination.setTotalRecord(totalRecord);
+		whereItem.setPagination(pagination);
+		return deptDao.getListByPage(whereItem);
+	}
+
 }

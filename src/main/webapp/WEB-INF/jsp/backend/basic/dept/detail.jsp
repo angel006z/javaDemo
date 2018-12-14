@@ -67,7 +67,7 @@
 
 <script type="text/javascript">
 	var g_ListPageNodeId = $("#txtListPageNodeId").val();
-	var g_NodeId = MISSY.getQueryString("NodeId");
+	var g_NodeId = MISSY.getQueryString("nodeId");
 	$(function() {
 		initPage();
 	});
@@ -79,14 +79,15 @@
 		$("#BtnBackOperate").click(function() {
 			ClickBack();
 		});
-		var Id = MISSY.getQueryString("Id");
-		if (MISSY.isEmpty(Id))
+		var id = MISSY.getQueryString("id");
+		if (MISSY.isEmpty(id))
 			return;
+		alert(id)
 		$.ajax({
 			url : "initSingle",
 			data : {
-				NodeId : g_NodeId,
-				Id : Id
+				nodeId : g_NodeId,
+				id : id
 			},
 			type : "POST",
 			dataType : "json",
@@ -141,16 +142,16 @@
 	{
 		if (!CheckForm())
 			return;
-		var Id = MISSY.getQueryString("Id");
+		var id = MISSY.getQueryString("id");
 		var layerLoadIndex;
 		$.ajax({
 			url : "addOrUpdate",
 			data : {
-				NodeId : g_NodeId,
-				Id : Id,
-				DeptCode : $("#txtDeptCode").val(),
-				DeptName : $("#txtDeptName").val(),
-				Remark : $("#txtRemark").val()
+				nodeId : g_NodeId,
+				id : id,
+				deptCode : $("#txtDeptCode").val(),
+				deptName : $("#txtDeptName").val(),
+				remark : $("#txtRemark").val()
 			},
 			type : "POST",
 			dataType : "json",
