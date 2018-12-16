@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,17 +14,14 @@
 <meta name="viewport"
 	content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>${title}</title>
-<link
-	href="/static/css/normalize.css?v=7.0.0"
-	rel="stylesheet" type="text/css" />
-<link
-	href="/static/css/sysbase.css?v=1.0.0"
-	rel="stylesheet" type="text/css" />
-<link
-	href="/static/css/sysrespond.css?v=1.0.0"
-	rel="stylesheet" type="text/css" />
+<link href="<%=basePath%>/static/css/normalize.css?v=7.0.0" rel="stylesheet"
+	type="text/css" />
+<link href="<%=basePath%>/static/css/sysbase.css?v=1.0.0" rel="stylesheet"
+	type="text/css" />
+<link href="<%=basePath%>/static/css/sysrespond.css?v=1.0.0" rel="stylesheet"
+	type="text/css" />
 </head>
-<body class="RightBody">
+<body data-base-path="<%=basePath%>" class="RightBody">
 
 	<!--OperateButton Begin-->
 	<div class="OperateButtonArea">
