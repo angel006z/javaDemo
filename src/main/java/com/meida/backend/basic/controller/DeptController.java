@@ -151,13 +151,13 @@ public class DeptController extends BaseBackendController {
 	}
 
 	/**
-	 * addOrUpdate
+	 * submitOperate
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/addOrUpdate")
+	@RequestMapping(value = "/submitOperate")
 	@ResponseBody
-	public String addOrUpdate() {
+	public String submitOperate() {
 		// 权限控制
 		int[] iRangePage = { AddPageNodeId, EditPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
