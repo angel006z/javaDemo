@@ -12,6 +12,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="renderer" content="webkit" />
 <title>${title}</title>
+
 <link href="<%=basePath%>/static/css/normalize.css?v=1.0.0"
 	rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>/static/css/sysbase.css?v=1.0.0"
@@ -25,7 +26,7 @@
 	type="text/javascript"></script>
 <script src="<%=basePath%>/static/js/missy/missy/2.1.0/missy.js"
 	type="text/javascript"></script>
-</head>
+
 <body class="RightBody">
 	<form id="form1">
 		<!--OperateButton Begin-->

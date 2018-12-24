@@ -1,114 +1,113 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="renderer" content="webkit" />
-	<title>${title}列表页面</title>
-    <link href="/static/css/normalize.css?v=7.0.0" rel="stylesheet" type="text/css" />
-    <link href="/static/css/sysbase.css?v=1.0.0" rel="stylesheet" type="text/css" />
-    <link href="/static/css/sysrespond.css?v=1.0.0" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="renderer" content="webkit" />
+<title>${title}列表页面</title>
+<link href="/static/css/normalize.css?v=7.0.0" rel="stylesheet"
+	type="text/css" />
+<link href="/static/css/sysbase.css?v=1.0.0" rel="stylesheet"
+	type="text/css" />
+<link href="/static/css/sysrespond.css?v=1.0.0" rel="stylesheet"
+	type="text/css" />
 </head>
-<body class="RightBody">
-    <!--OperateButton Begin-->
-    <div class="OperateButtonArea">
-        <div id="divOTitle" class="OTitle">用户管理</div>
-        <div id="OperateButton" class="OOperateButton">
-            ${OperateButton}
-        </div>
-    </div>
-    <!--OperateButton End-->
-    <!--Content Begin-->
-    <div class="ContentArea" id="ContentArea">
-        <div class="ConditionArea">
-            <table class="tbCondition">
-                <tr>
-                    <td style="text-align: right;">用户名称：</td>
-                    <td style="text-align: left;"><input type="text" class="input" id="txtUserName" /></td>
-                    <td style="text-align: right;">真实姓名：</td>
-                    <td style="text-align: left;"><input type="text" class="input" id="txtRealName" /></td>
-                </tr>
-                <tr>
-                    <td style="text-align: right;">部门名称：</td>
-                    <td style="text-align: left;">
-                        <select class="select" id="ddlDeptId">
-                            <option value="">==全部==</option>
-                            @Html.Raw(ViewBag.GetDeptId)
-                        </select>
-                    </td>
-                    <td style="text-align: right;">角色名称：</td>
-                    <td style="text-align: left;">
-                        <select id="ddlRoleId" class="select">
-                            <option value="">==全部==</option>
-                            @Html.Raw(ViewBag.GetRoleId)
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align: right; ">
-                        街道：
-                    </td>
-                    <td style="text-align: left;">
-                        <select class="inputnull select" id="ddlStreetId">
-                            <option value="">==全部==</option>
-                            @Html.Raw(ViewBag.GetStreetId)
-                        </select>
-                    </td>
-                    <td style="text-align: right; ">
-                        所属中队：
-                    </td>
-                    <td style="text-align: left;">
-                        <select class="inputnull select" id="ddlZdId">
-                            <option value="">==全部==</option>
-                            @Html.Raw(ViewBag.GetZdId)
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align: right;">状态：</td>
-                    <td style="text-align: left;">
-                        <select id="ddlIsValid" class="select">
-                            <option value="">==全部==</option>
-                            <option value="1" selected="selected">有效</option>
-                            <option value="-1">无效</option>
-                        </select>
-                    </td>
-                    <td></td>
-                    <td style="text-align: left;"><input type="button" id="BtnSearch" class="button" value="查询" /></td>
-                </tr>
-            </table>
-        </div>
-        <div class="tableArea">
-            <table id="tblist" class="tblist">
-                <tr class="odd">
-                    <th class="thcbAll">
-                        <input type="checkbox" align="absmiddle" id="cbListCheckAll" />
-                    </th>
-                    <th style="width:40px;">序号</th>
-                    <th>用户名称</th>
-                    <th>真实姓名</th>
-                    <th>部门名称</th>
-                    <th>角色名称</th>
-                    <th>街道</th>
-                    <th>执法证号</th>
-                    <th style="width: 140px;">操作时间</th>
-                    <th style="width: 60px;">状态</th>
-                    <th style="width: 60px;">操作</th>
-                </tr>
-            </table>
-            <div id="divPagination"></div>
-        </div>
-        <input type="hidden" id="sortfield" value="" />
-        <input type="hidden" id="sorttype" value="" />
-    </div>
-    <!--Content End-->
-    <!--PageNodeId Begin-->
-    <input type="hidden" id="txtAddPageNodeId" value="@ViewBag.AddPageNodeId" />
-    <input type="hidden" id="txtEditPageNodeId" value="@ViewBag.EditPageNodeId" />
-    <input type="hidden" id="txtDetailPageNodeId" value="@ViewBag.DetailPageNodeId" />
-    <!--PageNodeId End-->
+<body data-base-path="<%=basePath%>" class="RightBody">
+	<!--OperateButton Begin-->
+	<div class="OperateButtonArea">
+		<div id="divOTitle" class="OTitle">用户管理</div>
+		<div id="OperateButton" class="OOperateButton">${OperateButton}
+		</div>
+	</div>
+	<!--OperateButton End-->
+	<!--Content Begin-->
+	<div class="ContentArea" id="ContentArea">
+		<div class="ConditionArea">
+			<table class="tbCondition">
+				<tr>
+					<td style="text-align: right;">用户名称：</td>
+					<td style="text-align: left;"><input type="text" class="input"
+						id="txtUserName" /></td>
+					<td style="text-align: right;">真实姓名：</td>
+					<td style="text-align: left;"><input type="text" class="input"
+						id="txtRealName" /></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">部门名称：</td>
+					<td style="text-align: left;"><select class="select"
+						id="ddlDeptId">
+							<option value="">==全部==</option> @Html.Raw(ViewBag.GetDeptId)
+					</select></td>
+					<td style="text-align: right;">角色名称：</td>
+					<td style="text-align: left;"><select id="ddlRoleId"
+						class="select">
+							<option value="">==全部==</option> @Html.Raw(ViewBag.GetRoleId)
+					</select></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">街道：</td>
+					<td style="text-align: left;"><select class="inputnull select"
+						id="ddlStreetId">
+							<option value="">==全部==</option> @Html.Raw(ViewBag.GetStreetId)
+					</select></td>
+					<td style="text-align: right;">所属中队：</td>
+					<td style="text-align: left;"><select class="inputnull select"
+						id="ddlZdId">
+							<option value="">==全部==</option> @Html.Raw(ViewBag.GetZdId)
+					</select></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">状态：</td>
+					<td style="text-align: left;"><select id="ddlIsValid"
+						class="select">
+							<option value="">==全部==</option>
+							<option value="1" selected="selected">有效</option>
+							<option value="-1">无效</option>
+					</select></td>
+					<td></td>
+					<td style="text-align: left;"><input type="button"
+						id="BtnSearch" class="button" value="查询" /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableArea">
+			<table id="tblist" class="tblist">
+				<tr class="odd">
+					<th class="thcbAll"><input type="checkbox" align="absmiddle"
+						id="cbListCheckAll" /></th>
+					<th style="width: 40px;">序号</th>
+					<th>用户名称</th>
+					<th>真实姓名</th>
+					<th>部门名称</th>
+					<th>角色名称</th>
+					<th>街道</th>
+					<th>执法证号</th>
+					<th style="width: 140px;">操作时间</th>
+					<th style="width: 60px;">状态</th>
+					<th style="width: 60px;">操作</th>
+				</tr>
+			</table>
+			<div id="divPagination"></div>
+		</div>
+		<input type="hidden" id="sortfield" value="" /> <input type="hidden"
+			id="sorttype" value="" />
+	</div>
+	<!--Content End-->
+	<!--PageNodeId Begin-->
+	<input type="hidden" id="txtAddPageNodeId"
+		value="@ViewBag.AddPageNodeId" />
+	<input type="hidden" id="txtEditPageNodeId"
+		value="@ViewBag.EditPageNodeId" />
+	<input type="hidden" id="txtDetailPageNodeId"
+		value="@ViewBag.DetailPageNodeId" />
+	<!--PageNodeId End-->
 </body>
 </html>
 <script src="/static/js/require/require/2.2.0/require.js"></script>

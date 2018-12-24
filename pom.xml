@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.md</groupId>
-	<artifactId>Demo</artifactId>
+	<artifactId>javaDemo</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo Maven Webapp</name>
@@ -267,7 +267,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>demo</finalName>
+		<finalName>javaDemo</finalName>
 
 		<plugins>
 			<!-- 指定jdk版本 -->
