@@ -1,63 +1,44 @@
 var g_BasePath = $("#txtPageParam").attr("data-BasePath");
 var g_ListPageNodeId = $("#txtPageParam").attr("data-ListPageNodeId");
 var g_NodeId = MISSY.getQueryString("nodeId");
+var g_Id = MISSY.getQueryString("id");
 $(function() {
 	initPage();
 });
 
 function initPage() {
 	$("#BtnSubmitOperate").click(function() {
-		ClickSubmit();
+		clickSubmit();
 	});
-	
+
 	$("#BtnBackOperate").click(function() {
-		ClickBack();
+		clickBack();
 	});
 	
-	var id = MISSY.getQueryString("id");
-	if (MISSY.isEmpty(id))
+	initSingle();	
+}
+
+function initSingle() {
+	if (MISSY.isEmpty(g_Id))
 		return;
 	$.ajax({
 		url : "initSingle",
 		data : {
 			nodeId : g_NodeId,
-			id : id
+			id : g_Id
 		},
 		type : "POST",
 		dataType : "json",
 		ContentType : "application/json;charset=utf-8",
 		success : function(response) {
-			if (!response) {
-				MISSY.iErrorReturnNull();
+			if(response.errorCode!="1"){
+				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
 				return;
 			}
-			switch (response.errorCode) 
-			{
-			case 0: // 错误
-				MISSY.iErrorMessage(response.errorMessage);
-				return;
-			case 1: // 返回正确数据
-				break;
-			case 2: // 请求地址不正确
-				MISSY.iNoFound(response.errorMessage);
-				return;
-			case 3: // 未登录
-				MISSY.iNoLogin(response.errorMessage);
-				return;
-			case 4: // 无页面权限
-				MISSY.iNoPageAuth(response.errorMessage);
-				return;
-			case 5: // 无操作权限
-				MISSY.iNoOperateAuth(response.errorMessage);
-				return;
-			default:
-				MISSY.iErrorMessage(response.errorMessage);
-				return;
-			}
-			var model = response.data;
-			$("#txtDeptCode").val(model.deptCode);
-			$("#txtDeptName").val(model.deptName);
-			$("#txtRemark").val(model.remark);
+			var responseItem = response.data;
+			$("#txtDeptCode").val(responseItem.deptCode);
+			$("#txtDeptName").val(responseItem.deptName);
+			$("#txtRemark").val(responseItem.remark);
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);
@@ -66,22 +47,22 @@ function initPage() {
 	});
 }
 
-function ClickBack() // Back
+function clickBack()
 {
 	location.href = "list?NodeId=" + g_ListPageNodeId;
 }
 
-function ClickSubmit() // Add、Update
+function clickSubmit()
 {
-	if (!CheckForm())
+	if (!checkForm())
 		return;
-	var id = MISSY.getQueryString("id");
+	
 	var layerLoadIndex;
 	$.ajax({
 		url : "submitOperate",
 		data : {
 			nodeId : g_NodeId,
-			id : id,
+			id : g_Id,
 			deptCode : $("#txtDeptCode").val(),
 			deptName : $("#txtDeptName").val(),
 			remark : $("#txtRemark").val()
@@ -93,34 +74,11 @@ function ClickSubmit() // Add、Update
 			layerLoadIndex = MISSY.iShowLoading("正在执行中，请稍候.");
 		},
 		success : function(response) {
-			if (!response) {
-				MISSY.iErrorReturnNull();
+			if(response.errorCode!="1"){
+				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
 				return;
 			}
-			switch (response.errorCode) // 标记
-			{
-			case 0: // 错误
-				MISSY.iErrorMessage(response.errorMessage);
-				return;
-			case 1: // 返回正确数据
-				MISSY.iSuccessMessage(response.errorMessage, ClickBack);
-				break;
-			case 2: // 请求地址不正确
-				MISSY.iNoFound(response.errorMessage);
-				return;
-			case 3: // 未登录
-				MISSY.iNoLogin(response.errorMessage);
-				return;
-			case 4: // 无页面权限
-				MISSY.iNoPageAuth(response.errorMessage);
-				return;
-			case 5: // 无操作权限
-				MISSY.iNoOperateAuth(response.errorMessage);
-				return;
-			default:
-				MISSY.iErrorMessage(response.errorMessage);
-				return;
-			}
+			MISSY.iSuccessMessage(response.errorMessage,clickBack);			
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);
@@ -132,7 +90,7 @@ function ClickSubmit() // Add、Update
 	});
 }
 
-function CheckForm() // CheckForm
+function checkForm()
 {
 	return true;
 }

@@ -30,14 +30,14 @@ public class UserController extends BaseBackendController {
 	public ModelAndView list() {
 		int[] NodePages = { ListPageNodeId };
 		int NodeId = RequestParameters.getInt("NodeId");
-		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
+		ResultMessage accessPageAuth = Utits.accessPageAuth(NodePages, NodeId);
 		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "列表页面");
-		modelAndView.addObject("OperateButton", Utits.AuthOperateButton());
+		modelAndView.addObject("OperateButton", Utits.authOperateButton());
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);
@@ -49,14 +49,14 @@ public class UserController extends BaseBackendController {
 	public ModelAndView detail() {
 		int[] NodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int NodeId = RequestParameters.getInt("NodeId");
-		ResultMessage accessPageAuth = Utits.AccessPageAuth(NodePages, NodeId);
+		ResultMessage accessPageAuth = Utits.accessPageAuth(NodePages, NodeId);
 		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "详细页面");
-		modelAndView.addObject("OperateButton", Utits.AuthOperateButton());
+		modelAndView.addObject("OperateButton", Utits.authOperateButton());
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);

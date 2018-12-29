@@ -4,7 +4,7 @@ import com.meida.base.vo.Pagination;
 
 public class DeptListDto {
 	public DeptListDto() {
-		//pagination=new Pagination();
+		
 	}
 	
 	private String deptCode;

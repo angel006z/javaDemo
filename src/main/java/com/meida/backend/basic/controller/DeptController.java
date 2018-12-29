@@ -47,33 +47,34 @@ public class DeptController extends BaseBackendController {
 	public ModelAndView list() {
 		int[] nodePages = { ListPageNodeId };
 		int nodeId = RequestParameters.getInt("nodeId");
-		ResultMessage accessPageAuth = Utits.AccessPageAuth(nodePages, nodeId);
+		ResultMessage accessPageAuth = Utits.accessPageAuth(nodePages, nodeId);
 		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "列表页面");
-		modelAndView.addObject("OperateButton", Utits.AuthOperateButton());
+		modelAndView.addObject("OperateButton", Utits.authOperateButton());
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);
 		modelAndView.addObject("DetailPageNodeId", DetailPageNodeId);
 		return modelAndView;
+		
 	}
 
 	@RequestMapping(value = "/detail")
 	public ModelAndView detail() {
 		int[] nodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int nodeId = RequestParameters.getInt("nodeId");
-		ResultMessage accessPageAuth = Utits.AccessPageAuth(nodePages, nodeId);
+		ResultMessage accessPageAuth = Utits.accessPageAuth(nodePages, nodeId);
 		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("title", "详细页面");
-		modelAndView.addObject("OperateButton", Utits.AuthOperateButton());
+		modelAndView.addObject("OperateButton", Utits.authOperateButton());
 		modelAndView.addObject("ListPageNodeId", ListPageNodeId);
 		modelAndView.addObject("AddPageNodeId", AddPageNodeId);
 		modelAndView.addObject("EditPageNodeId", EditPageNodeId);
@@ -93,7 +94,7 @@ public class DeptController extends BaseBackendController {
 		// 权限控制
 		int[] iRangePage = { ListPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
-		ResultMessage tempAuth = Utits.AccessPageAuth(iRangePage, iCurrentPageNodeId);
+		ResultMessage tempAuth = Utits.accessPageAuth(iRangePage, iCurrentPageNodeId);
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
@@ -130,7 +131,7 @@ public class DeptController extends BaseBackendController {
 		// 权限控制
 		int[] iRangePage = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");		
-		ResultMessage tempAuth = Utits.AccessPageAuth(iRangePage, iCurrentPageNodeId);
+		ResultMessage tempAuth = Utits.accessPageAuth(iRangePage, iCurrentPageNodeId);
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
@@ -141,6 +142,7 @@ public class DeptController extends BaseBackendController {
 			ResultDetail resultDetail = new ResultDetail();
 			resultDetail.setData(item);
 			resultDetail.setErrorCode(EErrorCode.Success);
+			resultDetail.setErrorMessage("操作成功.");
 			return JsonUtils.toJSONString(resultDetail);
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
@@ -163,7 +165,7 @@ public class DeptController extends BaseBackendController {
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
 		boolean isAdd = iCurrentPageNodeId == AddPageNodeId ? true : false;
 		int iCurrentButtonId = EButtonType.Submit;
-		ResultMessage tempAuth = Utits.IsOperateAuth(iRangePage, iCurrentPageNodeId, iCurrentButtonId);
+		ResultMessage tempAuth = Utits.isOperateAuth(iRangePage, iCurrentPageNodeId, iCurrentButtonId);
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
@@ -218,7 +220,7 @@ public class DeptController extends BaseBackendController {
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
 		int[] iRangeButton = { EButtonType.PhyDelete, EButtonType.Delete, EButtonType.Enable, EButtonType.Disable };
 		int iCurrentButtonId = RequestParameters.getInt("oButtonId");
-		ResultMessage tempAuth = Utits.IsOperateAuth(iRangePage, iCurrentPageNodeId, iRangeButton, iCurrentButtonId);
+		ResultMessage tempAuth = Utits.isOperateAuth(iRangePage, iCurrentPageNodeId, iRangeButton, iCurrentButtonId);
 		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}

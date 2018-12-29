@@ -26,7 +26,7 @@ public class Utits {
 	 * 
 	 * @return
 	 */
-	public static String AuthOperateButton() {
+	public static String authOperateButton() {
 		// 页面权限及按钮权限
 		int NodeId = RequestParameters.getInt("NodeId");
 		// 判断登录
@@ -57,7 +57,7 @@ public class Utits {
 	 * 
 	 * @return
 	 */
-	public static ResultMessage AccessPageAuth() {
+	public static ResultMessage accessPageAuth() {
 		UUID iUSERID = Utits.CurrentUserId;
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
@@ -79,12 +79,12 @@ public class Utits {
 	 * @param iCurrentPageNodeId 当前操作页面的ID
 	 * @return
 	 */
-	public static ResultMessage AccessPageAuth(int[] iRangePage, int iCurrentPageNodeId) {
+	public static ResultMessage accessPageAuth(int[] iRangePage, int iCurrentPageNodeId) {
 		ResultMessage s = new ResultMessage();
 		s.setErrorCode(EErrorCode.Success);
 		s.setErrorMessage("有操作权限.");
 		return s;
-		
+
 //		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
 //			ResultMessage resultMessage = new ResultMessage();
 //			resultMessage.setErrorCode(EErrorCode.NoContainsNodeId);
@@ -122,7 +122,7 @@ public class Utits {
 	 * @param iCurrentButtonId   当前操作按钮的ID
 	 * @return
 	 */
-	public static ResultMessage IsOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int iCurrentButtonId) {
+	public static ResultMessage isOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int iCurrentButtonId) {
 		UUID iUSERID = Utits.CurrentUserId;
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
@@ -160,7 +160,7 @@ public class Utits {
 	 * @param iCurrentButtonId   当前操作按钮的ID
 	 * @return
 	 */
-	public static ResultMessage IsOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int[] iRangeButton,
+	public static ResultMessage isOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int[] iRangeButton,
 			int iCurrentButtonId) {
 		UUID iUSERID = Utits.CurrentUserId;
 		if (iUSERID == UUIDUtils.Empty) {

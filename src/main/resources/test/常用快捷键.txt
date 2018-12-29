@@ -27,5 +27,7 @@ ctrl+shift+o 头部导包
 alt + shift + a
 
 
+Eclipse中格式化JS代码:https://blog.csdn.net/lx_nhs/article/details/80265627
 
+Eclipse重命名方法  alt + shift + r
 

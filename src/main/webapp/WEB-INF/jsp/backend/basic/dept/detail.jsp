@@ -19,14 +19,7 @@
 	rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>/static/css/sysrespond.css?v=1.0.0"
 	rel="stylesheet" type="text/css" />
-
-<script src="<%=basePath%>/static/js/jquery/jquery/1.11.3/jquery.js"
-	type="text/javascript"></script>
-<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
-	type="text/javascript"></script>
-<script src="<%=basePath%>/static/js/missy/missy/2.1.0/missy.js"
-	type="text/javascript"></script>
-
+	
 <body class="RightBody">
 	<form id="form1">
 		<!--OperateButton Begin-->
@@ -67,6 +60,17 @@
 		data-DetailPageNodeId="${DetailPageNodeId}"
 		data-BasePath="<%=basePath%>" />
 	<!-- PageParam End -->
+	
+	<!-- Script Begin -->
+	<script src="<%=basePath%>/static/js/jquery/jquery/1.11.3/jquery.js"
+	type="text/javascript"></script>
+<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
+	type="text/javascript"></script>
+<script src="<%=basePath%>/static/js/missy/missy/2.2.0/missy.js"
+	type="text/javascript"></script>
+<script src="<%=basePath%>/static/script/backend/basic/dept/detail.js"
+	type="text/javascript"></script>
+	<!-- Script End -->
 </body>
 </html>
 

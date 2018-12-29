@@ -19,12 +19,6 @@
 <link href="<%=basePath%>/static/css/sysrespond.css?v=1.0.0"
 	rel="stylesheet" type="text/css" />
 
-<script src="<%=basePath%>/static/js/jquery/jquery/1.11.3/jquery.js"
-	type="text/javascript"></script>
-<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
-	type="text/javascript"></script>
-<script src="<%=basePath%>/static/js/missy/missy/2.1.0/missy.js"
-	type="text/javascript"></script>
 
 </head>
 <body class="RightBody">
@@ -75,5 +69,17 @@
 		data-DetailPageNodeId="${DetailPageNodeId}"
 		data-BasePath="<%=basePath%>" />
 	<!-- PageParam End -->
+
+	<!-- Script Begin -->
+	<script src="<%=basePath%>/static/js/jquery/jquery/1.11.3/jquery.js"
+		type="text/javascript"></script>
+	<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
+		type="text/javascript"></script>
+	<script src="<%=basePath%>/static/js/missy/missy/2.2.0/missy.js"
+		type="text/javascript"></script>
+	<script src="<%=basePath%>/static/script/backend/basic/dept/list.js"
+		type="text/javascript"></script>
+	<!-- Script End -->
+
 </body>
 </html>

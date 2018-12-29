@@ -1017,6 +1017,33 @@ JavaScript脚本命名法规则如下
             } else {
                 layer.confirm(msg, { icon: 3, title: "提示" }, yes);
             }
+        },        
+        iWrongMessage: function (errorCode,errorMessage) //错误
+        {
+        	switch (errorCode)
+			{
+			case "0": // 错误
+				MISSY.iErrorMessage(errorMessage);
+				return;
+			case "1": // 返回正确数据
+				MISSY.iSuccessMessage(errorMessage);
+				return;
+			case "2": // 请求地址不正确
+				MISSY.iNoFound(errorMessage);
+				return;
+			case "3": // 未登录
+				MISSY.iNoLogin(errorMessage);
+				return;
+			case "4": // 无页面权限
+				MISSY.iNoPageAuth(errorMessage);
+				return;
+			case "5": // 无操作权限
+				MISSY.iNoOperateAuth(errorMessage);
+				return;
+			default:
+				MISSY.iErrorMessage(errorMessage);
+				return;
+			}
         },
         iErrorReturnNull: function () //返回null
         {
