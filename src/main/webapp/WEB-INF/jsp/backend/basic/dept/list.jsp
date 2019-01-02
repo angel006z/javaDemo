@@ -75,6 +75,8 @@
 		type="text/javascript"></script>
 	<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
 		type="text/javascript"></script>
+		<script src="<%=basePath%>/static/js/layer/laypage/1.3.0/laypage.js"
+		type="text/javascript"></script>
 	<script src="<%=basePath%>/static/js/missy/missy/2.2.0/missy.js"
 		type="text/javascript"></script>
 	<script src="<%=basePath%>/static/script/backend/basic/dept/list.js"

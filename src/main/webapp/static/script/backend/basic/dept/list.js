@@ -60,7 +60,7 @@ function changePage(paramCurrentPage, paramPageSize) {
 		dataType : "json",
 		beforeSend : function() {
 			$("#tblist tr:gt(0)").remove();
-			$("#tblist").append("<tr><td align=\"center\" colspan=\"" + colNumber + "\">加载中，请稍等．．．</td></tr>");
+			$("#tblist").append("<tr><td align=\"center\" colspan=\"" + colNumber + "\">加载中，请稍等．．．</td></tr>");			
 		},
 		success : function(response) {
 			$("#tblist tr:gt(0)").remove();
@@ -87,79 +87,21 @@ function changePage(paramCurrentPage, paramPageSize) {
 			if (buf.length <= 0)
 				buf.push("<tr><td align=\"center\" colspan=\"" + colNumber + "\">暂无数据．</td></tr>");
 			$("#tblist tr:gt(0)").remove();
-			$("#tblist").append(buf.join(""));
-
-			var pagination = response.pagination;
-			var responseTotalRecord = pagination.totalRecord;
-			var responsePageSize = pagination.PageSize;
-			var responseCurrentPage = pagination.CurrentPage;
-			g_CurrentPage = responseCurrentPage;
-			var responsePageCount = pagination.PageCount;
-			g_PageCount = responsePageCount;
-			if (responsePageCount > 1) {
-				var bufPagination = new Array();
-				bufPagination.push("<div class=\"pagination_main\">");
-				bufPagination.push("<span>总数：" + responseTotalRecord + "</span>");
-				bufPagination.push("<span>第" + responseCurrentPage + "/" + responsePageCount + "页</span>");
-				if (responseCurrentPage <= 1 || responseCurrentPage - 1 > responsePageCount)
-					bufPagination.push("<a class=\"pagination_prev\" style=\"color:gray;\">上一页</a>");
-				else
-					bufPagination.push("<a class=\"pagination_prev\" id=\"BtnPrevPage\" href=\"javascript:void(0);\">上一页</a>");
-
-				if (responseCurrentPage >= responsePageCount)
-					bufPagination.push("<a class=\"pagination_next\" style=\"color:gray;\">下一页</a>");
-				else
-					bufPagination.push("<a class=\"pagination_next\" id=\"BtnNextPage\" href=\"javascript:void(0);\">下一页</a>");
-
-				bufPagination.push("<label>到第</label><input type=\"text\" class=\"pagination_input\" id=\"txtGoPage\" /><label>页</label>");
-				bufPagination.push("<input type=\"button\" id=\"BtnConfirmPageGo\" class=\"pagination_button\" value=\"确定\" />");
-				bufPagination.push("</div>");
-				$("#divPagination").html(bufPagination.join(""));
-				$("#BtnPrevPage").on("click", function() {
-					changePage((responseCurrentPage - 1), responsePageSize);
-				});
-				$("#BtnNextPage").on("click", function() {
-					changePage((responseCurrentPage + 1), responsePageSize);
-				});
-				$("#txtGoPage").on("keydown", function() {
-					clickPageChange(13);
-				});
-				$("#BtnConfirmPageGo").on("click", function() {
-					clickPageChange();
-				});
-			} else {
-				$("#divPagination").html("");
-			}
+			$("#tblist").append(buf.join(""));		
+			
+			g_CurrentPage = response.pagination.CurrentPage;
+			g_PageCount = response.pagination.PageCount;
+			if (g_PageCount > 1) {
+	              MISSY.setCommonPagination(g_PageCount, g_CurrentPage, response.pagination.PageSize, 'divPagination', changePage);
+	        }		 
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);
 			$("#tblist tr:gt(0)").remove();
-			$("#tblist").append("<tr><td align=\"center\" colspan=\"" + colNumber + "\">系统性错误，请稍后再试.或点击<a href=\"javascript:clickRefresh()\">刷新</a></td></tr>");
+			$("#tblist").append("<tr><td align=\"center\" colspan=\"" + colNumber + "\">系统性错误，请稍后再试.或点击<a href=\"javascript:;\" class=\"errorRefresh\">刷新</a></td></tr>");
+			$("#tblist .errorRefresh").click(function(){clickRefresh();});
 		}
 	});
-}
-
-function clickPageChange(codeType) {
-	var isOkRun = false;
-	if (codeType === 13) {
-		if (event.keyCode === 13) {
-			isOkRun = true;
-		}
-	} else {
-		isOkRun = true;
-	}
-	if (isOkRun === false)
-		return;
-
-	var objGoPage = document.getElementById("txtGoPage");
-	var tempGoPage = objGoPage.value;
-	if (tempGoPage != null) {
-		if (!tempGoPage.match(/^[1-9]+\d*$/)) {
-			objGoPage.value = "";
-			return;
-		}
-	}
-	changePage(tempGoPage, g_PageSize);
 }
 
 function clickRefresh() {
@@ -179,7 +121,7 @@ function clickUpdate() {
 	var checkboxlist = document.getElementsByName("nameCbox");
 	var checkboxLength = 0;
 	for (var j = 0; j < checkboxlist.length; j++) {
-		if (checkboxlist[j].type === "checkbox") {
+		if (checkboxlist[j].type == "checkbox") {
 			if (checkboxlist[j].checked) {
 				checkboxLength++;
 			}
@@ -190,7 +132,7 @@ function clickUpdate() {
 		return;
 	}
 	for (var i = 0; i < checkboxlist.length; i++) {
-		if (checkboxlist[i].type === "checkbox") {
+		if (checkboxlist[i].type == "checkbox") {
 			if (checkboxlist[i].checked) {
 				id = checkboxlist[i].value;
 				break;
@@ -224,7 +166,7 @@ function confirmBatchOperate(paramButtonId, paramIds) {
 				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
 				return;
 			}
-			MISSY.iSuccessMessage(response.errorMessage, ClickRefresh);			
+			MISSY.iSuccessMessage(response.errorMessage, clickRefresh);			
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

@@ -4,12 +4,13 @@ import com.meida.base.vo.Pagination;
 
 public class DeptListDto {
 	public DeptListDto() {
-		
+
 	}
-	
+
 	private String deptCode;
-	private String deptName;
 	
+	private String deptName;
+
 	private Pagination pagination;
 
 	public Pagination getPagination() {

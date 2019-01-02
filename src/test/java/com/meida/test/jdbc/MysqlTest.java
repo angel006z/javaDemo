@@ -15,7 +15,7 @@ import org.junit.Test;
  * Java 数据库连接，（Java Database Connectivity，简称JDBC）是Java语言中用来规范客户端程序如何来访问数据库的应用程序接口，提供了诸如查询和更新数据库中数据的方法。JDBC也是Sun Microsystems的商标。它JDBC是面向关系型数据库的。
  * 简单地说，就是用于执行SQL语句的一类Java API，通过JDBC使得我们可以直接使用Java编程来对关系数据库进行操作。通过封装，可以使开发人员使用纯Java API完成SQL的执行。
  */
-public class JdbcTest {
+public class MysqlTest {
 	
 	@Test
 	public void testInsert() {

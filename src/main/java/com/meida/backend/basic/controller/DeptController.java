@@ -27,6 +27,7 @@ import com.meida.common.util.UUIDUtils;
 import com.meida.common.util.Utits;
 import com.meida.common.util.constant.EButtonType;
 import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.util.constant.ESystemStatus;
 import com.meida.common.util.nodepage.EDept;
 
 /**
@@ -102,7 +103,7 @@ public class DeptController extends BaseBackendController {
 		int iCurrentPage = RequestParameters.getInt("currentPage");
 		// 一页的数量
 		int iPageSize = RequestParameters.getInt("pageSize");
-		iPageSize = iPageSize <= 0 ? 5 : iPageSize;
+		iPageSize = iPageSize <= 0 ? 1 : iPageSize;
 		iPageSize = iPageSize > 100 ? 100 : iPageSize;
 
 		String deptName = RequestParameters.getString("deptName");
@@ -184,7 +185,7 @@ public class DeptController extends BaseBackendController {
 		UUID id = RequestParameters.getGuid("id");
 		if (isAdd) {
 			item.setCreateDate(DateUtils.now());
-			item.setIsValid(1);
+			item.setIsValid(ESystemStatus.Valid);
 		} else {
 			item.setDeptId(id.toString());
 		}
