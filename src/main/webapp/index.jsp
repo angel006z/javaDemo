@@ -13,6 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<p>${999%4}</p>
 	server.xml 的path修改为/ 则不需要项目名称
 	<br>
+	<a href="<%=basePath%>/backend/basic/login/index">login</a>
+	<br>
 	<a href="<%=basePath%>/backend/basic/user/list?NodeId=100">user
 		list</a>
 	<br>

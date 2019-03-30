@@ -20,14 +20,7 @@ public class User implements Serializable {
 
     private String realPassword;
 
-    private String phone;
-
-    private String telphone;
-
-    private String email;
-
-    private Date loginLastDate;
-
+    private Integer userSort;
     private Date createDate;
 
     private Date operateDate;
@@ -40,163 +33,117 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public User(String userId, String userCode, String userName, String password, String roleId, String deptId, String realName, String realPassword, String phone, String telphone, String email, Date loginLastDate, Date createDate, Date operateDate, String operatorId, Integer isValid, String remark) {
-        this.userId = userId;
-        this.userCode = userCode;
-        this.userName = userName;
-        this.password = password;
-        this.roleId = roleId;
-        this.deptId = deptId;
-        this.realName = realName;
-        this.realPassword = realPassword;
-        this.phone = phone;
-        this.telphone = telphone;
-        this.email = email;
-        this.loginLastDate = loginLastDate;
-        this.createDate = createDate;
-        this.operateDate = operateDate;
-        this.operatorId = operatorId;
-        this.isValid = isValid;
-        this.remark = remark;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public User() {
-        super();
-    }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public String getUserCode() {
+		return userCode;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
 
-    public String getUserCode() {
-        return userCode;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setUserCode(String userCode) {
-        this.userCode = userCode == null ? null : userCode.trim();
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getRoleId() {
+		return roleId;
+	}
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
 
-    public String getRoleId() {
-        return roleId;
-    }
+	public String getDeptId() {
+		return deptId;
+	}
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId == null ? null : roleId.trim();
-    }
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
 
-    public String getDeptId() {
-        return deptId;
-    }
+	public String getRealName() {
+		return realName;
+	}
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId == null ? null : deptId.trim();
-    }
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
 
-    public String getRealName() {
-        return realName;
-    }
+	public String getRealPassword() {
+		return realPassword;
+	}
 
-    public void setRealName(String realName) {
-        this.realName = realName == null ? null : realName.trim();
-    }
+	public void setRealPassword(String realPassword) {
+		this.realPassword = realPassword;
+	}
 
-    public String getRealPassword() {
-        return realPassword;
-    }
+	public Integer getUserSort() {
+		return userSort;
+	}
 
-    public void setRealPassword(String realPassword) {
-        this.realPassword = realPassword == null ? null : realPassword.trim();
-    }
+	public void setUserSort(Integer userSort) {
+		this.userSort = userSort;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public String getTelphone() {
-        return telphone;
-    }
+	public Date getOperateDate() {
+		return operateDate;
+	}
 
-    public void setTelphone(String telphone) {
-        this.telphone = telphone == null ? null : telphone.trim();
-    }
+	public void setOperateDate(Date operateDate) {
+		this.operateDate = operateDate;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getOperatorId() {
+		return operatorId;
+	}
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
+	public void setOperatorId(String operatorId) {
+		this.operatorId = operatorId;
+	}
 
-    public Date getLoginLastDate() {
-        return loginLastDate;
-    }
+	public Integer getIsValid() {
+		return isValid;
+	}
 
-    public void setLoginLastDate(Date loginLastDate) {
-        this.loginLastDate = loginLastDate;
-    }
+	public void setIsValid(Integer isValid) {
+		this.isValid = isValid;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public Date getOperateDate() {
-        return operateDate;
-    }
-
-    public void setOperateDate(Date operateDate) {
-        this.operateDate = operateDate;
-    }
-
-    public String getOperatorId() {
-        return operatorId;
-    }
-
-    public void setOperatorId(String operatorId) {
-        this.operatorId = operatorId == null ? null : operatorId.trim();
-    }
-
-    public Integer getIsValid() {
-        return isValid;
-    }
-
-    public void setIsValid(Integer isValid) {
-        this.isValid = isValid;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+  
 }
