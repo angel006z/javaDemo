@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meida.backend.basic.dao.inter.IUserDao">
+
+	<resultMap id="myResultMap"
+		type="com.meida.backend.basic.po.User">
+		<id property="userId" column="userId"></id>
+		<result property="userCode" column="userCode"></result>
+		<result property="userName" column="userName"></result>
+		<result property="userSort" column="userSort"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+
+	<select id="getObjectById" parameterType="java.lang.String"
+		resultMap="myResultMap">
+		select
+		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		from tbUser where userId=#{id}
+	</select>
+	
+	<select id="isExistUserName" parameterType="java.lang.String" resultType="java.lang.Long">
+		select count(*) from tbUser	where userName=#{userName}
+	</select>
+	
+	<select id="loginUser"
+		resultMap="myResultMap">
+		select
+		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		from tbUser where userName=#{arg0} and password=#{arg1}
+	</select>
+	
+	<select id="getListByAll" resultMap="myResultMap">
+		select
+		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		from tbUser
+	</select>
+
+
+	<select id="getListByValid" resultMap="myResultMap">
+		select
+		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		from tbUser where isValid=1
+	</select>
+
+	<select id="getListByPage"
+		parameterType="com.meida.backend.basic.dto.UserListDto"
+		resultMap="myResultMap">
+		select
+		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		from tbUser
+		where isValid=1
+		<if test="userCode != null and userCode!=''">
+			AND userCode like "%"#{userCode}"%"
+		</if>
+		<if test="userName != null and userName!=''">
+			AND userName like "%"#{userName}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+
+
+	<select id="getTotalRecord"
+		parameterType="com.meida.backend.basic.dto.UserListDto" resultType="java.lang.Long">
+		select count(*) from tbUser
+		where isValid=1
+		<if test="userCode != null and userCode!=''">
+			AND userCode like "%"#{userCode}"%"
+		</if>
+		<if test="userName != null and userName!=''">
+			AND userName like "%"#{userName}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+
+
+	<insert id="save"
+		parameterType="com.meida.backend.basic.po.User">
+		insert into tbUser (userId,userCode,userName,password,realPassword,roleId,deptId,userSort,createDate,operateDate,operatorId,isValid,remark) values
+		(#{userId},#{userCode},#{userName},#{password},#{realPassword},#{roleId},#{deptId},
+#{userSort},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark})
+	</insert>
+
+
+	<update id="update"
+		parameterType="com.meida.backend.basic.po.User">
+		update tbUser
+		<set>
+			<if test="userCode!=null">
+				userCode=#{userCode},
+			</if>
+			<if test="userCode!=null">
+				userName=#{userName},
+			</if>
+			<if test="userSort!=null">
+				userSort=#{userSort},
+			</if>
+			<if test="operateDate!=null">
+				operateDate=#{operateDate},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark} 
+			</if>
+		</set>
+		where userId=#{userId}
+	</update>
+
+
+	<delete id="deletePhysicalById" parameterType="java.lang.String">
+		delete from tbUser
+		where userId=#{id}
+	</delete>
+
+
+	<delete id="deleteLogicById" parameterType="java.lang.String">
+		update tbUser set
+		isValid=-1 where userId=#{id}
+	</delete>
+
+</mapper>
