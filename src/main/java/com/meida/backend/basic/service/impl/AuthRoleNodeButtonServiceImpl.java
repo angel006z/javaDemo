@@ -47,6 +47,6 @@ public class AuthRoleNodeButtonServiceImpl implements IAuthRoleNodeButtonService
 	@Override
 	public boolean isAuthRoleNodeButton(UUID iUSERID, int iCurrentPageNodeId, int iCurrentButtonId, boolean isSuper) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }

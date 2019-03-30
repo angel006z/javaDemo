@@ -9,7 +9,9 @@ public class Dept implements Serializable {
     private String deptCode;
 
     private String deptName;
-
+    
+    private Integer deptSort;
+    
     private Date createDate;
 
     private Date operateDate;
@@ -22,21 +24,7 @@ public class Dept implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Dept(String deptId, String deptCode, String deptName, Date createDate, Date operateDate, String operatorId, Integer isValid, String remark) {
-        this.deptId = deptId;
-        this.deptCode = deptCode;
-        this.deptName = deptName;
-        this.createDate = createDate;
-        this.operateDate = operateDate;
-        this.operatorId = operatorId;
-        this.isValid = isValid;
-        this.remark = remark;
-    }
-
-    public Dept() {
-        super();
-    }
-
+    
     public String getDeptId() {
         return deptId;
     }
@@ -100,4 +88,12 @@ public class Dept implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public Integer getDeptSort() {
+		return deptSort;
+	}
+
+	public void setDeptSort(Integer deptSort) {
+		this.deptSort = deptSort;
+	}
 }

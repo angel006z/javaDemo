@@ -9,7 +9,7 @@ import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.RequestParameters;
 import com.meida.common.util.Utits;
 import com.meida.common.util.constant.EErrorCode;
-import com.meida.common.util.nodepage.EUser;
+import com.meida.common.util.constant.ENodePage;
 
 
 /**
@@ -21,10 +21,10 @@ import com.meida.common.util.nodepage.EUser;
 @RequestMapping(value = "/backend/basic/user")
 public class UserController extends BaseBackendController {
 
-	private int ListPageNodeId = EUser.ListPage;
-	private int AddPageNodeId = EUser.AddPage;
-	private int EditPageNodeId = EUser.EditPage;
-	private int DetailPageNodeId = EUser.DetailPage;
+	private int ListPageNodeId = ENodePage.UserListPage;
+	private int AddPageNodeId = ENodePage.UserAddPage;
+	private int EditPageNodeId = ENodePage.UserEditPage;
+	private int DetailPageNodeId = ENodePage.UserDetailPage;
 
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {

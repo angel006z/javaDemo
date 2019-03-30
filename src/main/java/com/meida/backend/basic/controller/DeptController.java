@@ -27,8 +27,8 @@ import com.meida.common.util.UUIDUtils;
 import com.meida.common.util.Utits;
 import com.meida.common.util.constant.EButtonType;
 import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.util.constant.ENodePage;
 import com.meida.common.util.constant.ESystemStatus;
-import com.meida.common.util.nodepage.EDept;
 
 /**
  * 部门管理
@@ -36,10 +36,10 @@ import com.meida.common.util.nodepage.EDept;
 @Controller
 @RequestMapping(value = "/backend/basic/dept")
 public class DeptController extends BaseBackendController {
-	private int ListPageNodeId = EDept.ListPage;
-	private int AddPageNodeId = EDept.AddPage;
-	private int EditPageNodeId = EDept.EditPage;
-	private int DetailPageNodeId = EDept.DetailPage;
+	private int ListPageNodeId = ENodePage.DeptListPage;
+	private int AddPageNodeId = ENodePage.DeptAddPage;
+	private int EditPageNodeId = ENodePage.DeptEditPage;
+	private int DetailPageNodeId = ENodePage.DeptDetailPage;
 	
 	@Autowired
 	private IDeptService deptService;
@@ -173,6 +173,7 @@ public class DeptController extends BaseBackendController {
 
 		String deptCode = RequestParameters.getString("deptCode");
 		String deptName = RequestParameters.getString("deptName");
+		int deptSort = RequestParameters.getInt("deptSort");
 		String remark = RequestParameters.getString("remark");
 		if (deptName.length() <= 0) {
 			ResultMessage resultMessage = new ResultMessage();
@@ -184,6 +185,7 @@ public class DeptController extends BaseBackendController {
 		Dept item = new Dept();
 		UUID id = RequestParameters.getGuid("id");
 		if (isAdd) {
+			item.setDeptId(UUID.randomUUID().toString());
 			item.setCreateDate(DateUtils.now());
 			item.setIsValid(ESystemStatus.Valid);
 		} else {
@@ -192,6 +194,7 @@ public class DeptController extends BaseBackendController {
 		item.setOperateDate(DateUtils.now());
 		item.setDeptCode(deptCode);
 		item.setDeptName(deptName);
+		item.setDeptSort(deptSort);
 		item.setRemark(remark);
 		
 		boolean isFlag = deptService.addOrUpdate(item, isAdd);

@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<a href="<%=basePath%>/backend/basic/user/list?NodeId=100">user
 		list</a>
 	<br>
-	<a href="<%=basePath%>/backend/basic/user/role?NodeId=200">role
+	<a href="<%=basePath%>/backend/basic/role/list?NodeId=200">role
 		list</a>
 	<br>
 	<a href="<%=basePath%>/backend/basic/dept/list?NodeId=300">dept

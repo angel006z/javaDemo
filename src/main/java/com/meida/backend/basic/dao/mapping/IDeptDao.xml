@@ -7,6 +7,7 @@
 		<id property="deptId" column="deptId"></id>
 		<result property="deptCode" column="deptCode"></result>
 		<result property="deptName" column="deptName"></result>
+		<result property="deptSort" column="deptSort"></result>
 		<result property="createDate" column="createDate"></result>
 		<result property="operateDate" column="operateDate"></result>
 		<result property="operatorId" column="operatorId"></result>
@@ -18,29 +19,29 @@
 	<select id="getObjectById" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark
-		from dept where deptId=#{id}
+		deptId,deptCode,deptName,deptSort,createDate,operateDate,operatorId,isValid,remark
+		from tbDept where deptId=#{id}
 	</select>
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark
-		from dept
+		deptId,deptCode,deptName,deptSort,createDate,operateDate,operatorId,isValid,remark
+		from tbDept
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark
-		from dept where isValid=1
+		deptId,deptCode,deptName,deptSort,createDate,operateDate,operatorId,isValid,remark
+		from tbDept where isValid=1
 	</select>
 
 	<select id="getListByPage"
 		parameterType="com.meida.backend.basic.dto.DeptListDto"
 		resultMap="myResultMap">
 		select
-		deptId,deptCode,deptName,createDate,operateDate,operatorId,isValid,remark
-		from dept
+		deptId,deptCode,deptName,deptSort,createDate,operateDate,operatorId,isValid,remark
+		from tbDept
 		where isValid=1
 		<if test="deptCode != null and deptCode!=''">
 			AND deptCode like "%"#{deptCode}"%"
@@ -55,7 +56,7 @@
 
 	<select id="getTotalRecord"
 		parameterType="com.meida.backend.basic.dto.DeptListDto" resultType="java.lang.Long">
-		select count(*) from dept
+		select count(*) from tbDept
 		where isValid=1
 		<if test="deptCode != null and deptCode!=''">
 			AND deptCode like "%"#{deptCode}"%"
@@ -70,35 +71,44 @@
 
 	<insert id="save"
 		parameterType="com.meida.backend.basic.po.Dept">
-		insert into dept (deptId,deptCode,deptName) values
-		(#{deptId},#{deptCode},#{deptName})
+		insert into tbDept (deptId,deptCode,deptName,deptSort,createDate,operateDate,operatorId,isValid,remark) values 
+		(#{deptId},#{deptCode},#{deptName},#{deptSort},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark})
 	</insert>
 
 
 	<update id="update"
 		parameterType="com.meida.backend.basic.po.Dept">
-		update dept
+		update tbDept
 		<set>
 			<if test="deptCode!=null">
 				deptCode=#{deptCode},
 			</if>
 			<if test="deptCode!=null">
-				deptName=#{deptName}
+				deptName=#{deptName},
 			</if>
+			<if test="deptSort!=null">
+				deptSort=#{deptSort}, 
+			</if>
+			<if test="operateDate!=null">
+				operateDate=#{operateDate},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark} 
+			</if>			
 		</set>
-		where deptId=#{id}
+		where deptId=#{deptId}
 	</update>
 
 
 	<delete id="deletePhysicalById" parameterType="java.lang.String">
-		delete from dept
+		delete from tbDept
 		where deptId=#{id}
 	</delete>
 
 
 	<delete id="deleteLogicById" parameterType="java.lang.String">
-		update dept set
-		isValid=1 where deptId=#{id}
+		update tbDept set
+		isValid=-1 where deptId=#{id}
 	</delete>
 
 </mapper>

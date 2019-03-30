@@ -23,5 +23,5 @@ public class ESystemStatus {
 	/**
 	 * 禁用
 	 */
-	public final static int Forbidden = 2; 
+	public final static int Forbidden = -2; 
 }

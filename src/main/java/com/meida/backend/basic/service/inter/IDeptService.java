@@ -19,7 +19,8 @@ public interface IDeptService {
 	/**
 	 * 批执行操作多条记录 删除、禁用、启用等
 	 * 
-	 * @param id
+	 * @param ids
+	 * @param command
 	 * @return
 	 */
 	public boolean batchExecuteByIds(Serializable[] ids, String command);
@@ -45,6 +46,11 @@ public interface IDeptService {
 	 * @return
 	 */
 	public List<Dept> getListByValid();
-
+	
+    /**
+     * 根据条件查记录
+     * @param whereItem
+     * @return
+     */
 	public List<Dept> getListByPage(DeptListDto whereItem);
 }
