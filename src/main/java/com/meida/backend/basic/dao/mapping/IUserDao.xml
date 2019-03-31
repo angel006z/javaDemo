@@ -160,7 +160,12 @@
 		where userId=#{userId}
 	</update>
 
-
+<update id="changePassword"
+		parameterType="java.lang.String">
+		update tbUser set password=#{arg1},operateDate=now()		
+		where userId=#{arg0}
+	</update>
+	
 	<delete id="deletePhysicalById" parameterType="java.lang.String">
 		delete from tbUser
 		where userId=#{id}

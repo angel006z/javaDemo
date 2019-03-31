@@ -15,12 +15,21 @@ import com.meida.backend.basic.service.impl.AuthRoleNodeServiceImpl;
 import com.meida.backend.basic.service.inter.IAuthRoleNodeButtonService;
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.util.security.MD5Utils;
 
 public class Utits {
-
-	public static UUID CurrentUserId;
+	public static UUID getCurrentUserId() {
+		String userId= SessionHelper.getString("USERID");
+		if(StringUtils.isEmpty(userId))
+			return UUIDUtils.Empty;
+		return UUID.fromString(userId);
+	}
+	
 	public static boolean IsSuper = false;
 
+	public static boolean isLogin() {		
+		return getCurrentUserId()!=UUIDUtils.Empty;
+	}
 	/**
 	 * 动态生成查看、修改、增加、删除、等按钮
 	 * 
@@ -30,7 +39,7 @@ public class Utits {
 		// 页面权限及按钮权限
 		int NodeId = RequestParameters.getInt("NodeId");
 		// 判断登录
-		UUID UserId = Utits.CurrentUserId;
+		UUID UserId = Utits.getCurrentUserId();
 
 		if (!new AuthRoleNodeServiceImpl().IsNodePageAuth(UserId, NodeId, IsSuper)) {
 			return "";
@@ -58,7 +67,7 @@ public class Utits {
 	 * @return
 	 */
 	public static ResultMessage accessPageAuth() {
-		UUID iUSERID = Utits.CurrentUserId;
+		UUID iUSERID = Utits.getCurrentUserId();
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.NoLogin);
@@ -123,7 +132,7 @@ public class Utits {
 	 * @return
 	 */
 	public static ResultMessage isOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int iCurrentButtonId) {
-		UUID iUSERID = Utits.CurrentUserId;
+		UUID iUSERID = Utits.getCurrentUserId();
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.NoLogin);
@@ -162,7 +171,7 @@ public class Utits {
 	 */
 	public static ResultMessage isOperateAuth(int[] iRangePage, int iCurrentPageNodeId, int[] iRangeButton,
 			int iCurrentButtonId) {
-		UUID iUSERID = Utits.CurrentUserId;
+		UUID iUSERID = Utits.getCurrentUserId();
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.NoLogin);
@@ -195,5 +204,7 @@ public class Utits {
 			return resultMessage;
 		}
 	}
+	
+	
 
 }

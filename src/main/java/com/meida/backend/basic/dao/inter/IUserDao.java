@@ -12,5 +12,7 @@ public interface IUserDao extends IBaseDao<User> {
 	
 	long isExistUserName(String userName);
 
-	User loginUser(String userName, String password);	
+	User loginUser(String userName, String password);
+
+	boolean changePassword(String userId, String password);	
 }

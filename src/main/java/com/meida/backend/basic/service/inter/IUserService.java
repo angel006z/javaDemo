@@ -58,4 +58,6 @@ public interface IUserService{
 	public boolean isExistUserName(String userName);
 
 	public User loginUser(String userName, String password);
+
+	public boolean changePassword(String userId, String newPassword);
 }
