@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meida.backend.basic.dao.inter.IUserDao;
-import com.meida.backend.basic.dto.UserListDto;
-import com.meida.backend.basic.po.User;
+import com.meida.backend.basic.domain.dto.UserListDto;
+import com.meida.backend.basic.domain.po.User;
+import com.meida.backend.basic.domain.vo.UserVo;
 import com.meida.backend.basic.service.inter.IUserService;
-import com.meida.base.vo.Pagination;
+import com.meida.base.domain.vo.Pagination;
 import com.meida.common.util.constant.EButtonType;
 
 @Service
@@ -58,12 +59,12 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<User> getListByPage(UserListDto whereItem) {
+	public List<UserVo> getListByPage(UserListDto whereItem) {
 		long totalRecord = userDao.getTotalRecord(whereItem);
 		Pagination pagination = new Pagination();
 		pagination.setTotalRecord(totalRecord);
 		whereItem.setPagination(pagination);
-		return userDao.getListByPage(whereItem);
+		return userDao.getListWhereByPage(whereItem);
 	}
 
 	

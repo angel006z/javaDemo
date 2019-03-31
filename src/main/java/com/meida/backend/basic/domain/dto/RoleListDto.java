@@ -1,6 +1,6 @@
-package com.meida.backend.basic.dto;
+package com.meida.backend.basic.domain.dto;
 
-import com.meida.base.vo.Pagination;
+import com.meida.base.domain.vo.Pagination;
 
 public class RoleListDto {
 	public RoleListDto() {

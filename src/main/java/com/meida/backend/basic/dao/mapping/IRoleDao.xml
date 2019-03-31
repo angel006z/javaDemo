@@ -3,7 +3,7 @@
 <mapper namespace="com.meida.backend.basic.dao.inter.IRoleDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.backend.basic.po.Role">
+		type="com.meida.backend.basic.domain.po.Role">
 		<id property="roleId" column="roleId"></id>
 		<result property="roleCode" column="roleCode"></result>
 		<result property="roleName" column="roleName"></result>
@@ -37,7 +37,7 @@
 	</select>
 
 	<select id="getListByPage"
-		parameterType="com.meida.backend.basic.dto.RoleListDto"
+		parameterType="com.meida.backend.basic.domain.dto.RoleListDto"
 		resultMap="myResultMap">
 		select
 		roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark
@@ -55,7 +55,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.backend.basic.dto.RoleListDto" resultType="java.lang.Long">
+		parameterType="com.meida.backend.basic.domain.dto.RoleListDto" resultType="java.lang.Long">
 		select count(*) from tbRole
 		where isValid=1
 		<if test="roleCode != null and roleCode!=''">
@@ -70,31 +70,34 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.backend.basic.po.Role">
-		insert into tbRole (roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark) values
+		parameterType="com.meida.backend.basic.domain.po.Role">
+		insert into tbRole (roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark) values 
 		(#{roleId},#{roleCode},#{roleName},#{roleSort},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark})
 	</insert>
 
 
 	<update id="update"
-		parameterType="com.meida.backend.basic.po.Role">
+		parameterType="com.meida.backend.basic.domain.po.Role">
 		update tbRole
 		<set>
 			<if test="roleCode!=null">
 				roleCode=#{roleCode},
 			</if>
-			<if test="roleCode!=null">
+			<if test="roleName!=null">
 				roleName=#{roleName},
 			</if>
 			<if test="roleSort!=null">
-				roleSort=#{roleSort},
+				roleSort=#{roleSort}, 
 			</if>
 			<if test="operateDate!=null">
 				operateDate=#{operateDate},
 			</if>
+			<if test="operatorId!=null">
+				operatorId=#{operatorId},
+			</if>
 			<if test="remark!=null">
 				remark=#{remark} 
-			</if>
+			</if>			
 		</set>
 		where roleId=#{roleId}
 	</update>

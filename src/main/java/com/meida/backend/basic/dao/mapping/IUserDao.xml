@@ -3,10 +3,13 @@
 <mapper namespace="com.meida.backend.basic.dao.inter.IUserDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.backend.basic.po.User">
+		type="com.meida.backend.basic.domain.po.User">
 		<id property="userId" column="userId"></id>
 		<result property="userCode" column="userCode"></result>
 		<result property="userName" column="userName"></result>
+		<result property="password" column="password"></result>
+		<result property="deptId" column="deptId"></result>
+		<result property="roleId" column="roleId"></result>
 		<result property="userSort" column="userSort"></result>
 		<result property="createDate" column="createDate"></result>
 		<result property="operateDate" column="operateDate"></result>
@@ -18,7 +21,7 @@
 	<select id="getObjectById" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
 		from tbUser where userId=#{id}
 	</select>
 	
@@ -29,35 +32,70 @@
 	<select id="loginUser"
 		resultMap="myResultMap">
 		select
-		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
 		from tbUser where userName=#{arg0} and password=#{arg1}
 	</select>
 	
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
 		from tbUser
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
 		from tbUser where isValid=1
 	</select>
 
-	<select id="getListByPage"
-		parameterType="com.meida.backend.basic.dto.UserListDto"
-		resultMap="myResultMap">
+<resultMap id="myPageResultMap"
+		type="com.meida.backend.basic.domain.vo.UserVo">
+		<id property="userId" column="userId"></id>
+		<result property="userCode" column="userCode"></result>
+		<result property="userName" column="userName"></result>
+		<result property="password" column="password"></result>
+		<result property="deptId" column="deptId"></result>
+		<result property="roleId" column="roleId"></result>
+		<result property="deptName" column="deptName"></result>
+		<result property="roleName" column="roleName"></result>
+		<result property="userSort" column="userSort"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+	<select id="getListWhereByPage"
+		parameterType="com.meida.backend.basic.domain.dto.UserListDto"
+		resultMap="myPageResultMap">
 		select
-		userId,userCode,userName,userSort,createDate,operateDate,operatorId,isValid,remark
-		from tbUser
-		where isValid=1
+		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		,b.deptName,c.roleName
+		from tbUser as a left join tbDept as b on a.deptId=b.deptId
+		left join tbRole as c on a.roleId=c.roleId
+		where a.isValid=1
 		<if test="userCode != null and userCode!=''">
-			AND userCode like "%"#{userCode}"%"
+			AND a.userCode like "%"#{userCode}"%"
 		</if>
 		<if test="userName != null and userName!=''">
-			AND userName like "%"#{userName}"%"
+			AND a.userName like "%"#{userName}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+	<select id="getListByPage"
+		parameterType="com.meida.backend.basic.domain.dto.UserListDto"
+		resultMap="myPageResultMap">
+		select
+		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tbUser as a 
+		where a.isValid=1
+		<if test="userCode != null and userCode!=''">
+			AND a.userCode like "%"#{userCode}"%"
+		</if>
+		<if test="userName != null and userName!=''">
+			AND a.userName like "%"#{userName}"%"
 		</if>
 		LIMIT
 		#{pagination.pageIndex},#{pagination.pageSize}
@@ -65,7 +103,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.backend.basic.dto.UserListDto" resultType="java.lang.Long">
+		parameterType="com.meida.backend.basic.domain.dto.UserListDto" resultType="java.lang.Long">
 		select count(*) from tbUser
 		where isValid=1
 		<if test="userCode != null and userCode!=''">
@@ -80,7 +118,7 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.backend.basic.po.User">
+		parameterType="com.meida.backend.basic.domain.po.User">
 		insert into tbUser (userId,userCode,userName,password,realPassword,roleId,deptId,userSort,createDate,operateDate,operatorId,isValid,remark) values
 		(#{userId},#{userCode},#{userName},#{password},#{realPassword},#{roleId},#{deptId},
 #{userSort},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark})
@@ -88,20 +126,32 @@
 
 
 	<update id="update"
-		parameterType="com.meida.backend.basic.po.User">
+		parameterType="com.meida.backend.basic.domain.po.User">
 		update tbUser
 		<set>
 			<if test="userCode!=null">
 				userCode=#{userCode},
 			</if>
-			<if test="userCode!=null">
+			<if test="userName!=null">
 				userName=#{userName},
+			</if>
+			<if test="password!=null">
+				password=#{password},
+			</if>
+			<if test="deptId!=null">
+				deptId=#{deptId},
+			</if>
+			<if test="roleId!=null">
+				roleId=#{roleId},
 			</if>
 			<if test="userSort!=null">
 				userSort=#{userSort},
 			</if>
 			<if test="operateDate!=null">
 				operateDate=#{operateDate},
+			</if>
+			<if test="operatorId!=null">
+				operatorId=#{operatorId},
 			</if>
 			<if test="remark!=null">
 				remark=#{remark} 

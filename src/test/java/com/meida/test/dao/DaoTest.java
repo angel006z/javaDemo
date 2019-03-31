@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.meida.backend.basic.dao.inter.IDeptDao;
-import com.meida.backend.basic.po.Dept;
+import com.meida.backend.basic.domain.po.Dept;
 
 //加载spring配置文件
 @RunWith(SpringJUnit4ClassRunner.class)

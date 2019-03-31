@@ -1,4 +1,4 @@
-package com.meida.base.vo;
+package com.meida.base.domain.vo;
 
 public class ResultDetail extends ResultMessage {
 	public Object data;

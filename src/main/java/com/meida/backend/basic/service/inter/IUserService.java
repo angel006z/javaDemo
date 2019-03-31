@@ -3,8 +3,9 @@ package com.meida.backend.basic.service.inter;
 import java.io.Serializable;
 import java.util.List;
 
-import com.meida.backend.basic.dto.UserListDto;
-import com.meida.backend.basic.po.User;
+import com.meida.backend.basic.domain.dto.UserListDto;
+import com.meida.backend.basic.domain.po.User;
+import com.meida.backend.basic.domain.vo.UserVo;
 
 public interface IUserService{
 	/**
@@ -52,7 +53,7 @@ public interface IUserService{
      * @param whereItem
      * @return
      */
-	public List<User> getListByPage(UserListDto whereItem);
+	public List<UserVo> getListByPage(UserListDto whereItem);
 
 	public boolean isExistUserName(String userName);
 

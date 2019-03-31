@@ -19,7 +19,6 @@
 	rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>/static/css/sysrespond.css?v=1.0.0"
 	rel="stylesheet" type="text/css" />
-	
 <body class="RightBody">
 	<form id="form1">
 		<!--OperateButton Begin-->
@@ -33,7 +32,6 @@
 		<div class="ContentArea" id="ContentArea">
 			<table class="tbdetail">
 				<tr>
-
 					<td style="text-align: right;"><span class="inputnull must">*</span>用户名称：
 					</td>
 					<td style="text-align: left;"><input type="text"
@@ -41,6 +39,24 @@
 					<td style="text-align: right; width: 20%;">用户编号：</td>
 					<td style="text-align: left;"><input type="text"
 						class="inputnull input" id="txtUserCode" /></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">部门：</td>
+					<td style="text-align: left;"><select id="ddlDeptId"
+						class="select">
+					</select></td>
+					<td style="text-align: right;">角色：</td>
+					<td style="text-align: left;"><select id="ddlRoleId"
+						class="select">
+					</select></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">密码：</td>
+					<td style="text-align: left;"><input type="password"
+						class="inputnull input" id="txtPassword" /></td>
+					<td style="text-align: right; width: 20%;">排序：</td>
+					<td style="text-align: left;"><input type="text"
+						class="inputnull input" id="txtUserSort" /></td>
 				</tr>
 				<tr>
 					<td style="text-align: right;">备注：</td>
@@ -60,13 +76,15 @@
 		data-DetailPageNodeId="${DetailPageNodeId}"
 		data-BasePath="<%=basePath%>" />
 	<!-- PageParam End -->
-	
+
 	<!-- Script Begin -->
 	<script src="<%=basePath%>/static/js/jquery/jquery/1.11.3/jquery.js"
-	type="text/javascript"></script>
-<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
-	type="text/javascript"></script>
-<script src="<%=basePath%>/static/js/missy/missy/2.2.0/missy.js"
+		type="text/javascript"></script>
+	<script src="<%=basePath%>/static/js/layer/layer/3.1.1/layer.js"
+		type="text/javascript"></script>
+	<script src="<%=basePath%>/static/js/missy/missy/2.2.0/missy.js"
+		type="text/javascript"></script>
+		<script src="<%=basePath%>/static/js/jquery/md5/1.2.1/jquery.md5.js"
 	type="text/javascript"></script>
 	<!-- Script End -->
 </body>
@@ -89,7 +107,48 @@ function initPage() {
 		clickBack();
 	});
 	
+	initDataDept();
+	initDataRole();
+	
 	initSingle();	
+}
+function initDataDept() {
+	$.ajax({
+		url : "initDataDept",
+		data : {nodeId : g_NodeId},
+		type : "POST",
+		dataType : "json",
+		async:false,
+		ContentType : "application/json;charset=utf-8",
+		success : function(response) {
+			var buf =new Array();
+			var responseList = response.data == null ? new Array() : response.data;
+			for (var i = 0; i < responseList.length; i++) {
+				var model = responseList[i];
+				buf.push("<option value=\""+model.deptId+"\">"+model.deptName+"</option>");
+		    }			
+			$("#ddlDeptId").html(buf.join(""));			
+		}
+	});
+}
+function initDataRole() {
+	$.ajax({
+		url : "initDataRole",
+		data : {nodeId : g_NodeId},
+		type : "POST",
+		dataType : "json",
+		async:false,
+		ContentType : "application/json;charset=utf-8",
+		success : function(response) {
+			var buf =new Array();
+			var responseList = response.data == null ? new Array() : response.data;
+			for (var i = 0; i < responseList.length; i++) {
+				var model = responseList[i];
+				buf.push("<option value=\""+model.roleId+"\">"+model.roleName+"</option>");
+		    }			
+			$("#ddlRoleId").html(buf.join(""));			
+		}
+	});
 }
 
 function initSingle() {
@@ -112,6 +171,9 @@ function initSingle() {
 			var responseItem = response.data;
 			$("#txtUserCode").val(responseItem.userCode);
 			$("#txtUserName").val(responseItem.userName);
+			$("#ddlDeptId").val(responseItem.deptId);
+			$("#ddlRoleId").val(responseItem.roleId);
+			$("#txtUserSort").val(responseItem.userSort);
 			$("#txtRemark").val(responseItem.remark);
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
@@ -139,6 +201,10 @@ function clickSubmit()
 			id : g_Id,
 			userCode : $("#txtUserCode").val(),
 			userName : $("#txtUserName").val(),
+			deptId:$("#ddlDeptId").val(),
+			roleId:$("#ddlRoleId").val(),
+			password:$("#txtPassword").val(),
+			userSort:$("#txtUserSort").val(),
 			remark : $("#txtRemark").val()
 		},
 		type : "POST",

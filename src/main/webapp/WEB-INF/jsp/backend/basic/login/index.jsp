@@ -104,7 +104,7 @@ function login() {
             if (response.errorCode == "1") {
                 var callback = MISSY.getQueryString("callback");
                 if (MISSY.isEmpty(callback)) {
-                    location.href = "/backend/basic/home/index";
+                    location.href = "<%=basePath%>/backend/basic/home/index";
                 } else {
                     location.href = callback;
                 }

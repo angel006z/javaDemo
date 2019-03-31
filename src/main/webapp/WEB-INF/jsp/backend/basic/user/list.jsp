@@ -51,6 +51,9 @@
 						id="cbListCheckAll" /></th>
 					<th style="width: 40px;">序号</th>
 					<th>用户名称</th>
+					<th>部门名称</th>
+					<th>角色名称</th>
+					<th>排序</th>
 					<th>备注</th>
 					<th style="width: 140px;">操作时间</th>
 					<th style="width: 60px;">操作</th>
@@ -165,6 +168,9 @@ function changePage(paramCurrentPage, paramPageSize) {
 				buf.push("<td><input type=\"checkbox\" name=\"nameCbox\" value=\"" + model.userId + "\" /></td>");
 				buf.push("<td>" + (i + 1) + "</td>");
 				buf.push("<td>" + model.userName + "</td>");
+				buf.push("<td>" + model.deptName + "</td>");
+				buf.push("<td>" + model.roleName + "</td>");
+				buf.push("<td>" + model.userSort + "</td>");
 				buf.push("<td>" + model.remark + "</td>");
 				buf.push("<td>" + MISSY.formatDate(model.operateDate, 4) + "</td>");
 				buf.push("<td><a href=\"detail?nodeId=" + g_DetailPageNodeId + "&id=" + model.userId + "\">查看</a></td>");

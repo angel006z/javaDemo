@@ -1,4 +1,4 @@
-package com.meida.backend.basic.po;
+package com.meida.backend.basic.domain.po;
 
 public class vAuthRoleNodeButton {
 	private String btnId;

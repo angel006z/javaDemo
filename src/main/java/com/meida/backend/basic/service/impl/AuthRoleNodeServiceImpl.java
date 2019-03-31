@@ -2,7 +2,7 @@ package com.meida.backend.basic.service.impl;
 
 import java.util.UUID;
 
-import com.meida.backend.basic.po.AuthRoleNode;
+import com.meida.backend.basic.domain.po.AuthRoleNode;
 import com.meida.backend.basic.service.inter.IAuthNodeService;
 
 public class AuthRoleNodeServiceImpl implements IAuthNodeService {

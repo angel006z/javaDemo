@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.meida.backend.basic.po.AuthRoleNodeButton;
-import com.meida.backend.basic.po.vAuthRoleNodeButton;
+import com.meida.backend.basic.domain.po.AuthRoleNodeButton;
+import com.meida.backend.basic.domain.po.vAuthRoleNodeButton;
 import com.meida.backend.basic.service.inter.IAuthRoleNodeButtonService;
 
 public class AuthRoleNodeButtonServiceImpl implements IAuthRoleNodeButtonService {

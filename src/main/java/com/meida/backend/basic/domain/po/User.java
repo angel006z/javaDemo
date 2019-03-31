@@ -1,4 +1,4 @@
-package com.meida.backend.basic.po;
+package com.meida.backend.basic.domain.po;
 
 import java.io.Serializable;
 import java.util.Date;

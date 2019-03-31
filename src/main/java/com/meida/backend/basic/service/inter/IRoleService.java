@@ -3,8 +3,8 @@ package com.meida.backend.basic.service.inter;
 import java.io.Serializable;
 import java.util.List;
 
-import com.meida.backend.basic.dto.RoleListDto;
-import com.meida.backend.basic.po.Role;
+import com.meida.backend.basic.domain.dto.RoleListDto;
+import com.meida.backend.basic.domain.po.Role;
 
 public interface IRoleService{
 	/**

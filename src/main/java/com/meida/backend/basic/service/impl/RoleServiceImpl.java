@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meida.backend.basic.dao.inter.IRoleDao;
-import com.meida.backend.basic.dto.RoleListDto;
-import com.meida.backend.basic.po.Role;
+import com.meida.backend.basic.domain.dto.RoleListDto;
+import com.meida.backend.basic.domain.po.Role;
 import com.meida.backend.basic.service.inter.IRoleService;
-import com.meida.base.vo.Pagination;
+import com.meida.base.domain.vo.Pagination;
 import com.meida.common.util.constant.EButtonType;
 
 @Service

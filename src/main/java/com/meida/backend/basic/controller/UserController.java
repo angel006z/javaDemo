@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.meida.backend.basic.dto.UserListDto;
-import com.meida.backend.basic.po.User;
+import com.meida.backend.basic.domain.dto.UserListDto;
+import com.meida.backend.basic.domain.po.Dept;
+import com.meida.backend.basic.domain.po.Role;
+import com.meida.backend.basic.domain.po.User;
+import com.meida.backend.basic.domain.vo.UserVo;
+import com.meida.backend.basic.service.inter.IDeptService;
+import com.meida.backend.basic.service.inter.IRoleService;
 import com.meida.backend.basic.service.inter.IUserService;
 import com.meida.base.controller.BaseBackendController;
-import com.meida.base.vo.Pagination;
-import com.meida.base.vo.ResultDetail;
-import com.meida.base.vo.ResultList;
-import com.meida.base.vo.ResultMessage;
+import com.meida.base.domain.vo.Pagination;
+import com.meida.base.domain.vo.ResultDetail;
+import com.meida.base.domain.vo.ResultList;
+import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RegexValidate;
@@ -29,6 +34,7 @@ import com.meida.common.util.constant.EButtonType;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ENodePage;
 import com.meida.common.util.constant.ESystemStatus;
+import com.meida.common.util.security.MD5Utils;
 
 /**
  *用户管理
@@ -43,6 +49,10 @@ public class UserController extends BaseBackendController {
 	
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IRoleService roleService;
+	@Autowired
+	private IDeptService deptService;
    	
 	@RequestMapping(value = "/list")
 	public ModelAndView list() {
@@ -112,7 +122,7 @@ public class UserController extends BaseBackendController {
 		whereItem.setPagination(new Pagination(iCurrentPage, iPageSize));
 		whereItem.setUserName(userName);
 		
-		List<User> list = userService.getListByPage(whereItem);
+		List<UserVo> list = userService.getListByPage(whereItem);
 
 		ResultList resultList = new ResultList();
 		resultList.setErrorCode(EErrorCode.Success);
@@ -173,6 +183,9 @@ public class UserController extends BaseBackendController {
 
 		String userCode = RequestParameters.getString("userCode");
 		String userName = RequestParameters.getString("userName");
+		String password = RequestParameters.getString("password");
+		String deptId = RequestParameters.getString("deptId");
+		String roleId = RequestParameters.getString("roleId");
 		int userSort = RequestParameters.getInt("userSort");
 		String remark = RequestParameters.getString("remark");
 		if (userName.length() <= 0) {
@@ -188,12 +201,20 @@ public class UserController extends BaseBackendController {
 			item.setUserId(UUID.randomUUID().toString());
 			item.setCreateDate(DateUtils.now());
 			item.setIsValid(ESystemStatus.Valid);
+			if(password.length()<=0) {
+				password="111111";
+			}			
 		} else {
-			item.setUserId(id.toString());
+			item.setUserId(id.toString());			
+		}
+		if(password.length()>0) {
+			item.setPassword(MD5Utils.md5(password));
 		}
 		item.setOperateDate(DateUtils.now());
 		item.setUserCode(userCode);
-		item.setUserName(userName);
+		item.setUserName(userName);		
+		item.setDeptId(deptId);
+		item.setRoleId(roleId);
 		item.setUserSort(userSort);
 		item.setRemark(remark);
 		
@@ -266,6 +287,45 @@ public class UserController extends BaseBackendController {
 			resultMessage.setErrorMessage("操作失败.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
+	}
+	
+	
+	@RequestMapping(value = "/initDataDept")
+	@ResponseBody
+	public String initDataDept() {
+		// 权限控制
+		int[] iRangePage = {ListPageNodeId, AddPageNodeId, EditPageNodeId, DetailPageNodeId };
+		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");		
+		ResultMessage tempAuth = Utits.accessPageAuth(iRangePage, iCurrentPageNodeId);
+		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
+			return JsonUtils.toJSONString(tempAuth);
+		}
+		
+		List<Dept> list = deptService.getListByValid();
+		ResultList resultList = new ResultList();
+		resultList.setData(list);
+		resultList.setErrorCode(EErrorCode.Success);
+		resultList.setErrorMessage("操作成功.");
+		return JsonUtils.toJSONString(resultList);
+	}
+	
+	@RequestMapping(value = "/initDataRole")
+	@ResponseBody
+	public String initDataRole() {
+		// 权限控制
+		int[] iRangePage = {ListPageNodeId, AddPageNodeId, EditPageNodeId, DetailPageNodeId };
+		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");		
+		ResultMessage tempAuth = Utits.accessPageAuth(iRangePage, iCurrentPageNodeId);
+		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
+			return JsonUtils.toJSONString(tempAuth);
+		}
+		
+		List<Role> list = roleService.getListByValid();
+		ResultList resultList = new ResultList();
+		resultList.setData(list);
+		resultList.setErrorCode(EErrorCode.Success);
+		resultList.setErrorMessage("操作成功.");
+		return JsonUtils.toJSONString(resultList);
 	}
 	/************** JsonResult End ******************/
 }

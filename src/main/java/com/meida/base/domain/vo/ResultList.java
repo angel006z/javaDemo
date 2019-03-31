@@ -1,4 +1,4 @@
-package com.meida.base.vo;
+package com.meida.base.domain.vo;
 
 public class ResultList extends ResultMessage {
 	private Pagination pagination;
