@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.meida.common.cookie.CookieUtils;
+import com.meida.common.util.security.HashEncrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,7 +89,7 @@ public class LoginController {
         	return JsonUtils.toJSONString(resultMessage);
         }
 
-        User item = userService.loginUser(userName, password);
+        User item = userService.loginUser(userName, HashEncrypt.backendPassword(password));
         if (item != null)
         {
             SessionHelper.setString("USERID", item.getUserId());
@@ -98,7 +99,7 @@ public class LoginController {
                 if (isCookieUp == 1) //记住用户名和密码
                 {
                     CookieUtils.addCooke(response,"USERNAME",userName,60*60*24*30);
-                    CookieUtils.addCooke(response,"PASSWORD",password,60*60*24*30);
+                    CookieUtils.addCooke(response,"PASSWORD",HashEncrypt.backendPassword(password),60*60*24*30);
                 }
                 else if (isCookieUp == 2) //记住用户名不记住密码
                 {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.meida.common.util.security.HashEncrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -208,7 +209,7 @@ public class UserController extends BaseBackendController {
 			item.setUserId(id.toString());			
 		}
 		if(password.length()>0) {
-			item.setPassword(MD5Utils.md5(password));
+			item.setPassword(HashEncrypt.backendPassword(MD5Utils.md5(password)));
 		}
 		item.setOperateDate(DateUtils.now());
 		item.setUserCode(userCode);
