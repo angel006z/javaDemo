@@ -1,7 +1,10 @@
 package com.meida.backend.basic.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.meida.common.cookie.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,21 +49,23 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/loginSystem")
 	@ResponseBody
-	public String loginSystem() {	
+	public String loginSystem(HttpServletRequest request, HttpServletResponse response) {
+        ResultMessage resultMessage = new ResultMessage();
+
 		int isCookieUp = 1; //1：cookie用户名和密码；2：cookie用户名；3：不要cookie
         boolean isCode = false;//是否有验证码，默认有(true)
         String userName = RequestParameters.getString("userName");
         String password = RequestParameters.getString("password");
         boolean remember = RequestParameters.getString("remember") == "1";//记住密码                    
         String code = RequestParameters.getString("code");
+
         if (userName.length() <= 0) {
-			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.Error);
 			resultMessage.setErrorMessage("用户名不能为空.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
+
         if (password.length() <= 0) {
-        	ResultMessage resultMessage = new ResultMessage();
         	resultMessage.setErrorCode(EErrorCode.Error);
         	resultMessage.setErrorMessage("密码不能为空.");
         	return JsonUtils.toJSONString(resultMessage);
@@ -69,87 +74,49 @@ public class LoginController {
         if (!isOkValidateCode(isCode, code))
         {
             clearValidateCode(isCode);
-            ResultMessage resultMessage = new ResultMessage();
         	resultMessage.setErrorCode(EErrorCode.Error);
         	resultMessage.setErrorMessage("验证码错误.");
-        	return JsonUtils.toJSONString(resultMessage);            
+        	return JsonUtils.toJSONString(resultMessage);
         }
 
         clearValidateCode(isCode);
-       
+
         if (userService.isExistUserName(userName)==false)
-        {           
-            ResultMessage resultMessage = new ResultMessage();
+        {
         	resultMessage.setErrorCode(EErrorCode.Error);
         	resultMessage.setErrorMessage("用户名不存在.");
-        	return JsonUtils.toJSONString(resultMessage); 
+        	return JsonUtils.toJSONString(resultMessage);
         }
-        
+
         User item = userService.loginUser(userName, password);
         if (item != null)
         {
-            try
+            SessionHelper.setString("USERID", item.getUserId());
+            if (remember)
             {
-            	System.out.println("userId:"+item.getUserId());
-            	
-                SessionHelper.setString("USERID", item.getUserId());
-                
-                if (remember)
+                // 记住内容详细
+                if (isCookieUp == 1) //记住用户名和密码
                 {
-                    // 记住内容详细
-                    if (isCookieUp == 1) //记住用户名和密码
-                    {
-                    	
-                        // Cookie
-//                        var cookies = Request.Cookies["USERINFO"];
-//                        if (cookies != null)
-//                        {
-//                            cookies.Expires = DateTime.Now.AddDays(-30);
-//                            Response.AppendCookie(cookies);
-//                        }
-//                        var cookie = new HttpCookie("USERINFO");
-//                        cookie.Values.Add("USERNAME", HashEncrypt.AesEncrypt(UserName));
-//                        cookie.Values.Add("PASSWORD", HashEncrypt.AesEncrypt(HashEncrypt.BgPassWord(Password)));
-//                        cookie.Expires = DateTime.Now.AddDays(30);
-//                        Response.Cookies.Add(cookie);
-                        
-                    }
-                    else if (isCookieUp == 2) //记住用户名不记住密码
-                    {
-                        // Cookie
-//                        var cookies = Request.Cookies["USERINFO"];
-//                        if (cookies != null)
-//                        {
-//                            cookies.Expires = DateTime.Now.AddDays(-30);
-//                            Response.AppendCookie(cookies);
-//                        }
-//                        var cookie = new HttpCookie("USERINFO");
-//                        cookie.Values.Add("USERNAME", HashEncrypt.AesEncrypt(UserName));
-//                        cookie.Expires = DateTime.Now.AddDays(30);
-//                        Response.Cookies.Add(cookie);
-                     
-                    }
-                    else //都不用记
-                    {
-                    }                   
+                    CookieUtils.addCooke(response,"USERNAME",userName,60*60*24*30);
+                    CookieUtils.addCooke(response,"PASSWORD",password,60*60*24*30);
+                }
+                else if (isCookieUp == 2) //记住用户名不记住密码
+                {
+                    CookieUtils.addCooke(response,"USERNAME",userName,60*60*24*30);
+                }
+                else //都不用记
+                {
                 }
             }
-            catch (Exception ex)
-            {                
-                System.out.println(ex.getMessage());
-            }          
-            
-            ResultMessage resultMessage = new ResultMessage();
         	resultMessage.setErrorCode(EErrorCode.Success);
         	resultMessage.setErrorMessage("登录成功.");
-        	return JsonUtils.toJSONString(resultMessage);  
+        	return JsonUtils.toJSONString(resultMessage);
         }
         else
-        {           
-            ResultMessage resultMessage = new ResultMessage();
+        {
         	resultMessage.setErrorCode(EErrorCode.Error);
         	resultMessage.setErrorMessage("密码错误.");
-        	return JsonUtils.toJSONString(resultMessage); 
+        	return JsonUtils.toJSONString(resultMessage);
         }
 	}
 	

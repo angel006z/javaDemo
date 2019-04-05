@@ -17,4 +17,8 @@ public class SessionHelper {
 		return (String)request.getSession().getAttribute(key);
 	}
 
+    public static void removeString(String key) {
+		HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		request.getSession().removeAttribute(key);
+    }
 }
