@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meida.backend.basic.domain.po.User;
@@ -25,75 +27,77 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/backend/basic/home")
 public class HomeController {
-	@Autowired
-	private IUserService userService;
+    @Autowired
+    private IUserService userService;
 
-	@RequestMapping(value = "/index")
-	public ModelAndView index() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("title", "");
-		return modelAndView;
-	}
+    @RequestMapping(value = "/index")
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("title", "");
+        return modelAndView;
+    }
 
-	@RequestMapping(value = "/modifyPassword")
-	@ResponseBody
-	public String modifyPassword() {
-		ResultMessage resultMessage = new ResultMessage();
-		if (!Utits.isLogin()) {
-			resultMessage.setErrorCode(EErrorCode.NoLogin);
-			resultMessage.setErrorMessage("未登录.");
-			return JsonUtils.toJSONString(resultMessage);
-		}
-		String oldPassword = RequestParameters.getString("OldPassword");
-		if (oldPassword.length() <= 0) {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("旧密码不能为空.");
-			return JsonUtils.toJSONString(resultMessage);
-		}
-		String newPassword = RequestParameters.getString("NewPassword");
-		if (newPassword.length() <= 0) {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("新密码不能为空.");
-			return JsonUtils.toJSONString(resultMessage);
-		}
-		
-		UUID currentUserId = Utits.getCurrentUserId();
-		User item = userService.getObjectById(currentUserId.toString());
-		if (item == null) {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("当前用户不存在.");
-			return JsonUtils.toJSONString(resultMessage);
-		}
-		if (!oldPassword.equals(item.getPassword())) {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("旧密码有误.");
-			return JsonUtils.toJSONString(resultMessage);
-		}
+    @RequestMapping(value = "/modifyPassword")
+    @ResponseBody
+    public String modifyPassword() {
+        ResultMessage resultMessage = new ResultMessage();
+        if (!Utits.isLogin()) {
+            resultMessage.setErrorCode(EErrorCode.NoLogin);
+            resultMessage.setErrorMessage("未登录.");
+            return JsonUtils.toJSONString(resultMessage);
+        }
+        String oldPassword = RequestParameters.getString("OldPassword");
+        if (oldPassword.length() <= 0) {
+            resultMessage.setErrorCode(EErrorCode.Error);
+            resultMessage.setErrorMessage("旧密码不能为空.");
+            return JsonUtils.toJSONString(resultMessage);
+        }
+        String newPassword = RequestParameters.getString("NewPassword");
+        if (newPassword.length() <= 0) {
+            resultMessage.setErrorCode(EErrorCode.Error);
+            resultMessage.setErrorMessage("新密码不能为空.");
+            return JsonUtils.toJSONString(resultMessage);
+        }
 
-		boolean isFlag = userService.changePassword(item.getUserId(), newPassword);
-		if (isFlag) {
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage("操作成功.");
-			return JsonUtils.toJSONString(resultMessage);
-		} else {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("操作失败.");
-			return JsonUtils.toJSONString(resultMessage);
-		}
-	}
+        UUID currentUserId = Utits.getCurrentUserId();
+        User item = userService.getObjectById(currentUserId.toString());
+        if (item == null) {
+            resultMessage.setErrorCode(EErrorCode.Error);
+            resultMessage.setErrorMessage("当前用户不存在.");
+            return JsonUtils.toJSONString(resultMessage);
+        }
+        if (!oldPassword.equals(item.getPassword())) {
+            resultMessage.setErrorCode(EErrorCode.Error);
+            resultMessage.setErrorMessage("旧密码有误.");
+            return JsonUtils.toJSONString(resultMessage);
+        }
 
-	@RequestMapping(value = "/quitLogin")
-	@ResponseBody
-	public String quitLogin(HttpServletRequest request, HttpServletResponse response) {
+        boolean isFlag = userService.changePassword(item.getUserId(), newPassword);
+        if (isFlag) {
+            resultMessage.setErrorCode(EErrorCode.Success);
+            resultMessage.setErrorMessage("操作成功.");
+            return JsonUtils.toJSONString(resultMessage);
+        } else {
+            resultMessage.setErrorCode(EErrorCode.Error);
+            resultMessage.setErrorMessage("操作失败.");
+            return JsonUtils.toJSONString(resultMessage);
+        }
+    }
 
-		SessionHelper.removeString("USERID");
+    @RequestMapping(value = "/quitLogin")
+    @ResponseBody
+    public String quitLogin() {
 
-		CookieUtils.deleteCookie(request, response, "USERNAME");
-		CookieUtils.deleteCookie(request, response, "PASSWORD");
-		
-		ResultMessage resultMessage = new ResultMessage();
-		resultMessage.setErrorCode(EErrorCode.Success);
-		resultMessage.setErrorMessage("退出系统成功.");
-		return JsonUtils.toJSONString(resultMessage);
-	}
+        SessionHelper.removeString("USERID");
+
+        HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        CookieUtils.deleteCookie(request, response, "USERNAME");
+        CookieUtils.deleteCookie(request, response, "PASSWORD");
+
+        ResultMessage resultMessage = new ResultMessage();
+        resultMessage.setErrorCode(EErrorCode.Success);
+        resultMessage.setErrorMessage("退出系统成功.");
+        return JsonUtils.toJSONString(resultMessage);
+    }
 }

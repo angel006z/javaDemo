@@ -64,7 +64,7 @@ function initPage() {
         var e = document.all ? window.event : event;
         var keycode = (e.keyCode ? e.keyCode : e.which);
         if (keycode === 13) {
-            Login();
+            login();
         }
     });
 }

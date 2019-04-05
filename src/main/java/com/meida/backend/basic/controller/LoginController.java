@@ -5,11 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.meida.common.cookie.CookieUtils;
+import com.meida.common.util.security.DesUtils;
 import com.meida.common.util.security.HashEncrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meida.backend.basic.domain.po.User;
@@ -50,7 +53,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/loginSystem")
 	@ResponseBody
-	public String loginSystem(HttpServletRequest request, HttpServletResponse response) {
+	public String loginSystem() {
         ResultMessage resultMessage = new ResultMessage();
 
 		int isCookieUp = 1; //1：cookie用户名和密码；2：cookie用户名；3：不要cookie
@@ -95,11 +98,12 @@ public class LoginController {
             SessionHelper.setString("USERID", item.getUserId());
             if (remember)
             {
+                HttpServletResponse response =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
                 // 记住内容详细
                 if (isCookieUp == 1) //记住用户名和密码
                 {
-                    CookieUtils.addCooke(response,"USERNAME",userName,60*60*24*30);
-                    CookieUtils.addCooke(response,"PASSWORD",HashEncrypt.backendPassword(password),60*60*24*30);
+                    CookieUtils.addCooke(response,"USERNAME",DesUtils.encrypt(userName) ,60*60*24*30);
+                    CookieUtils.addCooke(response,"PASSWORD",DesUtils.encrypt(HashEncrypt.backendPassword(password)),60*60*24*30);
                 }
                 else if (isCookieUp == 2) //记住用户名不记住密码
                 {

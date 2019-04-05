@@ -4,8 +4,6 @@ import com.meida.common.util.StringUtils;
 
 /**
  *CRC16加密算法
- * @author xh
- * @version 2016-5-13 下午4:37:45 
  */
 public class CRC16Utils {
 
@@ -19,9 +17,7 @@ public class CRC16Utils {
 
 	/**
 	 * 查表法
-	 * @author xh
-	 * @date 2016-5-11 上午9:55:03
-	 * @param date
+	 * @param data
 	 * @return
 	 */
 	public static String getCRC1021(String data) throws Exception {
@@ -47,9 +43,7 @@ public class CRC16Utils {
 
 	/**
 	 * 计算法
-	 * @author xh
-	 * @date 2016-5-11 上午9:54:56
-	 * @param bytes
+	 * @param data
 	 * @return
 	 */
 	public static String CRC_XModem(String data) throws Exception {
@@ -72,8 +66,6 @@ public class CRC16Utils {
 	}
 
 	/**
-	 * @author xh
-	 * @date 2016-5-9 下午2:59:29
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {

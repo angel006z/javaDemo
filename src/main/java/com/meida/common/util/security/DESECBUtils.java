@@ -52,8 +52,6 @@ public class DESECBUtils {
 
 	/**
 	 * DES/ECB加密
-	 * @author xh
-	 * @date 2016-5-11 上午9:33:08
 	 * @param datasource 明文
 	 * @param keys 密钥
 	 * @return
@@ -79,8 +77,6 @@ public class DESECBUtils {
 
 	/**
 	 * DES/ECB解密
-	 * @author xh
-	 * @date 2016-5-11 上午9:32:35
 	 * @param src 密文
 	 * @param keys 密钥
 	 * @return
