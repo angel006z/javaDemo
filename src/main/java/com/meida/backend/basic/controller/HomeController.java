@@ -1,7 +1,12 @@
 package com.meida.backend.basic.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.meida.backend.basic.domain.vo.LeftAuthRoleNodeVo;
+import com.meida.backend.basic.service.inter.IAuthRoleNodeService;
+import com.meida.base.domain.vo.TreeVo;
 import com.meida.common.cookie.CookieUtils;
 import com.meida.common.util.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,9 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController {
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IAuthRoleNodeService authRoleNodeService;
 
     @RequestMapping(value = "/index")
     public ModelAndView index() {
@@ -90,7 +98,7 @@ public class HomeController {
 
         SessionHelper.removeString("USERID");
 
-        HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         CookieUtils.deleteCookie(request, response, "USERNAME");
         CookieUtils.deleteCookie(request, response, "PASSWORD");
@@ -99,5 +107,32 @@ public class HomeController {
         resultMessage.setErrorCode(EErrorCode.Success);
         resultMessage.setErrorMessage("退出系统成功.");
         return JsonUtils.toJSONString(resultMessage);
+    }
+
+    @RequestMapping(value = "/achieveLeftAuthNode")
+    @ResponseBody
+    public String achieveLeftAuthNode() {
+        if (Utits.isLogin()) {
+            List<LeftAuthRoleNodeVo> listLeftAuthNode = authRoleNodeService.getListByLeftUserId(Utits.getCurrentUserId(), Utits.isSuper());
+            if (listLeftAuthNode != null) {
+                List<TreeVo> listTree = new ArrayList<TreeVo>();
+                TreeVo treeVo;
+                for (LeftAuthRoleNodeVo itemNode : listLeftAuthNode) {
+                    treeVo = new TreeVo();
+                    treeVo.setId(itemNode.getNodeId() + "");
+                    treeVo.setPid(itemNode.getParentId() + "");
+                    treeVo.setName(itemNode.getNodeName());
+                    treeVo.setTarget(itemNode.getNodeName());
+                    treeVo.setUrl(itemNode.getNodePath());
+                    treeVo.setNodeClassName(itemNode.getNodeClassName());
+                    listTree.add(treeVo);
+                }
+                if (listTree.size() > 0) {
+                    return JsonUtils.toJSONString(listTree);
+                }
+            }
+        }
+
+        return JsonUtils.toJSONString("[]");
     }
 }

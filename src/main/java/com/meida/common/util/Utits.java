@@ -25,7 +25,9 @@ public class Utits {
 		return UUID.fromString(userId);
 	}
 	
-	public static boolean IsSuper = false;
+	public static boolean isSuper(){
+		return true;
+	}
 
 	public static boolean isLogin() {		
 		return getCurrentUserId()!=UUIDUtils.Empty;
@@ -41,13 +43,13 @@ public class Utits {
 		// 判断登录
 		UUID UserId = Utits.getCurrentUserId();
 
-		if (!new AuthRoleNodeServiceImpl().IsNodePageAuth(UserId, NodeId, IsSuper)) {
+		if (!new AuthRoleNodeServiceImpl().IsNodePageAuth(UserId, NodeId, isSuper())) {
 			return "";
 		}
 
 		// 获得页面带权限按钮
 		List<vAuthRoleNodeButton> listOperateAuthButton = new AuthRoleNodeButtonServiceImpl()
-				.getListByUserIdNodeId(UserId, NodeId, IsSuper);
+				.getListByUserIdNodeId(UserId, NodeId, isSuper());
 		if (listOperateAuthButton == null)
 			listOperateAuthButton = new ArrayList<vAuthRoleNodeButton>();
 
@@ -146,7 +148,7 @@ public class Utits {
 			return resultMessage;
 		}
 		IAuthRoleNodeButtonService service = new AuthRoleNodeButtonServiceImpl();
-		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, IsSuper);
+		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, isSuper());
 		if (!isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.NoOperateAuth);
@@ -191,7 +193,7 @@ public class Utits {
 			return resultMessage;
 		}
 		IAuthRoleNodeButtonService service = new AuthRoleNodeButtonServiceImpl();
-		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, IsSuper);
+		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, isSuper());
 		if (!isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
 			resultMessage.setErrorCode(EErrorCode.NoOperateAuth);
