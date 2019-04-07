@@ -24,6 +24,7 @@ import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
 import com.meida.common.util.Utits;
 import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.util.security.HashEncryptUtils;
 import com.meida.common.util.security.MD5Utils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,13 +75,13 @@ public class HomeController {
             resultMessage.setErrorMessage("当前用户不存在.");
             return JsonUtils.toJSONString(resultMessage);
         }
-        if (!oldPassword.equals(item.getPassword())) {
+        if (!HashEncryptUtils.backendPassword(oldPassword).equals(item.getPassword())) {
             resultMessage.setErrorCode(EErrorCode.Error);
             resultMessage.setErrorMessage("旧密码有误.");
             return JsonUtils.toJSONString(resultMessage);
         }
 
-        boolean isFlag = userService.changePassword(item.getUserId(), newPassword);
+        boolean isFlag = userService.changePassword(item.getUserId(), HashEncryptUtils.backendPassword(newPassword));
         if (isFlag) {
             resultMessage.setErrorCode(EErrorCode.Success);
             resultMessage.setErrorMessage("操作成功.");

@@ -34,6 +34,7 @@ import com.meida.common.util.constant.EButtonType;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ENodePage;
 import com.meida.common.util.constant.ESystemStatus;
+import com.meida.common.util.security.HashEncryptUtils;
 import com.meida.common.util.security.MD5Utils;
 
 /**
@@ -208,7 +209,7 @@ public class UserController extends BaseBackendController {
 			item.setUserId(id.toString());			
 		}
 		if(password.length()>0) {
-			item.setPassword(HashEncrypt.backendPassword(MD5Utils.md5(password)));
+			item.setPassword(HashEncryptUtils.backendPassword(MD5Utils.md5(password)));
 		}
 		item.setOperateDate(DateUtils.now());
 		item.setUserCode(userCode);
