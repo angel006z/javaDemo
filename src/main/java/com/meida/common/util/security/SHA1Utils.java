@@ -23,7 +23,8 @@ public class SHA1Utils {
             messageDigest.update(str.getBytes());
             return getFormattedText(messageDigest.digest());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return "";
         }
     }
 }

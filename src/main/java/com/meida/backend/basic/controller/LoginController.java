@@ -1,12 +1,10 @@
 package com.meida.backend.basic.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.meida.common.cookie.CookieUtils;
 import com.meida.common.util.security.DesUtils;
-import com.meida.common.util.security.HashEncrypt;
+import com.meida.common.util.security.HashEncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -92,7 +90,7 @@ public class LoginController {
         	return JsonUtils.toJSONString(resultMessage);
         }
 
-        User item = userService.loginUser(userName, HashEncrypt.backendPassword(password));
+        User item = userService.loginUser(userName, HashEncryptUtils.backendPassword(password));
         if (item != null)
         {
             SessionHelper.setString("USERID", item.getUserId());
@@ -103,7 +101,7 @@ public class LoginController {
                 if (isCookieUp == 1) //记住用户名和密码
                 {
                     CookieUtils.addCooke(response,"USERNAME",DesUtils.encrypt(userName) ,60*60*24*30);
-                    CookieUtils.addCooke(response,"PASSWORD",DesUtils.encrypt(HashEncrypt.backendPassword(password)),60*60*24*30);
+                    CookieUtils.addCooke(response,"PASSWORD",DesUtils.encrypt(HashEncryptUtils.backendPassword(password)),60*60*24*30);
                 }
                 else if (isCookieUp == 2) //记住用户名不记住密码
                 {
