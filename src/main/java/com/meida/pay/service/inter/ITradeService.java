@@ -14,6 +14,10 @@ import com.meida.pay.pojo.ResultTradeQuery;
 import com.meida.pay.pojo.ResultTradeRefund;
 import com.meida.pay.pojo.ResultTradeRefundQuery;
 
+/**
+ * 支付接口
+ *
+ */
 public interface ITradeService {
 	/**
 	 * 交易支付

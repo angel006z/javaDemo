@@ -1,5 +1,7 @@
 package com.meida.pay.alipay.pcweb.pojo;
 
+import com.meida.common.util.JsonUtils;
+
 public abstract class ParametersBuilder {
 
     public abstract boolean Validate();
@@ -10,17 +12,7 @@ public abstract class ParametersBuilder {
     }
 
     private String BuildJson()
-    {
-    	return "";
-//        var jss = new JavaScriptSerializer();
-//        try
-//        {
-//            return jss.Serialize(this);
-//        }
-//        catch (Exception ex)
-//        {
-//            System.out.println("JSONHelper.ObjectToJSON(): " + ex.getMessage());
-//            return "";
-//        }
+    {    	
+    	return JsonUtils.toJSONString(this);
     }
 }

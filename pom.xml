@@ -178,12 +178,11 @@
 
 
 		<!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
-		<dependency>
-			<groupId>com.alipay.sdk</groupId>
-			<artifactId>alipay-sdk-java</artifactId>
-			<version>3.4.27.ALL</version>
-		</dependency>
-
+<dependency>
+    <groupId>com.alipay.sdk</groupId>
+    <artifactId>alipay-sdk-java</artifactId>
+    <version>3.7.89.ALL</version>
+</dependency>
 
 		<!-- 添加spring核心依赖Begin -->
 		<!-- Spring的核心工具包，其他包依赖此包 -->

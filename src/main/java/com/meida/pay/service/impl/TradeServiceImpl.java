@@ -2,6 +2,7 @@ package com.meida.pay.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.StringUtils;
@@ -21,6 +22,7 @@ import com.meida.pay.pojo.ResultTradeRefund;
 import com.meida.pay.pojo.ResultTradeRefundQuery;
 import com.meida.pay.service.inter.ITradeService;
 
+@Service
 public class TradeServiceImpl implements ITradeService {
 	private static final Logger logger = LoggerFactory.getLogger(TradeServiceImpl.class);// slf4j日志记录器
 
@@ -52,6 +54,7 @@ public class TradeServiceImpl implements ITradeService {
 				prrModel.setErrorType(result.getErrorType());
 				prrModel.setMessageContent(result.getMessageContent());
 				prrModel.setForm(result.getForm());
+				
 				return prrModel;
 			}
 		} else if (builderParameters.getPayType() == EPayType.Weixin) {

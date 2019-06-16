@@ -25,6 +25,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		list</a>
 	<br>
 	<a href="<%=basePath%>/backend/basic/upload/upload">upload list</a>
-
+<br>
+	<a href="<%=basePath%>/front/pay/index">pay index</a>
+<br>
 </body>
 </html>
