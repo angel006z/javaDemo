@@ -5,6 +5,6 @@ import com.meida.pay.alipay.pcweb.pojo.ResultTradePay;
 
 public interface IAlipayTradeService {
     //交易支付
-    ResultTradePay TradePay(ParametersTradePay builder);
+    ResultTradePay tradePay(ParametersTradePay builder);
 
 }

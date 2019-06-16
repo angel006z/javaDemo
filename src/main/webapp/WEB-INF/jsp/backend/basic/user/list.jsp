@@ -155,8 +155,8 @@ function changePage(paramCurrentPage, paramPageSize) {
 			$("#tblist tr:gt(0)").remove();
 			$("#tblist").append("<tr><td align=\"center\" colspan=\"" + colNumber + "\">请刷新后再试.</td></tr>");
 
-			if(response.errorCode!="1"){
-				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
+			if(response.code!="1"){
+				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
 
@@ -254,11 +254,11 @@ function confirmBatchOperate(paramButtonId, paramIds) {
 		},
 		ContentType : "application/json;charset=utf-8",
 		success : function(response) {
-			if(response.errorCode!="1"){
-				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
+			if(response.code!="1"){
+				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
-			MISSY.iSuccessMessage(response.errorMessage, clickRefresh);			
+			MISSY.iSuccessMessage(response.message, clickRefresh);			
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

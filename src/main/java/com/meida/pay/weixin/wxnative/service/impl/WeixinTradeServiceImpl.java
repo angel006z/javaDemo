@@ -7,7 +7,7 @@ import com.meida.pay.weixin.wxnative.service.inter.IWeixinTradeService;
 public class WeixinTradeServiceImpl implements IWeixinTradeService{
 
 	@Override
-	public ResultTradePay TradePay(ParametersTradePay builder) {
+	public ResultTradePay tradePay(ParametersTradePay builder) {
 		ResultTradePay result = new ResultTradePay();
         try
         {
@@ -27,15 +27,15 @@ public class WeixinTradeServiceImpl implements IWeixinTradeService{
 //            String url = resultWxPayData.GetValue("code_url").ToString();//获得统一下单接口返回的二维码链接
 
 //            result.setForm(url);
-            result.setErrorType(1);
-            result.setMessageContent( "操作成功.");
+            result.setCode("1");
+            result.setMessage( "操作成功.");
             return result;
         }
         catch (Exception ex)
         {            
             //请求支付过程中异常，请重新操作.     
-            result.setErrorType(0);
-            result.setMessageContent("提交微信表单异常，请返回重新操作。");
+            result.setCode("0");
+            result.setMessage("提交微信表单异常，请返回重新操作。");
             return result;
         }
 	}

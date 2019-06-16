@@ -17,7 +17,7 @@ public class BaseBackendController extends BaseController {
 		ModelAndView modelAndView = new ModelAndView();
 		String rawUrl = request.getRequestURI();
 		String redirectUrl = "";
-		if (tempAuth.getErrorCode() == EErrorCode.NoLogin) {
+		if (tempAuth.getCode() == EErrorCode.NoLogin) {
 			modelAndView.setViewName("/backend/basic/login/index?callback=" + redirectUrl);
 		}
 

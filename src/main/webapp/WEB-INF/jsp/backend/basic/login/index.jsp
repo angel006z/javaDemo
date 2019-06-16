@@ -101,7 +101,7 @@ function login() {
         },
         success: function (response) {
             if (!response) { MISSY.iErrorReturnNull(); return; }
-            if (response.errorCode == "1") {
+            if (response.code == "1") {
                 var callback = MISSY.getQueryString("callback");
                 if (MISSY.isEmpty(callback)) {
                     location.href = "<%=basePath%>/backend/basic/home/index";
@@ -109,7 +109,7 @@ function login() {
                     location.href = callback;
                 }
             } else {
-                MISSY.iErrorMessage(response.errorMessage);
+                MISSY.iErrorMessage(response.message);
             }
         },
         error: function (xmlHttpRequest, textStatus, errorThrown) {

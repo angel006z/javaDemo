@@ -10,13 +10,13 @@ public class EPayType {
 	/**
 	 * 支付宝支付
 	 */
-	public final static int Alipay = 1;
+	public final static String Alipay = "alipay";
 	/**
 	 * 微信支付
 	 */
-	public final static int Weixin = 2;
+	public final static String Weixin = "weixin";
 	/**
 	 * 银行支付
 	 */
-	public final static int Banks = 3;
+	public final static String Banks = "banks";
 }

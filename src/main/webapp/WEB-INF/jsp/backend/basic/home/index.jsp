@@ -238,11 +238,11 @@
                     layerLoadIndex = MISSY.iShowLoading("正在执行中，请稍候...");
                 },
                 success: function (response) {
-                	if(response.errorCode!="1"){
-        				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
+                	if(response.code!="1"){
+        				MISSY.iWrongMessage(response.code,response.message);
         				return;
         			}
-        			MISSY.iSuccessMessage(response.errorMessage,closeModifyPassword);		
+        			MISSY.iSuccessMessage(response.message,closeModifyPassword);		
                 },
                 error: function (xmlHttpRequest, textStatus, errorThrown) {
                     MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

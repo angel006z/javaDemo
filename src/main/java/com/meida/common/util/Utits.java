@@ -72,13 +72,13 @@ public class Utits {
 		UUID iUSERID = Utits.getCurrentUserId();
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.NoLogin);
-			resultMessage.setErrorMessage("未登录.");
+			resultMessage.setCode(EErrorCode.NoLogin);
+			resultMessage.setMessage("未登录.");
 			return resultMessage;
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage("已登录.");
+			resultMessage.setCode(EErrorCode.Success);
+			resultMessage.setMessage("已登录.");
 			return resultMessage;
 		}
 	}
@@ -92,8 +92,8 @@ public class Utits {
 	 */
 	public static ResultMessage accessPageAuth(int[] iRangePage, int iCurrentPageNodeId) {
 		ResultMessage s = new ResultMessage();
-		s.setErrorCode(EErrorCode.Success);
-		s.setErrorMessage("有操作权限.");
+		s.setCode(EErrorCode.Success);
+		s.setMessage("有操作权限.");
 		return s;
 
 //		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
@@ -137,27 +137,27 @@ public class Utits {
 		UUID iUSERID = Utits.getCurrentUserId();
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.NoLogin);
-			resultMessage.setErrorMessage("未登录.");
+			resultMessage.setCode(EErrorCode.NoLogin);
+			resultMessage.setMessage("未登录.");
 			return resultMessage;
 		}
 		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("NodeId参数错误：该页面不能操作该功能.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("NodeId参数错误：该页面不能操作该功能.");
 			return resultMessage;
 		}
 		IAuthRoleNodeButtonService service = new AuthRoleNodeButtonServiceImpl();
 		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, isSuper());
 		if (!isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.NoOperateAuth);
-			resultMessage.setErrorMessage("无操作权限.");
+			resultMessage.setCode(EErrorCode.NoOperateAuth);
+			resultMessage.setMessage("无操作权限.");
 			return resultMessage;
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage("有操作权限.");
+			resultMessage.setCode(EErrorCode.Success);
+			resultMessage.setMessage("有操作权限.");
 			return resultMessage;
 		}
 	}
@@ -176,33 +176,33 @@ public class Utits {
 		UUID iUSERID = Utits.getCurrentUserId();
 		if (iUSERID == UUIDUtils.Empty) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.NoLogin);
-			resultMessage.setErrorMessage("未登录.");
+			resultMessage.setCode(EErrorCode.NoLogin);
+			resultMessage.setMessage("未登录.");
 			return resultMessage;
 		}
 		if (!ArrayUtils.contains(iRangePage, iCurrentPageNodeId)) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("NodeId参数错误：该页面不能操作该功能.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("NodeId参数错误：该页面不能操作该功能.");
 			return resultMessage;
 		}
 		if (!ArrayUtils.contains(iRangeButton, iCurrentButtonId)) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("ButtonId参数错误：该按钮不能操作该功能.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("ButtonId参数错误：该按钮不能操作该功能.");
 			return resultMessage;
 		}
 		IAuthRoleNodeButtonService service = new AuthRoleNodeButtonServiceImpl();
 		boolean isFlag = service.isAuthRoleNodeButton(iUSERID, iCurrentPageNodeId, iCurrentButtonId, isSuper());
 		if (!isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.NoOperateAuth);
-			resultMessage.setErrorMessage("无操作权限.");
+			resultMessage.setCode(EErrorCode.NoOperateAuth);
+			resultMessage.setMessage("无操作权限.");
 			return resultMessage;
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage("有操作权限.");
+			resultMessage.setCode(EErrorCode.Success);
+			resultMessage.setMessage("有操作权限.");
 			return resultMessage;
 		}
 	}

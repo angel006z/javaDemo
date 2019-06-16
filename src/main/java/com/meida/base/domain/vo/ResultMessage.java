@@ -1,22 +1,22 @@
 package com.meida.base.domain.vo;
 
 public class ResultMessage {
-    private String errorCode;
-    private String errorMessage;
+    private String code;
+    private String message;
     
-    public String getErrorCode() {
-        return errorCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -95,7 +95,8 @@ function confirmCharge() {
 	$.ajax({
 		url : "confirmCharge",
 		data : {
-			price:$("#price").val()
+			pay_channel:"Alipay_PC_WEB",
+			total_fee:$("#price").val()
 		},
 		type : "post",
 		dataType : "json",
@@ -104,16 +105,12 @@ function confirmCharge() {
 		},
 		ContentType : "application/json;charset=utf-8",
 		success : function(response) {
-			if(response.errorCode!="1"){
-				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
+			if(response.code!="1"){
+				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
-			console.log(response.form)
-			MISSY.iSuccessMessage(response.errorMessage);
-			
-			  
-
-			$(".container").html(response.form);
+			console.log(response.message)		
+			$(".container").html(response.message);
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

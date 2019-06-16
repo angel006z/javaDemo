@@ -16,11 +16,11 @@ public class ParametersTradePay extends ParametersBuilder {
 	/**
 	 * 在线支付类型
 	 */
-	private int payType;
+	private String payType;
 	/**
 	 * 详细支付方式
 	 */
-	private int payChannel;
+	private String payChannel;
 	/**
 	 * 商品标题
 	 */
@@ -48,19 +48,19 @@ public class ParametersTradePay extends ParametersBuilder {
 		return true;
 	}
 
-	public int getPayType() {
+	public String getPayType() {
 		return payType;
 	}
 
-	public void setPayType(int payType) {
+	public void setPayType(String payType) {
 		this.payType = payType;
 	}
 
-	public int getPayChannel() {
+	public String getPayChannel() {
 		return payChannel;
 	}
 
-	public void setPayChannel(int payChannel) {
+	public void setPayChannel(String payChannel) {
 		this.payChannel = payChannel;
 	}
 

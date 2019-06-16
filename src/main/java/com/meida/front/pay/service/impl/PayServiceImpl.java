@@ -21,7 +21,7 @@ public class PayServiceImpl implements IPayService {
 	private ITradeService tradeService;
 
 	@Override
-	public ResultMessage Charge(ChargeDto chargeDto) {
+	public ResultMessage charge(ChargeDto chargeDto) {
 
 		ResultMessage resultMessage = new ResultMessage();
 		String out_trade_no ="D" +DateUtils.formatDate(DateUtils.now(), "yyyyMMddHHmmsss") + DateUtils.nowTimeMillis();
@@ -40,16 +40,16 @@ public class PayServiceImpl implements IPayService {
 		builderParameters.setAttach(total_fee+"元");
 		builderParameters.setBody(total_fee+"元");
 		builderParameters.setTotal_fee(total_fee);
-		ResultTradePay resultTradePay = tradeService.TradePay(builderParameters);
+		ResultTradePay resultTradePay = tradeService.tradePay(builderParameters);
 		
-		boolean isFlag =resultTradePay.getErrorType() != 1 ;
+		boolean isFlag =resultTradePay.getCode().equals(EErrorCode.Success) ;
 		if (isFlag) {
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage(resultTradePay.getForm());
+			resultMessage.setCode(EErrorCode.Success);
+			resultMessage.setMessage(resultTradePay.getForm());
 			return resultMessage;
 		} else {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage(resultTradePay.getMessageContent());
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage(resultTradePay.getMessage());
 			return resultMessage;
 		}
 	}

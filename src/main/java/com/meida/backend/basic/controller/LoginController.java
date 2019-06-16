@@ -62,22 +62,22 @@ public class LoginController {
         String code = RequestParameters.getString("code");
 
         if (userName.length() <= 0) {
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("用户名不能为空.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("用户名不能为空.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 
         if (password.length() <= 0) {
-        	resultMessage.setErrorCode(EErrorCode.Error);
-        	resultMessage.setErrorMessage("密码不能为空.");
+        	resultMessage.setCode(EErrorCode.Error);
+        	resultMessage.setMessage("密码不能为空.");
         	return JsonUtils.toJSONString(resultMessage);
         }
 
         if (!isOkValidateCode(isCode, code))
         {
             clearValidateCode(isCode);
-        	resultMessage.setErrorCode(EErrorCode.Error);
-        	resultMessage.setErrorMessage("验证码错误.");
+        	resultMessage.setCode(EErrorCode.Error);
+        	resultMessage.setMessage("验证码错误.");
         	return JsonUtils.toJSONString(resultMessage);
         }
 
@@ -85,8 +85,8 @@ public class LoginController {
 
         if (userService.isExistUserName(userName)==false)
         {
-        	resultMessage.setErrorCode(EErrorCode.Error);
-        	resultMessage.setErrorMessage("用户名不存在.");
+        	resultMessage.setCode(EErrorCode.Error);
+        	resultMessage.setMessage("用户名不存在.");
         	return JsonUtils.toJSONString(resultMessage);
         }
 
@@ -111,14 +111,14 @@ public class LoginController {
                 {
                 }
             }
-        	resultMessage.setErrorCode(EErrorCode.Success);
-        	resultMessage.setErrorMessage("登录成功.");
+        	resultMessage.setCode(EErrorCode.Success);
+        	resultMessage.setMessage("登录成功.");
         	return JsonUtils.toJSONString(resultMessage);
         }
         else
         {
-        	resultMessage.setErrorCode(EErrorCode.Error);
-        	resultMessage.setErrorMessage("密码错误.");
+        	resultMessage.setCode(EErrorCode.Error);
+        	resultMessage.setMessage("密码错误.");
         	return JsonUtils.toJSONString(resultMessage);
         }
 	}

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.StringUtils;
+import com.meida.common.util.constant.EErrorCode;
 import com.meida.pay.pojo.EPayType;
 import com.meida.pay.pojo.ParametersTradeBillDownload;
 import com.meida.pay.pojo.ParametersTradeClose;
@@ -27,15 +28,15 @@ public class TradeServiceImpl implements ITradeService {
 	private static final Logger logger = LoggerFactory.getLogger(TradeServiceImpl.class);// slf4j日志记录器
 
 	@Override
-	public ResultTradePay TradePay(ParametersTradePay builderParameters) {
+	public ResultTradePay tradePay(ParametersTradePay builderParameters) {
 		ResultTradePay validateResult = Validate(builderParameters);
-		if (validateResult.getErrorType() != 1) {
+		if (!validateResult.getCode().equals(EErrorCode.Success) ) {
 			String logMsg = String.format("ClassName：%s;MethodName：%s;MethodParameters：%s;Message:返回结果：%s",
 					this.getClass().getName(), "TradePay", JsonUtils.toJSONString(builderParameters), JsonUtils.toJSONString(validateResult));
 			logger.info(logMsg);
 			return validateResult;
 		}
-		if (builderParameters.getPayType() == EPayType.Alipay) {
+		if (builderParameters.getPayType().equals(EPayType.Alipay)) {
 			com.meida.pay.alipay.pcweb.pojo.ParametersTradePay builder = new com.meida.pay.alipay.pcweb.pojo.ParametersTradePay();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setSubject(builderParameters.getSubject());
@@ -43,21 +44,21 @@ public class TradeServiceImpl implements ITradeService {
 			builder.setTotal_amount(builderParameters.getTotal_fee());
 			boolean isValidateParameters = builder.Validate();
 			if (!isValidateParameters) {
-				ResultTradePay prrModel = new ResultTradePay();
-				prrModel.setErrorType(0);
-				prrModel.setMessageContent("参数不符合支付宝基本参数要求，请返回重新操作。");
-				return prrModel;
+				ResultTradePay resultTradePay = new ResultTradePay();
+				resultTradePay.setCode(EErrorCode.Error);
+				resultTradePay.setMessage("参数不符合支付宝基本参数要求，请返回重新操作。");
+				return resultTradePay;
 			} else {
 				com.meida.pay.alipay.pcweb.service.impl.AlipayTradeServiceImpl tradeServiceImpl = new com.meida.pay.alipay.pcweb.service.impl.AlipayTradeServiceImpl();
-				com.meida.pay.alipay.pcweb.pojo.ResultTradePay result = tradeServiceImpl.TradePay(builder);
-				ResultTradePay prrModel = new ResultTradePay();
-				prrModel.setErrorType(result.getErrorType());
-				prrModel.setMessageContent(result.getMessageContent());
-				prrModel.setForm(result.getForm());
+				com.meida.pay.alipay.pcweb.pojo.ResultTradePay result = tradeServiceImpl.tradePay(builder);
+				ResultTradePay resultTradePay = new ResultTradePay();
+				resultTradePay.setCode(result.getCode());
+				resultTradePay.setMessage(result.getMessage());
+				resultTradePay.setForm(result.getForm());
 				
-				return prrModel;
+				return resultTradePay;
 			}
-		} else if (builderParameters.getPayType() == EPayType.Weixin) {
+		} else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
 			com.meida.pay.weixin.wxnative.pojo.ParametersTradePay builder = new com.meida.pay.weixin.wxnative.pojo.ParametersTradePay();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setBody(builderParameters.getSubject());
@@ -65,70 +66,70 @@ public class TradeServiceImpl implements ITradeService {
 			builder.setTotal_fee((int) Double.parseDouble(builderParameters.getTotal_fee()) * 100);
 			boolean isValidateParameters = builder.Validate();
 			if (!isValidateParameters) {
-				ResultTradePay prrModel = new ResultTradePay();
-				prrModel.setErrorType(0);
-				prrModel.setMessageContent("参数不符合微信基本参数要求，请返回重新操作。");
-				return prrModel;
+				ResultTradePay resultTradePay = new ResultTradePay();
+				resultTradePay.setCode(EErrorCode.Error);
+				resultTradePay.setMessage("参数不符合微信基本参数要求，请返回重新操作。");
+				return resultTradePay;
 			} else {
 				com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl tradeServiceImpl = new com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl();
-				com.meida.pay.weixin.wxnative.pojo.ResultTradePay result = tradeServiceImpl.TradePay(builder);
-				ResultTradePay prrModel = new ResultTradePay();
-				prrModel.setErrorType(result.getErrorType());
-				prrModel.setMessageContent(result.getMessageContent());
-				prrModel.setForm(result.getForm());
-				return prrModel;
+				com.meida.pay.weixin.wxnative.pojo.ResultTradePay result = tradeServiceImpl.tradePay(builder);
+				ResultTradePay resultTradePay = new ResultTradePay();
+				resultTradePay.setCode(result.getCode());
+				resultTradePay.setMessage(result.getMessage());
+				resultTradePay.setForm(result.getForm());
+				return resultTradePay;
 			}
-		} else if (builderParameters.getPayType() == EPayType.Banks) {
-			ResultTradePay prrModel = new ResultTradePay();
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("暂不支持银行支付方式.");
-			return prrModel;
+		} else if (builderParameters.getPayType().equals(EPayType.Banks)) {
+			ResultTradePay resultTradePay = new ResultTradePay();
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("暂不支持银行支付方式.");
+			return resultTradePay;
 		} else {
-			ResultTradePay prrModel = new ResultTradePay();
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("在线支付类型（PayType）参数错误.");
-			return prrModel;
+			ResultTradePay resultTradePay = new ResultTradePay();
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("在线支付类型（PayType）参数错误.");
+			return resultTradePay;
 		}
 	}
 
 	private ResultTradePay Validate(ParametersTradePay builderParameters) {
-		ResultTradePay prrModel = new ResultTradePay();
+		ResultTradePay resultTradePay = new ResultTradePay();
 		if (builderParameters == null) {
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("ParametersTradePay参数为空.");
-			return prrModel;
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("ParametersTradePay参数为空.");
+			return resultTradePay;
 		}
 
 		if (StringUtils.isEmpty(builderParameters.getOut_trade_no())) {
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("订单号不能为空.");
-			return prrModel;
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("订单号不能为空.");
+			return resultTradePay;
 		}
 
 		if (builderParameters.getOut_trade_no().length() > 32) {
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("订单号长度不能超过32个字符.");
-			return prrModel;
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("订单号长度不能超过32个字符.");
+			return resultTradePay;
 		}
 
 		if (StringUtils.isEmpty(builderParameters.getSubject())) {
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("商品标题不能为空.");
-			return prrModel;
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("商品标题不能为空.");
+			return resultTradePay;
 
 		}
 
 		if (StringUtils.isEmpty(builderParameters.getBody())) {
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("商品描述不能为空.");
-			return prrModel;
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("商品描述不能为空.");
+			return resultTradePay;
 
 		}
 
 		if (builderParameters.getBody().length() > 128) {
-			prrModel.setErrorType(0);
-			prrModel.setMessageContent("商品描述长度不能超过128个字符.");
-			return prrModel;
+			resultTradePay.setCode(EErrorCode.Error);
+			resultTradePay.setMessage("商品描述长度不能超过128个字符.");
+			return resultTradePay;
 
 		}
 
@@ -137,44 +138,44 @@ public class TradeServiceImpl implements ITradeService {
 //			prrModel.setMessageContent("总金额范围只能在10-1000000元之间.");
 //			return prrModel;
 //		}
-		prrModel.setErrorType(1);
-		prrModel.setMessageContent("参数合法.");
-		return prrModel;
+		resultTradePay.setCode(EErrorCode.Success);
+		resultTradePay.setMessage("参数合法.");
+		return resultTradePay;
 
 	}
 
 	@Override
-	public ResultTradeQuery TradeQuery(ParametersTradeQuery builderParameters) {
+	public ResultTradeQuery tradeQuery(ParametersTradeQuery builderParameters) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResultTradeRefund TradeRefund(ParametersTradeRefund builderParameters) {
+	public ResultTradeRefund tradeRefund(ParametersTradeRefund builderParameters) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResultTradeRefundQuery TradeRefundQuery(ParametersTradeRefundQuery builderParameters) {
+	public ResultTradeRefundQuery tradeRefundQuery(ParametersTradeRefundQuery builderParameters) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResultTradeClose TradeClose(ParametersTradeClose builderParameters) {
+	public ResultTradeClose tradeClose(ParametersTradeClose builderParameters) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResultTradeBillDownload TradeBillDownload(ParametersTradeBillDownload builderParameters) {
+	public ResultTradeBillDownload tradeBillDownload(ParametersTradeBillDownload builderParameters) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean TradeNotifyVerify(ParametersTradeNotifyVerify builderParameters) {
+	public boolean tradeNotifyVerify(ParametersTradeNotifyVerify builderParameters) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -105,8 +105,8 @@ function initSingle() {
 		dataType : "json",
 		ContentType : "application/json;charset=utf-8",
 		success : function(response) {
-			if(response.errorCode!="1"){
-				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
+			if(response.code!="1"){
+				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
 			var responseItem = response.data;
@@ -148,11 +148,11 @@ function clickSubmit()
 			layerLoadIndex = MISSY.iShowLoading("正在执行中，请稍候.");
 		},
 		success : function(response) {
-			if(response.errorCode!="1"){
-				MISSY.iWrongMessage(response.errorCode,response.errorMessage);
+			if(response.code!="1"){
+				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
-			MISSY.iSuccessMessage(response.errorMessage,clickBack);			
+			MISSY.iSuccessMessage(response.message,clickBack);			
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

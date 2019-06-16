@@ -1,27 +1,29 @@
 package com.meida.pay.weixin.wxnative.pojo;
 
+import com.meida.common.util.constant.EErrorCode;
+
 public class ResultTradePay {
 	public ResultTradePay()
     {
-		errorType = 0;
-		messageContent = "操作失败.";
+		code = EErrorCode.Error;
+		message = "操作失败.";
 		form = "";
     }
-    private int errorType ;
-    private String messageContent;
+    private String code ;
+    private String message;
     private String form;
     
-	public int getErrorType() {
-		return errorType;
+	public String getCode() {
+		return code;
 	}
-	public void setErrorType(int errorType) {
-		this.errorType = errorType;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public String getMessageContent() {
-		return messageContent;
+	public String getMessage() {
+		return message;
 	}
-	public void setMessageContent(String messageContent) {
-		this.messageContent = messageContent;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	public String getForm() {
 		return form;

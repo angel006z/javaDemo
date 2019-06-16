@@ -49,7 +49,7 @@ public class DeptController extends BaseBackendController {
 		int[] nodePages = { ListPageNodeId };
 		int nodeId = RequestParameters.getInt("nodeId");
 		ResultMessage accessPageAuth = Utits.accessPageAuth(nodePages, nodeId);
-		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
+		if (!accessPageAuth.getCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
@@ -69,7 +69,7 @@ public class DeptController extends BaseBackendController {
 		int[] nodePages = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int nodeId = RequestParameters.getInt("nodeId");
 		ResultMessage accessPageAuth = Utits.accessPageAuth(nodePages, nodeId);
-		if (!accessPageAuth.getErrorCode().equals(EErrorCode.Success)) {
+		if (!accessPageAuth.getCode().equals(EErrorCode.Success)) {
 			return this.noAccessPageAuth(accessPageAuth);
 		}
 
@@ -96,7 +96,7 @@ public class DeptController extends BaseBackendController {
 		int[] iRangePage = { ListPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");
 		ResultMessage tempAuth = Utits.accessPageAuth(iRangePage, iCurrentPageNodeId);
-		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
+		if (!tempAuth.getCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 		// 当前页
@@ -115,7 +115,7 @@ public class DeptController extends BaseBackendController {
 		List<Dept> list = deptService.getListByPage(whereItem);
 
 		ResultList resultList = new ResultList();
-		resultList.setErrorCode(EErrorCode.Success);
+		resultList.setCode(EErrorCode.Success);
 		resultList.setPagination(whereItem.getPagination());
 		resultList.setData(list);
 		return JsonUtils.toJSONString(resultList);
@@ -133,7 +133,7 @@ public class DeptController extends BaseBackendController {
 		int[] iRangePage = { AddPageNodeId, EditPageNodeId, DetailPageNodeId };
 		int iCurrentPageNodeId = RequestParameters.getInt("nodeId");		
 		ResultMessage tempAuth = Utits.accessPageAuth(iRangePage, iCurrentPageNodeId);
-		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
+		if (!tempAuth.getCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 		
@@ -142,13 +142,13 @@ public class DeptController extends BaseBackendController {
 			Dept item = deptService.getObjectById(id.toString());
 			ResultDetail resultDetail = new ResultDetail();
 			resultDetail.setData(item);
-			resultDetail.setErrorCode(EErrorCode.Success);
-			resultDetail.setErrorMessage("操作成功.");
+			resultDetail.setCode(EErrorCode.Success);
+			resultDetail.setMessage("操作成功.");
 			return JsonUtils.toJSONString(resultDetail);
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("参数不合法.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("参数不合法.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 	}
@@ -167,7 +167,7 @@ public class DeptController extends BaseBackendController {
 		boolean isAdd = iCurrentPageNodeId == AddPageNodeId ? true : false;
 		int iCurrentButtonId = EButtonType.Submit;
 		ResultMessage tempAuth = Utits.isOperateAuth(iRangePage, iCurrentPageNodeId, iCurrentButtonId);
-		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
+		if (!tempAuth.getCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 
@@ -177,8 +177,8 @@ public class DeptController extends BaseBackendController {
 		String remark = RequestParameters.getString("remark");
 		if (deptName.length() <= 0) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("部门名称不能为空.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("部门名称不能为空.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 
@@ -200,13 +200,13 @@ public class DeptController extends BaseBackendController {
 		boolean isFlag = deptService.addOrUpdate(item, isAdd);
 		if (isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage("操作成功.");
+			resultMessage.setCode(EErrorCode.Success);
+			resultMessage.setMessage("操作成功.");
 			return JsonUtils.toJSONString(resultMessage);
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("操作失败.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("操作失败.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 	}
@@ -225,15 +225,15 @@ public class DeptController extends BaseBackendController {
 		int[] iRangeButton = { EButtonType.PhyDelete, EButtonType.Delete, EButtonType.Enable, EButtonType.Disable };
 		int iCurrentButtonId = RequestParameters.getInt("oButtonId");
 		ResultMessage tempAuth = Utits.isOperateAuth(iRangePage, iCurrentPageNodeId, iRangeButton, iCurrentButtonId);
-		if (!tempAuth.getErrorCode().equals(EErrorCode.Success)) {
+		if (!tempAuth.getCode().equals(EErrorCode.Success)) {
 			return JsonUtils.toJSONString(tempAuth);
 		}
 
 		String paramIds = RequestParameters.getString("ids");
 		if (StringUtils.isEmpty(paramIds)) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("参数不合法.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("参数不合法.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 
@@ -249,21 +249,21 @@ public class DeptController extends BaseBackendController {
 
 		if (ids.length <= 0) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("参数不合法.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("参数不合法.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 		
 		boolean isFlag = deptService.batchExecuteByIds(ids, iCurrentButtonId + "");
 		if (isFlag) {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Success);
-			resultMessage.setErrorMessage("操作成功.");
+			resultMessage.setCode(EErrorCode.Success);
+			resultMessage.setMessage("操作成功.");
 			return JsonUtils.toJSONString(resultMessage);
 		} else {
 			ResultMessage resultMessage = new ResultMessage();
-			resultMessage.setErrorCode(EErrorCode.Error);
-			resultMessage.setErrorMessage("操作失败.");
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("操作失败.");
 			return JsonUtils.toJSONString(resultMessage);
 		}
 	}

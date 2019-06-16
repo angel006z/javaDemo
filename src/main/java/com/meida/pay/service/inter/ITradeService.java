@@ -22,37 +22,37 @@ public interface ITradeService {
 	/**
 	 * 交易支付
 	 */
-	ResultTradePay TradePay(ParametersTradePay builderParameters);
+	ResultTradePay tradePay(ParametersTradePay builderParameters);
 
 	/**
 	 * 交易查询
 	 */
-	ResultTradeQuery TradeQuery(ParametersTradeQuery builderParameters);
+	ResultTradeQuery tradeQuery(ParametersTradeQuery builderParameters);
 
 	/**
 	 * 交易退款
 	 * 
 	 */
-	ResultTradeRefund TradeRefund(ParametersTradeRefund builderParameters);
+	ResultTradeRefund tradeRefund(ParametersTradeRefund builderParameters);
 
 	/**
 	 * 交易退款查询
 	 */
-	ResultTradeRefundQuery TradeRefundQuery(ParametersTradeRefundQuery builderParameters);
+	ResultTradeRefundQuery tradeRefundQuery(ParametersTradeRefundQuery builderParameters);
 
 	/**
 	 * 交易关闭
 	 */
-	ResultTradeClose TradeClose(ParametersTradeClose builderParameters);
+	ResultTradeClose tradeClose(ParametersTradeClose builderParameters);
 
 	/**
 	 * 交易对账单
 	 */
-	ResultTradeBillDownload TradeBillDownload(ParametersTradeBillDownload builderParameters);
+	ResultTradeBillDownload tradeBillDownload(ParametersTradeBillDownload builderParameters);
 
 	/**
 	 * 交易验证回跳通知是否合法
 	 */
-	boolean TradeNotifyVerify(ParametersTradeNotifyVerify builderParameters);
+	boolean tradeNotifyVerify(ParametersTradeNotifyVerify builderParameters);
 
 }

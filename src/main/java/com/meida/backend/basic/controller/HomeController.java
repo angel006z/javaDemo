@@ -51,44 +51,44 @@ public class HomeController {
     public String modifyPassword() {
         ResultMessage resultMessage = new ResultMessage();
         if (!Utits.isLogin()) {
-            resultMessage.setErrorCode(EErrorCode.NoLogin);
-            resultMessage.setErrorMessage("未登录.");
+            resultMessage.setCode(EErrorCode.NoLogin);
+            resultMessage.setMessage("未登录.");
             return JsonUtils.toJSONString(resultMessage);
         }
         String oldPassword = RequestParameters.getString("OldPassword");
         if (oldPassword.length() <= 0) {
-            resultMessage.setErrorCode(EErrorCode.Error);
-            resultMessage.setErrorMessage("旧密码不能为空.");
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("旧密码不能为空.");
             return JsonUtils.toJSONString(resultMessage);
         }
         String newPassword = RequestParameters.getString("NewPassword");
         if (newPassword.length() <= 0) {
-            resultMessage.setErrorCode(EErrorCode.Error);
-            resultMessage.setErrorMessage("新密码不能为空.");
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("新密码不能为空.");
             return JsonUtils.toJSONString(resultMessage);
         }
 
         UUID currentUserId = Utits.getCurrentUserId();
         User item = userService.getObjectById(currentUserId.toString());
         if (item == null) {
-            resultMessage.setErrorCode(EErrorCode.Error);
-            resultMessage.setErrorMessage("当前用户不存在.");
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("当前用户不存在.");
             return JsonUtils.toJSONString(resultMessage);
         }
         if (!HashEncryptUtils.backendPassword(oldPassword).equals(item.getPassword())) {
-            resultMessage.setErrorCode(EErrorCode.Error);
-            resultMessage.setErrorMessage("旧密码有误.");
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("旧密码有误.");
             return JsonUtils.toJSONString(resultMessage);
         }
 
         boolean isFlag = userService.changePassword(item.getUserId(), HashEncryptUtils.backendPassword(newPassword));
         if (isFlag) {
-            resultMessage.setErrorCode(EErrorCode.Success);
-            resultMessage.setErrorMessage("操作成功.");
+            resultMessage.setCode(EErrorCode.Success);
+            resultMessage.setMessage("操作成功.");
             return JsonUtils.toJSONString(resultMessage);
         } else {
-            resultMessage.setErrorCode(EErrorCode.Error);
-            resultMessage.setErrorMessage("操作失败.");
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("操作失败.");
             return JsonUtils.toJSONString(resultMessage);
         }
     }
@@ -105,8 +105,8 @@ public class HomeController {
         CookieUtils.deleteCookie(request, response, "PASSWORD");
 
         ResultMessage resultMessage = new ResultMessage();
-        resultMessage.setErrorCode(EErrorCode.Success);
-        resultMessage.setErrorMessage("退出系统成功.");
+        resultMessage.setCode(EErrorCode.Success);
+        resultMessage.setMessage("退出系统成功.");
         return JsonUtils.toJSONString(resultMessage);
     }
 
