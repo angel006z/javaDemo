@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/front/alipayreturn")
+@RequestMapping(value = "/front/pay/alipayreturn")
 public class AlipayReturnController {
 	@RequestMapping(value = "/index")
     public ModelAndView index() {

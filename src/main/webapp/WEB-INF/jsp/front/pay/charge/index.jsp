@@ -109,8 +109,18 @@ function confirmCharge() {
 				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
-			console.log(response.message)		
-			$(".container").html(response.message);
+			$(".container").html(response.message)
+			/* var body = $("body");
+			var action ="http://localhost:8088/javaDemo/front/pay/charge/jump";
+		    var form = $('<form></form>'); 
+		    body.append(form);
+		    form.attr('action', action);  
+		    form.attr('method', 'post'); 
+		    form.attr('target', '_blank');  
+		    var formMsg = $('<input type="text" name="formMsg" />');  
+		    formMsg.attr('value',response.message);  
+		    form.append(formMsg);  
+		    form.submit();   */
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

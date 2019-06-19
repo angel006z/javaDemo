@@ -1,5 +1,7 @@
 package com.meida.pay.service.impl;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,7 +65,7 @@ public class TradeServiceImpl implements ITradeService {
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setBody(builderParameters.getSubject());
 			builder.setDetail(builderParameters.getBody());
-			builder.setTotal_fee((int) Double.parseDouble(builderParameters.getTotal_fee()) * 100);
+			builder.setTotal_fee((builderParameters.getTotal_fee().multiply(new BigDecimal(100)).longValue()));
 			boolean isValidateParameters = builder.Validate();
 			if (!isValidateParameters) {
 				ResultTradePay resultTradePay = new ResultTradePay();

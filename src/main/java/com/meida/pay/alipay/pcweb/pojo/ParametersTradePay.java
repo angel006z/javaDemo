@@ -1,5 +1,7 @@
 package com.meida.pay.alipay.pcweb.pojo;
 
+import java.math.BigDecimal;
+
 import com.meida.common.util.StringUtils;
 
 public class ParametersTradePay extends ParametersBuilder {
@@ -69,7 +71,7 @@ public class ParametersTradePay extends ParametersBuilder {
     /**
      * 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
      */
-    private String total_amount;
+    private BigDecimal total_amount;
     /**
      * 订单标题
      */
@@ -91,10 +93,10 @@ public class ParametersTradePay extends ParametersBuilder {
 	public void setProduct_code(String product_code) {
 		this.product_code = product_code;
 	}
-	public String getTotal_amount() {
+	public BigDecimal getTotal_amount() {
 		return total_amount;
 	}
-	public void setTotal_amount(String total_amount) {
+	public void setTotal_amount(BigDecimal total_amount) {
 		this.total_amount = total_amount;
 	}
 	public String getSubject() {

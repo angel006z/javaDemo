@@ -46,7 +46,7 @@ public class ParametersTradePay extends ParametersBuilder {
 	/**
 	 * 总金额（单位分）
 	 */
-	private int total_fee;
+	private long total_fee;
 
 	/**
 	 * 终端IP
@@ -212,11 +212,11 @@ public class ParametersTradePay extends ParametersBuilder {
 		this.fee_type = fee_type;
 	}
 
-	public int getTotal_fee() {
+	public long getTotal_fee() {
 		return total_fee;
 	}
 
-	public void setTotal_fee(int total_fee) {
+	public void setTotal_fee(long total_fee) {
 		this.total_fee = total_fee;
 	}
 

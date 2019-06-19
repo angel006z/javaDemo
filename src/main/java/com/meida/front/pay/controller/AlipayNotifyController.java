@@ -42,7 +42,7 @@ cookies、session等在此页面会失效，即无法获取这些数据；
  *
  */
 @Controller
-@RequestMapping(value = "/front/alipaynotify")
+@RequestMapping(value = "/front/pay/alipaynotify")
 public class AlipayNotifyController {
 	private static Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);
 	

@@ -10,7 +10,7 @@ public class ParametersTradePay extends ParametersBuilder {
 		body = "";
 		attach = "";
 		out_trade_no = "";
-		total_fee = "0.00";
+		total_fee = new BigDecimal(0.00);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ParametersTradePay extends ParametersBuilder {
 	/**
 	 * 总金额（人民币单位元）
 	 */
-	private String total_fee;
+	private BigDecimal total_fee;
 
 	@Override
 	public boolean Validate() {
@@ -96,11 +96,11 @@ public class ParametersTradePay extends ParametersBuilder {
 		this.out_trade_no = out_trade_no;
 	}
 
-	public String getTotal_fee() {
+	public BigDecimal getTotal_fee() {
 		return total_fee;
 	}
 
-	public void setTotal_fee(String total_fee) {
+	public void setTotal_fee(BigDecimal total_fee) {
 		this.total_fee = total_fee;
 	}
 

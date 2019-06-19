@@ -1,5 +1,6 @@
 package com.meida.front.pay.service.impl;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
@@ -28,7 +29,7 @@ public class PayServiceImpl implements IPayService {
 	  
 		ResultMessage resultMessage = new ResultMessage();
 		String orderNo =getOrderNoByCharge();
-		String total_fee = chargeDto.getTotal_fee()+"";
+		BigDecimal total_fee = chargeDto.getTotal_fee();
 				
 		//系统后台产生订单
 		
@@ -41,7 +42,7 @@ public class PayServiceImpl implements IPayService {
 		builderParameters.setOut_trade_no(orderNo);
 		builderParameters.setSubject("充值");
 		builderParameters.setAttach("");
-		builderParameters.setBody(String.format("产品订单号：[%s],日期：[%s]",orderNo,DateUtils.formatDate(DateUtils.now(), "yyyy-MM-dd HH:mm:ss.ff")));
+		builderParameters.setBody(String.format("产品订单号：[%s],日期：[%s]",orderNo,DateUtils.formatDate(DateUtils.now(), "yyyy-MM-dd HH:mm:ss.SSS")));
 		builderParameters.setTotal_fee(total_fee);
 		ResultTradePay resultTradePay = tradeService.tradePay(builderParameters);
 		

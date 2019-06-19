@@ -16,8 +16,8 @@ import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;
 
 @Controller
-@RequestMapping(value = "/front/pay")
-public class PayController {
+@RequestMapping(value = "/front/pay/charge")
+public class ChargeController {
 	@Autowired
 	private IPayService payService;
 
@@ -26,7 +26,12 @@ public class PayController {
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
-
+	@RequestMapping(value = "/jump")
+	public ModelAndView jump() {
+		ModelAndView modelAndView = new ModelAndView();
+		return modelAndView;
+	}
+	
 	@RequestMapping(value = "/confirmCharge")
 	@ResponseBody
 	public String confirmCharge() {
