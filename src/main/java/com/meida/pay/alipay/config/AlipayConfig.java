@@ -1,6 +1,6 @@
 package com.meida.pay.alipay.config;
 
-public class Config {
+public class AlipayConfig {
 	/// <summary>
 	///注意要将rsa公钥上传到支付上。上传到支付宝后，支付宝会生成支付宝公钥。
     /// 开发者应用私钥。java配置PKCS8格式，PHP/.Net语言配置rsa_private_key.pem文件中原始私钥。

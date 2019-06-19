@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.meida.common.util.JsonUtils;
-import com.meida.pay.alipay.config.Config;
+import com.meida.pay.alipay.config.AlipayConfig;
 import com.meida.pay.alipay.pcweb.pojo.AlipayNotifyParam;
 
 /**
@@ -70,11 +70,12 @@ public class AlipayNotifyController {
         Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
         String paramsJson = JsonUtils.toJSONString(params);
         logger.info("支付宝回调，{}", paramsJson);
+        System.out.println(paramsJson);
         try {
            
             // 调用SDK验证签名
-            boolean signVerified = AlipaySignature.rsaCheckV1(params, com.meida.pay.alipay.config.Config.ALIPAY_PUBLIC_KEY,
-            		com.meida.pay.alipay.config.Config.CHARSET, com.meida.pay.alipay.config.Config.SIGNTYPE);
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY,
+            		AlipayConfig.CHARSET, AlipayConfig.SIGNTYPE);
             if (signVerified) {
                 logger.info("支付宝回调签名认证成功");
                 // 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
@@ -178,7 +179,7 @@ public class AlipayNotifyController {
         // 第三步可根据实际情况省略
 
         // 4、验证app_id是否为该商户本身。
-        if (!params.get("app_id").equals(com.meida.pay.alipay.config.Config.APPID)) {
+        if (!params.get("app_id").equals(com.meida.pay.alipay.config.AlipayConfig.APPID)) {
             throw new AlipayApiException("app_id不一致");
         }
     }

@@ -4,7 +4,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.pay.alipay.config.AlipayClientFactory;
-import com.meida.pay.alipay.config.Config;
+import com.meida.pay.alipay.config.AlipayConfig;
 import com.meida.pay.alipay.pcweb.pojo.ParametersTradePay;
 import com.meida.pay.alipay.pcweb.pojo.ResultTradePay;
 import com.meida.pay.alipay.pcweb.service.inter.IAlipayTradeService;
@@ -20,8 +20,8 @@ public class AlipayTradeServiceImpl implements IAlipayTradeService {
 		ResultTradePay result = new ResultTradePay();
 		try {
 			AlipayTradePagePayRequest payRequest = new AlipayTradePagePayRequest();
-			payRequest.setReturnUrl(Config.ALIPAY_ReturnUrl);
-			payRequest.setNotifyUrl(Config.ALIPAY_NotifyUrl);
+			payRequest.setReturnUrl(AlipayConfig.ALIPAY_ReturnUrl);
+			payRequest.setNotifyUrl(AlipayConfig.ALIPAY_NotifyUrl);
 			payRequest.setBizContent(builder.GetParameters());
 			result.setForm(client.pageExecute(payRequest).getBody());
 			result.setCode(EErrorCode.Success);
