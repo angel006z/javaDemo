@@ -1,5 +1,6 @@
 package com.meida.front.pay.domain.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class MemberFundAmount {	   
@@ -10,7 +11,7 @@ public class MemberFundAmount {
       private  Long memberId;
      
 	 //总金额 千亿保留2位小数，单位RMB(元)
-      private  Double totalMoney;
+      private  BigDecimal totalMoney;
      
 	
       private  Date createDate;
@@ -22,7 +23,7 @@ public class MemberFundAmount {
       private  Long operatorId;
      
 	
-      private  Date isValid;
+      private  Integer isValid;
      
 	
       private  String remark;
@@ -45,10 +46,10 @@ public class MemberFundAmount {
       	this.memberId=memberId;
       }  
      
-      public  Double  getTotalMoney(){
+      public  BigDecimal  getTotalMoney(){
       		return  this.totalMoney;
       };
-      public  void  setTotalMoney(Double totalMoney){
+      public  void  setTotalMoney(BigDecimal totalMoney){
       	this.totalMoney=totalMoney;
       }  
      
@@ -73,10 +74,10 @@ public class MemberFundAmount {
       	this.operatorId=operatorId;
       }  
      
-      public  Date  getIsValid(){
+      public  Integer  getIsValid(){
       		return  this.isValid;
       };
-      public  void  setIsValid(Date isValid){
+      public  void  setIsValid(Integer isValid){
       	this.isValid=isValid;
       }  
      

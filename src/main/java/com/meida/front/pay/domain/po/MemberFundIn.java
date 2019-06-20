@@ -1,5 +1,6 @@
 package com.meida.front.pay.domain.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class MemberFundIn {
@@ -16,7 +17,7 @@ public class MemberFundIn {
       private  Date inDate;
      
 	 //收入金额 千亿保留2位小数，单位RMB(元)
-      private  Double inMoney;
+      private  BigDecimal inMoney;
      
 	 //收入方式
       private  String inWay;
@@ -31,7 +32,7 @@ public class MemberFundIn {
       private  Long operatorId;
      
 	 //状态1有效
-      private  Long isValid;
+      private  Integer isValid;
      
 	 //备注
       private  String remark;
@@ -68,10 +69,10 @@ public class MemberFundIn {
       	this.inDate=inDate;
       }  
      
-      public  Double  getInMoney(){
+      public  BigDecimal  getInMoney(){
       		return  this.inMoney;
       };
-      public  void  setInMoney(Double inMoney){
+      public  void  setInMoney(BigDecimal inMoney){
       	this.inMoney=inMoney;
       }  
      
@@ -103,10 +104,10 @@ public class MemberFundIn {
       	this.operatorId=operatorId;
       }  
      
-      public  Long  getIsValid(){
+      public  Integer  getIsValid(){
       		return  this.isValid;
       };
-      public  void  setIsValid(Long isValid){
+      public  void  setIsValid(Integer isValid){
       	this.isValid=isValid;
       }  
      

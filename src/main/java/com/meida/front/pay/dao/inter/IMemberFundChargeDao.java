@@ -14,4 +14,6 @@ public interface IMemberFundChargeDao extends IBaseDao<MemberFundCharge> {
 	long isExistOrderNo(String orderNo);
 	
 	MemberFundCharge getObjectByOrderNo(Serializable orderNo);
+	
+	int updateByOrderNo(MemberFundCharge item);
 }
