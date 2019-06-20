@@ -1,10 +1,10 @@
-package com.meida.front.pay.po;
+package com.meida.front.pay.domain.po;
 
 import java.util.Date;
 
-public class MemberFundOut {
+public class MemberFundIn {
 	
-      private  Long memberFundOutId;
+      private  Long memberFundInId;
      
 	 //会员id
       private  Long memberId;
@@ -12,14 +12,14 @@ public class MemberFundOut {
 	 //订单号
       private  String orderNo;
      
-	 //支出时间
-      private  Date outDate;
+	 //收入时间
+      private  Date inDate;
      
-	 //支出金额 亿保留2位小数，单位RMB(元)
-      private  Double outMoney;
+	 //收入金额 千亿保留2位小数，单位RMB(元)
+      private  Double inMoney;
      
-	 //支出方式
-      private  String outWay;
+	 //收入方式
+      private  String inWay;
      
 	 //创建时间
       private  Date createDate;
@@ -40,11 +40,11 @@ public class MemberFundOut {
       private  String signature;
      
       
-      public  Long  getMemberFundOutId(){
-      		return  this.memberFundOutId;
+      public  Long  getMemberFundInId(){
+      		return  this.memberFundInId;
       };
-      public  void  setMemberFundOutId(Long memberFundOutId){
-      	this.memberFundOutId=memberFundOutId;
+      public  void  setMemberFundInId(Long memberFundInId){
+      	this.memberFundInId=memberFundInId;
       }  
      
       public  Long  getMemberId(){
@@ -61,25 +61,25 @@ public class MemberFundOut {
       	this.orderNo=orderNo;
       }  
      
-      public  Date  getOutDate(){
-      		return  this.outDate;
+      public  Date  getInDate(){
+      		return  this.inDate;
       };
-      public  void  setOutDate(Date outDate){
-      	this.outDate=outDate;
+      public  void  setInDate(Date inDate){
+      	this.inDate=inDate;
       }  
      
-      public  Double  getOutMoney(){
-      		return  this.outMoney;
+      public  Double  getInMoney(){
+      		return  this.inMoney;
       };
-      public  void  setOutMoney(Double outMoney){
-      	this.outMoney=outMoney;
+      public  void  setInMoney(Double inMoney){
+      	this.inMoney=inMoney;
       }  
      
-      public  String  getOutWay(){
-      		return  this.outWay;
+      public  String  getInWay(){
+      		return  this.inWay;
       };
-      public  void  setOutWay(String outWay){
-      	this.outWay=outWay;
+      public  void  setInWay(String inWay){
+      	this.inWay=inWay;
       }  
      
       public  Date  getCreateDate(){

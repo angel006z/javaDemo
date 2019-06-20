@@ -1,50 +1,41 @@
-package com.meida.front.pay.po;
+package com.meida.front.pay.domain.po;
 
 import java.util.Date;
 
-public class MemberFundIn {
+public class MemberFundAmount {	   
 	
-      private  Long memberFundInId;
+      private  Long memberFundAmountId;
      
 	 //会员id
       private  Long memberId;
      
-	 //订单号
-      private  String orderNo;
+	 //总金额 千亿保留2位小数，单位RMB(元)
+      private  Double totalMoney;
      
-	 //收入时间
-      private  Date inDate;
-     
-	 //收入金额 千亿保留2位小数，单位RMB(元)
-      private  Double inMoney;
-     
-	 //收入方式
-      private  String inWay;
-     
-	 //创建时间
+	
       private  Date createDate;
      
-	 //修改时间
+	
       private  Date operateDate;
      
-	 //修改人
+	
       private  Long operatorId;
      
-	 //状态1有效
-      private  Long isValid;
+	
+      private  Date isValid;
      
-	 //备注
+	
       private  String remark;
      
-	 //签名
+	
       private  String signature;
      
       
-      public  Long  getMemberFundInId(){
-      		return  this.memberFundInId;
+      public  Long  getMemberFundAmountId(){
+      		return  this.memberFundAmountId;
       };
-      public  void  setMemberFundInId(Long memberFundInId){
-      	this.memberFundInId=memberFundInId;
+      public  void  setMemberFundAmountId(Long memberFundAmountId){
+      	this.memberFundAmountId=memberFundAmountId;
       }  
      
       public  Long  getMemberId(){
@@ -54,32 +45,11 @@ public class MemberFundIn {
       	this.memberId=memberId;
       }  
      
-      public  String  getOrderNo(){
-      		return  this.orderNo;
+      public  Double  getTotalMoney(){
+      		return  this.totalMoney;
       };
-      public  void  setOrderNo(String orderNo){
-      	this.orderNo=orderNo;
-      }  
-     
-      public  Date  getInDate(){
-      		return  this.inDate;
-      };
-      public  void  setInDate(Date inDate){
-      	this.inDate=inDate;
-      }  
-     
-      public  Double  getInMoney(){
-      		return  this.inMoney;
-      };
-      public  void  setInMoney(Double inMoney){
-      	this.inMoney=inMoney;
-      }  
-     
-      public  String  getInWay(){
-      		return  this.inWay;
-      };
-      public  void  setInWay(String inWay){
-      	this.inWay=inWay;
+      public  void  setTotalMoney(Double totalMoney){
+      	this.totalMoney=totalMoney;
       }  
      
       public  Date  getCreateDate(){
@@ -103,10 +73,10 @@ public class MemberFundIn {
       	this.operatorId=operatorId;
       }  
      
-      public  Long  getIsValid(){
+      public  Date  getIsValid(){
       		return  this.isValid;
       };
-      public  void  setIsValid(Long isValid){
+      public  void  setIsValid(Date isValid){
       	this.isValid=isValid;
       }  
      

@@ -39,7 +39,7 @@
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<!-- 扫描sql配置文件:mapper需要的xml文件 -->
 		<property name="mapperLocations"
-			value="classpath*:com/meida/backend/basic/dao/mapping/*.xml" />
+			value="classpath*:com/meida/**/dao/mapping/*.xml" />
 	</bean>
 
 

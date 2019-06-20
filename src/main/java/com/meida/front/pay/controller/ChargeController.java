@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
-import com.meida.front.pay.dto.ChargeDto;
+import com.meida.front.pay.domain.dto.ChargeDto;
 import com.meida.front.pay.service.inter.IPayService;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;
@@ -46,11 +47,12 @@ public class ChargeController {
 			payChannel = "other";
 		}
 		
-		BigDecimal total_fee = new BigDecimal("1.00");
+		BigDecimal total_fee = new BigDecimal("10.23");
 		ChargeDto chargeDto = new ChargeDto();
 		chargeDto.setPayType(payType);
 		chargeDto.setPayChannel(payChannel);
 		chargeDto.setTotal_fee(total_fee);
-		return JsonUtils.toJSONString(payService.charge(chargeDto));
+		ResultMessage resultMessage = payService.charge(chargeDto);
+		return JsonUtils.toJSONString(resultMessage);
 	}
 }

@@ -1,4 +1,4 @@
-package com.meida.front.pay.dto;
+package com.meida.front.pay.domain.dto;
 
 import java.math.BigDecimal;
 

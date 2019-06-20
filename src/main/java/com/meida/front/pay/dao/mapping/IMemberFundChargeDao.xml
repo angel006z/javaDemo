@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.meida.front.pay.dao.inter.IMemberFundChargeDao">
+
+	<resultMap id="myResultMap"
+		type="com.meida.front.pay.domain.po.MemberFundCharge">
+		<id property="memberFundChargeId" column="memberFundChargeId"></id>
+		<result property="memberId" column="memberId"></result>
+		<result property="orderNo" column="orderNo"></result>
+		<result property="chargeMoney" column="chargeMoney"></result>
+		<result property="chargeDate" column="chargeDate"></result>
+		<result property="payType" column="payType"></result>
+		<result property="payChannel" column="payChannel"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+
+	<select id="getObjectById" parameterType="java.lang.Long"
+		resultMap="myResultMap">
+		select
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		from tb_member_fund_charge where memberFundChargeId=#{id}
+	</select>
+	
+	<select id="getObjectByOrderNo" parameterType="java.lang.String"
+		resultMap="myResultMap">
+		select
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		from tb_member_fund_charge where orderNo=#{orderNo}
+	</select>
+	
+	<select id="isExistOrderNo" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		select count(*) from tb_member_fund_charge where
+		orderNo=#{orderNo}
+	</select>
+
+
+	<select id="getListByAll" resultMap="myResultMap">
+		select
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		from tb_member_fund_charge
+	</select>
+
+
+	<select id="getListByValid" resultMap="myResultMap">
+		select
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		from tb_member_fund_charge where isValid=1
+	</select>
+
+	<resultMap id="myPageResultMap"
+		type="com.meida.front.pay.domain.vo.MemberFundChargeVo">
+		<id property="memberFundChargeId" column="memberFundChargeId"></id>
+		<result property="memberId" column="memberId"></result>
+		<result property="orderNo" column="orderNo"></result>
+		<result property="chargeMoney" column="chargeMoney"></result>
+		<result property="chargeDate" column="chargeDate"></result>
+		<result property="payType" column="payType"></result>
+		<result property="payChannel" column="payChannel"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+	
+	<select id="getListWhereByPage"
+		parameterType="com.meida.front.pay.domain.dto.MemberFundChargeListDto"
+		resultMap="myPageResultMap">
+		select
+		a.memberFundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tb_member_fund_charge as a
+		where a.isValid=1
+		<if test="memberId != null and memberId!=''">
+			AND a.memberId like "%"#{memberId}"%"
+		</if>
+		<if test="orderNo != null and orderNo!=''">
+			AND a.orderNo like "%"#{orderNo}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+	
+	<select id="getListByPage"
+		parameterType="com.meida.front.pay.domain.dto.MemberFundChargeListDto"
+		resultMap="myPageResultMap">
+		select
+		a.memberFundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tb_member_fund_charge as a
+		where a.isValid=1
+		<if test="memberId != null and memberId!=''">
+			AND a.memberId like "%"#{memberId}"%"
+		</if>
+		<if test="orderNo != null and orderNo!=''">
+			AND a.orderNo like "%"#{orderNo}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+
+
+	<select id="getTotalRecord"
+		parameterType="com.meida.front.pay.domain.dto.MemberFundChargeListDto"
+		resultType="java.lang.Long">
+		select count(*) from tb_member_fund_charge
+		where isValid=1
+		<if test="memberId != null and memberId!=''">
+			AND memberId like "%"#{memberId}"%"
+		</if>
+		<if test="orderNo != null and orderNo!=''">
+			AND orderNo like "%"#{orderNo}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+
+
+	<insert id="save"
+		parameterType="com.meida.front.pay.domain.po.MemberFundCharge">
+		insert into tb_member_fund_charge
+		(memberId,orderNo,chargeMoney,payType,chargeDate,payChannel,isPay,createDate,operateDate,operatorId,isValid,remark,signature)
+		values
+		(#{memberId},#{orderNo},#{chargeMoney},#{payType},#{chargeDate},
+		#{payChannel},#{isPay},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
+
+	</insert>
+
+
+	<update id="update"
+		parameterType="com.meida.front.pay.domain.po.MemberFundCharge">
+		update tb_member_fund_charge
+		<set>
+			<if test="memberId!=null">
+				memberId=#{memberId},
+			</if>
+			<if test="orderNo!=null">
+				orderNo=#{orderNo},
+			</if>
+			<if test="chargeMoney!=null">
+				chargeMoney=#{chargeMoney},
+			</if>
+			<if test="chargeDate!=null">
+				chargeDate=#{chargeDate},
+			</if>
+			<if test="payType!=null">
+				payType=#{payType},
+			</if>
+			<if test="payChannel!=null">
+				payChannel=#{payChannel},
+			</if>
+			<if test="operateDate!=null">
+				operateDate=#{operateDate},
+			</if>
+			<if test="operatorId!=null">
+				operatorId=#{operatorId},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark}
+			</if>
+			<if test="signature!=null">
+				signature=#{signature}
+			</if>
+		</set>
+		where memberFundChargeId=#{memberFundChargeId}
+	</update>
+
+
+	<delete id="deletePhysicalById" parameterType="java.lang.Long">
+		delete from
+		tb_member_fund_charge
+		where memberFundChargeId=#{id}
+	</delete>
+
+
+	<delete id="deleteLogicById" parameterType="java.lang.Long">
+		update
+		tb_member_fund_charge set
+		isValid=-1 where memberFundChargeId=#{id}
+	</delete>
+
+</mapper>

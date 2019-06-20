@@ -1,4 +1,4 @@
-package com.meida.front.pay.po;
+package com.meida.front.pay.domain.po;
 
 import java.util.Date;
 
@@ -103,7 +103,7 @@ public class AlipayNotify {
       private  Date operateDate;
      
 	 //状态1有效
-      private  Long isValid;
+      private  Integer isValid;
      
 	 //备注
       private  String remark;
@@ -340,10 +340,10 @@ public class AlipayNotify {
       	this.operateDate=operateDate;
       }  
      
-      public  Long  getIsValid(){
+      public  Integer  getIsValid(){
       		return  this.isValid;
       };
-      public  void  setIsValid(Long isValid){
+      public  void  setIsValid(Integer isValid){
       	this.isValid=isValid;
       }  
      

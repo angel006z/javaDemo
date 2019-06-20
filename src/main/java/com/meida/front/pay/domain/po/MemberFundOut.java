@@ -1,41 +1,50 @@
-package com.meida.front.pay.po;
+package com.meida.front.pay.domain.po;
 
 import java.util.Date;
 
-public class MemberFundAmount {	   
+public class MemberFundOut {
 	
-      private  Long memberFundAmountId;
+      private  Long memberFundOutId;
      
 	 //会员id
       private  Long memberId;
      
-	 //总金额 千亿保留2位小数，单位RMB(元)
-      private  Double totalMoney;
+	 //订单号
+      private  String orderNo;
      
-	
+	 //支出时间
+      private  Date outDate;
+     
+	 //支出金额 亿保留2位小数，单位RMB(元)
+      private  Double outMoney;
+     
+	 //支出方式
+      private  String outWay;
+     
+	 //创建时间
       private  Date createDate;
      
-	
+	 //修改时间
       private  Date operateDate;
      
-	
+	 //修改人
       private  Long operatorId;
      
-	
-      private  Date isValid;
+	 //状态1有效
+      private  Long isValid;
      
-	
+	 //备注
       private  String remark;
      
-	
+	 //签名
       private  String signature;
      
       
-      public  Long  getMemberFundAmountId(){
-      		return  this.memberFundAmountId;
+      public  Long  getMemberFundOutId(){
+      		return  this.memberFundOutId;
       };
-      public  void  setMemberFundAmountId(Long memberFundAmountId){
-      	this.memberFundAmountId=memberFundAmountId;
+      public  void  setMemberFundOutId(Long memberFundOutId){
+      	this.memberFundOutId=memberFundOutId;
       }  
      
       public  Long  getMemberId(){
@@ -45,11 +54,32 @@ public class MemberFundAmount {
       	this.memberId=memberId;
       }  
      
-      public  Double  getTotalMoney(){
-      		return  this.totalMoney;
+      public  String  getOrderNo(){
+      		return  this.orderNo;
       };
-      public  void  setTotalMoney(Double totalMoney){
-      	this.totalMoney=totalMoney;
+      public  void  setOrderNo(String orderNo){
+      	this.orderNo=orderNo;
+      }  
+     
+      public  Date  getOutDate(){
+      		return  this.outDate;
+      };
+      public  void  setOutDate(Date outDate){
+      	this.outDate=outDate;
+      }  
+     
+      public  Double  getOutMoney(){
+      		return  this.outMoney;
+      };
+      public  void  setOutMoney(Double outMoney){
+      	this.outMoney=outMoney;
+      }  
+     
+      public  String  getOutWay(){
+      		return  this.outWay;
+      };
+      public  void  setOutWay(String outWay){
+      	this.outWay=outWay;
       }  
      
       public  Date  getCreateDate(){
@@ -73,10 +103,10 @@ public class MemberFundAmount {
       	this.operatorId=operatorId;
       }  
      
-      public  Date  getIsValid(){
+      public  Long  getIsValid(){
       		return  this.isValid;
       };
-      public  void  setIsValid(Date isValid){
+      public  void  setIsValid(Long isValid){
       	this.isValid=isValid;
       }  
      
