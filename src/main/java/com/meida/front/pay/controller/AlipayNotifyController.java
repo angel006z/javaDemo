@@ -176,7 +176,7 @@ public class AlipayNotifyController {
 //        }
 
         // 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
-        // 第三步可根据实际情况省略
+       
 
         // 4、验证app_id是否为该商户本身。
         if (!params.get("app_id").equals(com.meida.pay.alipay.config.AlipayConfig.APPID)) {

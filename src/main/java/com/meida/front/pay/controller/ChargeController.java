@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
 import com.meida.front.pay.dto.ChargeDto;
-import com.meida.front.pay.service.IPayService;
+import com.meida.front.pay.service.inter.IPayService;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;
 

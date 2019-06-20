@@ -1,20 +1,19 @@
-package com.meida.front.pay.service.impl;
+package com.meida.front.pay.service.inter.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
-import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
-import com.meida.common.util.JsonUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.dto.ChargeDto;
-import com.meida.front.pay.service.IPayService;
-import com.meida.pay.pojo.EPayChannel;
-import com.meida.pay.pojo.EPayType;
+import com.meida.front.pay.po.MemberFundCharge;
+import com.meida.front.pay.service.inter.IMemberFundChargeService;
+import com.meida.front.pay.service.inter.IPayService;
 import com.meida.pay.pojo.ParametersTradePay;
 import com.meida.pay.pojo.ResultTradePay;
 import com.meida.pay.service.inter.ITradeService;
@@ -23,26 +22,44 @@ import com.meida.pay.service.inter.ITradeService;
 public class PayServiceImpl implements IPayService {
 	@Autowired
 	private ITradeService tradeService;
+	
+	@Autowired
+	private IMemberFundChargeService memberFundChargeService;
 
 	@Override
 	public ResultMessage charge(ChargeDto chargeDto) {
-	  
+	    Date	nowTime =DateUtils.now();
 		ResultMessage resultMessage = new ResultMessage();
 		String orderNo =getOrderNoByCharge();
 		BigDecimal total_fee = chargeDto.getTotal_fee();
-				
-		//系统后台产生订单
-		
-		
-		
-		
+	    Long	memberId=1l;
+		//系统生成订单信息
+		MemberFundCharge memberFundCharge=new MemberFundCharge();
+		memberFundCharge.setMemberId(memberId);
+		memberFundCharge.setOrderNo(orderNo);		
+		memberFundCharge.setChargeMoney(total_fee);
+		memberFundCharge.setChargeDate(nowTime);
+		memberFundCharge.setPayType(chargeDto.getPayType());
+		memberFundCharge.setPayChannel(chargeDto.getPayChannel());
+		memberFundCharge.setIsPay("no");
+		memberFundCharge.setCreateDate(nowTime);
+		memberFundCharge.setOperateDate(nowTime);
+		memberFundCharge.setIsValid(1);
+		memberFundCharge.setRemark(String.format("充值，产品订单号：[%s],日期：[%s]",orderNo,DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
+	   boolean isMfc = memberFundChargeService.addOrUpdate(memberFundCharge, true);
+	   if (isMfc==false) {			
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("系统产生订单错误，请重新充值");
+			return resultMessage;
+		}
+		//调用充值接口
 		ParametersTradePay builderParameters = new ParametersTradePay();
 		builderParameters.setPayType(chargeDto.getPayType());
 		builderParameters.setPayChannel(chargeDto.getPayChannel());
 		builderParameters.setOut_trade_no(orderNo);
 		builderParameters.setSubject("充值");
 		builderParameters.setAttach("");
-		builderParameters.setBody(String.format("产品订单号：[%s],日期：[%s]",orderNo,DateUtils.formatDate(DateUtils.now(), "yyyy-MM-dd HH:mm:ss.SSS")));
+		builderParameters.setBody(String.format("产品订单号：[%s],日期：[%s]",orderNo,DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
 		builderParameters.setTotal_fee(total_fee);
 		ResultTradePay resultTradePay = tradeService.tradePay(builderParameters);
 		
