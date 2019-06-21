@@ -40,12 +40,12 @@ public class AlipayReturnController {
 	private ExecutorService executorService = Executors.newFixedThreadPool(20);
 
 	@RequestMapping(value = "/index")
-    public ModelAndView index(HttpServletRequest request) {		
-		handleAlipay(request);			
-        ModelAndView modelAndView = new ModelAndView();
-        return modelAndView;
-    }
-	
+	public ModelAndView index(HttpServletRequest request) {
+		handleAlipay(request);
+		ModelAndView modelAndView = new ModelAndView();
+		return modelAndView;
+	}
+
 	private String handleAlipay(HttpServletRequest request) {
 		Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
 		String paramsJson = JsonUtils.toJSONString(params);
@@ -59,13 +59,13 @@ public class AlipayReturnController {
 				logger.info("支付宝回调签名认证成功");
 				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
 				this.check(params);
-				
+
 				String out_trade_no = params.get("out_trade_no");
 				MemberFundCharge memberFundCharge = memberFundChargeService.getObjectByOrderNo(out_trade_no);
-				if (memberFundCharge!=null) {
-					return "failure"; 
+				if (memberFundCharge != null) {
+					return "failure";
 				}
-				if(memberFundCharge.getIsPay().equals("yes")) {
+				if (memberFundCharge.getIsPay().equals("yes")) {
 					return "success";
 				}
 				// 另起线程处理业务
@@ -84,13 +84,13 @@ public class AlipayReturnController {
 								alipayNotify.setOperateDate(nowTime);
 								alipayNotify.setIsValid(1);
 								alipayNotify.setRemark("");
-							    String orderNo =	alipayNotify.getOut_trade_no();
-								Boolean isFlag=memberFundChargeService.handleAlipayTradeSuccess(alipayNotify);
-								if(isFlag==false) {
-									//记录日志
+								String orderNo = alipayNotify.getOut_trade_no();
+								Boolean isFlag = memberFundChargeService.handleAlipayTradeSuccess(alipayNotify);
+								if (isFlag == false) {
+									// 记录日志
 									logger.error("没有处理支付宝回调业务，支付宝交易状态：{},params:{}", trade_status, paramsJson);
 								}
-								
+
 							} catch (Exception e) {
 								logger.error("支付宝回调业务处理报错,params:" + paramsJson, e);
 							}
@@ -171,11 +171,11 @@ public class AlipayReturnController {
 		}
 
 		// 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
-		String seller_id=params.get("seller_id");
-		if(!seller_id.equals(AlipayConfig.UID)) {
+		String seller_id = params.get("seller_id");
+		if (!seller_id.equals(AlipayConfig.UID)) {
 			throw new AlipayApiException("seller_id不一致");
 		}
-		
+
 		// 4、验证app_id是否为该商户本身。
 		if (!params.get("app_id").equals(AlipayConfig.APPID)) {
 			throw new AlipayApiException("app_id不一致");

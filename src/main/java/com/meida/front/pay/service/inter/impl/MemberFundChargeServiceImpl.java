@@ -71,45 +71,52 @@ public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
 			return false;
 		}
 		Date nowTime = DateUtils.now();
-		// 修改充值记录为已充值
-		MemberFundCharge item = new MemberFundCharge();
-		item.setOrderNo(orderNo);
-		item.setIsPay("yes");
-		item.setOperateDate(nowTime);
-		boolean isFlagPay = memberFundChargeDao.updateByOrderNo(item) > 0;
-		// 入账记录
-		Long memberId = 1l;
-		MemberFundIn memberFundIn = new MemberFundIn();
-		memberFundIn.setMemberId(memberId);
-		memberFundIn.setOrderNo(orderNo);
-		memberFundIn.setInDate(nowTime);
-		memberFundIn.setInMoney(alipayNotify.getTotal_amount());
-		memberFundIn.setInWay("alipay");
-		memberFundIn.setCreateDate(nowTime);
-		memberFundIn.setOperateDate(nowTime);
-		memberFundIn.setIsValid(1);
-		memberFundIn.setRemark("");
-		String signature = "";
-		memberFundIn.setSignature(signature);
-		memberFundInDao.save(memberFundIn);
+		MemberFundCharge memberFundChargeItem = memberFundChargeDao.getObjectByOrderNo(orderNo);
+		if (memberFundChargeItem == null) {
+			return false;
+		}
+		Boolean isPay = memberFundChargeItem.getIsPay().equals("yes");
+		if (isPay == false) {
+			// 修改充值记录为已充值
+			MemberFundCharge memberFundCharge = new MemberFundCharge();
+			memberFundCharge.setOrderNo(orderNo);
+			memberFundCharge.setIsPay("yes");
+			memberFundCharge.setOperateDate(nowTime);
+			boolean isFlagPay = memberFundChargeDao.updateByOrderNo(memberFundCharge) > 0;
+			// 入账记录
+			Long memberId = 1l;
+			MemberFundIn memberFundIn = new MemberFundIn();
+			memberFundIn.setMemberId(memberId);
+			memberFundIn.setOrderNo(orderNo);
+			memberFundIn.setInDate(nowTime);
+			memberFundIn.setInMoney(alipayNotify.getTotal_amount());
+			memberFundIn.setInWay("alipay");
+			memberFundIn.setCreateDate(nowTime);
+			memberFundIn.setOperateDate(nowTime);
+			memberFundIn.setIsValid(1);
+			memberFundIn.setRemark("");
+			String signature = "";
+			memberFundIn.setSignature(signature);
+			memberFundInDao.save(memberFundIn);
 
-		// 总资金
-		MemberFundAmount memberFundAmount = new MemberFundAmount();
-		memberFundAmount.setMemberId(memberId);
-		MemberFundAmount queryMemberFundAmount = memberFundAmountDao.getObjectByMemberId(memberId);
-		if (queryMemberFundAmount != null) {
-			BigDecimal totalMoney = queryMemberFundAmount.getTotalMoney().add(alipayNotify.getTotal_amount());
-			memberFundAmount.setTotalMoney(totalMoney);
-			memberFundAmount.setOperateDate(nowTime);
-			memberFundAmountDao.updateByMemberId(memberFundAmount);
-		} else {
-			memberFundAmount.setTotalMoney(alipayNotify.getTotal_amount());
-			memberFundAmount.setCreateDate(nowTime);
-			memberFundAmount.setOperateDate(nowTime);
-			memberFundAmount.setIsValid(1);
-			memberFundAmount.setRemark("");
-			memberFundAmount.setSignature("");
-			memberFundAmountDao.save(memberFundAmount);
+			// 总资金
+			MemberFundAmount memberFundAmount = new MemberFundAmount();
+			memberFundAmount.setMemberId(memberId);
+			MemberFundAmount queryMemberFundAmount = memberFundAmountDao.getObjectByMemberId(memberId);
+			if (queryMemberFundAmount != null) {
+				BigDecimal totalMoney = queryMemberFundAmount.getTotalMoney().add(alipayNotify.getTotal_amount());
+				memberFundAmount.setTotalMoney(totalMoney);
+				memberFundAmount.setOperateDate(nowTime);
+				memberFundAmountDao.updateByMemberId(memberFundAmount);
+			} else {
+				memberFundAmount.setTotalMoney(alipayNotify.getTotal_amount());
+				memberFundAmount.setCreateDate(nowTime);
+				memberFundAmount.setOperateDate(nowTime);
+				memberFundAmount.setIsValid(1);
+				memberFundAmount.setRemark("");
+				memberFundAmount.setSignature("");
+				memberFundAmountDao.save(memberFundAmount);
+			}
 		}
 		// 事务end
 		return true;
