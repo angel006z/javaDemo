@@ -3,9 +3,9 @@ package com.meida.front.pay.domain.vo;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class MemberFundChargeVo {
-		
-      private  Long memberFundChargeId;
+public class MemberFundInVo {
+	
+      private  Long memberFundInId;
      
 	 //会员id
       private  Long memberId;
@@ -13,20 +13,14 @@ public class MemberFundChargeVo {
 	 //订单号
       private  String orderNo;
      
-	 //充值金额 千亿保留2位小数，单位RMB(元)
-      private  BigDecimal chargeMoney;
+	 //收入时间
+      private  Date inDate;
      
-	 //充值时间
-      private  Date chargeDate;
+	 //收入金额 千亿保留2位小数，单位RMB(元)
+      private  BigDecimal inMoney;
      
-	 //充值方式:alipay、weixin、banks
-      private  String payType;
-     
-	 //充值方式
-      private  String payChannel;
-     
-	 //是否已支付完成 yes no
-      private  String isPay;
+	 //收入方式
+      private  String inWay;
      
 	 //创建时间
       private  Date createDate;
@@ -47,11 +41,11 @@ public class MemberFundChargeVo {
       private  String signature;
      
       
-      public  Long  getMemberFundChargeId(){
-      		return  this.memberFundChargeId;
+      public  Long  getMemberFundInId(){
+      		return  this.memberFundInId;
       };
-      public  void  setMemberFundChargeId(Long memberFundChargeId){
-      	this.memberFundChargeId=memberFundChargeId;
+      public  void  setMemberFundInId(Long memberFundInId){
+      	this.memberFundInId=memberFundInId;
       }  
      
       public  Long  getMemberId(){
@@ -68,39 +62,25 @@ public class MemberFundChargeVo {
       	this.orderNo=orderNo;
       }  
      
-      public  BigDecimal  getChargeMoney(){
-      		return  this.chargeMoney;
+      public  Date  getInDate(){
+      		return  this.inDate;
       };
-      public  void  setChargeMoney(BigDecimal chargeMoney){
-      	this.chargeMoney=chargeMoney;
+      public  void  setInDate(Date inDate){
+      	this.inDate=inDate;
       }  
      
-      public  Date  getChargeDate(){
-      		return  this.chargeDate;
+      public  BigDecimal  getInMoney(){
+      		return  this.inMoney;
       };
-      public  void  setChargeDate(Date chargeDate){
-      	this.chargeDate=chargeDate;
+      public  void  setInMoney(BigDecimal inMoney){
+      	this.inMoney=inMoney;
       }  
      
-      public  String  getPayType(){
-      		return  this.payType;
+      public  String  getInWay(){
+      		return  this.inWay;
       };
-      public  void  setPayType(String payType){
-      	this.payType=payType;
-      }  
-     
-      public  String  getPayChannel(){
-      		return  this.payChannel;
-      };
-      public  void  setPayChannel(String payChannel){
-      	this.payChannel=payChannel;
-      }  
-     
-      public  String  getIsPay(){
-      		return  this.isPay;
-      };
-      public  void  setIsPay(String isPay){
-      	this.isPay=isPay;
+      public  void  setInWay(String inWay){
+      	this.inWay=inWay;
       }  
      
       public  Date  getCreateDate(){

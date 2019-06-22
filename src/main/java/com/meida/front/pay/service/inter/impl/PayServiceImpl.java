@@ -36,14 +36,14 @@ public class PayServiceImpl implements IPayService {
 			resultMessage.setMessage("该订单号已存在，请重新充值");
 			return resultMessage;
 		}
-		
+
 		BigDecimal total_fee = chargeDto.getTotal_fee();
-		if (total_fee.signum()<=0) {
+		if (total_fee.signum() <= 0) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("充值金额必需大于0，请重新充值");
 			return resultMessage;
 		}
-		
+
 		Long memberId = 1l;
 		// 系统生成订单信息
 		MemberFundCharge memberFundCharge = new MemberFundCharge();
@@ -66,7 +66,7 @@ public class PayServiceImpl implements IPayService {
 			resultMessage.setMessage("系统产生订单错误，请重新充值");
 			return resultMessage;
 		}
-		
+
 		// 调用充值接口
 		ParametersTradePay builderParameters = new ParametersTradePay();
 		builderParameters.setPayType(chargeDto.getPayType());

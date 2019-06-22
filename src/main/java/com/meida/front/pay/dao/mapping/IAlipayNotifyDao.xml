@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.meida.front.pay.dao.inter.IIAlipayNotifyDao">
+
+	<resultMap id="myResultMap"
+		type="com.meida.front.pay.domain.po.AlipayNotify">
+		<id property="alipayNotifyId" column="alipayNotifyId"></id>
+		<result property="notify_time" column="notify_time"></result>
+		<result property="notify_type" column="notify_type"></result>
+		<result property="notify_id" column="notify_id"></result>
+		<result property="charset" column="charset"></result>
+		<result property="version" column="version"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+
+	<select id="getObjectById" parameterType="java.lang.Long"
+		resultMap="myResultMap">
+		select
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		from tb_alipay_notify where alipayNotifyId=#{id}
+	</select>
+	
+	<select id="getObjectByOrderNo" parameterType="java.lang.String"
+		resultMap="myResultMap">
+		select
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		from tb_alipay_notify where out_trade_no=#{out_trade_no}
+	</select>
+	
+	<select id="isExistOrderNo" parameterType="java.lang.String"
+		resultType="java.lang.Long">
+		select count(*) from tb_alipay_notify where
+		out_trade_no=#{out_trade_no}
+	</select>
+
+
+	<select id="getListByAll" resultMap="myResultMap">
+		select
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		from tb_alipay_notify
+	</select>
+
+
+	<select id="getListByValid" resultMap="myResultMap">
+		select
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		from tb_alipay_notify where isValid=1
+	</select>
+
+	<resultMap id="myPageResultMap"
+		type="com.meida.front.pay.domain.vo.AlipayNotifyVo">
+		<id property="alipayNotifyId" column="alipayNotifyId"></id>
+		<result property="notify_time" column="notify_time"></result>
+		<result property="notify_type" column="notify_type"></result>
+		<result property="notify_id" column="notify_id"></result>
+		<result property="charset" column="charset"></result>
+		<result property="version" column="version"></result>
+		<result property="sign_type" column="sign_type"></result>
+		<result property="sign" column="sign"></result>
+		<result property="auth_app_id" column="auth_app_id"></result>
+		<result property="trade_no" column="trade_no"></result>
+		<result property="app_id" column="app_id"></result>
+		<result property="out_trade_no" column="out_trade_no"></result>
+		<result property="out_biz_no" column="out_biz_no"></result>
+		<result property="buyer_id" column="buyer_id"></result>
+		<result property="seller_id" column="seller_id"></result>
+		<result property="trade_status" column="trade_status"></result>
+		<result property="total_amount" column="total_amount"></result>
+		<result property="receipt_amount" column="receipt_amount"></result>
+		<result property="invoice_amount" column="invoice_amount"></result>
+		<result property="buyer_pay_amount" column="buyer_pay_amount"></result>
+		<result property="point_amount" column="point_amount"></result>
+		<result property="refund_fee" column="refund_fee"></result>
+		<result property="subject" column="subject"></result>
+		<result property="body" column="body"></result>
+		<result property="gmt_create" column="gmt_create"></result>
+		<result property="gmt_payment" column="gmt_payment"></result>
+		<result property="gmt_refund" column="gmt_refund"></result>
+		<result property="gmt_close" column="gmt_close"></result>
+		<result property="fund_bill_list" column="fund_bill_list"></result>
+		<result property="voucher_detail_list" column="voucher_detail_list"></result>
+		<result property="passback_params" column="passback_params"></result>
+		<result property="createDate" column="createDate"></result>
+		<result property="operateDate" column="operateDate"></result>
+		<result property="operatorId" column="operatorId"></result>
+		<result property="isValid" column="isValid"></result>
+		<result property="remark" column="remark"></result>
+	</resultMap>
+	
+	<select id="getListWhereByPage"
+		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
+		resultMap="myPageResultMap">
+		select
+		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tb_alipay_notify as a
+		where a.isValid=1
+		<if test="out_trade_no != null and out_trade_no''">
+			AND a.out_trade_no like "%"#{out_trade_no}"%"
+		</if>
+		<if test="notify_type != null and notify_type!=''">
+			AND a.notify_type like "%"#{notify_type}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+	
+	<select id="getListByPage"
+		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
+		resultMap="myPageResultMap">
+		select
+		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tb_alipay_notify as a
+		where a.isValid=1
+		<if test="out_trade_no != null and out_trade_no''">
+			AND a.out_trade_no like "%"#{out_trade_no}"%"
+		</if>
+		<if test="notify_type != null and notify_type!=''">
+			AND a.notify_type like "%"#{notify_type}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+
+
+	<select id="getTotalRecord"
+		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
+		resultType="java.lang.Long">
+		select count(*) from tb_alipay_notify
+		where isValid=1
+		<if test="out_trade_no != null and out_trade_no!=''">
+			AND out_trade_no like "%"#{out_trade_no}"%"
+		</if>
+		<if test="notify_type != null and notify_type!=''">
+			AND notify_type like "%"#{notify_type}"%"
+		</if>
+		LIMIT
+		#{pagination.pageIndex},#{pagination.pageSize}
+	</select>
+
+
+	<insert id="save"
+		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
+		insert into tb_alipay_notify
+		(notify_time,notify_type,notify_id,version,charset,createDate,operateDate,operatorId,isValid,remark,signature)
+		values
+		(#{notify_time},#{notify_type},#{notify_id},#{version},#{charset},
+		#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
+
+	</insert>
+
+
+	<update id="update"
+		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
+		update tb_alipay_notify
+		<set>
+			<if test="notify_time!=null">
+				notify_time=#{notify_time},
+			</if>
+			<if test="notify_type!=null">
+				notify_type=#{notify_type},
+			</if>
+			<if test="notify_id!=null">
+				notify_id=#{notify_id},
+			</if>
+			<if test="charset!=null">
+				charset=#{charset},
+			</if>
+			<if test="version!=null">
+				version=#{version},
+			</if>			
+			<if test="operateDate!=null">
+				operateDate=#{operateDate},
+			</if>
+			<if test="operatorId!=null">
+				operatorId=#{operatorId},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark}
+			</if>
+			<if test="signature!=null">
+				signature=#{signature}
+			</if>
+		</set>
+		where alipayNotifyId=#{alipayNotifyId}
+	</update>
+	<update id="updateByOrderNo"
+		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
+		update tb_alipay_notify
+		<set>
+			<if test="notify_time!=null">
+				notify_time=#{notify_time},
+			</if>
+			<if test="notify_type!=null">
+				notify_type=#{notify_type},
+			</if>
+			<if test="notify_id!=null">
+				notify_id=#{notify_id},
+			</if>
+			<if test="charset!=null">
+				charset=#{charset},
+			</if>
+			<if test="version!=null">
+				version=#{version},
+			</if>			
+			<if test="operateDate!=null">
+				operateDate=#{operateDate},
+			</if>
+			<if test="operatorId!=null">
+				operatorId=#{operatorId},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark}
+			</if>
+			<if test="signature!=null">
+				signature=#{signature}
+			</if>
+		</set>
+		where out_trade_no=#{out_trade_no}
+	</update>
+
+
+	<delete id="deletePhysicalById" parameterType="java.lang.Long">
+		delete from
+		tb_alipay_notify
+		where alipayNotifyId=#{id}
+	</delete>
+
+
+	<delete id="deleteLogicById" parameterType="java.lang.Long">
+		update
+		tb_alipay_notify set
+		isValid=-1 where alipayNotifyId=#{id}
+	</delete>
+
+</mapper>

@@ -2,8 +2,8 @@ package com.meida.pay.alipay.pcweb.pojo;
 
 import com.meida.common.util.constant.EErrorCode;
 
-public class ResultTradePay {
-	public ResultTradePay()
+public class AlipayPcwebResultTradePay {
+	public AlipayPcwebResultTradePay()
     {
 		code = EErrorCode.Error;
 		message = "操作失败.";

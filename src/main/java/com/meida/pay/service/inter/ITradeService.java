@@ -1,5 +1,6 @@
 package com.meida.pay.service.inter;
 
+import com.meida.base.domain.vo.ResultMessage;
 import com.meida.pay.pojo.ParametersTradeBillDownload;
 import com.meida.pay.pojo.ParametersTradeClose;
 import com.meida.pay.pojo.ParametersTradeNotifyVerify;
@@ -24,6 +25,10 @@ public interface ITradeService {
 	 */
 	ResultTradePay tradePay(ParametersTradePay builderParameters);
 
+	/**
+	 * 是否交易成功
+	 */
+		ResultMessage tradeIsPaySuccess(ParametersTradeQuery builder);
 	/**
 	 * 交易查询
 	 */

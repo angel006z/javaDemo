@@ -22,9 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
+import com.meida.common.util.StringUtils;
+import com.meida.common.util.constant.EErrorCode;
+import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
+import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
 import com.meida.front.pay.domain.po.AlipayNotify;
+import com.meida.front.pay.domain.po.AlipayReturn;
 import com.meida.front.pay.domain.po.MemberFundCharge;
 import com.meida.front.pay.service.inter.IMemberFundChargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
@@ -37,11 +43,10 @@ public class AlipayReturnController {
 	@Autowired
 	private IMemberFundChargeService memberFundChargeService;
 
-	private ExecutorService executorService = Executors.newFixedThreadPool(20);
-
 	@RequestMapping(value = "/index")
 	public ModelAndView index(HttpServletRequest request) {
-		handleAlipay(request);
+		String result = handleAlipay(request);
+		System.out.println("result:" + result);
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
@@ -49,59 +54,24 @@ public class AlipayReturnController {
 	private String handleAlipay(HttpServletRequest request) {
 		Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
 		String paramsJson = JsonUtils.toJSONString(params);
-		logger.info("支付宝回调，{}", paramsJson);
-		System.out.println(paramsJson);
+		System.out.println("支付宝回调参数：" + paramsJson);
 		try {
 			// 调用SDK验证签名
 			boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY,
 					AlipayConfig.CHARSET, AlipayConfig.SIGNTYPE);
 			if (signVerified) {
 				logger.info("支付宝回调签名认证成功");
-				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
 				this.check(params);
 
-				String out_trade_no = params.get("out_trade_no");
-				MemberFundCharge memberFundCharge = memberFundChargeService.getObjectByOrderNo(out_trade_no);
-				if (memberFundCharge != null) {
+				AlipayReturnParamDto alipayReturnParamDto = buildAlipayReturnParam(params);
+				ResultMessage resultMessage = memberFundChargeService.handleAlipayReturn(alipayReturnParamDto);
+				System.out.println("resultMessage:" + JsonUtils.toJSONString(resultMessage));
+				logger.info(JsonUtils.toJSONString(resultMessage));
+				if (resultMessage.equals(EErrorCode.Success)) {
+					return "success";
+				} else {
 					return "failure";
 				}
-				if (memberFundCharge.getIsPay().equals("yes")) {
-					return "success";
-				}
-				// 另起线程处理业务
-				executorService.execute(new Runnable() {
-					@Override
-					public void run() {
-						AlipayNotify alipayNotify = buildAlipayNotifyParam(params);
-						String trade_status = alipayNotify.getTrade_status();
-						// 支付成功
-						if (trade_status.equals(AlipayTradeStatus.TRADE_SUCCESS)
-								|| trade_status.equals(AlipayTradeStatus.TRADE_FINISHED)) {
-							// 处理支付成功逻辑
-							try {
-								Date nowTime = DateUtils.now();
-								alipayNotify.setCreateDate(nowTime);
-								alipayNotify.setOperateDate(nowTime);
-								alipayNotify.setIsValid(1);
-								alipayNotify.setRemark("");
-								String orderNo = alipayNotify.getOut_trade_no();
-								Boolean isFlag = memberFundChargeService.handleAlipayTradeSuccess(alipayNotify);
-								if (isFlag == false) {
-									// 记录日志
-									logger.error("没有处理支付宝回调业务，支付宝交易状态：{},params:{}", trade_status, paramsJson);
-								}
-
-							} catch (Exception e) {
-								logger.error("支付宝回调业务处理报错,params:" + paramsJson, e);
-							}
-						} else {
-							logger.error("没有处理支付宝回调业务，支付宝交易状态：{},params:{}", trade_status, paramsJson);
-						}
-					}
-				});
-				// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
-				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
-				return "success";
 			} else {
 				logger.info("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
 				return "failure";
@@ -139,22 +109,11 @@ public class AlipayReturnController {
 		return retMap;
 	}
 
-	private AlipayNotify buildAlipayNotifyParam(Map<String, String> params) {
+	private AlipayReturnParamDto buildAlipayReturnParam(Map<String, String> params) {
 		String json = JsonUtils.toJSONString(params);
-		return JSON.parseObject(json, AlipayNotify.class);
+		return JSON.parseObject(json, AlipayReturnParamDto.class);
 	}
 
-	/**
-	 * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-	 * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-	 * 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
-	 * 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
-	 * 在上述验证通过后商户必须根据支付宝不同类型的业务通知，正确的进行不同的业务处理，并且过滤重复的通知结果数据。
-	 * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
-	 * 
-	 * @param params
-	 * @throws AlipayApiException
-	 */
 	private void check(Map<String, String> params) throws AlipayApiException {
 		String out_trade_no = params.get("out_trade_no");
 

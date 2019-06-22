@@ -2,7 +2,7 @@ package com.meida.pay.alipay.pcweb.pojo;
 
 import com.meida.common.util.JsonUtils;
 
-public abstract class ParametersBuilder {
+public abstract class AlipayPcwebParametersBuilder {
 
     public abstract boolean Validate();
 

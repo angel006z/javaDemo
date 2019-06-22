@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import com.meida.common.util.StringUtils;
 
-public class ParametersTradePay extends ParametersBuilder {
-	public ParametersTradePay()
+public class AlipayPcwebParametersTradePay extends AlipayPcwebParametersBuilder {
+	public AlipayPcwebParametersTradePay()
     {
         product_code = "FAST_INSTANT_TRADE_PAY";
     }

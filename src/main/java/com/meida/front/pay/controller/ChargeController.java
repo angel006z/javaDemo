@@ -27,12 +27,13 @@ public class ChargeController {
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
+
 	@RequestMapping(value = "/jump")
 	public ModelAndView jump() {
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/confirmCharge")
 	@ResponseBody
 	public String confirmCharge() {
@@ -46,7 +47,7 @@ public class ChargeController {
 			payType = "other";
 			payChannel = "other";
 		}
-		
+
 		BigDecimal total_fee = new BigDecimal("10.23");
 		ChargeDto chargeDto = new ChargeDto();
 		chargeDto.setPayType(payType);

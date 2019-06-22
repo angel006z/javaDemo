@@ -8,6 +8,6 @@ import com.meida.front.pay.domain.po.MemberFundIn;
 public interface IMemberFundInDao extends IBaseDao<MemberFundIn> {
 
 	long isExistOrderNo(String orderNo);
-	
+
 	MemberFundIn getObjectByOrderNo(Serializable orderNo);
 }

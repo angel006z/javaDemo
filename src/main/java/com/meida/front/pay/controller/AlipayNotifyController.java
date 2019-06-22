@@ -1,6 +1,7 @@
 package com.meida.front.pay.controller;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,8 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.meida.base.domain.vo.ResultMessage;
+import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
+import com.meida.common.util.StringUtils;
+import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
+import com.meida.front.pay.domain.po.AlipayNotify;
 import com.meida.front.pay.domain.po.MemberFundCharge;
 import com.meida.front.pay.service.inter.IMemberFundChargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
@@ -50,8 +56,6 @@ public class AlipayNotifyController {
 	@Autowired
 	private IMemberFundChargeService memberFundChargeService;
 
-	private ExecutorService executorService = Executors.newFixedThreadPool(20);
-
 	/**
 	 * <pre>
 	 * 第一步:验证签名,签名通过后进行第二步
@@ -70,10 +74,14 @@ public class AlipayNotifyController {
 	@RequestMapping("/index")
 	@ResponseBody
 	public String index(HttpServletRequest request) {
+		return handleAlipay(request);
+	}
+
+
+	private String handleAlipay(HttpServletRequest request) {
 		Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
-		String paramsJson = JsonUtils.toJSONString(params);
-		logger.info("支付宝回调，{}", paramsJson);
-		System.out.println(paramsJson);
+		String paramsJson = JsonUtils.toJSONString(params);		
+		System.out.println("支付宝回调参数："+paramsJson);
 		try {
 			// 调用SDK验证签名
 			boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY,
@@ -82,38 +90,16 @@ public class AlipayNotifyController {
 				logger.info("支付宝回调签名认证成功");
 				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
 				this.check(params);
-
-				String out_trade_no = params.get("out_trade_no");
-				MemberFundCharge memberFundCharge = memberFundChargeService.getObjectByOrderNo(out_trade_no);
-				if (memberFundCharge != null) {
-					return "failure";
-				}
-				if (memberFundCharge.getIsPay().equals("yes")) {
+				AlipayNotifyParamDto alipayNotifyParamDto = buildAlipayNotifyParam(params);				
+				ResultMessage resultMessage = memberFundChargeService.handleAlipayNotify(alipayNotifyParamDto);
+				System.out.println("resultMessage:"+JsonUtils.toJSONString(resultMessage));
+				logger.info(JsonUtils.toJSONString(resultMessage));
+				if (resultMessage.equals(EErrorCode.Success)) {							
 					return "success";
+				}else
+				{
+					return "failure";					
 				}
-				// 另起线程处理业务
-				executorService.execute(new Runnable() {
-					@Override
-					public void run() {
-						AlipayNotifyParamDto param = buildAlipayNotifyParam(params);
-						String trade_status = param.getTrade_status();
-						// 支付成功
-						if (trade_status.equals(AlipayTradeStatus.TRADE_SUCCESS)
-								|| trade_status.equals(AlipayTradeStatus.TRADE_FINISHED)) {
-							// 处理支付成功逻辑
-							try {
-
-							} catch (Exception e) {
-								logger.error("支付宝回调业务处理报错,params:" + paramsJson, e);
-							}
-						} else {
-							logger.error("没有处理支付宝回调业务，支付宝交易状态：{},params:{}", trade_status, paramsJson);
-						}
-					}
-				});
-				// 如果签名验证正确，立即返回success，后续业务另起线程单独处理
-				// 业务处理失败，可查看日志进行补偿，跟支付宝已经没多大关系。
-				return "success";
 			} else {
 				logger.info("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
 				return "failure";
@@ -187,11 +173,12 @@ public class AlipayNotifyController {
 		if (!seller_id.equals(AlipayConfig.UID)) {
 			throw new AlipayApiException("seller_id不一致");
 		}
-		
+
 		// 4、验证app_id是否为该商户本身。
-		if (!params.get("app_id").equals(com.meida.pay.alipay.config.AlipayConfig.APPID)) {
+		if (!params.get("app_id").equals(AlipayConfig.APPID)) {
 			throw new AlipayApiException("app_id不一致");
 		}
 	}
+
 
 }

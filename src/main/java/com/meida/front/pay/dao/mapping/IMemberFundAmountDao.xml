@@ -7,7 +7,6 @@
 		type="com.meida.front.pay.domain.po.MemberFundAmount">
 		<id property="memberFundAmountId" column="memberFundAmountId"></id>
 		<result property="memberId" column="memberId"></result>
-		<result property="orderNo" column="orderNo"></result>
 		<result property="totalMoney" column="totalMoney"></result>
 		<result property="createDate" column="createDate"></result>
 		<result property="operateDate" column="operateDate"></result>
@@ -19,34 +18,34 @@
 	<select id="getObjectById" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,orderNo,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_amount where memberFundAmountId=#{id}
 	</select>
 	
-	<select id="getObjectByOrderNo" parameterType="java.lang.String"
+	<select id="getObjectByMemberId" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,orderNo,totalMoney,createDate,operateDate,operatorId,isValid,remark
-		from tb_member_fund_amount where orderNo=#{orderNo}
+		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		from tb_member_fund_amount where memberId=#{memberId}
 	</select>
 	
-	<select id="isExistOrderNo" parameterType="java.lang.String"
+	<select id="isExistMemberId" parameterType="java.lang.Long"
 		resultType="java.lang.Long">
 		select count(*) from tb_member_fund_amount where
-		orderNo=#{orderNo}
+		memberId=#{memberId}
 	</select>
 
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,orderNo,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_amount
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,orderNo,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_amount where isValid=1
 	</select>
 
@@ -54,7 +53,6 @@
 		type="com.meida.front.pay.domain.vo.MemberFundAmountVo">
 		<id property="memberFundAmountId" column="memberFundAmountId"></id>
 		<result property="memberId" column="memberId"></result>
-		<result property="orderNo" column="orderNo"></result>
 		<result property="totalMoney" column="totalMoney"></result>		
 		<result property="createDate" column="createDate"></result>
 		<result property="operateDate" column="operateDate"></result>
@@ -67,14 +65,11 @@
 		parameterType="com.meida.front.pay.domain.dto.MemberFundAmountListDto"
 		resultMap="myPageResultMap">
 		select
-		a.memberFundAmountId,a.memberId,a.orderNo,a.totalMoney,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.memberFundAmountId,a.memberId,a.totalMoney,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
 		from tb_member_fund_amount as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND a.memberId like "%"#{memberId}"%"
-		</if>
-		<if test="orderNo != null and orderNo!=''">
-			AND a.orderNo like "%"#{orderNo}"%"
 		</if>
 		LIMIT
 		#{pagination.pageIndex},#{pagination.pageSize}
@@ -89,9 +84,6 @@
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND a.memberId like "%"#{memberId}"%"
-		</if>
-		<if test="orderNo != null and orderNo!=''">
-			AND a.orderNo like "%"#{orderNo}"%"
 		</if>
 		LIMIT
 		#{pagination.pageIndex},#{pagination.pageSize}
@@ -114,9 +106,9 @@
 	<insert id="save"
 		parameterType="com.meida.front.pay.domain.po.MemberFundAmount">
 		insert into tb_member_fund_amount
-		(memberId,orderNo,totalMoney,createDate,operateDate,operatorId,isValid,remark,signature)
+		(memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark,signature)
 		values
-		(#{memberId},#{orderNo},#{totalMoney},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
+		(#{memberId},#{totalMoney},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
 
 	</insert>
 
@@ -146,7 +138,7 @@
 		</set>
 		where memberFundAmountId=#{memberFundAmountId}
 	</update>
-	<update id="updateByOrderNo"
+	<update id="updateByMemberId"
 		parameterType="com.meida.front.pay.domain.po.MemberFundAmount">
 		update tb_member_fund_amount
 		<set>
@@ -169,7 +161,7 @@
 				signature=#{signature}
 			</if>
 		</set>
-		where orderNo=#{orderNo}
+		where memberId=#{memberId}
 	</update>
 
 

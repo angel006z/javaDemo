@@ -1,11 +1,10 @@
 package com.meida.front.pay.domain.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class MemberFundChargeVo {
-		
-      private  Long memberFundChargeId;
+public class MemberFundOutVo {
+	
+      private  Long memberFundOutId;
      
 	 //会员id
       private  Long memberId;
@@ -13,20 +12,14 @@ public class MemberFundChargeVo {
 	 //订单号
       private  String orderNo;
      
-	 //充值金额 千亿保留2位小数，单位RMB(元)
-      private  BigDecimal chargeMoney;
+	 //支出时间
+      private  Date outDate;
      
-	 //充值时间
-      private  Date chargeDate;
+	 //支出金额 亿保留2位小数，单位RMB(元)
+      private  Double outMoney;
      
-	 //充值方式:alipay、weixin、banks
-      private  String payType;
-     
-	 //充值方式
-      private  String payChannel;
-     
-	 //是否已支付完成 yes no
-      private  String isPay;
+	 //支出方式
+      private  String outWay;
      
 	 //创建时间
       private  Date createDate;
@@ -38,7 +31,7 @@ public class MemberFundChargeVo {
       private  Long operatorId;
      
 	 //状态1有效
-      private  Integer isValid;
+      private  Long isValid;
      
 	 //备注
       private  String remark;
@@ -47,11 +40,11 @@ public class MemberFundChargeVo {
       private  String signature;
      
       
-      public  Long  getMemberFundChargeId(){
-      		return  this.memberFundChargeId;
+      public  Long  getMemberFundOutId(){
+      		return  this.memberFundOutId;
       };
-      public  void  setMemberFundChargeId(Long memberFundChargeId){
-      	this.memberFundChargeId=memberFundChargeId;
+      public  void  setMemberFundOutId(Long memberFundOutId){
+      	this.memberFundOutId=memberFundOutId;
       }  
      
       public  Long  getMemberId(){
@@ -68,39 +61,25 @@ public class MemberFundChargeVo {
       	this.orderNo=orderNo;
       }  
      
-      public  BigDecimal  getChargeMoney(){
-      		return  this.chargeMoney;
+      public  Date  getOutDate(){
+      		return  this.outDate;
       };
-      public  void  setChargeMoney(BigDecimal chargeMoney){
-      	this.chargeMoney=chargeMoney;
+      public  void  setOutDate(Date outDate){
+      	this.outDate=outDate;
       }  
      
-      public  Date  getChargeDate(){
-      		return  this.chargeDate;
+      public  Double  getOutMoney(){
+      		return  this.outMoney;
       };
-      public  void  setChargeDate(Date chargeDate){
-      	this.chargeDate=chargeDate;
+      public  void  setOutMoney(Double outMoney){
+      	this.outMoney=outMoney;
       }  
      
-      public  String  getPayType(){
-      		return  this.payType;
+      public  String  getOutWay(){
+      		return  this.outWay;
       };
-      public  void  setPayType(String payType){
-      	this.payType=payType;
-      }  
-     
-      public  String  getPayChannel(){
-      		return  this.payChannel;
-      };
-      public  void  setPayChannel(String payChannel){
-      	this.payChannel=payChannel;
-      }  
-     
-      public  String  getIsPay(){
-      		return  this.isPay;
-      };
-      public  void  setIsPay(String isPay){
-      	this.isPay=isPay;
+      public  void  setOutWay(String outWay){
+      	this.outWay=outWay;
       }  
      
       public  Date  getCreateDate(){
@@ -124,10 +103,10 @@ public class MemberFundChargeVo {
       	this.operatorId=operatorId;
       }  
      
-      public  Integer  getIsValid(){
+      public  Long  getIsValid(){
       		return  this.isValid;
       };
-      public  void  setIsValid(Integer isValid){
+      public  void  setIsValid(Long isValid){
       	this.isValid=isValid;
       }  
      

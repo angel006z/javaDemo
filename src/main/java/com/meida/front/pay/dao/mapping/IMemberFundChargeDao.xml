@@ -12,6 +12,7 @@
 		<result property="chargeDate" column="chargeDate"></result>
 		<result property="payType" column="payType"></result>
 		<result property="payChannel" column="payChannel"></result>
+		<result property="isPay" column="isPay"></result>
 		<result property="createDate" column="createDate"></result>
 		<result property="operateDate" column="operateDate"></result>
 		<result property="operatorId" column="operatorId"></result>
@@ -22,14 +23,14 @@
 	<select id="getObjectById" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_charge where memberFundChargeId=#{id}
 	</select>
 	
 	<select id="getObjectByOrderNo" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_charge where orderNo=#{orderNo}
 	</select>
 	
@@ -42,14 +43,14 @@
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_charge
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,createDate,operateDate,operatorId,isValid,remark
+		memberFundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,operateDate,operatorId,isValid,remark
 		from tb_member_fund_charge where isValid=1
 	</select>
 
@@ -62,6 +63,7 @@
 		<result property="chargeDate" column="chargeDate"></result>
 		<result property="payType" column="payType"></result>
 		<result property="payChannel" column="payChannel"></result>
+		<result property="isPay" column="isPay"></result>
 		<result property="createDate" column="createDate"></result>
 		<result property="operateDate" column="operateDate"></result>
 		<result property="operatorId" column="operatorId"></result>
@@ -73,7 +75,7 @@
 		parameterType="com.meida.front.pay.domain.dto.MemberFundChargeListDto"
 		resultMap="myPageResultMap">
 		select
-		a.memberFundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.memberFundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.isPay,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
 		from tb_member_fund_charge as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
@@ -90,7 +92,7 @@
 		parameterType="com.meida.front.pay.domain.dto.MemberFundChargeListDto"
 		resultMap="myPageResultMap">
 		select
-		a.memberFundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.memberFundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.isPay,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
 		from tb_member_fund_charge as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
@@ -153,6 +155,9 @@
 			<if test="payChannel!=null">
 				payChannel=#{payChannel},
 			</if>
+			<if test="isPay!=null">
+				isPay=#{isPay},
+			</if>
 			<if test="operateDate!=null">
 				operateDate=#{operateDate},
 			</if>
@@ -189,6 +194,9 @@
 			</if>
 			<if test="payChannel!=null">
 				payChannel=#{payChannel},
+			</if>
+			<if test="isPay!=null">
+				isPay=#{isPay},
 			</if>
 			<if test="operateDate!=null">
 				operateDate=#{operateDate},
