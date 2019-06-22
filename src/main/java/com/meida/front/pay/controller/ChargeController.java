@@ -48,7 +48,8 @@ public class ChargeController {
 			payChannel = "other";
 		}
 
-		BigDecimal total_fee = new BigDecimal("10.23");
+		BigDecimal total_fee = RequestParameters.getDecimal("total_fee");
+
 		ChargeDto chargeDto = new ChargeDto();
 		chargeDto.setPayType(payType);
 		chargeDto.setPayChannel(payChannel);

@@ -153,7 +153,6 @@ public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
 			alipayNotify.setSign(alipayNotifyParamDto.getSign());
 			alipayNotify.setSign_type(alipayNotifyParamDto.getSign_type());
 			alipayNotify.setSubject(alipayNotifyParamDto.getSubject());
-			alipayNotify.setTrade_status(alipayNotifyParamDto.getTrade_status());
 			alipayNotify.setTotal_amount(alipayNotifyParamDto.getTotal_amount());
 			alipayNotify.setTrade_no(alipayNotifyParamDto.getTrade_no());
 			alipayNotify.setTrade_status(alipayNotifyParamDto.getTrade_status());

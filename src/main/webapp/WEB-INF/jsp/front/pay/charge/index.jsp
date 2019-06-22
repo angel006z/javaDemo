@@ -12,15 +12,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="renderer" content="webkit" />
 <title>支付首页</title>
+	<link rel="stylesheet" href="<%=basePath%>/static/css/normalize.css?v=1.0.0">
 
-<link href="<%=basePath%>/static/css/normalize.css?v=1.0.0"
-	rel="stylesheet" type="text/css" />
-<link href="<%=basePath%>/static/css/sysbase.css?v=1.0.0"
-	rel="stylesheet" type="text/css" />
-<link href="<%=basePath%>/static/css/sysrespond.css?v=1.0.0"
-	rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="<%=basePath%>/static/css/reset.css?v=1.0.0">
-    <link rel="stylesheet" href="<%=basePath%>/static/css/index.css?v=1.0.1">
+    <link rel="stylesheet" href="<%=basePath%>/static/css/charge.css?v=1.0.1">
 </head>
 <body>
 <div class="container">
@@ -33,29 +27,77 @@
         <div class="content">
          AAA
         </div>
-      </div><div class="row clearfix">
+      </div>
+        <div class="row clearfix">
         <div class="title"> 请选择充值金额：</div>
         <div class="content">
-          
+            <ul class="charge-money">
+                <li class="item"  data-price="100">
+                    <a href="javascript:void(0);"><b class="price">
+                        100元
+                    </b></a>
+                </li>
+                <li class="item" data-price="200">
+                    <a href="javascript:void(0);"><b class="price">
+                        200元
+                    </b></a>
+                </li> <li class="item" data-price="500">
+                <a href="javascript:void(0);"><b class="price">
+                    500元
+                </b></a>
+            </li>
+                <li class="item" data-price="1000">
+                    <a href="javascript:void(0);">
+                        <b class="price">
+                            1000元
+                        </b>
+                    </a>
+                </li> <li class="item" data-price="2000">
+                <a href="javascript:void(0);">
+                    <b class="price">
+                        2000元
+                    </b>
+                </a>
+            </li>
+                <li class="item" data-price="1">
+                    <a class="custom" href="javascript:void(0);">
+                        <strong class="amount">
+                            自定义
+                        </strong>
+                        <strong class="amount">
+                            充值金额
+                        </strong>
+                    </a>
+                </li>
+            </ul>
         </div>
       </div>
-      <div class="row charge-custom clearfix">
+      <div class="row charge-custom clearfix" style="display: none;">
         <div class="title"> 请输入充值金额：</div>
         <div class="content">
-          <input type="text" id="price" value="0.01" name="price" maxlength="10" autocomplete="off"> 元
+          <input type="text" id="custom_fee" value="1" name="custom_fee" maxlength="10" autocomplete="off"> 元
         </div>
       </div>
       <div class="row charge-cost clearfix">
         <div class="title"> 应付金额：</div>
         <div class="content">
-          <span class="number" style="color:#ff6a06">100</span>
+          <span class="number total_fee" style="color:#ff6a06">100</span>
           <span class="number1">元</span>
         </div>
       </div>
       <div class="row clearfix">
         <div class="title"> 支付方式：</div>
         <div class="content">
-          
+            <ul class="charge-channel">
+                <li class="alipay" data-channel="alipay">
+                    <a href="javascript:void(0);">
+                        <img src="<%=basePath%>/static/img/charge-channel-alipay.jpg" height="38" width="107"/>
+                    </a>
+                </li>
+                <li class="weixin" data-channel="weixin">
+                    <a href="javascript:void(0);"><img src="<%=basePath%>/static/img/charge-channel-weixin.jpg" height="38" width="107"/></a>
+                </li>
+            </ul>
         </div>
       </div>
       <div class="row clearfix">
@@ -79,11 +121,26 @@
 		type="text/javascript"></script>
 	<script src="<%=basePath%>/static/js/missy/missy/2.2.0/missy.js"
 		type="text/javascript"></script>
+<script src="<%=basePath%>/static/js/jquery/base64/0.0.3/jquery.base64.js"
+		type="text/javascript"></script>
 	<!-- Script End -->
 </body>
 </html>
 <script type="text/javascript">
 $(function(){
+    $(".charge-money").on("click",".item",function () {
+        var tempPrice =  $(this).attr("data-price");
+        if(tempPrice==1){
+            $(".charge-custom").show();
+        }else{
+            $(".charge-custom").hide();
+        }
+        $(".total_fee").text(tempPrice);
+    });
+    $("#custom_fee").keyup(function () {
+        var tempPrice =  $(this).val();
+        $(".total_fee").text(tempPrice);
+    });
 	$(".confirm-charge").click(function(){
 		confirmCharge();
 	});
@@ -96,7 +153,7 @@ function confirmCharge() {
 		url : "confirmCharge",
 		data : {
 			pay_channel:"Alipay_PC_WEB",
-			total_fee:$("#price").val()
+			total_fee:$(".total_fee").val()
 		},
 		type : "post",
 		dataType : "json",
@@ -109,18 +166,18 @@ function confirmCharge() {
 				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
-			$(".container").html(response.message)
-			/* var body = $("body");
-			var action ="http://localhost:8088/javaDemo/front/pay/charge/jump";
-		    var form = $('<form></form>'); 
+
+			var body = $("body");
+			var action ="<%=basePath%>/front/pay/charge/jump";
+		    var form = $("<form></form>");
 		    body.append(form);
-		    form.attr('action', action);  
-		    form.attr('method', 'post'); 
-		    form.attr('target', '_blank');  
+		    form.attr("action", action);
+		    form.attr("method", "post");
+		    form.attr("target", "_blank");
 		    var formMsg = $('<input type="text" name="formMsg" />');  
-		    formMsg.attr('value',response.message);  
+		    formMsg.attr('value',$.base64.encode(response.message,"utf-8"));
 		    form.append(formMsg);  
-		    form.submit();   */
+		    form.submit();
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
 			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

@@ -12,9 +12,9 @@
 	<properties>
 		<!-- spring版本号 -->
 		<spring.version>5.1.2.RELEASE</spring.version>
-		<!-- log4j日志文件管理包版本 -->
-		<slf4j.version>1.7.25</slf4j.version>
-		<log4j.version>2.11.1</log4j.version>
+		<!-- log4j2日志文件管理包版本 -->
+		<log4j2.version>2.4.1</log4j2.version>
+		<slf4j.version>1.7.12</slf4j.version>
 
 		<argLine>-Dfile.encoding=UTF-8</argLine>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -55,48 +55,50 @@
 			<version>0.9.5.2</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
 
 
-		<!--log4j相关配置开始 -->
+		<!-- log start -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>${log4j.version}</version>
+			<version>${log4j2.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-web</artifactId>
-			<version>${log4j.version}</version>
-			<scope>runtime</scope>
+			<version>${log4j2.version}</version>
 		</dependency>
-		<!--log4j相关配置结束 -->
+
+		<!-- adapter log4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+		<!-- adapter commons-logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+		<!-- log end -->
+
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>

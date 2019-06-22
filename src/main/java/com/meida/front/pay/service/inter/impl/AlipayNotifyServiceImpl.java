@@ -27,7 +27,7 @@ public class AlipayNotifyServiceImpl implements IAlipayNotifyService  {
 	}
 
 	@Override
-	public boolean isExistOrderNo(String orderNo) {		
+	public boolean isExistOrderNo(String orderNo) {
 		return alipayNotifyDao.isExistOrderNo(orderNo)>0;
 	}
 
