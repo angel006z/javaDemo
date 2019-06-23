@@ -89,7 +89,7 @@ public class PayServiceImpl implements IPayService {
 			}else {
 				resultMessage.setMessage(resultTradePay.getForm());
 			}
-			System.out.println(resultMessage.getMessage());
+
 			return resultMessage;
 		} else {
 			resultMessage.setCode(EErrorCode.Error);

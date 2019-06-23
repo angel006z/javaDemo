@@ -18,45 +18,46 @@ import java.math.BigDecimal;
 @Controller
 @RequestMapping(value = "/front/pay/charge")
 public class ChargeController {
-	@Autowired
-	private IPayService payService;
+    @Autowired
+    private IPayService payService;
 
-	@RequestMapping(value = "/index")
-	public ModelAndView index() {
-		ModelAndView modelAndView = new ModelAndView();
-		return modelAndView;
-	}
+    @RequestMapping(value = "/index")
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView();
+        return modelAndView;
+    }
 
-	@RequestMapping(value = "/jump")
-	public ModelAndView jump() {
-		ModelAndView modelAndView = new ModelAndView();
-		return modelAndView;
-	}
+    @RequestMapping(value = "/jump")
+    public ModelAndView jump() {
+        ModelAndView modelAndView = new ModelAndView();
+        return modelAndView;
+    }
 
-	@RequestMapping(value = "/confirmCharge")
-	@ResponseBody
-	public String confirmCharge() {
-		String payChannel = RequestParameters.getString("pay_channel");
-		String payType = "other";
-		if (payChannel.equals(EPayChannel.Alipay_PAGE)) {
-			payType = EPayType.Alipay;
-		} else if (payChannel.equals(EPayChannel.Alipay_NATIVE)) {
-			payType = EPayType.Alipay;
-		} else if (payChannel.equals(EPayChannel.Weixin_NATIVE)) {
-			payType = EPayType.Weixin;
-		} else {
-			payType = "other";
-			payChannel = "other";
-		}
+    @RequestMapping(value = "/confirmCharge")
+    @ResponseBody
+    public String confirmCharge() {
+        String payChannel = RequestParameters.getString("pay_channel");
+        String payType = "other";
+        if (payChannel.equals(EPayChannel.Alipay_PAGE)) {
+            payType = EPayType.Alipay;
+        } else if (payChannel.equals(EPayChannel.Alipay_NATIVE)) {
+            payType = EPayType.Alipay;
+        } else if (payChannel.equals(EPayChannel.Weixin_NATIVE)) {
+            payType = EPayType.Weixin;
+        } else {
+            payType = "other";
+            payChannel = "other";
+        }
 
-		BigDecimal total_fee = RequestParameters.getDecimal("total_fee");
+        BigDecimal total_fee = RequestParameters.getDecimal("total_fee");
 
-		BuildChargeOrderDto buildChargeOrderDto = new BuildChargeOrderDto();
-		buildChargeOrderDto.setPayType(payType);
-		buildChargeOrderDto.setPayChannel(payChannel);
-		buildChargeOrderDto.setTotal_fee(total_fee);
-		ResultMessage resultMessage = payService.buildChargeOrder(buildChargeOrderDto);
-		System.out.println(resultMessage.getMessage());
-		return JsonUtils.toJSONString(resultMessage);
-	}
+        BuildChargeOrderDto buildChargeOrderDto = new BuildChargeOrderDto();
+        buildChargeOrderDto.setPayType(payType);
+        buildChargeOrderDto.setPayChannel(payChannel);
+        buildChargeOrderDto.setTotal_fee(total_fee);
+        ResultMessage resultMessage = payService.buildChargeOrder(buildChargeOrderDto);
+        //JsonUtils.toJSONString不知道为什么会屏蔽http链接
+        System.out.println(JsonUtils.toJSONString(resultMessage));
+        return JsonUtils.toJSONString(resultMessage);
+    }
 }
