@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class AlipayPageParametersTradePrecreate extends AlipayPageParametersBuilder {
     public AlipayPageParametersTradePrecreate()
     {
-        product_code = "FAST_INSTANT_TRADE_PAY";
+        product_code = "FACE_TO_FACE_PAYMENT";
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AlipayPageParametersTradePrecreate extends AlipayPageParametersBuil
             }
         }
 
-        if (!product_code.equals("FAST_INSTANT_TRADE_PAY")) {
+        if (!product_code.equals("FACE_TO_FACE_PAYMENT")) {
             return false;
         }
 

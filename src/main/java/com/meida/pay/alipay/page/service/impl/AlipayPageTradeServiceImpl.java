@@ -55,7 +55,7 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
     }
 
     @Override
-    public AlipayPageResultTradePrecreate tradePay(AlipayPageParametersTradePrecreate builder) {
+    public AlipayPageResultTradePrecreate tradePrecreate(AlipayPageParametersTradePrecreate builder) {
         AlipayPageResultTradePrecreate result = new AlipayPageResultTradePrecreate();
         try {
             AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();

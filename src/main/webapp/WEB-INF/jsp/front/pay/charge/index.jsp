@@ -100,6 +100,9 @@
             </ul>
         </div>
       </div>
+        <div class="row clearfix">
+            <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+        </div>
       <div class="row clearfix">
         <div class="title">&nbsp;</div>
         <div class="content">
@@ -123,6 +126,8 @@
 		type="text/javascript"></script>
 <script src="<%=basePath%>/static/js/jquery/base64/0.0.3/jquery.base64.js"
 		type="text/javascript"></script>
+<script src="<%=basePath%>/static/js/qrcodejs/qrcode.js"
+		type="text/javascript"></script>
 	<!-- Script End -->
 </body>
 </html>
@@ -144,16 +149,52 @@ $(function(){
 	$(".confirm-charge").click(function(){
 		confirmCharge();
 	});
-	
-});
 
+    buildAlipayNative();
+});
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+    width : 100,
+    height : 100
+});
+function makeCode (tempVal) {
+    qrcode.makeCode(tempVal);
+}
+
+function buildAlipayNative() {
+	$.ajax({
+		url : "confirmCharge",
+		data : {
+			pay_channel:"Alipay_NATIVE",
+			total_fee:$(".total_fee").text()
+		},
+		type : "post",
+		dataType : "json",
+		beforeSend : function() {},
+		ContentType : "application/json;charset=utf-8",
+		success : function(response) {
+			if(response.code!="1"){
+				MISSY.iWrongMessage(response.code,response.message);
+				return;
+			}
+			console.log(response.message);
+            makeCode(response.message);
+		},
+		error : function(xmlHttpRequest, textStatus, errorThrown) {
+			MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);
+			MISSY.iSystemAjaxError();
+		},
+		complete : function(xmlHttpRequest, textStatus) {
+
+		}
+	});
+}
 function confirmCharge() {
 	var layerLoadIndex;
 	$.ajax({
 		url : "confirmCharge",
 		data : {
-			pay_channel:"Alipay_PC_WEB",
-			total_fee:$(".total_fee").val()
+			pay_channel:"Alipay_PAGE",
+			total_fee:$(".total_fee").text()
 		},
 		type : "post",
 		dataType : "json",
@@ -174,9 +215,9 @@ function confirmCharge() {
 		    form.attr("action", action);
 		    form.attr("method", "post");
 		    form.attr("target", "_blank");
-		    var formMsg = $('<input type="text" name="formMsg" />');  
+		    var formMsg = $('<input type="text" name="formMsg" />');
 		    formMsg.attr('value',$.base64.encode(response.message,"utf-8"));
-		    form.append(formMsg);  
+		    form.append(formMsg);
 		    form.submit();
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {

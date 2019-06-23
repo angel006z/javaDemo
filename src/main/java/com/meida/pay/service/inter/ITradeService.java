@@ -29,6 +29,7 @@ public interface ITradeService {
 	 * 是否交易成功
 	 */
 		ResultMessage tradeIsPaySuccess(ParametersTradeQuery builder);
+
 	/**
 	 * 交易查询
 	 */

@@ -1,25 +1,26 @@
 package com.meida.front.pay.service.impl;
 
+import com.meida.base.domain.vo.ResultMessage;
+import com.meida.common.util.DateUtils;
+import com.meida.common.util.constant.EErrorCode;
+import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
+import com.meida.front.pay.domain.po.MemberFundCharge;
+import com.meida.front.pay.service.inter.IMemberFundChargeService;
+import com.meida.front.pay.service.inter.IPayService;
+import com.meida.pay.pojo.EPayChannel;
+import com.meida.pay.pojo.ParametersTradePay;
+import com.meida.pay.pojo.ResultTradePay;
+import com.meida.pay.service.inter.ITradeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.meida.base.domain.vo.ResultMessage;
-import com.meida.common.util.DateUtils;
-import com.meida.common.util.constant.EErrorCode;
-import com.meida.front.pay.domain.dto.ChargeDto;
-import com.meida.front.pay.domain.po.MemberFundCharge;
-import com.meida.front.pay.service.inter.IMemberFundChargeService;
-import com.meida.front.pay.service.inter.IPayService;
-import com.meida.pay.pojo.ParametersTradePay;
-import com.meida.pay.pojo.ResultTradePay;
-import com.meida.pay.service.inter.ITradeService;
-
 @Service
 public class PayServiceImpl implements IPayService {
+
 	@Autowired
 	private ITradeService tradeService;
 
@@ -27,7 +28,7 @@ public class PayServiceImpl implements IPayService {
 	private IMemberFundChargeService memberFundChargeService;
 
 	@Override
-	public ResultMessage charge(ChargeDto chargeDto) {
+	public ResultMessage buildChargeOrder(BuildChargeOrderDto buildChargeOrderDto) {
 		Date nowTime = DateUtils.now();
 		ResultMessage resultMessage = new ResultMessage();
 		String orderNo = getOrderNoByCharge();
@@ -37,23 +38,23 @@ public class PayServiceImpl implements IPayService {
 			return resultMessage;
 		}
 
-		BigDecimal total_fee = chargeDto.getTotal_fee();
+		BigDecimal total_fee = buildChargeOrderDto.getTotal_fee();
 		if (total_fee.signum() <= 0) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("充值金额必需大于0，请重新充值");
 			return resultMessage;
 		}
-
+		String payType=buildChargeOrderDto.getPayType();
+		String payChannel=buildChargeOrderDto.getPayChannel();
 		Long memberId = 1l;
 		// 系统生成订单信息
 		MemberFundCharge memberFundCharge = new MemberFundCharge();
-		memberFundCharge.setMemberFundChargeId(2l);
 		memberFundCharge.setMemberId(memberId);
 		memberFundCharge.setOrderNo(orderNo);
 		memberFundCharge.setChargeMoney(total_fee);
 		memberFundCharge.setChargeDate(nowTime);
-		memberFundCharge.setPayType(chargeDto.getPayType());
-		memberFundCharge.setPayChannel(chargeDto.getPayChannel());
+		memberFundCharge.setPayType(payType);
+		memberFundCharge.setPayChannel(payChannel);
 		memberFundCharge.setIsPay("no");
 		memberFundCharge.setCreateDate(nowTime);
 		memberFundCharge.setOperateDate(nowTime);
@@ -67,10 +68,11 @@ public class PayServiceImpl implements IPayService {
 			return resultMessage;
 		}
 
+
 		// 调用充值接口
 		ParametersTradePay builderParameters = new ParametersTradePay();
-		builderParameters.setPayType(chargeDto.getPayType());
-		builderParameters.setPayChannel(chargeDto.getPayChannel());
+		builderParameters.setPayType(payType);
+		builderParameters.setPayChannel(payChannel);
 		builderParameters.setOut_trade_no(orderNo);
 		builderParameters.setSubject("充值");
 		builderParameters.setAttach("");
@@ -82,13 +84,19 @@ public class PayServiceImpl implements IPayService {
 		boolean isFlag = resultTradePay.getCode().equals(EErrorCode.Success);
 		if (isFlag) {
 			resultMessage.setCode(EErrorCode.Success);
-			resultMessage.setMessage(resultTradePay.getForm());
+			if(payChannel.equals(EPayChannel.Alipay_NATIVE)){
+				resultMessage.setMessage(resultTradePay.getQr_code());
+			}else {
+				resultMessage.setMessage(resultTradePay.getForm());
+			}
+			System.out.println(resultMessage.getMessage());
 			return resultMessage;
 		} else {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage(resultTradePay.getMessage());
 			return resultMessage;
 		}
+
 	}
 
 	/**

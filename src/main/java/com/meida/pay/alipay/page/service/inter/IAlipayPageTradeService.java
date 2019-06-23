@@ -18,7 +18,7 @@ public interface IAlipayPageTradeService {
      * @param builder
      * @return
      */
-     AlipayPageResultTradePrecreate tradePay(AlipayPageParametersTradePrecreate builder);
+     AlipayPageResultTradePrecreate tradePrecreate(AlipayPageParametersTradePrecreate builder);
 
     
     //交易查询

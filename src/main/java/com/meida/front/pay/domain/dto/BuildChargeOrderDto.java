@@ -2,7 +2,7 @@ package com.meida.front.pay.domain.dto;
 
 import java.math.BigDecimal;
 
-public class ChargeDto {
+public class BuildChargeOrderDto {
 	/**
 	 * 在线支付类型
 	 */
