@@ -1,4 +1,4 @@
-package com.meida.front.pay.service.inter.impl;
+package com.meida.front.pay.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;

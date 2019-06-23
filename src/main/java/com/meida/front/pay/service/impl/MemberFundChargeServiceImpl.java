@@ -1,4 +1,4 @@
-package com.meida.front.pay.service.inter.impl;
+package com.meida.front.pay.service.impl;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
