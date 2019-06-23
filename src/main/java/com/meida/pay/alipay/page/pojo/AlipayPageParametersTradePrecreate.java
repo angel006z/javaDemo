@@ -25,8 +25,8 @@ public class AlipayPageParametersTradePrecreate extends AlipayPageParametersBuil
                 return false;
             }
         }
-        if (product_code != "FAST_INSTANT_TRADE_PAY")
-        {
+
+        if (!product_code.equals("FAST_INSTANT_TRADE_PAY")) {
             return false;
         }
 

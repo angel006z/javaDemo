@@ -1,8 +1,8 @@
 package com.meida.pay.alipay.page.pojo;
 
-import java.math.BigDecimal;
-
 import com.meida.common.util.StringUtils;
+
+import java.math.BigDecimal;
 
 public class AlipayPageParametersTradePay extends AlipayPageParametersBuilder {
     public AlipayPageParametersTradePay() {
@@ -20,7 +20,7 @@ public class AlipayPageParametersTradePay extends AlipayPageParametersBuilder {
                 return false;
             }
         }
-        if (product_code != "FAST_INSTANT_TRADE_PAY") {
+        if (!product_code.equals("FAST_INSTANT_TRADE_PAY")) {
             return false;
         }
 
