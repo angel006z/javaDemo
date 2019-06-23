@@ -1,6 +1,6 @@
-package com.meida.pay.alipay.pcweb.pojo;
+package com.meida.pay.alipay.page.pojo;
 
-public class AlipayPcwebResultTradeQuery {
+public class AlipayPageResultTradeQuery {
 	private String code ;
     private String message;
 	public String getCode() {

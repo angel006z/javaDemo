@@ -7,8 +7,8 @@ package com.meida.pay.pojo;
  *
  */
 public class EPayChannel {
-	public final static String Alipay_PC_WEB = "Alipay_PC_WEB";
-	public final static String Alipay_MOBILE_WEB = "Alipay_MOBILE_WEB";
+	public final static String Alipay_PAGE = "Alipay_PAGE";
+	public final static String Alipay_WAP = "Alipay_WAP";
 	public final static String Alipay_App_Android = "Alipay_App_Android";
 	public final static String Alipay_App_iOS = "Alipay_App_iOS";
 	/*

@@ -1,9 +1,9 @@
-package com.meida.pay.alipay.pcweb.pojo;
+package com.meida.pay.weixin.wxnative.pojo;
 
 import com.meida.common.util.constant.EErrorCode;
 
-public class AlipayPcwebResultTradePay {
-	public AlipayPcwebResultTradePay()
+public class WxnativeResultTradePay {
+	public WxnativeResultTradePay()
     {
 		code = EErrorCode.Error;
 		message = "操作失败.";

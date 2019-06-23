@@ -1,9 +1,9 @@
-package com.meida.pay.weixin.wxnative.pojo;
+package com.meida.pay.alipay.page.pojo;
 
 import com.meida.common.util.constant.EErrorCode;
 
-public class ResultTradePay {
-	public ResultTradePay()
+public class AlipayPageResultTradePay {
+	public AlipayPageResultTradePay()
     {
 		code = EErrorCode.Error;
 		message = "操作失败.";

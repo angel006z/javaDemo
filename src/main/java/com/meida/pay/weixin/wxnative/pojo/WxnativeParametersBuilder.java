@@ -1,8 +1,8 @@
-package com.meida.pay.alipay.pcweb.pojo;
+package com.meida.pay.weixin.wxnative.pojo;
 
 import com.meida.common.util.JsonUtils;
 
-public abstract class AlipayPcwebParametersBuilder {
+public abstract class WxnativeParametersBuilder {
 
     public abstract boolean Validate();
 
@@ -12,7 +12,7 @@ public abstract class AlipayPcwebParametersBuilder {
     }
 
     private String BuildJson()
-    {    	
+    {
     	return JsonUtils.toJSONString(this);
     }
 }

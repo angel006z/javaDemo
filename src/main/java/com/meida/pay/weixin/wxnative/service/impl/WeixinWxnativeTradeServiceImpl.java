@@ -1,14 +1,14 @@
 package com.meida.pay.weixin.wxnative.service.impl;
 
-import com.meida.pay.weixin.wxnative.pojo.ParametersTradePay;
-import com.meida.pay.weixin.wxnative.pojo.ResultTradePay;
-import com.meida.pay.weixin.wxnative.service.inter.IWeixinTradeService;
+import com.meida.pay.weixin.wxnative.pojo.WxnativeParametersTradePay;
+import com.meida.pay.weixin.wxnative.pojo.WxnativeResultTradePay;
+import com.meida.pay.weixin.wxnative.service.inter.IWeixinWxnativeTradeService;
 
-public class WeixinTradeServiceImpl implements IWeixinTradeService{
+public class WeixinWxnativeTradeServiceImpl implements IWeixinWxnativeTradeService {
 
 	@Override
-	public ResultTradePay tradePay(ParametersTradePay builder) {
-		ResultTradePay result = new ResultTradePay();
+	public WxnativeResultTradePay tradePay(WxnativeParametersTradePay builder) {
+		WxnativeResultTradePay result = new WxnativeResultTradePay();
         try
         {
 //            WxPayData data = new WxPayData();

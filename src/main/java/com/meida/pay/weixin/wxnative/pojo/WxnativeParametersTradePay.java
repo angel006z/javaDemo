@@ -1,14 +1,12 @@
 package com.meida.pay.weixin.wxnative.pojo;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.StringUtils;
 
-public class ParametersTradePay extends ParametersBuilder {
-	public ParametersTradePay() {		
+public class WxnativeParametersTradePay extends WxnativeParametersBuilder {
+	public WxnativeParametersTradePay() {
         fee_type = "CNY";
         Date nowTime=DateUtils.now();
         time_start =DateUtils.formatDate(nowTime,DateUtils.DEFAULT_SECOND) ;

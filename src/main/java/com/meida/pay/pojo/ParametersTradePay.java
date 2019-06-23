@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class ParametersTradePay extends ParametersBuilder {
 	public ParametersTradePay() {
 		payType = EPayType.Alipay;// 默认支付宝
-		payChannel = EPayChannel.Alipay_PC_WEB;// 电脑网站
+		payChannel = EPayChannel.Alipay_PAGE;// 电脑网站
 		subject = "";
 		body = "";
 		attach = "";

@@ -2,6 +2,9 @@ package com.meida.pay.service.impl;
 
 import java.math.BigDecimal;
 
+import com.meida.pay.weixin.wxnative.pojo.WxnativeParametersTradePay;
+import com.meida.pay.weixin.wxnative.pojo.WxnativeResultTradePay;
+import com.meida.pay.weixin.wxnative.service.impl.WeixinWxnativeTradeServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -10,10 +13,10 @@ import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebParametersTradePay;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebParametersTradeQuery;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebResultTradePay;
-import com.meida.pay.alipay.pcweb.service.impl.AlipayPcwebTradeServiceImpl;
+import com.meida.pay.alipay.page.pojo.AlipayPageParametersTradePay;
+import com.meida.pay.alipay.page.pojo.AlipayPageParametersTradeQuery;
+import com.meida.pay.alipay.page.pojo.AlipayPageResultTradePay;
+import com.meida.pay.alipay.page.service.impl.AlipayPageTradeServiceImpl;
 import com.meida.pay.pojo.EPayType;
 import com.meida.pay.pojo.ParametersTradeBillDownload;
 import com.meida.pay.pojo.ParametersTradeClose;
@@ -45,7 +48,7 @@ public class TradeServiceImpl implements ITradeService {
 			return validateResult;
 		}
 		if (builderParameters.getPayType().equals(EPayType.Alipay)) {
-			AlipayPcwebParametersTradePay builder = new AlipayPcwebParametersTradePay();
+			AlipayPageParametersTradePay builder = new AlipayPageParametersTradePay();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setSubject(builderParameters.getSubject());
 			builder.setBody(builderParameters.getBody());
@@ -57,8 +60,8 @@ public class TradeServiceImpl implements ITradeService {
 				resultTradePay.setMessage("参数不符合支付宝基本参数要求，请返回重新操作。");
 				return resultTradePay;
 			} else {
-				AlipayPcwebTradeServiceImpl tradeServiceImpl = new AlipayPcwebTradeServiceImpl();
-				AlipayPcwebResultTradePay result = tradeServiceImpl.tradePay(builder);
+				AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
+				AlipayPageResultTradePay result = tradeServiceImpl.tradePay(builder);
 				ResultTradePay resultTradePay = new ResultTradePay();
 				resultTradePay.setCode(result.getCode());
 				resultTradePay.setMessage(result.getMessage());
@@ -67,7 +70,7 @@ public class TradeServiceImpl implements ITradeService {
 				return resultTradePay;
 			}
 		} else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
-			com.meida.pay.weixin.wxnative.pojo.ParametersTradePay builder = new com.meida.pay.weixin.wxnative.pojo.ParametersTradePay();
+			WxnativeParametersTradePay builder = new WxnativeParametersTradePay();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setBody(builderParameters.getSubject());
 			builder.setDetail(builderParameters.getBody());
@@ -79,8 +82,8 @@ public class TradeServiceImpl implements ITradeService {
 				resultTradePay.setMessage("参数不符合微信基本参数要求，请返回重新操作。");
 				return resultTradePay;
 			} else {
-				com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl tradeServiceImpl = new com.meida.pay.weixin.wxnative.service.impl.WeixinTradeServiceImpl();
-				com.meida.pay.weixin.wxnative.pojo.ResultTradePay result = tradeServiceImpl.tradePay(builder);
+				WeixinWxnativeTradeServiceImpl tradeServiceImpl = new WeixinWxnativeTradeServiceImpl();
+				WxnativeResultTradePay result = tradeServiceImpl.tradePay(builder);
 				ResultTradePay resultTradePay = new ResultTradePay();
 				resultTradePay.setCode(result.getCode());
 				resultTradePay.setMessage(result.getMessage());
@@ -156,10 +159,10 @@ public class TradeServiceImpl implements ITradeService {
 	public ResultMessage tradeIsPaySuccess(ParametersTradeQuery builderParameters) {
 		if (builderParameters.getPayType().equals(EPayType.Alipay)) {
 			
-			AlipayPcwebParametersTradeQuery builder = new AlipayPcwebParametersTradeQuery();
+			AlipayPageParametersTradeQuery builder = new AlipayPageParametersTradeQuery();
 			builder.setOut_trade_no(builderParameters.getOut_trade_no());
 			builder.setTrade_no(builderParameters.getTrade_no());
-			com.meida.pay.alipay.pcweb.service.impl.AlipayPcwebTradeServiceImpl tradeServiceImpl = new com.meida.pay.alipay.pcweb.service.impl.AlipayPcwebTradeServiceImpl();
+			AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
 			return tradeServiceImpl.tradeIsPaySuccess(builder);
 			
 		} else if (builderParameters.getPayType().equals(EPayType.Weixin)) {

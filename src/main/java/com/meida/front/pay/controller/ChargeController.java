@@ -39,7 +39,7 @@ public class ChargeController {
 	public String confirmCharge() {
 		String payChannel = RequestParameters.getString("pay_channel");
 		String payType = "other";
-		if (payChannel.equals(EPayChannel.Alipay_PC_WEB)) {
+		if (payChannel.equals(EPayChannel.Alipay_PAGE)) {
 			payType = EPayType.Alipay;
 		} else if (payChannel.equals(EPayChannel.Weixin_NATIVE)) {
 			payType = EPayType.Weixin;

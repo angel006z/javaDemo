@@ -1,8 +1,8 @@
-package com.meida.pay.alipay.pcweb.pojo;
+package com.meida.pay.alipay.page.pojo;
 
 import com.meida.common.util.StringUtils;
 
-public class AlipayPcwebParametersTradeQuery extends AlipayPcwebParametersBuilder {
+public class AlipayPageParametersTradeQuery extends AlipayPageParametersBuilder {
 
 	private String out_trade_no;
 	private String trade_no;

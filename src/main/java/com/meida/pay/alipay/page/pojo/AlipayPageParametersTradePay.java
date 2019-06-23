@@ -1,11 +1,11 @@
-package com.meida.pay.alipay.pcweb.pojo;
+package com.meida.pay.alipay.page.pojo;
 
 import java.math.BigDecimal;
 
 import com.meida.common.util.StringUtils;
 
-public class AlipayPcwebParametersTradePay extends AlipayPcwebParametersBuilder {
-	public AlipayPcwebParametersTradePay()
+public class AlipayPageParametersTradePay extends AlipayPageParametersBuilder {
+	public AlipayPageParametersTradePay()
     {
         product_code = "FAST_INSTANT_TRADE_PAY";
     }

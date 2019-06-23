@@ -1,4 +1,4 @@
-package com.meida.pay.alipay.pcweb.service.impl;
+package com.meida.pay.alipay.page.service.impl;
 
 import com.alipay.api.AlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
@@ -9,21 +9,20 @@ import com.meida.common.util.constant.EErrorCode;
 import com.meida.pay.alipay.config.AlipayClientFactory;
 import com.meida.pay.alipay.config.AlipayConfig;
 import com.meida.pay.alipay.constant.AlipayTradeStatus;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebParametersTradePay;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebParametersTradeQuery;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebResultTradePay;
-import com.meida.pay.alipay.pcweb.pojo.AlipayPcwebResultTradeQuery;
-import com.meida.pay.alipay.pcweb.service.inter.IAlipayPcwebTradeService;
+import com.meida.pay.alipay.page.pojo.AlipayPageParametersTradePay;
+import com.meida.pay.alipay.page.pojo.AlipayPageParametersTradeQuery;
+import com.meida.pay.alipay.page.pojo.AlipayPageResultTradePay;
+import com.meida.pay.alipay.page.service.inter.IAlipayPageTradeService;
 
-public class AlipayPcwebTradeServiceImpl implements IAlipayPcwebTradeService {
+public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
 	AlipayClient client;
 
-	public AlipayPcwebTradeServiceImpl() {
+	public AlipayPageTradeServiceImpl() {
 		client = AlipayClientFactory.getAlipayClientInstance();
 	}
 
-	public AlipayPcwebResultTradePay tradePay(AlipayPcwebParametersTradePay builder) {
-		AlipayPcwebResultTradePay result = new AlipayPcwebResultTradePay();
+	public AlipayPageResultTradePay tradePay(AlipayPageParametersTradePay builder) {
+		AlipayPageResultTradePay result = new AlipayPageResultTradePay();
 		try {
 			AlipayTradePagePayRequest payRequest = new AlipayTradePagePayRequest();
 			payRequest.setReturnUrl(AlipayConfig.ALIPAY_ReturnUrl);
@@ -42,7 +41,7 @@ public class AlipayPcwebTradeServiceImpl implements IAlipayPcwebTradeService {
 	}
 
 	@Override
-	public ResultMessage tradeIsPaySuccess(AlipayPcwebParametersTradeQuery builder) {
+	public ResultMessage tradeIsPaySuccess(AlipayPageParametersTradeQuery builder) {
 		ResultMessage result=new ResultMessage();
 		try {
 			AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
