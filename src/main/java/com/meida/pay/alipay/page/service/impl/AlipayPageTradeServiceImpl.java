@@ -40,7 +40,6 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
                 result.setCode(EErrorCode.Success);
                 result.setMessage("操作成功.");
             } else {
-                logger.info(String.format("调用支付宝接口失败,参数：%s,支付宝返回信息：%s",JsonUtils.toJSONString(builder),response.getMsg()));
                 result.setCode(EErrorCode.Error);
                 result.setMessage("调用支付宝接口失败，请返回重新操作.");
             }
@@ -67,7 +66,6 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
                 result.setCode(EErrorCode.Success);
                 result.setMessage("操作成功.");
             } else {
-                logger.info(String.format("调用支付宝接口失败,参数：%s,支付宝返回信息：%s",JsonUtils.toJSONString(builder),response.getMsg()));
                 result.setCode(EErrorCode.Error);
                 result.setMessage("调用支付宝接口失败，请重新操作.");
             }
@@ -97,7 +95,6 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
                     result.setMessage("未支付");
                 }
             } else {
-                logger.info(String.format("调用支付宝接口失败,参数：%s,支付宝返回信息：%s",JsonUtils.toJSONString(builder),response.getMsg()));
                 result.setCode(EErrorCode.Error);
                 result.setMessage("查询支付宝交易记录失败.");
             }

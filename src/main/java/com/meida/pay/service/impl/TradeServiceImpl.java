@@ -33,6 +33,7 @@ public class TradeServiceImpl implements ITradeService {
         }
         if (builderParameters.getPayType().equals(EPayType.Alipay)) {
             if (builderParameters.getPayChannel().equals(EPayChannel.Alipay_PAGE)) {
+                System.out.println("Alipay_PAGE");
                 AlipayPageParametersTradePay builder = new AlipayPageParametersTradePay();
                 builder.setOut_trade_no(builderParameters.getOut_trade_no());
                 builder.setSubject(builderParameters.getSubject());
@@ -54,6 +55,7 @@ public class TradeServiceImpl implements ITradeService {
                     return resultTradePay;
                 }
             }else if(builderParameters.getPayChannel().equals(EPayChannel.Alipay_NATIVE)){
+                System.out.println("Alipay_NATIVE");
                 AlipayPageParametersTradePrecreate builder = new AlipayPageParametersTradePrecreate();
                 builder.setOut_trade_no(builderParameters.getOut_trade_no());
                 builder.setSubject(builderParameters.getSubject());
@@ -71,8 +73,8 @@ public class TradeServiceImpl implements ITradeService {
                     ResultTradePay resultTradePay = new ResultTradePay();
                     resultTradePay.setCode(result.getCode());
                     resultTradePay.setMessage(result.getMessage());
-                    resultTradePay.setOut_trade_no(resultTradePay.getOut_trade_no());
-                    resultTradePay.setQr_code(resultTradePay.getQr_code());
+                    resultTradePay.setOut_trade_no(result.getOut_trade_no());
+                    resultTradePay.setQr_code(result.getQr_code());
                     return resultTradePay;
                 }
             }else

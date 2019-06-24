@@ -56,8 +56,6 @@ public class ChargeController {
         buildChargeOrderDto.setPayChannel(payChannel);
         buildChargeOrderDto.setTotal_fee(total_fee);
         ResultMessage resultMessage = payService.buildChargeOrder(buildChargeOrderDto);
-        //JsonUtils.toJSONString不知道为什么会屏蔽http链接
-        System.out.println(JsonUtils.toJSONString(resultMessage));
         return JsonUtils.toJSONString(resultMessage);
     }
 }

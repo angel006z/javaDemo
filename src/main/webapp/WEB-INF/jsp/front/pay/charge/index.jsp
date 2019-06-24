@@ -176,6 +176,7 @@ function buildAlipayNative() {
 				MISSY.iWrongMessage(response.code,response.message);
 				return;
 			}
+			console.log(response.message);
             makeCode(response.message);
 		},
 		error : function(xmlHttpRequest, textStatus, errorThrown) {
