@@ -56,7 +56,7 @@
 			value="sqlSessionFactory" />
 	</bean>
 
-	<!-- 配置事务管理 -->
+	<!--&lt;!&ndash; 配置事务管理 &ndash;&gt;
 	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
@@ -73,9 +73,9 @@
 	</tx:advice>
 
 	<aop:config>
-		<!-- 第一个"*"代表所有类, 第二个"*"代表所有方法, ".."代表任意参数 -->
+		&lt;!&ndash; 第一个"*"代表所有类, 第二个"*"代表所有方法, ".."代表任意参数 &ndash;&gt;
 		<aop:pointcut id="pointcut" expression="execution(* com.meida.*.service.*.*(..))" />
-		<!-- 把事务控制在service层 -->
+		&lt;!&ndash; 把事务控制在service层 &ndash;&gt;
 		<aop:advisor pointcut-ref="pointcut" advice-ref="transactionAdvice" />
-	</aop:config>
+	</aop:config>-->
 </beans>

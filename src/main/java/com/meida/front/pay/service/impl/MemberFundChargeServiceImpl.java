@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +19,10 @@ import com.meida.front.pay.dao.inter.IMemberFundInDao;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
 import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
 import com.meida.front.pay.domain.po.AlipayNotify;
-import com.meida.front.pay.domain.po.AlipayReturn;
 import com.meida.front.pay.domain.po.MemberFundAmount;
 import com.meida.front.pay.domain.po.MemberFundCharge;
 import com.meida.front.pay.domain.po.MemberFundIn;
-import com.meida.front.pay.service.inter.IAlipayNotifyService;
 import com.meida.front.pay.service.inter.IMemberFundChargeService;
-import com.meida.pay.alipay.constant.AlipayTradeStatus;
 import com.meida.pay.pojo.EPayType;
 import com.meida.pay.pojo.ParametersTradeQuery;
 import com.meida.pay.service.inter.ITradeService;

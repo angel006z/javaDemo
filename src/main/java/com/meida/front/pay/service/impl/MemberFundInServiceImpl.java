@@ -5,9 +5,7 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.meida.common.util.StringUtils;
 import com.meida.front.pay.dao.inter.IMemberFundInDao;
-import com.meida.front.pay.domain.po.AlipayNotify;
 import com.meida.front.pay.domain.po.MemberFundIn;
 import com.meida.front.pay.service.inter.IMemberFundInService;
 
