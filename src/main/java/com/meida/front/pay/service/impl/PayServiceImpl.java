@@ -4,8 +4,8 @@ import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
-import com.meida.front.pay.domain.po.MemberFundCharge;
-import com.meida.front.pay.service.inter.IMemberFundChargeService;
+import com.meida.front.pay.domain.po.FundCharge;
+import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.front.pay.service.inter.IPayService;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.ParametersTradePay;
@@ -25,14 +25,19 @@ public class PayServiceImpl implements IPayService {
 	private ITradeService tradeService;
 
 	@Autowired
-	private IMemberFundChargeService memberFundChargeService;
-
+	private IFundChargeService fundChargeService;
+	/**
+	 * 构建充值订单
+	 * 产生订单号，返回相应支付路径
+	 * 网页支付：微信返回二维码，支付宝返回支付宝付款路径
+	 *
+	 */
 	@Override
 	public ResultMessage buildChargeOrder(BuildChargeOrderDto buildChargeOrderDto) {
 		Date nowTime = DateUtils.now();
 		ResultMessage resultMessage = new ResultMessage();
 		String orderNo = getOrderNoByCharge();
-		if (memberFundChargeService.isExistOrderNo(orderNo)) {
+		if (fundChargeService.isExistOrderNo(orderNo)) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("该订单号已存在，请重新充值");
 			return resultMessage;
@@ -48,21 +53,21 @@ public class PayServiceImpl implements IPayService {
 		String payChannel=buildChargeOrderDto.getPayChannel();
 		Long memberId = 1l;
 		// 系统生成订单信息
-		MemberFundCharge memberFundCharge = new MemberFundCharge();
-		memberFundCharge.setMemberId(memberId);
-		memberFundCharge.setOrderNo(orderNo);
-		memberFundCharge.setChargeMoney(total_fee);
-		memberFundCharge.setChargeDate(nowTime);
-		memberFundCharge.setPayType(payType);
-		memberFundCharge.setPayChannel(payChannel);
-		memberFundCharge.setIsPay("no");
-		memberFundCharge.setCreateDate(nowTime);
-		memberFundCharge.setOperateDate(nowTime);
-		memberFundCharge.setIsValid(1);
-		memberFundCharge.setRemark(String.format("充值，产品订单号：[%s],日期：[%s]", orderNo,
+		FundCharge fundCharge = new FundCharge();
+		fundCharge.setMemberId(memberId);
+		fundCharge.setOrderNo(orderNo);
+		fundCharge.setChargeMoney(total_fee);
+		fundCharge.setChargeDate(nowTime);
+		fundCharge.setPayType(payType);
+		fundCharge.setPayChannel(payChannel);
+		fundCharge.setIsPay("no");
+		fundCharge.setCreateDate(nowTime);
+		fundCharge.setOperateDate(nowTime);
+		fundCharge.setIsValid(1);
+		fundCharge.setRemark(String.format("充值，产品订单号：[%s],日期：[%s]", orderNo,
 				DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
-		boolean isMfc = memberFundChargeService.addOrUpdate(memberFundCharge, true);
-		if (isMfc == false) {
+		boolean isFc = fundChargeService.addOrUpdate(fundCharge, true);
+		if (isFc == false) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("系统产生订单错误，请重新充值");
 			return resultMessage;

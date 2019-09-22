@@ -1,13 +1,10 @@
 package com.meida.front.pay.controller;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,16 +19,12 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.meida.base.domain.vo.ResultMessage;
-import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
-import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
-import com.meida.front.pay.domain.po.AlipayNotify;
-import com.meida.front.pay.domain.po.MemberFundCharge;
-import com.meida.front.pay.service.inter.IMemberFundChargeService;
+import com.meida.front.pay.domain.po.FundCharge;
+import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
-import com.meida.pay.alipay.constant.AlipayTradeStatus;
 
 /**
  * 服务器异步通知页面特性
@@ -54,7 +47,7 @@ import com.meida.pay.alipay.constant.AlipayTradeStatus;
 public class AlipayNotifyController {
 	private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
 	@Autowired
-	private IMemberFundChargeService memberFundChargeService;
+	private IFundChargeService fundChargeService;
 
 	/**
 	 * <pre>
@@ -68,7 +61,7 @@ public class AlipayNotifyController {
 	     * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
 	 * </pre>
 	 * 
-	 * @param params
+	 * @param
 	 * @return
 	 */
 	@RequestMapping("/index")
@@ -91,7 +84,7 @@ public class AlipayNotifyController {
 				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
 				this.check(params);
 				AlipayNotifyParamDto alipayNotifyParamDto = buildAlipayNotifyParam(params);				
-				ResultMessage resultMessage = memberFundChargeService.handleAlipayNotify(alipayNotifyParamDto);
+				ResultMessage resultMessage = fundChargeService.handleAlipayNotify(alipayNotifyParamDto);
 				System.out.println("resultMessage:"+JsonUtils.toJSONString(resultMessage));
 				logger.info(JsonUtils.toJSONString(resultMessage));
 				if (resultMessage.equals(EErrorCode.Success)) {							
@@ -157,14 +150,14 @@ public class AlipayNotifyController {
 		String out_trade_no = params.get("out_trade_no");
 
 		// 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-		MemberFundCharge memberFundCharge = memberFundChargeService.getObjectByOrderNo(out_trade_no);
-		if (memberFundCharge == null) {
+		FundCharge fundCharge = fundChargeService.getObjectByOrderNo(out_trade_no);
+		if (fundCharge == null) {
 			throw new AlipayApiException("out_trade_no错误");
 		}
 
 		// 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
 		long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
-		if (total_amount != memberFundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+		if (total_amount != fundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
 			throw new AlipayApiException("error total_amount");
 		}
 

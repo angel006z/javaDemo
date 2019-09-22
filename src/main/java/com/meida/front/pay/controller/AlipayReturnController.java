@@ -1,17 +1,13 @@
 package com.meida.front.pay.controller;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +19,19 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.meida.base.domain.vo.ResultMessage;
-import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
-import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;
-import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
 import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
-import com.meida.front.pay.domain.po.AlipayNotify;
-import com.meida.front.pay.domain.po.AlipayReturn;
-import com.meida.front.pay.domain.po.MemberFundCharge;
-import com.meida.front.pay.service.inter.IMemberFundChargeService;
+import com.meida.front.pay.domain.po.FundCharge;
+import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
-import com.meida.pay.alipay.constant.AlipayTradeStatus;
 
 @Controller
 @RequestMapping(value = "/front/pay/alipayreturn")
 public class AlipayReturnController {
 	private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
 	@Autowired
-	private IMemberFundChargeService memberFundChargeService;
+	private IFundChargeService fundChargeService;
 
 	@RequestMapping(value = "/index")
 	public ModelAndView index(HttpServletRequest request) {
@@ -64,7 +54,7 @@ public class AlipayReturnController {
 				this.check(params);
 
 				AlipayReturnParamDto alipayReturnParamDto = buildAlipayReturnParam(params);
-				ResultMessage resultMessage = memberFundChargeService.handleAlipayReturn(alipayReturnParamDto);
+				ResultMessage resultMessage = fundChargeService.handleAlipayReturn(alipayReturnParamDto);
 				System.out.println("resultMessage:" + JsonUtils.toJSONString(resultMessage));
 				logger.info(JsonUtils.toJSONString(resultMessage));
 				if (resultMessage.equals(EErrorCode.Success)) {
@@ -118,14 +108,14 @@ public class AlipayReturnController {
 		String out_trade_no = params.get("out_trade_no");
 
 		// 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-		MemberFundCharge memberFundCharge = memberFundChargeService.getObjectByOrderNo(out_trade_no);
-		if (memberFundCharge == null) {
+		FundCharge fundCharge = fundChargeService.getObjectByOrderNo(out_trade_no);
+		if (fundCharge == null) {
 			throw new AlipayApiException("out_trade_no错误");
 		}
 
 		// 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
 		long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
-		if (total_amount != memberFundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+		if (total_amount != fundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
 			throw new AlipayApiException("error total_amount");
 		}
 

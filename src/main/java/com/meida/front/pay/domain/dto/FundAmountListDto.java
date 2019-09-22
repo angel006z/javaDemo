@@ -2,8 +2,8 @@ package com.meida.front.pay.domain.dto;
 
 import com.meida.base.domain.vo.Pagination;
 
-public class MemberFundAmountListDto {
-	public MemberFundAmountListDto() {
+public class FundAmountListDto {
+	public FundAmountListDto() {
 
 	}
 

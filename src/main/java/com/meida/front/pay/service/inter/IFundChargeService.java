@@ -5,9 +5,9 @@ import java.io.Serializable;
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
 import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
-import com.meida.front.pay.domain.po.MemberFundCharge;
+import com.meida.front.pay.domain.po.FundCharge;
 
-public interface IMemberFundChargeService {
+public interface IFundChargeService {
 	/**
 	 * true:保存单条记录 false:更新单条记录
 	 * 
@@ -15,7 +15,7 @@ public interface IMemberFundChargeService {
 	 * @param isAdd
 	 * @return
 	 */
-	boolean addOrUpdate(MemberFundCharge item, boolean isAdd);
+	boolean addOrUpdate(FundCharge item, boolean isAdd);
 	/**
 	 * 订单号是否存在
 	 * @param orderNo
@@ -34,5 +34,5 @@ public interface IMemberFundChargeService {
 	  */
 	 ResultMessage handleAlipayReturn(AlipayReturnParamDto alipayReturnParamDto);
 	
-	 MemberFundCharge getObjectByOrderNo(Serializable orderNo);
+	 FundCharge getObjectByOrderNo(Serializable orderNo);
 }

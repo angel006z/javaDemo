@@ -13,50 +13,50 @@ import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ESystemStatus;
 import com.meida.front.pay.dao.inter.IAlipayNotifyDao;
-import com.meida.front.pay.dao.inter.IMemberFundAmountDao;
-import com.meida.front.pay.dao.inter.IMemberFundChargeDao;
-import com.meida.front.pay.dao.inter.IMemberFundInDao;
+import com.meida.front.pay.dao.inter.IFundAmountDao;
+import com.meida.front.pay.dao.inter.IFundChargeDao;
+import com.meida.front.pay.dao.inter.IFundInDao;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
 import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
 import com.meida.front.pay.domain.po.AlipayNotify;
-import com.meida.front.pay.domain.po.MemberFundAmount;
-import com.meida.front.pay.domain.po.MemberFundCharge;
-import com.meida.front.pay.domain.po.MemberFundIn;
-import com.meida.front.pay.service.inter.IMemberFundChargeService;
+import com.meida.front.pay.domain.po.FundAmount;
+import com.meida.front.pay.domain.po.FundCharge;
+import com.meida.front.pay.domain.po.FundIn;
+import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.pay.pojo.EPayType;
 import com.meida.pay.pojo.ParametersTradeQuery;
 import com.meida.pay.service.inter.ITradeService;
 
 @Service
-public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
+public class FundChargeServiceImpl implements IFundChargeService {
 	@Autowired
-	private IMemberFundChargeDao memberFundChargeDao;
+	private IFundChargeDao fundChargeDao;
 	@Autowired
-	private IMemberFundInDao memberFundInDao;
+	private IFundInDao fundInDao;
 	@Autowired
-	private IMemberFundAmountDao memberFundAmountDao;
+	private IFundAmountDao fundAmountDao;
 	@Autowired
 	private IAlipayNotifyDao alipayNotifyDao;
 	@Autowired
 	private ITradeService tradeService;
 
 	@Override
-	public boolean addOrUpdate(MemberFundCharge item, boolean isAdd) {
+	public boolean addOrUpdate(FundCharge item, boolean isAdd) {
 		if (isAdd) {
-			return memberFundChargeDao.save(item) > 0;
+			return fundChargeDao.save(item) > 0;
 		} else {
-			return memberFundChargeDao.update(item) > 0;
+			return fundChargeDao.update(item) > 0;
 		}
 	}
 
 	@Override
 	public boolean isExistOrderNo(String orderNo) {
-		return memberFundChargeDao.isExistOrderNo(orderNo) > 0;
+		return fundChargeDao.isExistOrderNo(orderNo) > 0;
 	}
 
 	@Override
-	public MemberFundCharge getObjectByOrderNo(Serializable orderNo) {
-		return memberFundChargeDao.getObjectByOrderNo(orderNo);
+	public FundCharge getObjectByOrderNo(Serializable orderNo) {
+		return fundChargeDao.getObjectByOrderNo(orderNo);
 	}
 
 	@Override
@@ -103,14 +103,14 @@ public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
 			return resultMessage;
 		}
 
-		MemberFundCharge memberFundChargeItem = memberFundChargeDao.getObjectByOrderNo(orderNo);
-		if (memberFundChargeItem == null) {
+		FundCharge fundChargeItem = fundChargeDao.getObjectByOrderNo(orderNo);
+		if (fundChargeItem == null) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
 			return resultMessage;
 		}
 
-		if (memberFundChargeItem.getIsPay().equals("yes")) {
+		if (fundChargeItem.getIsPay().equals("yes")) {
 			resultMessage.setCode(EErrorCode.Success);
 			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
 			return resultMessage;
@@ -167,47 +167,47 @@ public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
 		}
 
 		// 修改充值记录为已充值
-		MemberFundCharge memberFundCharge = new MemberFundCharge();
-		memberFundCharge.setOrderNo(orderNo);
-		memberFundCharge.setIsPay("yes");
-		memberFundCharge.setOperateDate(nowTime);
-		boolean isFlagPay = memberFundChargeDao.updateByOrderNo(memberFundCharge) > 0;
+		FundCharge fundCharge = new FundCharge();
+		fundCharge.setOrderNo(orderNo);
+		fundCharge.setIsPay("yes");
+		fundCharge.setOperateDate(nowTime);
+		boolean isFlagPay = fundChargeDao.updateByOrderNo(fundCharge) > 0;
 		// 入账记录
 		Long memberId = 1l;
-		MemberFundIn memberFundIn = new MemberFundIn();
-		memberFundIn.setMemberId(memberId);
-		memberFundIn.setOrderNo(orderNo);
-		memberFundIn.setInDate(nowTime);
-		memberFundIn.setInMoney(alipayNotifyParamDto.getTotal_amount());
-		memberFundIn.setInWay("alipay");
-		memberFundIn.setCreateDate(nowTime);
-		memberFundIn.setOperateDate(nowTime);
-		memberFundIn.setIsValid(1);
-		memberFundIn.setRemark("");
+		FundIn fundIn = new FundIn();
+		fundIn.setMemberId(memberId);
+		fundIn.setOrderNo(orderNo);
+		fundIn.setInDate(nowTime);
+		fundIn.setInMoney(alipayNotifyParamDto.getTotal_amount());
+		fundIn.setInWay("alipay");
+		fundIn.setCreateDate(nowTime);
+		fundIn.setOperateDate(nowTime);
+		fundIn.setIsValid(1);
+		fundIn.setRemark("");
 		String signature = "";
-		memberFundIn.setSignature(signature);
-		memberFundInDao.save(memberFundIn);
+		fundIn.setSignature(signature);
+		fundInDao.save(fundIn);
 
 		// 总资金
-		MemberFundAmount memberFundAmount = new MemberFundAmount();
+		FundAmount fundAmount = new FundAmount();
 
-		MemberFundAmount queryMemberFundAmount = memberFundAmountDao.getObjectByMemberId(memberId);
-		if (queryMemberFundAmount != null) {
-			memberFundAmount.setMemberId(memberId);
-			BigDecimal totalMoney = queryMemberFundAmount.getTotalMoney().add(alipayNotifyParamDto.getTotal_amount());
-			memberFundAmount.setTotalMoney(totalMoney);
-			memberFundAmount.setOperateDate(nowTime);
-			boolean isMfa = memberFundAmountDao.updateByMemberId(memberFundAmount) > 0;
+		FundAmount queryFundAmount = fundAmountDao.getObjectByMemberId(memberId);
+		if (queryFundAmount != null) {
+			fundAmount.setMemberId(memberId);
+			BigDecimal totalMoney = queryFundAmount.getTotalMoney().add(alipayNotifyParamDto.getTotal_amount());
+			fundAmount.setTotalMoney(totalMoney);
+			fundAmount.setOperateDate(nowTime);
+			boolean isMfa = fundAmountDao.updateByMemberId(fundAmount) > 0;
 			System.out.println("Mfa:" + isMfa);
 		} else {
-			memberFundAmount.setMemberId(memberId);
-			memberFundAmount.setTotalMoney(alipayNotifyParamDto.getTotal_amount());
-			memberFundAmount.setCreateDate(nowTime);
-			memberFundAmount.setOperateDate(nowTime);
-			memberFundAmount.setIsValid(1);
-			memberFundAmount.setRemark("");
-			memberFundAmount.setSignature("");
-			boolean isMfa = memberFundAmountDao.save(memberFundAmount) > 0;
+			fundAmount.setMemberId(memberId);
+			fundAmount.setTotalMoney(alipayNotifyParamDto.getTotal_amount());
+			fundAmount.setCreateDate(nowTime);
+			fundAmount.setOperateDate(nowTime);
+			fundAmount.setIsValid(1);
+			fundAmount.setRemark("");
+			fundAmount.setSignature("");
+			boolean isMfa = fundAmountDao.save(fundAmount) > 0;
 			System.out.println("Mfa:" + isMfa);
 		}
 		// 事务end
@@ -252,14 +252,14 @@ public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
 			return resultMessage;
 		}
 
-		MemberFundCharge memberFundChargeItem = memberFundChargeDao.getObjectByOrderNo(orderNo);
-		if (memberFundChargeItem == null) {
+		FundCharge fundChargeItem = fundChargeDao.getObjectByOrderNo(orderNo);
+		if (fundChargeItem == null) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
 			return resultMessage;
 		}
 
-		if (memberFundChargeItem.getIsPay().equals("yes")) {
+		if (fundChargeItem.getIsPay().equals("yes")) {
 			resultMessage.setCode(EErrorCode.Success);
 			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
 			return resultMessage;
@@ -286,44 +286,44 @@ public class MemberFundChargeServiceImpl implements IMemberFundChargeService {
 //		}
 
 		// 修改充值记录为已充值
-		MemberFundCharge memberFundCharge = new MemberFundCharge();
-		memberFundCharge.setOrderNo(orderNo);
-		memberFundCharge.setIsPay("yes");
-		memberFundCharge.setOperateDate(nowTime);
-		boolean isFlagPay = memberFundChargeDao.updateByOrderNo(memberFundCharge) > 0;
+		FundCharge fundCharge = new FundCharge();
+		fundCharge.setOrderNo(orderNo);
+		fundCharge.setIsPay("yes");
+		fundCharge.setOperateDate(nowTime);
+		boolean isFlagPay = fundChargeDao.updateByOrderNo(fundCharge) > 0;
 		// 入账记录
 		Long memberId = 1l;
-		MemberFundIn memberFundIn = new MemberFundIn();
-		memberFundIn.setMemberId(memberId);
-		memberFundIn.setOrderNo(orderNo);
-		memberFundIn.setInDate(nowTime);
-		memberFundIn.setInMoney(alipayReturnParamDto.getTotal_amount());
-		memberFundIn.setInWay("alipay");
-		memberFundIn.setCreateDate(nowTime);
-		memberFundIn.setOperateDate(nowTime);
-		memberFundIn.setIsValid(1);
-		memberFundIn.setRemark("");
+		FundIn fundIn = new FundIn();
+		fundIn.setMemberId(memberId);
+		fundIn.setOrderNo(orderNo);
+		fundIn.setInDate(nowTime);
+		fundIn.setInMoney(alipayReturnParamDto.getTotal_amount());
+		fundIn.setInWay("alipay");
+		fundIn.setCreateDate(nowTime);
+		fundIn.setOperateDate(nowTime);
+		fundIn.setIsValid(1);
+		fundIn.setRemark("");
 		String signature = "";
-		memberFundIn.setSignature(signature);
-		memberFundInDao.save(memberFundIn);
+		fundIn.setSignature(signature);
+		fundInDao.save(fundIn);
 
 		// 总资金
-		MemberFundAmount memberFundAmount = new MemberFundAmount();
-		memberFundAmount.setMemberId(memberId);
-		MemberFundAmount queryMemberFundAmount = memberFundAmountDao.getObjectByMemberId(memberId);
-		if (queryMemberFundAmount != null) {
-			BigDecimal totalMoney = queryMemberFundAmount.getTotalMoney().add(alipayReturnParamDto.getTotal_amount());
-			memberFundAmount.setTotalMoney(totalMoney);
-			memberFundAmount.setOperateDate(nowTime);
-			memberFundAmountDao.updateByMemberId(memberFundAmount);
+		FundAmount fundAmount = new FundAmount();
+		fundAmount.setMemberId(memberId);
+		FundAmount queryFundAmount = fundAmountDao.getObjectByMemberId(memberId);
+		if (queryFundAmount != null) {
+			BigDecimal totalMoney = queryFundAmount.getTotalMoney().add(alipayReturnParamDto.getTotal_amount());
+			fundAmount.setTotalMoney(totalMoney);
+			fundAmount.setOperateDate(nowTime);
+			fundAmountDao.updateByMemberId(fundAmount);
 		} else {
-			memberFundAmount.setTotalMoney(alipayReturnParamDto.getTotal_amount());
-			memberFundAmount.setCreateDate(nowTime);
-			memberFundAmount.setOperateDate(nowTime);
-			memberFundAmount.setIsValid(1);
-			memberFundAmount.setRemark("");
-			memberFundAmount.setSignature("");
-			memberFundAmountDao.save(memberFundAmount);
+			fundAmount.setTotalMoney(alipayReturnParamDto.getTotal_amount());
+			fundAmount.setCreateDate(nowTime);
+			fundAmount.setOperateDate(nowTime);
+			fundAmount.setIsValid(1);
+			fundAmount.setRemark("");
+			fundAmount.setSignature("");
+			fundAmountDao.save(fundAmount);
 		}
 		// 事务end
 

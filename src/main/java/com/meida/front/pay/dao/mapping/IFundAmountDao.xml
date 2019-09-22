@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.meida.front.pay.dao.inter.IMemberFundAmountDao">
+	namespace="com.meida.front.pay.dao.inter.IFundAmountDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.front.pay.domain.po.MemberFundAmount">
-		<id property="memberFundAmountId" column="memberFundAmountId"></id>
+		type="com.meida.front.pay.domain.po.FundAmount">
+		<id property="fundAmountId" column="fundAmountId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="totalMoney" column="totalMoney"></result>
 		<result property="createDate" column="createDate"></result>
@@ -18,40 +18,40 @@
 	<select id="getObjectById" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
-		from tb_member_fund_amount where memberFundAmountId=#{id}
+		fundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		from tb_fund_amount where fundAmountId=#{id}
 	</select>
 	
 	<select id="getObjectByMemberId" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
-		from tb_member_fund_amount where memberId=#{memberId}
+		fundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		from tb_fund_amount where memberId=#{memberId}
 	</select>
 	
 	<select id="isExistMemberId" parameterType="java.lang.Long"
 		resultType="java.lang.Long">
-		select count(*) from tb_member_fund_amount where
+		select count(*) from tb_fund_amount where
 		memberId=#{memberId}
 	</select>
 
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
-		from tb_member_fund_amount
+		fundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		from tb_fund_amount
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		memberFundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
-		from tb_member_fund_amount where isValid=1
+		fundAmountId,memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark
+		from tb_fund_amount where isValid=1
 	</select>
 
 	<resultMap id="myPageResultMap"
-		type="com.meida.front.pay.domain.vo.MemberFundAmountVo">
-		<id property="memberFundAmountId" column="memberFundAmountId"></id>
+		type="com.meida.front.pay.domain.vo.FundAmountVo">
+		<id property="fundAmountId" column="fundAmountId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="totalMoney" column="totalMoney"></result>		
 		<result property="createDate" column="createDate"></result>
@@ -62,11 +62,11 @@
 	</resultMap>
 	
 	<select id="getListWhereByPage"
-		parameterType="com.meida.front.pay.domain.dto.MemberFundAmountListDto"
+		parameterType="com.meida.front.pay.domain.dto.FundAmountListDto"
 		resultMap="myPageResultMap">
 		select
-		a.memberFundAmountId,a.memberId,a.totalMoney,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
-		from tb_member_fund_amount as a
+		a.fundAmountId,a.memberId,a.totalMoney,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tb_fund_amount as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND a.memberId like "%"#{memberId}"%"
@@ -76,11 +76,11 @@
 	</select>
 	
 	<select id="getListByPage"
-		parameterType="com.meida.front.pay.domain.dto.MemberFundAmountListDto"
+		parameterType="com.meida.front.pay.domain.dto.FundAmountListDto"
 		resultMap="myPageResultMap">
 		select
-		a.memberFundAmountId,a.memberId,a.orderNo,a.totalMoney,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
-		from tb_member_fund_amount as a
+		a.fundAmountId,a.memberId,a.orderNo,a.totalMoney,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		from tb_fund_amount as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND a.memberId like "%"#{memberId}"%"
@@ -91,9 +91,9 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.front.pay.domain.dto.MemberFundAmountListDto"
+		parameterType="com.meida.front.pay.domain.dto.FundAmountListDto"
 		resultType="java.lang.Long">
-		select count(*) from tb_member_fund_amount
+		select count(*) from tb_fund_amount
 		where isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND memberId like "%"#{memberId}"%"
@@ -104,8 +104,8 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.front.pay.domain.po.MemberFundAmount">
-		insert into tb_member_fund_amount
+		parameterType="com.meida.front.pay.domain.po.FundAmount">
+		insert into tb_fund_amount
 		(memberId,totalMoney,createDate,operateDate,operatorId,isValid,remark,signature)
 		values
 		(#{memberId},#{totalMoney},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
@@ -114,8 +114,8 @@
 
 
 	<update id="update"
-		parameterType="com.meida.front.pay.domain.po.MemberFundAmount">
-		update tb_member_fund_amount
+		parameterType="com.meida.front.pay.domain.po.FundAmount">
+		update tb_fund_amount
 		<set>
 			<if test="memberId!=null">
 				memberId=#{memberId},
@@ -136,11 +136,11 @@
 				signature=#{signature}
 			</if>
 		</set>
-		where memberFundAmountId=#{memberFundAmountId}
+		where fundAmountId=#{fundAmountId}
 	</update>
 	<update id="updateByMemberId"
-		parameterType="com.meida.front.pay.domain.po.MemberFundAmount">
-		update tb_member_fund_amount
+		parameterType="com.meida.front.pay.domain.po.FundAmount">
+		update tb_fund_amount
 		<set>
 			<if test="memberId!=null">
 				memberId=#{memberId},
@@ -167,15 +167,15 @@
 
 	<delete id="deletePhysicalById" parameterType="java.lang.Long">
 		delete from
-		tb_member_fund_amount
-		where memberFundAmountId=#{id}
+		tb_fund_amount
+		where fundAmountId=#{id}
 	</delete>
 
 
 	<delete id="deleteLogicById" parameterType="java.lang.Long">
 		update
-		tb_member_fund_amount set
-		isValid=-1 where memberFundAmountId=#{id}
+		tb_fund_amount set
+		isValid=-1 where fundAmountId=#{id}
 	</delete>
 
 </mapper>
