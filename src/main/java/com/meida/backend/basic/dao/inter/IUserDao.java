@@ -14,5 +14,6 @@ public interface IUserDao extends IBaseDao<User> {
 
 	User loginUser(String userName, String password);
 
-	boolean changePassword(String userId, String password);	
+	boolean changePassword(String userId, String password);
+	//long getTotalRecord(Object item);
 }

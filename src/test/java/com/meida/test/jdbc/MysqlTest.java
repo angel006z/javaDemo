@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
+import java.util.UUID;
 
+import com.meida.common.util.UUIDUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,7 +25,7 @@ public class MysqlTest {
 		Statement stmt = null; //一个封装和管理SQL语句的java对象
 		try {			
 			stmt = conn.createStatement();	         
-			String sql =String.format("insert into users(username,password) values('%s','%s')", "test","123456") ;
+			String sql =String.format("insert into tbuser(userid,username,password) values('%s','%s','%s')", UUID.randomUUID(), "test","123456") ;
            int result =  stmt.executeUpdate(sql);
            System.out.println(result);        
            Assert.assertEquals(result>0,true);
@@ -72,9 +74,10 @@ public class MysqlTest {
 	private static Connection getConn() {
         //String driver = "com.mysql.jdbc.Driver";
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false";//协议:子协议://ip:端口/数据库
-        String username = "root";
-        String password = "123456";
+		//String url = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false";//协议:子协议://ip:端口/数据库
+		String url = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";//协议:子协议://ip:端口/数据库
+		String username = "root";
+		String password = "123456";
         Connection conn = null;
         try {
             Class.forName(driver); //加载数据库驱动到JVM中，并实例化为Driver对象

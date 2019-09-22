@@ -41,14 +41,19 @@
 		<!-- 扫描sql配置文件:mapper需要的xml文件 -->
 		<property name="mapperLocations"
 			value="classpath*:com/meida/**/dao/mapping/*.xml" />
+		<!--<property name="mapperLocations">
+			<array>
+				<value>classpath:com/meida/backend/basic/dao/mapping/*.xml</value>
+				<value>classpath:com/meida/front/pay/dao/mapping/*.xml</value>
+			</array>
+		</property>-->
 	</bean>
-
 
 	<!-- 配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 给出需要扫描Dao接口包 -->
 		<!-- <property name="basePackage"
-			value="com.meida.backend.basic.dao.inter,com.meida.base.dao.inter" /> -->
+			value="com.meida.backend.basic.dao.inter,com.meida.front.pay.dao.inter" />-->
 		<property name="basePackage"
 			value="com.meida.**.dao.inter" />
 		<!-- 注入sqlSessionFactory -->
@@ -56,7 +61,7 @@
 			value="sqlSessionFactory" />
 	</bean>
 
-	<!--&lt;!&ndash; 配置事务管理 &ndash;&gt;
+	<!-- 配置事务管理 -->
 	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
@@ -73,9 +78,9 @@
 	</tx:advice>
 
 	<aop:config>
-		&lt;!&ndash; 第一个"*"代表所有类, 第二个"*"代表所有方法, ".."代表任意参数 &ndash;&gt;
+		<!-- 第一个"*"代表所有类, 第二个"*"代表所有方法, ".."代表任意参数 -->
 		<aop:pointcut id="pointcut" expression="execution(* com.meida.*.service.*.*(..))" />
-		&lt;!&ndash; 把事务控制在service层 &ndash;&gt;
+		<!-- 把事务控制在service层 -->
 		<aop:advisor pointcut-ref="pointcut" advice-ref="transactionAdvice" />
-	</aop:config>-->
+	</aop:config>
 </beans>

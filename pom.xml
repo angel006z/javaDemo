@@ -243,6 +243,13 @@
 			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+
 
 		<!-- 对JUNIT等测试框架的简单封装 -->
 		<dependency>
@@ -262,7 +269,16 @@
 	</dependencies>
 	<build>
 		<finalName>javaDemo</finalName>
-
+		<!--加载src目录下的静态文件-->
+		<!--Idea无法编译src下面的xml文件到.class下面-->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<!-- 指定jdk版本 -->
 			<plugin>
