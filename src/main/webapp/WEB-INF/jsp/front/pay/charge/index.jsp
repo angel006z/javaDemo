@@ -161,16 +161,17 @@ function makeCode (tempVal) {
 }
 
 function buildAlipayNative() {
+    var data ={
+        payChannel:"Alipay_NATIVE",
+        totalFee:$(".total_fee").text()
+    };
 	$.ajax({
 		url : "confirmCharge",
-		data : {
-			pay_channel:"Alipay_NATIVE",
-			total_fee:$(".total_fee").text()
-		},
+		data : JSON.stringify(data),
 		type : "post",
 		dataType : "json",
 		beforeSend : function() {},
-		ContentType : "application/json;charset=utf-8",
+		contentType : "application/json;charset=utf-8",
 		success : function(response) {
 			if(response.code!="1"){
 				MISSY.iWrongMessage(response.code,response.message);
@@ -189,19 +190,20 @@ function buildAlipayNative() {
 	});
 }
 function confirmCharge() {
+    var data ={
+        payChannel:"Alipay_PAGE",
+        totalFee:$(".total_fee").text()
+    };
 	var layerLoadIndex;
 	$.ajax({
 		url : "confirmCharge",
-		data : {
-			pay_channel:"Alipay_PAGE",
-			total_fee:$(".total_fee").text()
-		},
+		data : JSON.stringify(data),
 		type : "post",
 		dataType : "json",
 		beforeSend : function() {
 			layerLoadIndex = MISSY.iShowLoading("正在执行中，请稍候");
 		},
-		ContentType : "application/json;charset=utf-8",
+        contentType : "application/json;charset=utf-8",
 		success : function(response) {
 			if(response.code!="1"){
 				MISSY.iWrongMessage(response.code,response.message);

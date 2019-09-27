@@ -8,6 +8,7 @@
 	<!-- 开启注解 -->
 	<mvc:annotation-driven />
 
+
 	<!--让扫描spring扫描这个包下所有的类，让标注spring注解的类生效 -->
 	<context:component-scan
 		base-package="com.meida" />
@@ -47,5 +48,21 @@
      <property name="maxInMemorySize" value="4096" />
      <property name="defaultEncoding" value="UTF-8"></property>
 </bean> -->
+
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=utf-8</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>

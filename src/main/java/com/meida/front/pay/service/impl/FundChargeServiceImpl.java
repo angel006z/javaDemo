@@ -59,6 +59,11 @@ public class FundChargeServiceImpl implements IFundChargeService {
 		return fundChargeDao.getObjectByOrderNo(orderNo);
 	}
 
+	/**
+	 * 待测试事务
+	 * @param alipayNotifyParamDto
+	 * @return
+	 */
 	@Override
 	public ResultMessage handleAlipayNotify(AlipayNotifyParamDto alipayNotifyParamDto) {
 		ResultMessage resultMessage = new ResultMessage();
@@ -197,8 +202,8 @@ public class FundChargeServiceImpl implements IFundChargeService {
 			BigDecimal totalMoney = queryFundAmount.getTotalMoney().add(alipayNotifyParamDto.getTotal_amount());
 			fundAmount.setTotalMoney(totalMoney);
 			fundAmount.setOperateDate(nowTime);
-			boolean isMfa = fundAmountDao.updateByMemberId(fundAmount) > 0;
-			System.out.println("Mfa:" + isMfa);
+			boolean isFa = fundAmountDao.updateByMemberId(fundAmount) > 0;
+			System.out.println("isFa:" + isFa);
 		} else {
 			fundAmount.setMemberId(memberId);
 			fundAmount.setTotalMoney(alipayNotifyParamDto.getTotal_amount());
@@ -207,8 +212,8 @@ public class FundChargeServiceImpl implements IFundChargeService {
 			fundAmount.setIsValid(1);
 			fundAmount.setRemark("");
 			fundAmount.setSignature("");
-			boolean isMfa = fundAmountDao.save(fundAmount) > 0;
-			System.out.println("Mfa:" + isMfa);
+			boolean isFa = fundAmountDao.save(fundAmount) > 0;
+			System.out.println("isFa:" + isFa);
 		}
 		// 事务end
 

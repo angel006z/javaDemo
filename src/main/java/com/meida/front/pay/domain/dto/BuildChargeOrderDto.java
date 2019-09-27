@@ -1,5 +1,8 @@
 package com.meida.front.pay.domain.dto;
 
+import com.meida.common.util.FrontUtils;
+import com.meida.front.pay.domain.po.CurrentMember;
+
 import java.math.BigDecimal;
 
 public class BuildChargeOrderDto {
@@ -15,6 +18,30 @@ public class BuildChargeOrderDto {
 	 * 总金额（人民币单位元）
 	 */
 	private BigDecimal total_fee;
+
+	/**
+	 * 充值会员id
+	 */
+	private Long chargeMemberId;
+
+	public Long getChargeMemberId() {
+		return chargeMemberId;
+	}
+
+	public void setChargeMemberId(Long chargeMemberId) {
+		this.chargeMemberId = chargeMemberId;
+	}
+
+	private CurrentMember currentMember;
+
+	public CurrentMember getCurrentMember() {
+		return currentMember;
+	}
+
+
+	public void setCurrentMember(CurrentMember currentMember) {
+		this.currentMember = currentMember;
+	}
 
 	public String getPayType() {
 		return payType;

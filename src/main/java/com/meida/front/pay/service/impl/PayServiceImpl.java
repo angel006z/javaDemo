@@ -2,8 +2,10 @@ package com.meida.front.pay.service.impl;
 
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
+import com.meida.common.util.FrontUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
+import com.meida.front.pay.domain.po.CurrentMember;
 import com.meida.front.pay.domain.po.FundCharge;
 import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.front.pay.service.inter.IPayService;
@@ -34,6 +36,8 @@ public class PayServiceImpl implements IPayService {
 	 */
 	@Override
 	public ResultMessage buildChargeOrder(BuildChargeOrderDto buildChargeOrderDto) {
+		CurrentMember currentMember = buildChargeOrderDto.getCurrentMember();
+
 		Date nowTime = DateUtils.now();
 		ResultMessage resultMessage = new ResultMessage();
 		String orderNo = getOrderNoByCharge();
@@ -49,12 +53,20 @@ public class PayServiceImpl implements IPayService {
 			resultMessage.setMessage("充值金额必需大于0，请重新充值");
 			return resultMessage;
 		}
+
+		Long chargeMemberId = buildChargeOrderDto.getChargeMemberId();
+		if (chargeMemberId <= 0) {
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("充值会员id不能为空");
+			return resultMessage;
+		}
+
 		String payType=buildChargeOrderDto.getPayType();
 		String payChannel=buildChargeOrderDto.getPayChannel();
-		Long memberId = 1l;
+
 		// 系统生成订单信息
 		FundCharge fundCharge = new FundCharge();
-		fundCharge.setMemberId(memberId);
+		fundCharge.setMemberId(chargeMemberId);
 		fundCharge.setOrderNo(orderNo);
 		fundCharge.setChargeMoney(total_fee);
 		fundCharge.setChargeDate(nowTime);
