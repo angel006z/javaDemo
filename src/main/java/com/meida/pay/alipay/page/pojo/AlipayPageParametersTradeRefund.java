@@ -95,4 +95,99 @@ public class AlipayPageParametersTradeRefund extends AlipayPageParametersBuilder
      */
     private String org_pid;
 
+    public String getOut_trade_no() {
+        return out_trade_no;
+    }
+
+    public void setOut_trade_no(String out_trade_no) {
+        this.out_trade_no = out_trade_no;
+    }
+
+    public String getTrade_no() {
+        return trade_no;
+    }
+
+    public void setTrade_no(String trade_no) {
+        this.trade_no = trade_no;
+    }
+
+    public BigDecimal getRefund_amount() {
+        return refund_amount;
+    }
+
+    public void setRefund_amount(BigDecimal refund_amount) {
+        this.refund_amount = refund_amount;
+    }
+
+    public String getRefund_currency() {
+        return refund_currency;
+    }
+
+    public void setRefund_currency(String refund_currency) {
+        this.refund_currency = refund_currency;
+    }
+
+    public String getRefund_reason() {
+        return refund_reason;
+    }
+
+    public void setRefund_reason(String refund_reason) {
+        this.refund_reason = refund_reason;
+    }
+
+    public String getOut_request_no() {
+        return out_request_no;
+    }
+
+    public void setOut_request_no(String out_request_no) {
+        this.out_request_no = out_request_no;
+    }
+
+    public String getOperator_id() {
+        return operator_id;
+    }
+
+    public void setOperator_id(String operator_id) {
+        this.operator_id = operator_id;
+    }
+
+    public String getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(String store_id) {
+        this.store_id = store_id;
+    }
+
+    public String getTerminal_id() {
+        return terminal_id;
+    }
+
+    public void setTerminal_id(String terminal_id) {
+        this.terminal_id = terminal_id;
+    }
+
+    public String getGoods_detail() {
+        return goods_detail;
+    }
+
+    public void setGoods_detail(String goods_detail) {
+        this.goods_detail = goods_detail;
+    }
+
+    public String getRefund_royalty_parameters() {
+        return refund_royalty_parameters;
+    }
+
+    public void setRefund_royalty_parameters(String refund_royalty_parameters) {
+        this.refund_royalty_parameters = refund_royalty_parameters;
+    }
+
+    public String getOrg_pid() {
+        return org_pid;
+    }
+
+    public void setOrg_pid(String org_pid) {
+        this.org_pid = org_pid;
+    }
 }

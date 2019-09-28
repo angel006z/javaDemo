@@ -1,18 +1,24 @@
 package com.meida.pay.pojo;
 
 public class ResultTradeRefund {
-	private int errorType ;
-    private String messageContent;
-	public int getErrorType() {
-		return errorType;
+	private String code ;
+
+	public String getCode() {
+		return code;
 	}
-	public void setErrorType(int errorType) {
-		this.errorType = errorType;
+
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public String getMessageContent() {
-		return messageContent;
+
+	public String getMessage() {
+		return message;
 	}
-	public void setMessageContent(String messageContent) {
-		this.messageContent = messageContent;
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
+
+	private String message;
+
 }

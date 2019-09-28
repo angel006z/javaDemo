@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class AlipayReturn {
+    private Long alipayReturnId;
     private String code;
     private String msg;
     private String charset;
@@ -18,6 +19,15 @@ public class AlipayReturn {
     private String sign_type;
     private String seller_id;
     private Date timestamp;
+
+
+    public Long getAlipayReturnId() {
+        return alipayReturnId;
+    }
+
+    public void setAlipayReturnId(Long alipayReturnId) {
+        this.alipayReturnId = alipayReturnId;
+    }
 
     /**
      * 创建时间

@@ -28,7 +28,7 @@ import com.meida.pay.alipay.config.AlipayConfig;
 
 /**
  * 服务器异步通知页面特性
- * 
+ * <p>
  * 必须保证服务器异步通知页面（notify_url）上无任何字符，如空格、HTML标签、开发系统自带抛出的异常提示信息等；
  * 支付宝是用POST方式发送通知信息，因此该页面中获取参数的方式，如：request.Form(“out_trade_no”)、$_POST[‘out_trade_no’]；
  * 支付宝主动发起通知，该方式才会被启用；
@@ -40,138 +40,140 @@ import com.meida.pay.alipay.config.AlipayConfig;
  * cookies、session等在此页面会失效，即无法获取这些数据； 该方式的调试与运行必须在服务器上，即互联网上能访问；
  * 该方式的作用主要防止订单丢失，即页面跳转同步通知没有处理订单更新，它则去处理；
  * 当商户收到服务器异步通知并打印出success时，服务器异步通知参数notify_id才会失效。也就是说在支付宝发送同一条异步通知时（包含商户并未成功打印出success导致支付宝重发数次通知），服务器异步通知参数notify_id是不变的。
- *
  */
 @Controller
 @RequestMapping(value = "/front/pay/alipaynotify")
 public class AlipayNotifyController {
-	private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
-	@Autowired
-	private IFundChargeService fundChargeService;
+    private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
+    @Autowired
+    private IFundChargeService fundChargeService;
 
-	/**
-	 * <pre>
-	 * 第一步:验证签名,签名通过后进行第二步
-	 * 第二步:按一下步骤进行验证
-	     * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-	     * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-	     * 3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
-	     * 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
-	     * 在上述验证通过后商户必须根据支付宝不同类型的业务通知，正确的进行不同的业务处理，并且过滤重复的通知结果数据。
-	     * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
-	 * </pre>
-	 * 
-	 * @param
-	 * @return
-	 */
-	@RequestMapping("/index")
-	@ResponseBody
-	public String index(HttpServletRequest request) {
-		return handleAlipay(request);
-	}
+    /**
+     * <pre>
+     * 第一步:验证签名,签名通过后进行第二步
+     * 第二步:按一下步骤进行验证
+     * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+     * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+     * 3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
+     * 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
+     * 在上述验证通过后商户必须根据支付宝不同类型的业务通知，正确的进行不同的业务处理，并且过滤重复的通知结果数据。
+     * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
+     * </pre>
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("/index")
+    @ResponseBody
+    public String index(HttpServletRequest request) {
+        System.out.println("---------异步通知 Begin---------");
+        String result = handleAlipay(request);
+        System.out.println("result:" + result);
+        System.out.println("---------异步通知 End---------");
+        return result;
+    }
 
 
-	private String handleAlipay(HttpServletRequest request) {
-		Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
-		String paramsJson = JsonUtils.toJSONString(params);		
-		System.out.println("支付宝回调参数："+paramsJson);
-		try {
-			// 调用SDK验证签名
-			boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY,
-					AlipayConfig.CHARSET, AlipayConfig.SIGNTYPE);
-			if (signVerified) {
-				logger.info("支付宝回调签名认证成功");
-				// 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
-				this.check(params);
-				AlipayNotifyParamDto alipayNotifyParamDto = buildAlipayNotifyParam(params);				
-				ResultMessage resultMessage = fundChargeService.handleAlipayNotify(alipayNotifyParamDto);
-				System.out.println("resultMessage:"+JsonUtils.toJSONString(resultMessage));
-				logger.info(JsonUtils.toJSONString(resultMessage));
-				if (resultMessage.getCode().equals(EErrorCode.Success)) {
-					return "success";
-				}else
-				{
-					return "failure";					
-				}
-			} else {
-				logger.info("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
-				return "failure";
-			}
-		} catch (AlipayApiException e) {
-			logger.error("支付宝回调签名认证失败,paramsJson:{},errorMsg:{}", paramsJson, e.getMessage());
-			return "failure";
-		}
-	}
+    private String handleAlipay(HttpServletRequest request) {
+        Map<String, String> params = convertRequestParamsToMap(request); // 将异步通知中收到的待验证所有参数都存放到map中
+        String paramsJson = JsonUtils.toJSONString(params);
+        System.out.println("支付宝回调参数：" + paramsJson);
+        try {
+            // 调用SDK验证签名
+            boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY,
+                    AlipayConfig.CHARSET, AlipayConfig.SIGNTYPE);
+            if (signVerified) {
+                logger.info("支付宝回调签名认证成功");
+                // 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
+                this.check(params);
+                AlipayNotifyParamDto alipayNotifyParamDto = buildAlipayNotifyParam(params);
+                ResultMessage resultMessage = fundChargeService.handleAlipayNotify(alipayNotifyParamDto);
+                System.out.println("resultMessage:" + JsonUtils.toJSONString(resultMessage));
+                logger.info(JsonUtils.toJSONString(resultMessage));
+                if (resultMessage.getCode().equals(EErrorCode.Success)) {
+                    return "success";
+                } else {
+                    return "failure";
+                }
+            } else {
+                logger.info("支付宝回调签名认证失败，signVerified=false, paramsJson:{}", paramsJson);
+                return "failure";
+            }
+        } catch (AlipayApiException e) {
+            logger.error("支付宝回调签名认证失败,paramsJson:{},errorMsg:{}", paramsJson, e.getMessage());
+            return "failure";
+        }
+    }
 
-	// 将request中的参数转换成Map
-	private static Map<String, String> convertRequestParamsToMap(HttpServletRequest request) {
-		Map<String, String> retMap = new HashMap<String, String>();
+    // 将request中的参数转换成Map
+    private static Map<String, String> convertRequestParamsToMap(HttpServletRequest request) {
+        Map<String, String> retMap = new HashMap<String, String>();
 
-		Set<Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
+        Set<Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
 
-		for (Entry<String, String[]> entry : entrySet) {
-			String name = entry.getKey();
-			String[] values = entry.getValue();
-			int valLen = values.length;
+        for (Entry<String, String[]> entry : entrySet) {
+            String name = entry.getKey();
+            String[] values = entry.getValue();
+            int valLen = values.length;
 
-			if (valLen == 1) {
-				retMap.put(name, values[0]);
-			} else if (valLen > 1) {
-				StringBuilder sb = new StringBuilder();
-				for (String val : values) {
-					sb.append(",").append(val);
-				}
-				retMap.put(name, sb.toString().substring(1));
-			} else {
-				retMap.put(name, "");
-			}
-		}
+            if (valLen == 1) {
+                retMap.put(name, values[0]);
+            } else if (valLen > 1) {
+                StringBuilder sb = new StringBuilder();
+                for (String val : values) {
+                    sb.append(",").append(val);
+                }
+                retMap.put(name, sb.toString().substring(1));
+            } else {
+                retMap.put(name, "");
+            }
+        }
 
-		return retMap;
-	}
+        return retMap;
+    }
 
-	private AlipayNotifyParamDto buildAlipayNotifyParam(Map<String, String> params) {
-		String json = JsonUtils.toJSONString(params);
-		return JSON.parseObject(json, AlipayNotifyParamDto.class);
-	}
+    private AlipayNotifyParamDto buildAlipayNotifyParam(Map<String, String> params) {
+        String json = JsonUtils.toJSONString(params);
+        return JSON.parseObject(json, AlipayNotifyParamDto.class);
+    }
 
-	/**
-	 * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-	 * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-	 * 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
-	 * 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
-	 * 在上述验证通过后商户必须根据支付宝不同类型的业务通知，正确的进行不同的业务处理，并且过滤重复的通知结果数据。
-	 * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
-	 * 
-	 * @param params
-	 * @throws AlipayApiException
-	 */
-	private void check(Map<String, String> params) throws AlipayApiException {
-		String out_trade_no = params.get("out_trade_no");
+    /**
+     * 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+     * 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+     * 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
+     * 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
+     * 在上述验证通过后商户必须根据支付宝不同类型的业务通知，正确的进行不同的业务处理，并且过滤重复的通知结果数据。
+     * 在支付宝的业务通知中，只有交易通知状态为TRADE_SUCCESS或TRADE_FINISHED时，支付宝才会认定为买家付款成功。
+     *
+     * @param params
+     * @throws AlipayApiException
+     */
+    private void check(Map<String, String> params) throws AlipayApiException {
+        String out_trade_no = params.get("out_trade_no");
 
-		// 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-		FundCharge fundCharge = fundChargeService.getObjectByOrderNo(out_trade_no);
-		if (fundCharge == null) {
-			throw new AlipayApiException("out_trade_no错误");
-		}
+        // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+        FundCharge fundCharge = fundChargeService.getObjectByOrderNo(out_trade_no);
+        if (fundCharge == null) {
+            throw new AlipayApiException("out_trade_no错误");
+        }
 
-		// 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-		long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
-		if (total_amount != fundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
-			throw new AlipayApiException("error total_amount");
-		}
+        // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+        long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
+        if (total_amount != fundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+            throw new AlipayApiException("error total_amount");
+        }
 
-		// 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
-		String seller_id = params.get("seller_id");
-		if (!seller_id.equals(AlipayConfig.UID)) {
-			throw new AlipayApiException("seller_id不一致");
-		}
+        // 3、校验通知中的seller_id（或者seller_email)是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email），
+        String seller_id = params.get("seller_id");
+        if (!seller_id.equals(AlipayConfig.UID)) {
+            throw new AlipayApiException("seller_id不一致");
+        }
 
-		// 4、验证app_id是否为该商户本身。
-		if (!params.get("app_id").equals(AlipayConfig.APPID)) {
-			throw new AlipayApiException("app_id不一致");
-		}
-	}
+        // 4、验证app_id是否为该商户本身。
+        if (!params.get("app_id").equals(AlipayConfig.APPID)) {
+            throw new AlipayApiException("app_id不一致");
+        }
+    }
 
 
 }

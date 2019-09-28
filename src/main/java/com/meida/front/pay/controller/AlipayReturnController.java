@@ -35,8 +35,10 @@ public class AlipayReturnController {
 
 	@RequestMapping(value = "/index")
 	public ModelAndView index(HttpServletRequest request) {
+		System.out.println("---------同步通知 Begin---------");
 		String result = handleAlipay(request);
 		System.out.println("result:" + result);
+		System.out.println("---------同步通知 End---------");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("result",result);
 		return modelAndView;

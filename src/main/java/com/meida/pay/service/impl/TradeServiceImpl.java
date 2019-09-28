@@ -206,8 +206,58 @@ public class TradeServiceImpl implements ITradeService {
 
     @Override
     public ResultTradeRefund tradeRefund(ParametersTradeRefund builderParameters) {
-        // TODO Auto-generated method stub
-        return null;
+        if (builderParameters.getPayType().equals(EPayType.Alipay)) {
+                AlipayPageParametersTradeRefund builder = new AlipayPageParametersTradeRefund();
+                builder.setOut_trade_no(builderParameters.getOut_trade_no());
+                builder.setTrade_no(builderParameters.getTrade_no());
+                builder.setRefund_amount(builderParameters.getRefund_amount());
+                builder.setRefund_reason(builderParameters.getRefund_reason());
+                boolean isValidateParameters = builder.Validate();
+                if (!isValidateParameters) {
+                    ResultTradeRefund resultTradeRefund = new ResultTradeRefund();
+                    resultTradeRefund.setCode(EErrorCode.Error);
+                    resultTradeRefund.setMessage("参数不符合支付宝基本参数要求，请返回重新操作。");
+                    return resultTradeRefund;
+                } else {
+                    AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
+                    AlipayPageResultTradeRefund result = tradeServiceImpl.tradeRefund(builder);
+                    ResultTradeRefund resultTradePay = new ResultTradeRefund();
+                    resultTradePay.setCode(result.getCode());
+                    resultTradePay.setMessage(result.getMessage());
+                    return resultTradePay;
+                }
+
+//        } else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
+//            WxnativeParametersTradeRefund builder = new WxnativeParametersTradeRefund();
+//            builder.setOut_trade_no(builderParameters.getOut_trade_no());
+//            builder.setBody(builderParameters.getSubject());
+//            builder.setDetail(builderParameters.getBody());
+//            builder.setTotal_fee((builderParameters.getTotal_fee().multiply(new BigDecimal(100)).longValue()));
+//            boolean isValidateParameters = builder.Validate();
+//            if (!isValidateParameters) {
+//                ResultTradeRefund resultTradeRefund = new ResultTradeRefund();
+//                resultTradeRefund.setCode(EErrorCode.Error);
+//                resultTradeRefund.setMessage("参数不符合微信基本参数要求，请返回重新操作。");
+//                return resultTradeRefund;
+//            } else {
+//                WeixinWxnativeTradeServiceImpl tradeServiceImpl = new WeixinWxnativeTradeServiceImpl();
+//                WxnativeResultTradePay result = tradeServiceImpl.tradePay(builder);
+//                ResultTradeRefund resultTradePay = new ResultTradeRefund();
+//                resultTradePay.setCode(result.getCode());
+//                resultTradePay.setMessage(result.getMessage());
+//                return resultTradePay;
+//            }
+        } else if (builderParameters.getPayType().equals(EPayType.Banks)) {
+            ResultTradeRefund resultTradeRefund = new ResultTradeRefund();
+            resultTradeRefund.setCode(EErrorCode.Error);
+            resultTradeRefund.setMessage("暂不支持银行支付方式.");
+            return resultTradeRefund;
+        } else {
+            ResultTradeRefund resultTradeRefund = new ResultTradeRefund();
+            resultTradeRefund.setCode(EErrorCode.Error);
+            resultTradeRefund.setMessage("在线支付类型（PayType）参数错误.");
+            return resultTradeRefund;
+        }
     }
 
     @Override
