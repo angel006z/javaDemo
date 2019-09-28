@@ -16,6 +16,7 @@ import com.meida.pay.pojo.ResultTradePay;
 import com.meida.pay.service.inter.ITradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class PayServiceImpl implements IPayService {
 	 * 网页支付：微信返回二维码，支付宝返回支付宝付款路径
 	 *
 	 */
+	@Transactional
 	@Override
 	public ResultMessage buildChargeOrder(BuildChargeOrderDto buildChargeOrderDto) {
 		CurrentMember currentMember = buildChargeOrderDto.getCurrentMember();
@@ -126,7 +128,8 @@ public class PayServiceImpl implements IPayService {
 	 * 
 	 * @return 返回20位订单号
 	 */
-	public static String getOrderNoByCharge() {
+	@Override
+	public String getOrderNoByCharge() {
 
 		int hashCodeV = UUID.randomUUID().toString().hashCode();
 		if (hashCodeV < 0) {// 有可能是负数

@@ -4,12 +4,14 @@ import com.meida.backend.basic.dao.inter.IDeptDao;
 import com.meida.backend.basic.domain.po.Dept;
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.FrontUtils;
+import com.meida.common.util.JsonUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
 import com.meida.front.pay.service.inter.IPayService;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,8 +26,8 @@ public class PayServiceTest {
     @Autowired
     private IPayService payService;
 
-    @org.junit.Test
-    public void testBuildChargeOrder() {
+    @Test
+    public void test_buildChargeOrder() {
         BuildChargeOrderDto buildChargeOrderDto = new BuildChargeOrderDto();
         buildChargeOrderDto.setChargeMemberId(FrontUtils.getCurrentMember().getMemberId());
         buildChargeOrderDto.setPayType(EPayType.Alipay);
@@ -34,8 +36,16 @@ public class PayServiceTest {
         buildChargeOrderDto.setCurrentMember(FrontUtils.getCurrentMember());
 
         ResultMessage resultMessage = payService.buildChargeOrder(buildChargeOrderDto);
-        System.out.println(resultMessage.getCode());
-        System.out.println(resultMessage.getMessage());
+        System.out.println("resultMessage:"+JsonUtils.toJSONString(resultMessage));
         Assert.assertEquals(resultMessage.getCode(),EErrorCode.Success);
     }
+
+    @Test
+    public void test_getOrderNoByCharge() {
+        for (int i=0 ;i<100;i++)
+        {
+            System.out.println( payService.getOrderNoByCharge());
+        }
+    }
+
 }

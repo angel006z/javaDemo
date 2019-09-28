@@ -35,10 +35,10 @@ public class AlipayConfig {
 
     		
     //支付宝回跳通知地址
-    public final static String ALIPAY_NotifyUrl = "http://localhost:8088/javaDemo/front/pay/alipaynotify/index";
+    public final static String ALIPAY_NotifyUrl = "http://localhost:8088/front/pay/alipaynotify/index";
 
     //支付宝同步返回地址，HTTP/HTTPS开头字符串
-    public final static String ALIPAY_ReturnUrl = "http://localhost:8088/javaDemo/front/pay/alipayreturn/index";
+    public final static String ALIPAY_ReturnUrl = "http://localhost:8088/front/pay/alipayreturn/index";
     
 
     /*沙箱:

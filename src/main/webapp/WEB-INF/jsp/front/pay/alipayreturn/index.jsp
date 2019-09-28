@@ -14,6 +14,6 @@
 <body>
 <%-- <script>
 location.href="<%=basePath%>/front/pay/charge/index"
-</script> --%>
+</script>
 </body>
 </html>

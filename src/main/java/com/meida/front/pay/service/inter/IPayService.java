@@ -10,4 +10,10 @@ public interface IPayService {
 	 */
 	ResultMessage buildChargeOrder(BuildChargeOrderDto chargeDto);
 
+	/**
+	 * 订单号
+	 *
+	 * @return 返回20位订单号
+	 */
+	String getOrderNoByCharge();
 }
