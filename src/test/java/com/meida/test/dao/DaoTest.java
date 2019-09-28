@@ -11,9 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.meida.backend.basic.dao.inter.IDeptDao;
 import com.meida.backend.basic.domain.po.Dept;
 
-//加载spring配置文件
+
+//加载spring配置文件 https://blog.csdn.net/fanbaodan/article/details/100121551
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring-mybatis.xml"})
+@ContextConfiguration(locations = {"classpath:spring-mvc.xml", "classpath:spring-mybatis.xml", "classpath:mybatis-config.xml",})
 public class DaoTest {
 	
 	@Autowired

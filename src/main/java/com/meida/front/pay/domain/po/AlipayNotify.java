@@ -96,18 +96,51 @@ public class AlipayNotify {
      
 	 //回传参数
       private  String passback_params;
-     
-	 //创建时间
-      private  Date createDate;
-     
-	 //修改时间
-      private  Date operateDate;
-     
-	 //状态1有效
-      private  Integer isValid;
-     
-	 //备注
-      private  String remark;
+
+	/**
+	 * 创建时间
+	 */
+	private Date createDate;
+
+	/**
+	 * 创建人id
+	 */
+	private String createUserId;
+
+	/**
+	 * 创建人
+	 */
+	private String createUser;
+
+	/**
+	 * 修改时间
+	 */
+	private Date updateDate;
+
+	/**
+	 * 修改人id
+	 */
+	private String updateUserId;
+
+	/**
+	 * 修改人
+	 */
+	private String updateUser;
+
+	/**
+	 * 状态1有效
+	 */
+	private Integer isValid;
+
+	/**
+	 * 备注
+	 */
+	private String remark;
+
+	/**
+	 * 签名
+	 */
+	private String signature;
 
 	public Long getAlipayNotifyId() {
 		return alipayNotifyId;
@@ -365,12 +398,44 @@ public class AlipayNotify {
 		this.createDate = createDate;
 	}
 
-	public Date getOperateDate() {
-		return operateDate;
+	public String getCreateUserId() {
+		return createUserId;
 	}
 
-	public void setOperateDate(Date operateDate) {
-		this.operateDate = operateDate;
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getUpdateUserId() {
+		return updateUserId;
+	}
+
+	public void setUpdateUserId(String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	public String getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
 	}
 
 	public Integer getIsValid() {
@@ -388,8 +453,12 @@ public class AlipayNotify {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-     
-      
-     
-    
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
 }

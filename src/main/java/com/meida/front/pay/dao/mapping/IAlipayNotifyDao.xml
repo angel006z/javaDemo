@@ -12,8 +12,11 @@
 		<result property="charset" column="charset"></result>
 		<result property="version" column="version"></result>
 		<result property="createDate" column="createDate"></result>
-		<result property="operateDate" column="operateDate"></result>
-		<result property="operatorId" column="operatorId"></result>
+		<result property="createUserId" column="createUserId"></result>
+		<result property="createUser" column="createUser"></result>
+		<result property="updateDate" column="updateDate"></result>
+		<result property="updateUserId" column="updateUserId"></result>
+		<result property="updateUser" column="updateUser"></result>
 		<result property="isValid" column="isValid"></result>
 		<result property="remark" column="remark"></result>
 	</resultMap>
@@ -21,14 +24,14 @@
 	<select id="getObjectById" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_alipay_notify where alipayNotifyId=#{id}
 	</select>
 	
 	<select id="getObjectByOrderNo" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_alipay_notify where out_trade_no=#{out_trade_no}
 	</select>
 	
@@ -41,14 +44,14 @@
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_alipay_notify
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,operateDate,operatorId,isValid,remark
+		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_alipay_notify where isValid=1
 	</select>
 
@@ -86,8 +89,11 @@
 		<result property="voucher_detail_list" column="voucher_detail_list"></result>
 		<result property="passback_params" column="passback_params"></result>
 		<result property="createDate" column="createDate"></result>
-		<result property="operateDate" column="operateDate"></result>
-		<result property="operatorId" column="operatorId"></result>
+		<result property="createUserId" column="createUserId"></result>
+		<result property="createUser" column="createUser"></result>
+		<result property="updateDate" column="updateDate"></result>
+		<result property="updateUserId" column="updateUserId"></result>
+		<result property="updateUser" column="updateUser"></result>
 		<result property="isValid" column="isValid"></result>
 		<result property="remark" column="remark"></result>
 	</resultMap>
@@ -96,10 +102,10 @@
 		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
 		resultMap="myPageResultMap">
 		select
-		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
 		from tb_alipay_notify as a
 		where a.isValid=1
-		<if test="out_trade_no != null and out_trade_no''">
+		<if test="out_trade_no != null and out_trade_no!=''">
 			AND a.out_trade_no like "%"#{out_trade_no}"%"
 		</if>
 		<if test="notify_type != null and notify_type!=''">
@@ -113,10 +119,10 @@
 		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
 		resultMap="myPageResultMap">
 		select
-		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
 		from tb_alipay_notify as a
 		where a.isValid=1
-		<if test="out_trade_no != null and out_trade_no''">
+		<if test="out_trade_no != null and out_trade_no!=''">
 			AND a.out_trade_no like "%"#{out_trade_no}"%"
 		</if>
 		<if test="notify_type != null and notify_type!=''">
@@ -146,10 +152,10 @@
 	<insert id="save"
 		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
 		insert into tb_alipay_notify
-		(notify_time,notify_type,notify_id,version,charset,createDate,operateDate,operatorId,isValid,remark,signature)
+		(notify_time,notify_type,notify_id,version,charset,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
 		values
 		(#{notify_time},#{notify_type},#{notify_id},#{version},#{charset},
-		#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
+		#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark},#{signature})
 
 	</insert>
 
@@ -172,12 +178,24 @@
 			</if>
 			<if test="version!=null">
 				version=#{version},
-			</if>			
-			<if test="operateDate!=null">
-				operateDate=#{operateDate},
 			</if>
-			<if test="operatorId!=null">
-				operatorId=#{operatorId},
+			<if test="createDate!=null">
+				createDate=#{createDate},
+			</if>
+			<if test="createUserId!=null">
+				createUserId=#{createUserId},
+			</if>
+			<if test="createUser!=null">
+				createUser=#{createUser},
+			</if>
+			<if test="updateDate!=null">
+				updateDate=#{updateDate},
+			</if>
+			<if test="updateUserId!=null">
+				updateUserId=#{updateUserId},
+			</if>
+			<if test="updateUser!=null">
+				updateUser=#{updateUser},
 			</if>
 			<if test="remark!=null">
 				remark=#{remark}
@@ -206,12 +224,24 @@
 			</if>
 			<if test="version!=null">
 				version=#{version},
-			</if>			
-			<if test="operateDate!=null">
-				operateDate=#{operateDate},
 			</if>
-			<if test="operatorId!=null">
-				operatorId=#{operatorId},
+			<if test="createDate!=null">
+				createDate=#{createDate},
+			</if>
+			<if test="createUserId!=null">
+				createUserId=#{createUserId},
+			</if>
+			<if test="createUser!=null">
+				createUser=#{createUser},
+			</if>
+			<if test="updateDate!=null">
+				updateDate=#{updateDate},
+			</if>
+			<if test="updateUserId!=null">
+				updateUserId=#{updateUserId},
+			</if>
+			<if test="updateUser!=null">
+				updateUser=#{updateUser},
 			</if>
 			<if test="remark!=null">
 				remark=#{remark}

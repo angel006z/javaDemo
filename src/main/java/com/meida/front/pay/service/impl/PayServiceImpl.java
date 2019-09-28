@@ -4,6 +4,7 @@ import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.FrontUtils;
 import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.util.constant.ESystemStatus;
 import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
 import com.meida.front.pay.domain.po.CurrentMember;
 import com.meida.front.pay.domain.po.FundCharge;
@@ -74,10 +75,15 @@ public class PayServiceImpl implements IPayService {
 		fundCharge.setPayChannel(payChannel);
 		fundCharge.setIsPay("no");
 		fundCharge.setCreateDate(nowTime);
-		fundCharge.setOperateDate(nowTime);
-		fundCharge.setIsValid(1);
+		fundCharge.setCreateUserId(currentMember.getMemberId().toString());
+		fundCharge.setCreateUser(currentMember.getAccount());
+		fundCharge.setUpdateDate(nowTime);
+		fundCharge.setUpdateUserId(currentMember.getMemberId().toString());
+		fundCharge.setUpdateUser(currentMember.getAccount());
+		fundCharge.setIsValid(ESystemStatus.Valid);
 		fundCharge.setRemark(String.format("充值，产品订单号：[%s],日期：[%s]", orderNo,
 				DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
+		fundCharge.setSignature("待签名");
 		boolean isFc = fundChargeService.addOrUpdate(fundCharge, true);
 		if (isFc == false) {
 			resultMessage.setCode(EErrorCode.Error);
@@ -106,7 +112,6 @@ public class PayServiceImpl implements IPayService {
 			}else {
 				resultMessage.setMessage(resultTradePay.getForm());
 			}
-
 			return resultMessage;
 		} else {
 			resultMessage.setCode(EErrorCode.Error);

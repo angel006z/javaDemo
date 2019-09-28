@@ -12,8 +12,11 @@
 		<result property="inDate" column="inDate"></result>
 		<result property="inWay" column="inWay"></result>
 		<result property="createDate" column="createDate"></result>
-		<result property="operateDate" column="operateDate"></result>
-		<result property="operatorId" column="operatorId"></result>
+		<result property="createUserId" column="createUserId"></result>
+		<result property="createUser" column="createUser"></result>
+		<result property="updateDate" column="updateDate"></result>
+		<result property="updateUserId" column="updateUserId"></result>
+		<result property="updateUser" column="updateUser"></result>
 		<result property="isValid" column="isValid"></result>
 		<result property="remark" column="remark"></result>
 	</resultMap>
@@ -21,14 +24,14 @@
 	<select id="getObjectById" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,operateDate,operatorId,isValid,remark
+		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_fund_in where fundInId=#{id}
 	</select>
 	
 	<select id="getObjectByOrderNo" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,operateDate,operatorId,isValid,remark
+		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_fund_in where orderNo=#{orderNo}
 	</select>
 	
@@ -41,14 +44,14 @@
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,operateDate,operatorId,isValid,remark
+		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_fund_in
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,operateDate,operatorId,isValid,remark
+		fundInId,memberId,orderNo,inMoney,inDate,inWay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tb_fund_in where isValid=1
 	</select>
 
@@ -61,8 +64,11 @@
 		<result property="inDate" column="inDate"></result>
 		<result property="inWay" column="inWay"></result>
 		<result property="createDate" column="createDate"></result>
-		<result property="operateDate" column="operateDate"></result>
-		<result property="operatorId" column="operatorId"></result>
+		<result property="createUserId" column="createUserId"></result>
+		<result property="createUser" column="createUser"></result>
+		<result property="updateDate" column="updateDate"></result>
+		<result property="updateUserId" column="updateUserId"></result>
+		<result property="updateUser" column="updateUser"></result>
 		<result property="isValid" column="isValid"></result>
 		<result property="remark" column="remark"></result>
 	</resultMap>
@@ -71,7 +77,7 @@
 		parameterType="com.meida.front.pay.domain.dto.FundInListDto"
 		resultMap="myPageResultMap">
 		select
-		a.fundInId,a.memberId,a.orderNo,a.inMoney,a.inDate,a.inWay,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.fundInId,a.memberId,a.orderNo,a.inMoney,a.inDate,a.inWay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
 		from tb_fund_in as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
@@ -88,7 +94,7 @@
 		parameterType="com.meida.front.pay.domain.dto.FundInListDto"
 		resultMap="myPageResultMap">
 		select
-		a.fundInId,a.memberId,a.orderNo,a.inMoney,a.inDate,a.inWay,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.fundInId,a.memberId,a.orderNo,a.inMoney,a.inDate,a.inWay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
 		from tb_fund_in as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
@@ -121,10 +127,10 @@
 	<insert id="save"
 		parameterType="com.meida.front.pay.domain.po.FundIn">
 		insert into tb_fund_in
-		(memberId,orderNo,inMoney,inWay,inDate,createDate,operateDate,operatorId,isValid,remark,signature)
+		(memberId,orderNo,inMoney,inWay,inDate,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
 		values
 		(#{memberId},#{orderNo},#{inMoney},#{inWay},#{inDate},
-		#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark},#{signature})
+		#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark},#{signature})
 
 	</insert>
 
@@ -148,11 +154,23 @@
 			<if test="inWay!=null">
 				inWay=#{inWay},
 			</if>			
-			<if test="operateDate!=null">
-				operateDate=#{operateDate},
+			<if test="createDate!=null">
+				createDate=#{createDate},
 			</if>
-			<if test="operatorId!=null">
-				operatorId=#{operatorId},
+			<if test="createUserId!=null">
+				createUserId=#{createUserId},
+			</if>
+			<if test="createUser!=null">
+				createUser=#{createUser},
+			</if>
+			<if test="updateDate!=null">
+				updateDate=#{updateDate},
+			</if>
+			<if test="updateUserId!=null">
+				updateUserId=#{updateUserId},
+			</if>
+			<if test="updateUser!=null">
+				updateUser=#{updateUser},
 			</if>
 			<if test="remark!=null">
 				remark=#{remark}
@@ -181,12 +199,24 @@
 			</if>
 			<if test="inWay!=null">
 				inWay=#{inWay},
-			</if>			
-			<if test="operateDate!=null">
-				operateDate=#{operateDate},
 			</if>
-			<if test="operatorId!=null">
-				operatorId=#{operatorId},
+			<if test="createDate!=null">
+				createDate=#{createDate},
+			</if>
+			<if test="createUserId!=null">
+				createUserId=#{createUserId},
+			</if>
+			<if test="createUser!=null">
+				createUser=#{createUser},
+			</if>
+			<if test="updateDate!=null">
+				updateDate=#{updateDate},
+			</if>
+			<if test="updateUserId!=null">
+				updateUserId=#{updateUserId},
+			</if>
+			<if test="updateUser!=null">
+				updateUser=#{updateUser},
 			</if>
 			<if test="remark!=null">
 				remark=#{remark}

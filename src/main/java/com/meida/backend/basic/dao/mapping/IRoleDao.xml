@@ -19,20 +19,20 @@
 	<select id="getObjectById" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark
+		roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbRole where roleId=#{id}
 	</select>
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark
+		roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbRole
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark
+		roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbRole where isValid=1
 	</select>
 
@@ -40,7 +40,7 @@
 		parameterType="com.meida.backend.basic.domain.dto.RoleListDto"
 		resultMap="myResultMap">
 		select
-		roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark
+		roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbRole
 		where isValid=1
 		<if test="roleCode != null and roleCode!=''">
@@ -71,8 +71,8 @@
 
 	<insert id="save"
 		parameterType="com.meida.backend.basic.domain.po.Role">
-		insert into tbRole (roleId,roleCode,roleName,roleSort,createDate,operateDate,operatorId,isValid,remark) values 
-		(#{roleId},#{roleCode},#{roleName},#{roleSort},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark})
+		insert into tbRole (roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark) values
+		(#{roleId},#{roleCode},#{roleName},#{roleSort},#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark})
 	</insert>
 
 

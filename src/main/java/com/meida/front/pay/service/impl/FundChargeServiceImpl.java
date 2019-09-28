@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.alipay.api.AlipayApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.pay.pojo.EPayType;
 import com.meida.pay.pojo.ParametersTradeQuery;
 import com.meida.pay.service.inter.ITradeService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FundChargeServiceImpl implements IFundChargeService {
@@ -64,6 +66,7 @@ public class FundChargeServiceImpl implements IFundChargeService {
 	 * @param alipayNotifyParamDto
 	 * @return
 	 */
+	@Transactional
 	@Override
 	public ResultMessage handleAlipayNotify(AlipayNotifyParamDto alipayNotifyParamDto) {
 		ResultMessage resultMessage = new ResultMessage();
@@ -108,23 +111,29 @@ public class FundChargeServiceImpl implements IFundChargeService {
 			return resultMessage;
 		}
 
-		FundCharge fundChargeItem = fundChargeDao.getObjectByOrderNo(orderNo);
-		if (fundChargeItem == null) {
+		FundCharge queryFundCharge = fundChargeDao.getObjectByOrderNo(orderNo);
+		if (queryFundCharge == null) {
 			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
 			return resultMessage;
 		}
 
-		if (fundChargeItem.getIsPay().equals("yes")) {
-			resultMessage.setCode(EErrorCode.Success);
+		if (queryFundCharge.getIsPay().equals("yes")) {
+			resultMessage.setCode(EErrorCode.Error);
 			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
+			return resultMessage;
+		}
+
+		long total_amount = alipayNotifyParamDto.getTotal_amount().multiply(new BigDecimal(100)).longValue();
+		if (total_amount != queryFundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+			resultMessage.setCode(EErrorCode.Error);
+			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单金额和支付宝通知金额不相等");
 			return resultMessage;
 		}
 
 		Date nowTime = DateUtils.now();
 
 		// 事务begin
-
 		Boolean isExistAlipayNotify = alipayNotifyDao.isExistOrderNo(orderNo) > 0;
 		if (isExistAlipayNotify == false) {
 			// 新增支付宝通知记录
@@ -160,9 +169,14 @@ public class FundChargeServiceImpl implements IFundChargeService {
 			alipayNotify.setVersion(alipayNotifyParamDto.getVersion());
 			alipayNotify.setVoucher_detail_list(alipayNotifyParamDto.getVoucher_detail_list());
 			alipayNotify.setCreateDate(nowTime);
-			alipayNotify.setOperateDate(nowTime);
+			alipayNotify.setCreateUserId("系统id");
+			alipayNotify.setCreateUser("系统");
+			alipayNotify.setUpdateDate(nowTime);
+			alipayNotify.setUpdateUserId("系统id");
+			alipayNotify.setUpdateUser("系统");
 			alipayNotify.setIsValid(ESystemStatus.Valid);
-			alipayNotify.setRemark("");
+			alipayNotify.setRemark("系统自动记录");
+			alipayNotify.setSignature("待签名");
 			Boolean isFlagAlipayNotify = alipayNotifyDao.save(alipayNotify) > 0;
 			if (isFlagAlipayNotify == false) {
 				resultMessage.setCode(EErrorCode.Error);
@@ -171,14 +185,19 @@ public class FundChargeServiceImpl implements IFundChargeService {
 			}
 		}
 
+
 		// 修改充值记录为已充值
 		FundCharge fundCharge = new FundCharge();
 		fundCharge.setOrderNo(orderNo);
 		fundCharge.setIsPay("yes");
-		fundCharge.setOperateDate(nowTime);
+		fundCharge.setUpdateDate(nowTime);
+		fundCharge.setUpdateUserId("系统id");
+		fundCharge.setUpdateUser("系统");
 		boolean isFlagPay = fundChargeDao.updateByOrderNo(fundCharge) > 0;
+
+
 		// 入账记录
-		Long memberId = 1l;
+		Long memberId = queryFundCharge.getMemberId();
 		FundIn fundIn = new FundIn();
 		fundIn.setMemberId(memberId);
 		fundIn.setOrderNo(orderNo);
@@ -186,35 +205,44 @@ public class FundChargeServiceImpl implements IFundChargeService {
 		fundIn.setInMoney(alipayNotifyParamDto.getTotal_amount());
 		fundIn.setInWay("alipay");
 		fundIn.setCreateDate(nowTime);
-		fundIn.setOperateDate(nowTime);
-		fundIn.setIsValid(1);
-		fundIn.setRemark("");
-		String signature = "";
-		fundIn.setSignature(signature);
+		fundIn.setCreateUserId("系统id");
+		fundIn.setCreateUser("系统");
+		fundIn.setUpdateDate(nowTime);
+		fundIn.setUpdateUserId("系统id");
+		fundIn.setUpdateUser("系统");
+		fundIn.setIsValid(ESystemStatus.Valid);
+		fundIn.setRemark("系统自动记录");
+		fundIn.setSignature("待签名");
 		fundInDao.save(fundIn);
 
 		// 总资金
-		FundAmount fundAmount = new FundAmount();
-
+		boolean isFlagFundAmount = false;
 		FundAmount queryFundAmount = fundAmountDao.getObjectByMemberId(memberId);
 		if (queryFundAmount != null) {
+			FundAmount fundAmount = new FundAmount();
 			fundAmount.setMemberId(memberId);
 			BigDecimal totalMoney = queryFundAmount.getTotalMoney().add(alipayNotifyParamDto.getTotal_amount());
 			fundAmount.setTotalMoney(totalMoney);
-			fundAmount.setOperateDate(nowTime);
-			boolean isFa = fundAmountDao.updateByMemberId(fundAmount) > 0;
-			System.out.println("isFa:" + isFa);
+			fundAmount.setUpdateDate(nowTime);
+			fundAmount.setUpdateUserId("系统id");
+			fundAmount.setUpdateUser("系统");
+			isFlagFundAmount = fundAmountDao.updateByMemberId(fundAmount) > 0;
 		} else {
+			FundAmount fundAmount = new FundAmount();
 			fundAmount.setMemberId(memberId);
 			fundAmount.setTotalMoney(alipayNotifyParamDto.getTotal_amount());
 			fundAmount.setCreateDate(nowTime);
-			fundAmount.setOperateDate(nowTime);
-			fundAmount.setIsValid(1);
-			fundAmount.setRemark("");
-			fundAmount.setSignature("");
-			boolean isFa = fundAmountDao.save(fundAmount) > 0;
-			System.out.println("isFa:" + isFa);
+			fundAmount.setCreateUserId("系统id");
+			fundAmount.setCreateUser("系统");
+			fundAmount.setUpdateDate(nowTime);
+			fundAmount.setUpdateUserId("系统id");
+			fundAmount.setUpdateUser("系统");
+			fundAmount.setIsValid(ESystemStatus.Valid);
+			fundAmount.setRemark("系统自动记录");
+			fundAmount.setSignature("待签名");
+			isFlagFundAmount = fundAmountDao.save(fundAmount) > 0;
 		}
+		System.out.println("isFlagFundAmount:" + isFlagFundAmount);
 		// 事务end
 
 		resultMessage.setCode(EErrorCode.Success);
@@ -245,92 +273,6 @@ public class FundChargeServiceImpl implements IFundChargeService {
 			return resultMessage;
 		}
 
-		// 查询支付宝是否支付成功
-		ParametersTradeQuery parametersTradeQuery = new ParametersTradeQuery();
-		parametersTradeQuery.setPayType(EPayType.Alipay);
-		parametersTradeQuery.setOut_trade_no(orderNo);
-		parametersTradeQuery.setTrade_no(trade_no);
-		ResultMessage tradeIsPaySuccess = tradeService.tradeIsPaySuccess(parametersTradeQuery);
-		if (!tradeIsPaySuccess.getCode().equals(EErrorCode.Success)) {
-			resultMessage.setCode(EErrorCode.Error);
-			resultMessage.setMessage("支付宝交易号：" + trade_no + "业务订单号：" + orderNo + "未支付成功.");
-			return resultMessage;
-		}
-
-		FundCharge fundChargeItem = fundChargeDao.getObjectByOrderNo(orderNo);
-		if (fundChargeItem == null) {
-			resultMessage.setCode(EErrorCode.Error);
-			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
-			return resultMessage;
-		}
-
-		if (fundChargeItem.getIsPay().equals("yes")) {
-			resultMessage.setCode(EErrorCode.Success);
-			resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
-			return resultMessage;
-		}
-
-		Date nowTime = DateUtils.now();
-
-		// 事务begin
-
-//		Boolean isExistAlipayNotify = alipayNotifyService.isExistOrderNo(orderNo);
-//		if (isExistAlipayNotify == false) {
-//			// 新增支付宝通知记录
-//			AlipayReturn alipayReturn = new AlipayReturn();
-//			alipayReturn.setCreateDate(nowTime);
-//			alipayReturn.setOperateDate(nowTime);
-//			alipayReturn.setIsValid(ESystemStatus.Valid);
-//			alipayReturn.setRemark("");
-//			Boolean isFlagAlipayNotify = alipayNotifyService.addOrUpdate(alipayNotify, true);
-//			if (isFlagAlipayNotify == false) {
-//				resultMessage.setCode(EErrorCode.Error);
-//				resultMessage.setMessage("新增支付宝通知记录错误");
-//				return resultMessage;
-//			}
-//		}
-
-		// 修改充值记录为已充值
-		FundCharge fundCharge = new FundCharge();
-		fundCharge.setOrderNo(orderNo);
-		fundCharge.setIsPay("yes");
-		fundCharge.setOperateDate(nowTime);
-		boolean isFlagPay = fundChargeDao.updateByOrderNo(fundCharge) > 0;
-		// 入账记录
-		Long memberId = 1l;
-		FundIn fundIn = new FundIn();
-		fundIn.setMemberId(memberId);
-		fundIn.setOrderNo(orderNo);
-		fundIn.setInDate(nowTime);
-		fundIn.setInMoney(alipayReturnParamDto.getTotal_amount());
-		fundIn.setInWay("alipay");
-		fundIn.setCreateDate(nowTime);
-		fundIn.setOperateDate(nowTime);
-		fundIn.setIsValid(1);
-		fundIn.setRemark("");
-		String signature = "";
-		fundIn.setSignature(signature);
-		fundInDao.save(fundIn);
-
-		// 总资金
-		FundAmount fundAmount = new FundAmount();
-		fundAmount.setMemberId(memberId);
-		FundAmount queryFundAmount = fundAmountDao.getObjectByMemberId(memberId);
-		if (queryFundAmount != null) {
-			BigDecimal totalMoney = queryFundAmount.getTotalMoney().add(alipayReturnParamDto.getTotal_amount());
-			fundAmount.setTotalMoney(totalMoney);
-			fundAmount.setOperateDate(nowTime);
-			fundAmountDao.updateByMemberId(fundAmount);
-		} else {
-			fundAmount.setTotalMoney(alipayReturnParamDto.getTotal_amount());
-			fundAmount.setCreateDate(nowTime);
-			fundAmount.setOperateDate(nowTime);
-			fundAmount.setIsValid(1);
-			fundAmount.setRemark("");
-			fundAmount.setSignature("");
-			fundAmountDao.save(fundAmount);
-		}
-		// 事务end
 
 		resultMessage.setCode(EErrorCode.Success);
 		resultMessage.setMessage("操作成功");

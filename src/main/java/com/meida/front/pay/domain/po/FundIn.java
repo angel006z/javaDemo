@@ -4,41 +4,68 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class FundIn {
-	
-      private  Long fundInId;
-     
-	 //会员id
-      private  Long memberId;
-     
-	 //订单号
-      private  String orderNo;
-     
-	 //收入时间
-      private  Date inDate;
-     
-	 //收入金额 千亿保留2位小数，单位RMB(元)
-      private  BigDecimal inMoney;
-     
-	 //收入方式
-      private  String inWay;
-     
-	 //创建时间
-      private  Date createDate;
-     
-	 //修改时间
-      private  Date operateDate;
-     
-	 //修改人
-      private  Long operatorId;
-     
-	 //状态1有效
-      private  Integer isValid;
-     
-	 //备注
-      private  String remark;
-     
-	 //签名
-      private  String signature;
+
+    private Long fundInId;
+
+    //会员id
+    private Long memberId;
+
+    //订单号
+    private String orderNo;
+
+    //收入时间
+    private Date inDate;
+
+    //收入金额 千亿保留2位小数，单位RMB(元)
+    private BigDecimal inMoney;
+
+    //收入方式
+    private String inWay;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 创建人id
+     */
+    private String createUserId;
+
+    /**
+     * 创建人
+     */
+    private String createUser;
+
+    /**
+     * 修改时间
+     */
+    private Date updateDate;
+
+    /**
+     * 修改人id
+     */
+    private String updateUserId;
+
+    /**
+     * 修改人
+     */
+    private String updateUser;
+
+    /**
+     * 状态1有效
+     */
+    private Integer isValid;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 签名
+     */
+    private String signature;
 
 
     public Long getFundInId() {
@@ -97,20 +124,44 @@ public class FundIn {
         this.createDate = createDate;
     }
 
-    public Date getOperateDate() {
-        return operateDate;
+    public String getCreateUserId() {
+        return createUserId;
     }
 
-    public void setOperateDate(Date operateDate) {
-        this.operateDate = operateDate;
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
     }
 
-    public Long getOperatorId() {
-        return operatorId;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setOperatorId(Long operatorId) {
-        this.operatorId = operatorId;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(String updateUserId) {
+        this.updateUserId = updateUserId;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
     }
 
     public Integer getIsValid() {
@@ -136,4 +187,7 @@ public class FundIn {
     public void setSignature(String signature) {
         this.signature = signature;
     }
+
+
+
 }

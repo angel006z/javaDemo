@@ -21,7 +21,7 @@
 	<select id="getObjectById" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbUser where userId=#{id}
 	</select>
 	
@@ -32,20 +32,20 @@
 	<select id="loginUser"
 		resultMap="myResultMap">
 		select
-		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbUser where userName=#{arg0} and password=#{arg1}
 	</select>
 	
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbUser
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		userId,userCode,userName,password,deptId,roleId,userSort,createDate,operateDate,operatorId,isValid,remark
+		userId,userCode,userName,password,deptId,roleId,userSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
 		from tbUser where isValid=1
 	</select>
 
@@ -70,7 +70,7 @@
 		parameterType="com.meida.backend.basic.domain.dto.UserListDto"
 		resultMap="myPageResultMap">
 		select
-		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
 		,b.deptName,c.roleName
 		from tbUser as a left join tbDept as b on a.deptId=b.deptId
 		left join tbRole as c on a.roleId=c.roleId
@@ -88,7 +88,7 @@
 		parameterType="com.meida.backend.basic.domain.dto.UserListDto"
 		resultMap="myPageResultMap">
 		select
-		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.operateDate,a.operatorId,a.isValid,a.remark
+		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
 		from tbUser as a 
 		where a.isValid=1
 		<if test="userCode != null and userCode!=''">
@@ -119,9 +119,9 @@
 
 	<insert id="save"
 		parameterType="com.meida.backend.basic.domain.po.User">
-		insert into tbUser (userId,userCode,userName,password,realPassword,roleId,deptId,userSort,createDate,operateDate,operatorId,isValid,remark) values
+		insert into tbUser (userId,userCode,userName,password,realPassword,roleId,deptId,userSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark) values
 		(#{userId},#{userCode},#{userName},#{password},#{realPassword},#{roleId},#{deptId},
-#{userSort},#{createDate},#{operateDate},#{operatorId},#{isValid},#{remark})
+#{userSort},#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark})
 	</insert>
 
 
