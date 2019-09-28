@@ -1,9 +1,9 @@
-package com.meida.front.pay.domain.po;
+package com.meida.front.pay.domain.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class AlipayReturn {
+public class AlipayReturnVo {
     private String code;
     private String msg;
     private String charset;

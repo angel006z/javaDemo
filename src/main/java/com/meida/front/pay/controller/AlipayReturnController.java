@@ -38,6 +38,7 @@ public class AlipayReturnController {
 		String result = handleAlipay(request);
 		System.out.println("result:" + result);
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("result",result);
 		return modelAndView;
 	}
 
@@ -57,7 +58,7 @@ public class AlipayReturnController {
 				ResultMessage resultMessage = fundChargeService.handleAlipayReturn(alipayReturnParamDto);
 				System.out.println("resultMessage:" + JsonUtils.toJSONString(resultMessage));
 				logger.info(JsonUtils.toJSONString(resultMessage));
-				if (resultMessage.equals(EErrorCode.Success)) {
+				if (resultMessage.getCode().equals(EErrorCode.Success)) {
 					return "success";
 				} else {
 					return "failure";

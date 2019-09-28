@@ -1,9 +1,9 @@
-package com.meida.front.pay.domain.po;
+package com.meida.front.pay.domain.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class AlipayReturn {
+public class AlipayReturnListDto {
     private String code;
     private String msg;
     private String charset;
@@ -248,5 +248,4 @@ public class AlipayReturn {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
 }

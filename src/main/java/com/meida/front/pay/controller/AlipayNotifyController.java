@@ -87,7 +87,7 @@ public class AlipayNotifyController {
 				ResultMessage resultMessage = fundChargeService.handleAlipayNotify(alipayNotifyParamDto);
 				System.out.println("resultMessage:"+JsonUtils.toJSONString(resultMessage));
 				logger.info(JsonUtils.toJSONString(resultMessage));
-				if (resultMessage.equals(EErrorCode.Success)) {							
+				if (resultMessage.getCode().equals(EErrorCode.Success)) {
 					return "success";
 				}else
 				{
