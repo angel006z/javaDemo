@@ -3,24 +3,16 @@ package com.meida.front.pay.domain.po;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class FundOut {
-	
-      private  Long fundOutId;
-     
-	 //会员id
-      private  Long memberId;
-     
-	 //订单号
-      private  String orderNo;
-     
-	 //支出时间
-      private  Date outDate;
-     
-	 //支出金额 亿保留2位小数，单位RMB(元)
-      private  BigDecimal outMoney;
-     
-	 //支出方式
-      private  String outWay;
+public class Refund {
+    private Long refundId;
+    private String refundNo;
+    private Long memberId;
+    private String orderNo;
+    private String tradeNo;
+    private Date refundDate;
+    private BigDecimal refundAmount;
+    private String refundReason;
+    private String refundStatus;
 
     /**
      * 创建时间
@@ -67,12 +59,20 @@ public class FundOut {
      */
     private String signature;
 
-    public Long getFundOutId() {
-        return fundOutId;
+    public Long getRefundId() {
+        return refundId;
     }
 
-    public void setFundOutId(Long fundOutId) {
-        this.fundOutId = fundOutId;
+    public void setRefundId(Long refundId) {
+        this.refundId = refundId;
+    }
+
+    public String getRefundNo() {
+        return refundNo;
+    }
+
+    public void setRefundNo(String refundNo) {
+        this.refundNo = refundNo;
     }
 
     public Long getMemberId() {
@@ -91,28 +91,44 @@ public class FundOut {
         this.orderNo = orderNo;
     }
 
-    public Date getOutDate() {
-        return outDate;
+    public String getTradeNo() {
+        return tradeNo;
     }
 
-    public void setOutDate(Date outDate) {
-        this.outDate = outDate;
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
     }
 
-    public BigDecimal getOutMoney() {
-        return outMoney;
+    public Date getRefundDate() {
+        return refundDate;
     }
 
-    public void setOutMoney(BigDecimal outMoney) {
-        this.outMoney = outMoney;
+    public void setRefundDate(Date refundDate) {
+        this.refundDate = refundDate;
     }
 
-    public String getOutWay() {
-        return outWay;
+    public BigDecimal getRefundAmount() {
+        return refundAmount;
     }
 
-    public void setOutWay(String outWay) {
-        this.outWay = outWay;
+    public void setRefundAmount(BigDecimal refundAmount) {
+        this.refundAmount = refundAmount;
+    }
+
+    public String getRefundReason() {
+        return refundReason;
+    }
+
+    public void setRefundReason(String refundReason) {
+        this.refundReason = refundReason;
+    }
+
+    public String getRefundStatus() {
+        return refundStatus;
+    }
+
+    public void setRefundStatus(String refundStatus) {
+        this.refundStatus = refundStatus;
     }
 
     public Date getCreateDate() {
