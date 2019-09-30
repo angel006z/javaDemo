@@ -1,10 +1,10 @@
 package com.meida.common.util;
 
-import com.meida.front.pay.domain.po.CurrentMember;
+import com.meida.front.pay.domain.dto.CurrentMemberDto;
 
 public class FrontUtils {
-    public static CurrentMember getCurrentMember(){
-        CurrentMember item= new CurrentMember();
+    public static CurrentMemberDto getCurrentMemberDto(){
+        CurrentMemberDto item= new CurrentMemberDto();
         item.setMemberId(1l);
         item.setAccount("test1");
         item.setNickname("测试1");

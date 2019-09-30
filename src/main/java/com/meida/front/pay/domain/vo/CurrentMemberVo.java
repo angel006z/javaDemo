@@ -1,8 +1,14 @@
-package com.meida.front.pay.domain.po;
+package com.meida.front.pay.domain.vo;
 
-public class CurrentMember {
+public class CurrentMemberVo {
     //会员id
     private  Long memberId;
+
+    //会员昵称
+    private  String nickname;
+
+    //账号
+    private  String account;
 
     public Long getMemberId() {
         return memberId;
@@ -28,9 +34,4 @@ public class CurrentMember {
         this.account = account;
     }
 
-    //会员昵称
-    private  String nickname;
-
-    //账号
-    private  String account;
 }

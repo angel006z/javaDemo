@@ -2,11 +2,10 @@ package com.meida.front.pay.service.impl;
 
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
-import com.meida.common.util.FrontUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ESystemStatus;
 import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
-import com.meida.front.pay.domain.po.CurrentMember;
+import com.meida.front.pay.domain.dto.CurrentMemberDto;
 import com.meida.front.pay.domain.po.FundCharge;
 import com.meida.front.pay.service.inter.IFundChargeService;
 import com.meida.front.pay.service.inter.IPayService;
@@ -39,7 +38,7 @@ public class PayServiceImpl implements IPayService {
 	@Transactional
 	@Override
 	public ResultMessage buildChargeOrder(BuildChargeOrderDto buildChargeOrderDto) {
-		CurrentMember currentMember = buildChargeOrderDto.getCurrentMember();
+		CurrentMemberDto currentMember = buildChargeOrderDto.getCurrentMember();
 
 		Date nowTime = DateUtils.now();
 		ResultMessage resultMessage = new ResultMessage();

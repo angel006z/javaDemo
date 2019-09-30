@@ -1,8 +1,5 @@
 package com.meida.front.pay.domain.dto;
 
-import com.meida.common.util.FrontUtils;
-import com.meida.front.pay.domain.po.CurrentMember;
-
 import java.math.BigDecimal;
 
 public class BuildChargeOrderDto {
@@ -32,14 +29,14 @@ public class BuildChargeOrderDto {
 		this.chargeMemberId = chargeMemberId;
 	}
 
-	private CurrentMember currentMember;
+	private CurrentMemberDto currentMember;
 
-	public CurrentMember getCurrentMember() {
+	public CurrentMemberDto getCurrentMember() {
 		return currentMember;
 	}
 
 
-	public void setCurrentMember(CurrentMember currentMember) {
+	public void setCurrentMember(CurrentMemberDto currentMember) {
 		this.currentMember = currentMember;
 	}
 
