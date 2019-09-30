@@ -427,8 +427,8 @@ public class RechargeServiceImpl implements IRechargeService {
      */
     @Transactional
     @Override
-    public ResultMessage buildRechargeOrder(BuildRechargeOrderDto buildChargeOrderDto) {
-        CurrentMemberDto currentMember = buildChargeOrderDto.getCurrentMemberDto();
+    public ResultMessage buildRechargeOrder(BuildRechargeOrderDto buildRehargeOrderDto) {
+        CurrentMemberDto currentMember = buildRehargeOrderDto.getCurrentMemberDto();
 
         Date nowTime = DateUtils.now();
         ResultMessage resultMessage = new ResultMessage();
@@ -439,22 +439,22 @@ public class RechargeServiceImpl implements IRechargeService {
             return resultMessage;
         }
 
-        BigDecimal total_fee = buildChargeOrderDto.getTotal_fee();
+        BigDecimal total_fee = buildRehargeOrderDto.getTotal_fee();
         if (total_fee.signum() <= 0) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("充值金额必需大于0，请重新充值");
             return resultMessage;
         }
 
-        Long chargeMemberId = buildChargeOrderDto.getRechargeMemberId();
+        Long chargeMemberId = buildRehargeOrderDto.getRechargeMemberId();
         if (chargeMemberId <= 0) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("充值会员id不能为空");
             return resultMessage;
         }
 
-        String payType=buildChargeOrderDto.getPayType();
-        String payChannel=buildChargeOrderDto.getPayChannel();
+        String payType= buildRehargeOrderDto.getPayType();
+        String payChannel= buildRehargeOrderDto.getPayChannel();
 
         // 系统生成订单信息
         Recharge recharge = new Recharge();

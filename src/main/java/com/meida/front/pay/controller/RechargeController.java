@@ -49,14 +49,14 @@ public class RechargeController {
             payChannel = "other";
         }
 
-        BuildRechargeOrderDto buildChargeOrderDto = new BuildRechargeOrderDto();
-        buildChargeOrderDto.setRechargeMemberId(FrontUtils.getCurrentMemberDto().getMemberId());
-        buildChargeOrderDto.setPayType(payType);
-        buildChargeOrderDto.setPayChannel(payChannel);
-        buildChargeOrderDto.setTotal_fee(paramDto.getTotalFee());
-        buildChargeOrderDto.setCurrentMemberDto(FrontUtils.getCurrentMemberDto());
+        BuildRechargeOrderDto buildRechargeOrderDto = new BuildRechargeOrderDto();
+        buildRechargeOrderDto.setRechargeMemberId(FrontUtils.getCurrentMemberDto().getMemberId());
+        buildRechargeOrderDto.setPayType(payType);
+        buildRechargeOrderDto.setPayChannel(payChannel);
+        buildRechargeOrderDto.setTotal_fee(paramDto.getTotalFee());
+        buildRechargeOrderDto.setCurrentMemberDto(FrontUtils.getCurrentMemberDto());
 
-        ResultMessage resultMessage = rechargeService.buildRechargeOrder(buildChargeOrderDto);
+        ResultMessage resultMessage = rechargeService.buildRechargeOrder(buildRechargeOrderDto);
         return JsonUtils.toJSONString(resultMessage);
     }
 }

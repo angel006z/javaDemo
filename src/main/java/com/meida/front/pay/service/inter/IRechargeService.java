@@ -42,7 +42,7 @@ public interface IRechargeService {
 	 * 构建充值订单
 	 * 产生订单号，返回相应支付路径
 	 */
-	ResultMessage buildRechargeOrder(BuildRechargeOrderDto chargeDto);
+	ResultMessage buildRechargeOrder(BuildRechargeOrderDto buildRechargeOrderDto);
 
 	/**
 	 * 充值订单号
