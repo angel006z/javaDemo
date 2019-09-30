@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.meida.front.pay.dao.inter.IFundChargeDao">
+	namespace="com.meida.front.pay.dao.inter.IRechargeDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.front.pay.domain.po.FundCharge">
-		<id property="fundChargeId" column="fundChargeId"></id>
+		type="com.meida.front.pay.domain.po.Recharge">
+		<id property="rechargeId" column="rechargeId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="orderNo" column="orderNo"></result>
-		<result property="chargeMoney" column="chargeMoney"></result>
-		<result property="chargeDate" column="chargeDate"></result>
+		<result property="rechargeMoney" column="rechargeMoney"></result>
+		<result property="rechargeDate" column="rechargeDate"></result>
 		<result property="payType" column="payType"></result>
 		<result property="payChannel" column="payChannel"></result>
 		<result property="isPay" column="isPay"></result>
@@ -26,44 +26,44 @@
 	<select id="getObjectById" parameterType="java.lang.Long"
 		resultMap="myResultMap">
 		select
-		fundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_fund_charge where fundChargeId=#{id}
+		rechargeId,memberId,orderNo,rechargeMoney,rechargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
+		from tb_recharge where rechargeId=#{id}
 	</select>
 	
 	<select id="getObjectByOrderNo" parameterType="java.lang.String"
 		resultMap="myResultMap">
 		select
-		fundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_fund_charge where orderNo=#{orderNo}
+		rechargeId,memberId,orderNo,rechargeMoney,rechargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
+		from tb_recharge where orderNo=#{orderNo}
 	</select>
 	
 	<select id="isExistOrderNo" parameterType="java.lang.String"
 		resultType="java.lang.Long">
-		select count(*) from tb_fund_charge where
+		select count(*) from tb_recharge where
 		orderNo=#{orderNo}
 	</select>
 
 
 	<select id="getListByAll" resultMap="myResultMap">
 		select
-		fundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_fund_charge
+		rechargeId,memberId,orderNo,rechargeMoney,rechargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
+		from tb_recharge
 	</select>
 
 
 	<select id="getListByValid" resultMap="myResultMap">
 		select
-		fundChargeId,memberId,orderNo,chargeMoney,chargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_fund_charge where isValid=1
+		rechargeId,memberId,orderNo,rechargeMoney,rechargeDate,payType,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
+		from tb_recharge where isValid=1
 	</select>
 
 	<resultMap id="myPageResultMap"
-		type="com.meida.front.pay.domain.vo.FundChargeVo">
-		<id property="fundChargeId" column="fundChargeId"></id>
+		type="com.meida.front.pay.domain.vo.RechargeVo">
+		<id property="rechargeId" column="rechargeId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="orderNo" column="orderNo"></result>
-		<result property="chargeMoney" column="chargeMoney"></result>
-		<result property="chargeDate" column="chargeDate"></result>
+		<result property="rechargeMoney" column="rechargeMoney"></result>
+		<result property="rechargeDate" column="rechargeDate"></result>
 		<result property="payType" column="payType"></result>
 		<result property="payChannel" column="payChannel"></result>
 		<result property="isPay" column="isPay"></result>
@@ -78,11 +78,11 @@
 	</resultMap>
 	
 	<select id="getListWhereByPage"
-		parameterType="com.meida.front.pay.domain.dto.FundChargeListDto"
+		parameterType="com.meida.front.pay.domain.dto.RechargeListDto"
 		resultMap="myPageResultMap">
 		select
-		a.fundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.isPay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
-		from tb_fund_charge as a
+		a.rechargeId,a.memberId,a.orderNo,a.rechargeMoney,a.rechargeDate,a.payType,a.payChannel,a.isPay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
+		from tb_recharge as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND a.memberId like "%"#{memberId}"%"
@@ -95,11 +95,11 @@
 	</select>
 	
 	<select id="getListByPage"
-		parameterType="com.meida.front.pay.domain.dto.FundChargeListDto"
+		parameterType="com.meida.front.pay.domain.dto.RechargeListDto"
 		resultMap="myPageResultMap">
 		select
-		a.fundChargeId,a.memberId,a.orderNo,a.chargeMoney,a.chargeDate,a.payType,a.payChannel,a.isPay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
-		from tb_fund_charge as a
+		a.rechargeId,a.memberId,a.orderNo,a.rechargeMoney,a.rechargeDate,a.payType,a.payChannel,a.isPay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
+		from tb_recharge as a
 		where a.isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND a.memberId like "%"#{memberId}"%"
@@ -113,9 +113,9 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.front.pay.domain.dto.FundChargeListDto"
+		parameterType="com.meida.front.pay.domain.dto.RechargeListDto"
 		resultType="java.lang.Long">
-		select count(*) from tb_fund_charge
+		select count(*) from tb_recharge
 		where isValid=1
 		<if test="memberId != null and memberId!=''">
 			AND memberId like "%"#{memberId}"%"
@@ -129,19 +129,19 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.front.pay.domain.po.FundCharge">
-		insert into tb_fund_charge
-		(memberId,orderNo,chargeMoney,payType,chargeDate,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
+		parameterType="com.meida.front.pay.domain.po.Recharge">
+		insert into tb_recharge
+		(memberId,orderNo,rechargeMoney,payType,rechargeDate,payChannel,isPay,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
 		values
-		(#{memberId},#{orderNo},#{chargeMoney},#{payType},#{chargeDate},
+		(#{memberId},#{orderNo},#{rechargeMoney},#{payType},#{rechargeDate},
 		#{payChannel},#{isPay},#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark},#{signature})
 
 	</insert>
 
 
 	<update id="update"
-		parameterType="com.meida.front.pay.domain.po.FundCharge">
-		update tb_fund_charge
+		parameterType="com.meida.front.pay.domain.po.Recharge">
+		update tb_recharge
 		<set>
 			<if test="memberId!=null">
 				memberId=#{memberId},
@@ -149,11 +149,11 @@
 			<if test="orderNo!=null">
 				orderNo=#{orderNo},
 			</if>
-			<if test="chargeMoney!=null">
-				chargeMoney=#{chargeMoney},
+			<if test="rechargeMoney!=null">
+				rechargeMoney=#{rechargeMoney},
 			</if>
-			<if test="chargeDate!=null">
-				chargeDate=#{chargeDate},
+			<if test="rechargeDate!=null">
+				rechargeDate=#{rechargeDate},
 			</if>
 			<if test="payType!=null">
 				payType=#{payType},
@@ -189,11 +189,11 @@
 				signature=#{signature}
 			</if>
 		</set>
-		where fundChargeId=#{fundChargeId}
+		where rechargeId=#{rechargeId}
 	</update>
 	<update id="updateByOrderNo"
-		parameterType="com.meida.front.pay.domain.po.FundCharge">
-		update tb_fund_charge
+		parameterType="com.meida.front.pay.domain.po.Recharge">
+		update tb_recharge
 		<set>
 			<if test="memberId!=null">
 				memberId=#{memberId},
@@ -201,11 +201,11 @@
 			<if test="orderNo!=null">
 				orderNo=#{orderNo},
 			</if>
-			<if test="chargeMoney!=null">
-				chargeMoney=#{chargeMoney},
+			<if test="rechargeMoney!=null">
+				rechargeMoney=#{rechargeMoney},
 			</if>
-			<if test="chargeDate!=null">
-				chargeDate=#{chargeDate},
+			<if test="rechargeDate!=null">
+				rechargeDate=#{rechargeDate},
 			</if>
 			<if test="payType!=null">
 				payType=#{payType},
@@ -247,15 +247,15 @@
 
 	<delete id="deletePhysicalById" parameterType="java.lang.Long">
 		delete from
-		tb_fund_charge
-		where fundChargeId=#{id}
+		tb_recharge
+		where rechargeId=#{id}
 	</delete>
 
 
 	<delete id="deleteLogicById" parameterType="java.lang.Long">
 		update
-		tb_fund_charge set
-		isValid=-1 where fundChargeId=#{id}
+		tb_recharge set
+		isValid=-1 where rechargeId=#{id}
 	</delete>
 
 </mapper>

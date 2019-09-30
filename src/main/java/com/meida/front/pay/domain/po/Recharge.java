@@ -1,11 +1,11 @@
-package com.meida.front.pay.domain.vo;
+package com.meida.front.pay.domain.po;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class FundChargeVo {
+public class Recharge {
 		
-      private  Long fundChargeId;
+      private  Long rechargeId;
      
 	 //会员id
       private  Long memberId;
@@ -14,10 +14,10 @@ public class FundChargeVo {
       private  String orderNo;
      
 	 //充值金额 千亿保留2位小数，单位RMB(元)
-      private  BigDecimal chargeMoney;
+      private  BigDecimal rechargeMoney;
      
 	 //充值时间
-      private  Date chargeDate;
+      private  Date rechargeDate;
      
 	 //充值方式:alipay、weixin、banks
       private  String payType;
@@ -73,12 +73,13 @@ public class FundChargeVo {
      */
     private String signature;
 
-    public Long getFundChargeId() {
-        return fundChargeId;
+
+    public Long getRechargeId() {
+        return rechargeId;
     }
 
-    public void setFundChargeId(Long fundChargeId) {
-        this.fundChargeId = fundChargeId;
+    public void setRechargeId(Long rechargeId) {
+        this.rechargeId = rechargeId;
     }
 
     public Long getMemberId() {
@@ -97,20 +98,20 @@ public class FundChargeVo {
         this.orderNo = orderNo;
     }
 
-    public BigDecimal getChargeMoney() {
-        return chargeMoney;
+    public BigDecimal getRechargeMoney() {
+        return rechargeMoney;
     }
 
-    public void setChargeMoney(BigDecimal chargeMoney) {
-        this.chargeMoney = chargeMoney;
+    public void setRechargeMoney(BigDecimal rechargeMoney) {
+        this.rechargeMoney = rechargeMoney;
     }
 
-    public Date getChargeDate() {
-        return chargeDate;
+    public Date getRechargeDate() {
+        return rechargeDate;
     }
 
-    public void setChargeDate(Date chargeDate) {
-        this.chargeDate = chargeDate;
+    public void setRechargeDate(Date rechargeDate) {
+        this.rechargeDate = rechargeDate;
     }
 
     public String getPayType() {

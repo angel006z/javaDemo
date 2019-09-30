@@ -3,10 +3,13 @@ package com.meida.front.pay.service.impl;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
-import com.alipay.api.AlipayApiException;
 import com.meida.front.pay.dao.inter.*;
+import com.meida.front.pay.domain.dto.BuildRechargeOrderDto;
+import com.meida.front.pay.domain.dto.CurrentMemberDto;
 import com.meida.front.pay.domain.po.*;
+import com.meida.pay.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +20,14 @@ import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ESystemStatus;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
 import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
-import com.meida.front.pay.service.inter.IFundChargeService;
-import com.meida.pay.pojo.EPayType;
-import com.meida.pay.pojo.ParametersTradeQuery;
+import com.meida.front.pay.service.inter.IRechargeService;
 import com.meida.pay.service.inter.ITradeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class FundChargeServiceImpl implements IFundChargeService {
+public class RechargeServiceImpl implements IRechargeService {
     @Autowired
-    private IFundChargeDao fundChargeDao;
+    private IRechargeDao rechargeDao;
 
     @Autowired
     private IFundInDao fundInDao;
@@ -43,23 +44,26 @@ public class FundChargeServiceImpl implements IFundChargeService {
     @Autowired
     private ITradeService tradeService;
 
+    @Autowired
+    private IRechargeService rechargeService;
+
     @Override
-    public boolean addOrUpdate(FundCharge item, boolean isAdd) {
+    public boolean addOrUpdate(Recharge item, boolean isAdd) {
         if (isAdd) {
-            return fundChargeDao.save(item) > 0;
+            return rechargeDao.save(item) > 0;
         } else {
-            return fundChargeDao.update(item) > 0;
+            return rechargeDao.update(item) > 0;
         }
     }
 
     @Override
     public boolean isExistOrderNo(String orderNo) {
-        return fundChargeDao.isExistOrderNo(orderNo) > 0;
+        return rechargeDao.isExistOrderNo(orderNo) > 0;
     }
 
     @Override
-    public FundCharge getObjectByOrderNo(Serializable orderNo) {
-        return fundChargeDao.getObjectByOrderNo(orderNo);
+    public Recharge getObjectByOrderNo(Serializable orderNo) {
+        return rechargeDao.getObjectByOrderNo(orderNo);
     }
 
     /**
@@ -116,21 +120,21 @@ public class FundChargeServiceImpl implements IFundChargeService {
         }
 
 
-        FundCharge queryFundCharge = fundChargeDao.getObjectByOrderNo(orderNo);
-        if (queryFundCharge == null) {
+        Recharge queryRecharge = rechargeDao.getObjectByOrderNo(orderNo);
+        if (queryRecharge == null) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
             return resultMessage;
         }
 
-        if (queryFundCharge.getIsPay().equals("yes")) {
+        if (queryRecharge.getIsPay().equals("yes")) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
             return resultMessage;
         }
 
         long total_amount = alipayNotifyParamDto.getTotal_amount().multiply(new BigDecimal(100)).longValue();
-        if (total_amount != queryFundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+        if (total_amount != queryRecharge.getRechargeMoney().multiply(new BigDecimal(100)).longValue()) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单金额和支付宝通知金额不相等");
             return resultMessage;
@@ -192,17 +196,17 @@ public class FundChargeServiceImpl implements IFundChargeService {
 
 
         // 修改充值记录为已充值
-        FundCharge fundCharge = new FundCharge();
-        fundCharge.setOrderNo(orderNo);
-        fundCharge.setIsPay("yes");
-        fundCharge.setUpdateDate(nowTime);
-        fundCharge.setUpdateUserId("系统id");
-        fundCharge.setUpdateUser("系统");
-        boolean isFlagPay = fundChargeDao.updateByOrderNo(fundCharge) > 0;
+        Recharge recharge = new Recharge();
+        recharge.setOrderNo(orderNo);
+        recharge.setIsPay("yes");
+        recharge.setUpdateDate(nowTime);
+        recharge.setUpdateUserId("系统id");
+        recharge.setUpdateUser("系统");
+        boolean isFlagPay = rechargeDao.updateByOrderNo(recharge) > 0;
 
 
         // 入账记录
-        Long memberId = queryFundCharge.getMemberId();
+        Long memberId = queryRecharge.getMemberId();
         FundIn fundIn = new FundIn();
         fundIn.setMemberId(memberId);
         fundIn.setOrderNo(orderNo);
@@ -291,21 +295,21 @@ public class FundChargeServiceImpl implements IFundChargeService {
         }
 
 
-        FundCharge queryFundCharge = fundChargeDao.getObjectByOrderNo(orderNo);
-        if (queryFundCharge == null) {
+        Recharge queryReharge = rechargeDao.getObjectByOrderNo(orderNo);
+        if (queryReharge == null) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
             return resultMessage;
         }
 
-        if (queryFundCharge.getIsPay().equals("yes")) {
+        if (queryReharge.getIsPay().equals("yes")) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
             return resultMessage;
         }
 
         long total_amount = alipayReturnParamDto.getTotal_amount().multiply(new BigDecimal(100)).longValue();
-        if (total_amount != queryFundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+        if (total_amount != queryReharge.getRechargeMoney().multiply(new BigDecimal(100)).longValue()) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单金额和支付宝通知金额不相等");
             return resultMessage;
@@ -352,17 +356,17 @@ public class FundChargeServiceImpl implements IFundChargeService {
 
 
         // 修改充值记录为已充值
-        FundCharge fundCharge = new FundCharge();
-        fundCharge.setOrderNo(orderNo);
-        fundCharge.setIsPay("yes");
-        fundCharge.setUpdateDate(nowTime);
-        fundCharge.setUpdateUserId("系统id");
-        fundCharge.setUpdateUser("系统");
-        boolean isFlagPay = fundChargeDao.updateByOrderNo(fundCharge) > 0;
+        Recharge recharge = new Recharge();
+        recharge.setOrderNo(orderNo);
+        recharge.setIsPay("yes");
+        recharge.setUpdateDate(nowTime);
+        recharge.setUpdateUserId("系统id");
+        recharge.setUpdateUser("系统");
+        boolean isFlagPay = rechargeDao.updateByOrderNo(recharge) > 0;
 
 
         // 入账记录
-        Long memberId = queryFundCharge.getMemberId();
+        Long memberId = queryReharge.getMemberId();
         FundIn fundIn = new FundIn();
         fundIn.setMemberId(memberId);
         fundIn.setOrderNo(orderNo);
@@ -415,4 +419,117 @@ public class FundChargeServiceImpl implements IFundChargeService {
         return resultMessage;
     }
 
+
+
+    /**
+     * 构建充值订单
+     * 产生订单号，返回相应支付路径
+     * 网页支付：微信返回二维码，支付宝返回支付宝付款路径
+     *
+     */
+    @Transactional
+    @Override
+    public ResultMessage buildRechargeOrder(BuildRechargeOrderDto buildChargeOrderDto) {
+        CurrentMemberDto currentMember = buildChargeOrderDto.getCurrentMemberDto();
+
+        Date nowTime = DateUtils.now();
+        ResultMessage resultMessage = new ResultMessage();
+        String orderNo = getOrderNoByRecharge();
+        if (rechargeService.isExistOrderNo(orderNo)) {
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("该订单号已存在，请重新充值");
+            return resultMessage;
+        }
+
+        BigDecimal total_fee = buildChargeOrderDto.getTotal_fee();
+        if (total_fee.signum() <= 0) {
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("充值金额必需大于0，请重新充值");
+            return resultMessage;
+        }
+
+        Long chargeMemberId = buildChargeOrderDto.getRechargeMemberId();
+        if (chargeMemberId <= 0) {
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("充值会员id不能为空");
+            return resultMessage;
+        }
+
+        String payType=buildChargeOrderDto.getPayType();
+        String payChannel=buildChargeOrderDto.getPayChannel();
+
+        // 系统生成订单信息
+        Recharge recharge = new Recharge();
+        recharge.setMemberId(chargeMemberId);
+        recharge.setOrderNo(orderNo);
+        recharge.setRechargeMoney(total_fee);
+        recharge.setRechargeDate(nowTime);
+        recharge.setPayType(payType);
+        recharge.setPayChannel(payChannel);
+        recharge.setIsPay("no");
+        recharge.setCreateDate(nowTime);
+        recharge.setCreateUserId(currentMember.getMemberId().toString());
+        recharge.setCreateUser(currentMember.getAccount());
+        recharge.setUpdateDate(nowTime);
+        recharge.setUpdateUserId(currentMember.getMemberId().toString());
+        recharge.setUpdateUser(currentMember.getAccount());
+        recharge.setIsValid(ESystemStatus.Valid);
+        recharge.setRemark(String.format("充值，产品订单号：[%s],日期：[%s]", orderNo,
+                DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
+        recharge.setSignature("待签名");
+        boolean isFlagRecharge = rechargeService.addOrUpdate(recharge, true);
+        if (isFlagRecharge == false) {
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("系统产生订单错误，请重新充值");
+            return resultMessage;
+        }
+
+
+        // 调用充值接口
+        ParametersTradePay builderParameters = new ParametersTradePay();
+        builderParameters.setPayType(payType);
+        builderParameters.setPayChannel(payChannel);
+        builderParameters.setOut_trade_no(orderNo);
+        builderParameters.setSubject("充值");
+        builderParameters.setAttach("");
+        builderParameters.setBody(
+                String.format("产品订单号：[%s],日期：[%s]", orderNo, DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
+        builderParameters.setTotal_fee(total_fee);
+        ResultTradePay resultTradePay = tradeService.tradePay(builderParameters);
+
+        boolean isFlag = resultTradePay.getCode().equals(EErrorCode.Success);
+        if (isFlag) {
+            resultMessage.setCode(EErrorCode.Success);
+            if(payChannel.equals(EPayChannel.Alipay_NATIVE)){
+                resultMessage.setMessage(resultTradePay.getQr_code());
+            }else {
+                resultMessage.setMessage(resultTradePay.getForm());
+            }
+            return resultMessage;
+        } else {
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage(resultTradePay.getMessage());
+            return resultMessage;
+        }
+
+    }
+
+    /**
+     * 订单号
+     *
+     * @return 返回20位订单号
+     */
+    @Override
+    public String getOrderNoByRecharge() {
+
+        int hashCodeV = UUID.randomUUID().toString().hashCode();
+        if (hashCodeV < 0) {// 有可能是负数
+            hashCodeV = -hashCodeV;
+        }
+        // 0 代表前面补充0
+        // 4 代表长度为4
+        // d 代表参数为正数型
+        return "D" + DateUtils.formatDate(DateUtils.now(), "yyyyMMdd") + String.format("%011d", hashCodeV);
+        // 1+8+11
+    }
 }

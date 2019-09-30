@@ -22,7 +22,7 @@ public class RefundServiceTest {
     @Test
     public void test_originalRefund() {
         OriginalRefundDto originalRefundDto = new OriginalRefundDto();
-        originalRefundDto.setRefundMemberId(FrontUtils.getCurrentMember().getMemberId());
+        originalRefundDto.setRefundMemberId(FrontUtils.getCurrentMemberDto().getMemberId());
         originalRefundDto.setOrderNo("D2019092800666483187");
         originalRefundDto.setRefundReason("测试退款");
         ResultMessage resultMessage = refundService.originalRefund(originalRefundDto);

@@ -150,7 +150,7 @@
             $(".total_fee").text(tempPrice);
         });
         $(".confirm-charge").click(function () {
-            confirmCharge();
+            rechargeOperate();
         });
 
         buildAlipayNative();
@@ -171,7 +171,7 @@
             totalFee: $(".total_fee").text()
         };
         $.ajax({
-            url: "confirmCharge",
+            url: "rechargeOperate",
             data: JSON.stringify(data),
             type: "post",
             dataType: "json",
@@ -196,14 +196,14 @@
         });
     }
 
-    function confirmCharge() {
+    function rechargeOperate() {
         var data = {
             payChannel: "Alipay_PAGE",
             totalFee: $(".total_fee").text()
         };
         var layerLoadIndex;
         $.ajax({
-            url: "confirmCharge",
+            url: "rechargeOperate",
             data: JSON.stringify(data),
             type: "post",
             dataType: "json",

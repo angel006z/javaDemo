@@ -1,32 +1,32 @@
-package com.meida.front.pay.domain.po;
+package com.meida.front.pay.domain.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class FundCharge {
-		
-      private  Long fundChargeId;
-     
-	 //会员id
-      private  Long memberId;
-     
-	 //订单号
-      private  String orderNo;
-     
-	 //充值金额 千亿保留2位小数，单位RMB(元)
-      private  BigDecimal chargeMoney;
-     
-	 //充值时间
-      private  Date chargeDate;
-     
-	 //充值方式:alipay、weixin、banks
-      private  String payType;
-     
-	 //充值方式
-      private  String payChannel;
-     
-	 //是否已支付完成 yes no
-      private  String isPay;
+public class RechargeVo {
+
+    private  Long fundChargeId;
+
+    //会员id
+    private  Long memberId;
+
+    //订单号
+    private  String orderNo;
+
+    //充值金额 千亿保留2位小数，单位RMB(元)
+    private  BigDecimal chargeMoney;
+
+    //充值时间
+    private  Date chargeDate;
+
+    //充值方式:alipay、weixin、banks
+    private  String payType;
+
+    //充值方式
+    private  String payChannel;
+
+    //是否已支付完成 yes no
+    private  String isPay;
 
     /**
      * 创建时间

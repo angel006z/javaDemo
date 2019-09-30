@@ -2,7 +2,7 @@ package com.meida.front.pay.domain.dto;
 
 import java.math.BigDecimal;
 
-public class ChargeParamDto {
+public class RechargeParamDto {
     private String payChannel;
     private BigDecimal totalFee;
 

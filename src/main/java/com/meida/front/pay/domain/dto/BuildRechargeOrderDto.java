@@ -2,7 +2,7 @@ package com.meida.front.pay.domain.dto;
 
 import java.math.BigDecimal;
 
-public class BuildChargeOrderDto {
+public class BuildRechargeOrderDto {
 	/**
 	 * 在线支付类型
 	 */
@@ -19,26 +19,9 @@ public class BuildChargeOrderDto {
 	/**
 	 * 充值会员id
 	 */
-	private Long chargeMemberId;
+	private Long rechargeMemberId;
 
-	public Long getChargeMemberId() {
-		return chargeMemberId;
-	}
-
-	public void setChargeMemberId(Long chargeMemberId) {
-		this.chargeMemberId = chargeMemberId;
-	}
-
-	private CurrentMemberDto currentMember;
-
-	public CurrentMemberDto getCurrentMember() {
-		return currentMember;
-	}
-
-
-	public void setCurrentMember(CurrentMemberDto currentMember) {
-		this.currentMember = currentMember;
-	}
+	private CurrentMemberDto currentMemberDto;
 
 	public String getPayType() {
 		return payType;
@@ -62,5 +45,21 @@ public class BuildChargeOrderDto {
 
 	public void setTotal_fee(BigDecimal total_fee) {
 		this.total_fee = total_fee;
+	}
+
+	public Long getRechargeMemberId() {
+		return rechargeMemberId;
+	}
+
+	public void setRechargeMemberId(Long rechargeMemberId) {
+		this.rechargeMemberId = rechargeMemberId;
+	}
+
+	public CurrentMemberDto getCurrentMemberDto() {
+		return currentMemberDto;
+	}
+
+	public void setCurrentMemberDto(CurrentMemberDto currentMemberDto) {
+		this.currentMemberDto = currentMemberDto;
 	}
 }

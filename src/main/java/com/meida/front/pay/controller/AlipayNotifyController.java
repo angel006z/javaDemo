@@ -22,8 +22,8 @@ import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
-import com.meida.front.pay.domain.po.FundCharge;
-import com.meida.front.pay.service.inter.IFundChargeService;
+import com.meida.front.pay.domain.po.Recharge;
+import com.meida.front.pay.service.inter.IRechargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
 
 /**
@@ -46,7 +46,7 @@ import com.meida.pay.alipay.config.AlipayConfig;
 public class AlipayNotifyController {
     private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
     @Autowired
-    private IFundChargeService fundChargeService;
+    private IRechargeService rehargeService;
 
     /**
      * <pre>
@@ -87,7 +87,7 @@ public class AlipayNotifyController {
                 // 按照支付结果异步通知中的描述，对支付结果中的业务内容进行1\2\3\4二次校验，校验成功后在response中返回success，校验失败返回failure
                 this.check(params);
                 AlipayNotifyParamDto alipayNotifyParamDto = buildAlipayNotifyParam(params);
-                ResultMessage resultMessage = fundChargeService.handleAlipayNotify(alipayNotifyParamDto);
+                ResultMessage resultMessage = rehargeService.handleAlipayNotify(alipayNotifyParamDto);
                 System.out.println("resultMessage:" + JsonUtils.toJSONString(resultMessage));
                 logger.info(JsonUtils.toJSONString(resultMessage));
                 if (resultMessage.getCode().equals(EErrorCode.Success)) {
@@ -152,14 +152,14 @@ public class AlipayNotifyController {
         String out_trade_no = params.get("out_trade_no");
 
         // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-        FundCharge fundCharge = fundChargeService.getObjectByOrderNo(out_trade_no);
-        if (fundCharge == null) {
+        Recharge recharge = rehargeService.getObjectByOrderNo(out_trade_no);
+        if (recharge == null) {
             throw new AlipayApiException("out_trade_no错误");
         }
 
         // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
         long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
-        if (total_amount != fundCharge.getChargeMoney().multiply(new BigDecimal(100)).longValue()) {
+        if (total_amount != recharge.getRechargeMoney().multiply(new BigDecimal(100)).longValue()) {
             throw new AlipayApiException("error total_amount");
         }
 

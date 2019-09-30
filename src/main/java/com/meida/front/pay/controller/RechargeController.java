@@ -3,27 +3,23 @@ package com.meida.front.pay.controller;
 import com.meida.base.domain.vo.ResultMessage;
 import com.meida.common.util.FrontUtils;
 import com.meida.common.util.JsonUtils;
-import com.meida.common.util.RequestParameters;
-import com.meida.front.pay.domain.dto.BuildChargeOrderDto;
-import com.meida.front.pay.domain.dto.ChargeParamDto;
-import com.meida.front.pay.service.inter.IPayService;
+import com.meida.front.pay.domain.dto.BuildRechargeOrderDto;
+import com.meida.front.pay.domain.dto.RechargeParamDto;
+import com.meida.front.pay.service.inter.IRechargeService;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.math.BigDecimal;
-
 @Controller
-@RequestMapping(value = "/front/pay/charge")
-public class ChargeController {
+@RequestMapping(value = "/front/pay/recharge")
+public class RechargeController {
     @Autowired
-    private IPayService payService;
+    private IRechargeService rechargeService;
 
     @RequestMapping(value = "/index")
     public ModelAndView index() {
@@ -37,9 +33,9 @@ public class ChargeController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/confirmCharge")
+    @RequestMapping(value = "/rechargeOperate")
     @ResponseBody
-    public String confirmCharge(@RequestBody ChargeParamDto paramDto) {
+    public String rechargeOperate(@RequestBody RechargeParamDto paramDto) {
         String payChannel = paramDto.getPayChannel();
         String payType = "other";
         if (payChannel.equals(EPayChannel.Alipay_PAGE)) {
@@ -53,14 +49,14 @@ public class ChargeController {
             payChannel = "other";
         }
 
-        BuildChargeOrderDto buildChargeOrderDto = new BuildChargeOrderDto();
-        buildChargeOrderDto.setChargeMemberId(FrontUtils.getCurrentMember().getMemberId());
+        BuildRechargeOrderDto buildChargeOrderDto = new BuildRechargeOrderDto();
+        buildChargeOrderDto.setRechargeMemberId(FrontUtils.getCurrentMemberDto().getMemberId());
         buildChargeOrderDto.setPayType(payType);
         buildChargeOrderDto.setPayChannel(payChannel);
         buildChargeOrderDto.setTotal_fee(paramDto.getTotalFee());
-        buildChargeOrderDto.setCurrentMember(FrontUtils.getCurrentMember());
+        buildChargeOrderDto.setCurrentMemberDto(FrontUtils.getCurrentMemberDto());
 
-        ResultMessage resultMessage = payService.buildChargeOrder(buildChargeOrderDto);
+        ResultMessage resultMessage = rechargeService.buildRechargeOrder(buildChargeOrderDto);
         return JsonUtils.toJSONString(resultMessage);
     }
 }
