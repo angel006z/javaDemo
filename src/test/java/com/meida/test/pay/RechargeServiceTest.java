@@ -50,7 +50,7 @@ public class RechargeServiceTest {
     }
 
     @Test
-    public void test_getOrderNoByCharge() {
+    public void test_getOrderNoByRecharge() {
         for (int i=0 ;i<100;i++)
         {
             System.out.println( rechargeService.getOrderNoByRecharge());

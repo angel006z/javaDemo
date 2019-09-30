@@ -44,8 +44,6 @@ public class RechargeServiceImpl implements IRechargeService {
     @Autowired
     private ITradeService tradeService;
 
-    @Autowired
-    private IRechargeService rechargeService;
 
     @Override
     public boolean addOrUpdate(Recharge item, boolean isAdd) {
@@ -435,7 +433,7 @@ public class RechargeServiceImpl implements IRechargeService {
         Date nowTime = DateUtils.now();
         ResultMessage resultMessage = new ResultMessage();
         String orderNo = getOrderNoByRecharge();
-        if (rechargeService.isExistOrderNo(orderNo)) {
+        if (this.isExistOrderNo(orderNo)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("该订单号已存在，请重新充值");
             return resultMessage;
@@ -477,7 +475,7 @@ public class RechargeServiceImpl implements IRechargeService {
         recharge.setRemark(String.format("充值，产品订单号：[%s],日期：[%s]", orderNo,
                 DateUtils.formatDate(nowTime, "yyyy-MM-dd HH:mm:ss.SSS")));
         recharge.setSignature("待签名");
-        boolean isFlagRecharge = rechargeService.addOrUpdate(recharge, true);
+        boolean isFlagRecharge = this.addOrUpdate(recharge, true);
         if (isFlagRecharge == false) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("系统产生订单错误，请重新充值");
