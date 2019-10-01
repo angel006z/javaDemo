@@ -13,9 +13,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.meida.backend.basic.domain.po.User;
+import com.meida.backend.basic.po.User;
 import com.meida.backend.basic.service.inter.IUserService;
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
 import com.meida.common.util.SessionHelper;

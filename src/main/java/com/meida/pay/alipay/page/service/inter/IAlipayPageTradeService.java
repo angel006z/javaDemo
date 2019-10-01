@@ -1,6 +1,6 @@
 package com.meida.pay.alipay.page.service.inter;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.pay.alipay.page.pojo.*;
 
 public interface IAlipayPageTradeService {

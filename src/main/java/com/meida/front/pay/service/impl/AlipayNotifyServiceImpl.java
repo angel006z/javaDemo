@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meida.front.pay.dao.inter.IAlipayNotifyDao;
-import com.meida.front.pay.domain.po.AlipayNotify;
+import com.meida.front.pay.po.AlipayNotify;
 import com.meida.front.pay.service.inter.IAlipayNotifyService;
 
 @Service

@@ -1,6 +1,6 @@
 package com.meida.front.pay.service.inter;
 
-import com.meida.front.pay.domain.po.AlipayReturn;
+import com.meida.front.pay.po.AlipayReturn;
 
 public interface IAlipayReturnService {
 	

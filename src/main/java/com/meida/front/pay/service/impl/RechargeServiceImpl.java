@@ -6,20 +6,20 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.meida.front.pay.dao.inter.*;
-import com.meida.front.pay.domain.dto.BuildRechargeOrderDto;
-import com.meida.front.pay.domain.dto.CurrentMemberDto;
-import com.meida.front.pay.domain.po.*;
+import com.meida.front.pay.dto.BuildRechargeOrderDto;
+import com.meida.front.pay.dto.CurrentMemberDto;
+import com.meida.front.pay.po.*;
 import com.meida.pay.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ESystemStatus;
-import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
-import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
+import com.meida.front.pay.dto.AlipayNotifyParamDto;
+import com.meida.front.pay.dto.AlipayReturnParamDto;
 import com.meida.front.pay.service.inter.IRechargeService;
 import com.meida.pay.service.inter.ITradeService;
 import org.springframework.transaction.annotation.Transactional;

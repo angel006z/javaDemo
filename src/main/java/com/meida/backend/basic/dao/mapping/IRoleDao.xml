@@ -3,7 +3,7 @@
 <mapper namespace="com.meida.backend.basic.dao.inter.IRoleDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.backend.basic.domain.po.Role">
+		type="com.meida.backend.basic.po.Role">
 		<id property="roleId" column="roleId"></id>
 		<result property="roleCode" column="roleCode"></result>
 		<result property="roleName" column="roleName"></result>
@@ -37,7 +37,7 @@
 	</select>
 
 	<select id="getListByPage"
-		parameterType="com.meida.backend.basic.domain.dto.RoleListDto"
+		parameterType="com.meida.backend.basic.dto.RoleListDto"
 		resultMap="myResultMap">
 		select
 		roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
@@ -55,7 +55,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.backend.basic.domain.dto.RoleListDto" resultType="java.lang.Long">
+            parameterType="com.meida.backend.basic.dto.RoleListDto" resultType="java.lang.Long">
 		select count(*) from tbRole
 		where isValid=1
 		<if test="roleCode != null and roleCode!=''">
@@ -70,14 +70,14 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.backend.basic.domain.po.Role">
+		parameterType="com.meida.backend.basic.po.Role">
 		insert into tbRole (roleId,roleCode,roleName,roleSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark) values
 		(#{roleId},#{roleCode},#{roleName},#{roleSort},#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark})
 	</insert>
 
 
 	<update id="update"
-		parameterType="com.meida.backend.basic.domain.po.Role">
+		parameterType="com.meida.backend.basic.po.Role">
 		update tbRole
 		<set>
 			<if test="roleCode!=null">

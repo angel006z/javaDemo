@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.meida.backend.basic.dao.inter.IUserDao;
-import com.meida.backend.basic.domain.dto.UserListDto;
-import com.meida.backend.basic.domain.po.User;
-import com.meida.backend.basic.domain.vo.UserVo;
+import com.meida.backend.basic.dto.UserListDto;
+import com.meida.backend.basic.po.User;
+import com.meida.backend.basic.vo.UserVo;
 import com.meida.backend.basic.service.inter.IUserService;
-import com.meida.base.domain.vo.Pagination;
+import com.meida.base.vo.Pagination;
 import com.meida.common.util.constant.EButtonType;
 
 @Service

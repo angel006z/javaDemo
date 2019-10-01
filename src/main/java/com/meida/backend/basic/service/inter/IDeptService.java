@@ -3,8 +3,8 @@ package com.meida.backend.basic.service.inter;
 import java.io.Serializable;
 import java.util.List;
 
-import com.meida.backend.basic.domain.dto.DeptListDto;
-import com.meida.backend.basic.domain.po.Dept;
+import com.meida.backend.basic.dto.DeptListDto;
+import com.meida.backend.basic.po.Dept;
 
 public interface IDeptService {
 	/**

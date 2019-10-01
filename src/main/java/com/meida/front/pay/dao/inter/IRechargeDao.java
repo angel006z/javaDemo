@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.meida.base.dao.inter.IBaseDao;
-import com.meida.front.pay.domain.po.Recharge;
-import com.meida.front.pay.domain.vo.RechargeVo;
+import com.meida.front.pay.po.Recharge;
+import com.meida.front.pay.vo.RechargeVo;
 
 public interface IRechargeDao extends IBaseDao<Recharge> {
 

@@ -1,7 +1,7 @@
 package com.meida.front.pay.service.inter;
 
-import com.meida.base.domain.vo.ResultMessage;
-import com.meida.front.pay.domain.dto.OriginalRefundDto;
+import com.meida.base.vo.ResultMessage;
+import com.meida.front.pay.dto.OriginalRefundDto;
 
 /**
  * 退款

@@ -3,7 +3,7 @@
 <mapper namespace="com.meida.backend.basic.dao.inter.IUserDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.backend.basic.domain.po.User">
+		type="com.meida.backend.basic.po.User">
 		<id property="userId" column="userId"></id>
 		<result property="userCode" column="userCode"></result>
 		<result property="userName" column="userName"></result>
@@ -50,7 +50,7 @@
 	</select>
 
 <resultMap id="myPageResultMap"
-		type="com.meida.backend.basic.domain.vo.UserVo">
+		type="com.meida.backend.basic.vo.UserVo">
 		<id property="userId" column="userId"></id>
 		<result property="userCode" column="userCode"></result>
 		<result property="userName" column="userName"></result>
@@ -67,7 +67,7 @@
 		<result property="remark" column="remark"></result>
 	</resultMap>
 	<select id="getListWhereByPage"
-		parameterType="com.meida.backend.basic.domain.dto.UserListDto"
+		parameterType="com.meida.backend.basic.dto.UserListDto"
 		resultMap="myPageResultMap">
 		select
 		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -85,7 +85,7 @@
 		#{pagination.pageIndex},#{pagination.pageSize}
 	</select>
 	<select id="getListByPage"
-		parameterType="com.meida.backend.basic.domain.dto.UserListDto"
+		parameterType="com.meida.backend.basic.dto.UserListDto"
 		resultMap="myPageResultMap">
 		select
 		a.userId,a.userCode,a.userName,a.password,a.deptId,a.roleId,a.userSort,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -103,7 +103,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.backend.basic.domain.dto.UserListDto" resultType="java.lang.Long">
+            parameterType="com.meida.backend.basic.dto.UserListDto" resultType="java.lang.Long">
 		select count(*) from tbUser
 		where isValid=1
 		<if test="userCode != null and userCode!=''">
@@ -118,7 +118,7 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.backend.basic.domain.po.User">
+		parameterType="com.meida.backend.basic.po.User">
 		insert into tbUser (userId,userCode,userName,password,realPassword,roleId,deptId,userSort,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark) values
 		(#{userId},#{userCode},#{userName},#{password},#{realPassword},#{roleId},#{deptId},
 #{userSort},#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark})
@@ -126,7 +126,7 @@
 
 
 	<update id="update"
-		parameterType="com.meida.backend.basic.domain.po.User">
+		parameterType="com.meida.backend.basic.po.User">
 		update tbUser
 		<set>
 			<if test="userCode!=null">

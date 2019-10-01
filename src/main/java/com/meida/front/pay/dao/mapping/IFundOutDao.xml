@@ -4,7 +4,7 @@
 	namespace="com.meida.front.pay.dao.inter.IFundOutDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.front.pay.domain.po.FundOut">
+		type="com.meida.front.pay.po.FundOut">
 		<id property="fundOutId" column="fundOutId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="orderNo" column="orderNo"></result>
@@ -56,7 +56,7 @@
 	</select>
 
 	<resultMap id="myPageResultMap"
-		type="com.meida.front.pay.domain.vo.FundOutVo">
+		type="com.meida.front.pay.vo.FundOutVo">
 		<id property="fundOutId" column="fundOutId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="orderNo" column="orderNo"></result>
@@ -74,7 +74,7 @@
 	</resultMap>
 	
 	<select id="getListWhereByPage"
-		parameterType="com.meida.front.pay.domain.dto.FundOutListDto"
+		parameterType="com.meida.front.pay.dto.FundOutListDto"
 		resultMap="myPageResultMap">
 		select
 		a.fundOutId,a.memberId,a.orderNo,a.outMoney,a.outDate,a.outWay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -91,7 +91,7 @@
 	</select>
 	
 	<select id="getListByPage"
-		parameterType="com.meida.front.pay.domain.dto.FundOutListDto"
+		parameterType="com.meida.front.pay.dto.FundOutListDto"
 		resultMap="myPageResultMap">
 		select
 		a.fundOutId,a.memberId,a.orderNo,a.outMoney,a.outDate,a.outWay,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -109,7 +109,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.front.pay.domain.dto.FundOutListDto"
+		parameterType="com.meida.front.pay.dto.FundOutListDto"
 		resultType="java.lang.Long">
 		select count(*) from tb_fund_out
 		where isValid=1
@@ -125,7 +125,7 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.front.pay.domain.po.FundOut">
+		parameterType="com.meida.front.pay.po.FundOut">
 		insert into tb_fund_out
 		(memberId,orderNo,outMoney,outWay,outDate,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
 		values
@@ -136,7 +136,7 @@
 
 
 	<update id="update"
-		parameterType="com.meida.front.pay.domain.po.FundOut">
+		parameterType="com.meida.front.pay.po.FundOut">
 		update tb_fund_out
 		<set>
 			<if test="memberId!=null">
@@ -182,7 +182,7 @@
 		where fundOutId=#{fundOutId}
 	</update>
 	<update id="updateByOrderNo"
-		parameterType="com.meida.front.pay.domain.po.FundOut">
+		parameterType="com.meida.front.pay.po.FundOut">
 		update tb_fund_out
 		<set>
 			<if test="memberId!=null">

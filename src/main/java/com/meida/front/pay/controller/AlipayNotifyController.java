@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.constant.EErrorCode;
-import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
-import com.meida.front.pay.domain.po.Recharge;
+import com.meida.front.pay.dto.AlipayNotifyParamDto;
+import com.meida.front.pay.po.Recharge;
 import com.meida.front.pay.service.inter.IRechargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
 

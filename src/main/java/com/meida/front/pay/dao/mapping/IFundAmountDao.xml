@@ -4,7 +4,7 @@
 	namespace="com.meida.front.pay.dao.inter.IFundAmountDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.front.pay.domain.po.FundAmount">
+		type="com.meida.front.pay.po.FundAmount">
 		<id property="fundAmountId" column="fundAmountId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="totalMoney" column="totalMoney"></result>
@@ -53,7 +53,7 @@
 	</select>
 
 	<resultMap id="myPageResultMap"
-		type="com.meida.front.pay.domain.vo.FundAmountVo">
+		type="com.meida.front.pay.vo.FundAmountVo">
 		<id property="fundAmountId" column="fundAmountId"></id>
 		<result property="memberId" column="memberId"></result>
 		<result property="totalMoney" column="totalMoney"></result>
@@ -68,7 +68,7 @@
 	</resultMap>
 	
 	<select id="getListWhereByPage"
-		parameterType="com.meida.front.pay.domain.dto.FundAmountListDto"
+		parameterType="com.meida.front.pay.dto.FundAmountListDto"
 		resultMap="myPageResultMap">
 		select
 		a.fundAmountId,a.memberId,a.totalMoney,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -82,7 +82,7 @@
 	</select>
 	
 	<select id="getListByPage"
-		parameterType="com.meida.front.pay.domain.dto.FundAmountListDto"
+		parameterType="com.meida.front.pay.dto.FundAmountListDto"
 		resultMap="myPageResultMap">
 		select
 		a.fundAmountId,a.memberId,a.orderNo,a.totalMoney,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -97,7 +97,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.front.pay.domain.dto.FundAmountListDto"
+		parameterType="com.meida.front.pay.dto.FundAmountListDto"
 		resultType="java.lang.Long">
 		select count(*) from tb_fund_amount
 		where isValid=1
@@ -110,7 +110,7 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.front.pay.domain.po.FundAmount">
+		parameterType="com.meida.front.pay.po.FundAmount">
 		insert into tb_fund_amount
 		(memberId,totalMoney,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
 		values
@@ -120,7 +120,7 @@
 
 
 	<update id="update"
-		parameterType="com.meida.front.pay.domain.po.FundAmount">
+		parameterType="com.meida.front.pay.po.FundAmount">
 		update tb_fund_amount
 		<set>
 			<if test="memberId!=null">
@@ -157,7 +157,7 @@
 		where fundAmountId=#{fundAmountId}
 	</update>
 	<update id="updateByMemberId"
-		parameterType="com.meida.front.pay.domain.po.FundAmount">
+		parameterType="com.meida.front.pay.po.FundAmount">
 		update tb_fund_amount
 		<set>
 			<if test="memberId!=null">

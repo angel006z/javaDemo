@@ -1,7 +1,7 @@
 package com.meida.front.pay.dao.inter;
 
 import com.meida.base.dao.inter.IBaseDao;
-import com.meida.front.pay.domain.po.AlipayReturn;
+import com.meida.front.pay.po.AlipayReturn;
 
 import java.io.Serializable;
 

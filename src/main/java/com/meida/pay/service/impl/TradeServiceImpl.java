@@ -1,6 +1,6 @@
 package com.meida.pay.service.impl;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;

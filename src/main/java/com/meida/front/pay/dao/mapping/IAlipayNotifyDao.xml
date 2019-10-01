@@ -4,7 +4,7 @@
 	namespace="com.meida.front.pay.dao.inter.IAlipayNotifyDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.front.pay.domain.po.AlipayNotify">
+		type="com.meida.front.pay.po.AlipayNotify">
 		<id property="alipayNotifyId" column="alipayNotifyId"></id>
 		<result property="notify_time" column="notify_time"></result>
 		<result property="notify_type" column="notify_type"></result>
@@ -56,7 +56,7 @@
 	</select>
 
 	<resultMap id="myPageResultMap"
-		type="com.meida.front.pay.domain.vo.AlipayNotifyVo">
+		type="com.meida.front.pay.vo.AlipayNotifyVo">
 		<id property="alipayNotifyId" column="alipayNotifyId"></id>
 		<result property="notify_time" column="notify_time"></result>
 		<result property="notify_type" column="notify_type"></result>
@@ -99,7 +99,7 @@
 	</resultMap>
 	
 	<select id="getListWhereByPage"
-		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
+		parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
 		resultMap="myPageResultMap">
 		select
 		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -116,7 +116,7 @@
 	</select>
 	
 	<select id="getListByPage"
-		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
+		parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
 		resultMap="myPageResultMap">
 		select
 		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
@@ -134,7 +134,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.front.pay.domain.dto.AlipayNotifyListDto"
+		parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
 		resultType="java.lang.Long">
 		select count(*) from tb_alipay_notify
 		where isValid=1
@@ -150,7 +150,7 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
+		parameterType="com.meida.front.pay.po.AlipayNotify">
 		insert into tb_alipay_notify
 		(notify_time,notify_type,notify_id,version,charset,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
 		values
@@ -161,7 +161,7 @@
 
 
 	<update id="update"
-		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
+		parameterType="com.meida.front.pay.po.AlipayNotify">
 		update tb_alipay_notify
 		<set>
 			<if test="notify_time!=null">
@@ -207,7 +207,7 @@
 		where alipayNotifyId=#{alipayNotifyId}
 	</update>
 	<update id="updateByOrderNo"
-		parameterType="com.meida.front.pay.domain.po.AlipayNotify">
+		parameterType="com.meida.front.pay.po.AlipayNotify">
 		update tb_alipay_notify
 		<set>
 			<if test="notify_time!=null">

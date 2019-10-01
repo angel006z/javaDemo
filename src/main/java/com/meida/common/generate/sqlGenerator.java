@@ -23,7 +23,7 @@ public class sqlGenerator {
 	//数据库连接地址
 	private static String dbUrl = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
 	
-	private static String tableName = "users";  //数据库表名
+	private static String tableName = "tb_account_recharge";  //数据库表名
 	
 	//继承公共po  示例：com.meida.base.po.BaseInfo或com.meida.base.po.BaseBackendInfo
 	private static String basePo = "com.meida.base.po.BaseBackendInfo";  
@@ -75,8 +75,8 @@ public class sqlGenerator {
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-        //strategy.setTablePrefix("M_");// 此处可以修改为您的表前缀,去掉表前缀
-        strategy.setTableBehind("_T");// 此处可以修改为您的表后缀,去掉表后缀
+        strategy.setTablePrefix("tb_");// 此处可以修改为您的表前缀,去掉表前缀
+        strategy.setTableBehind("");// 此处可以修改为您的表后缀,去掉表后缀
         strategy.setNaming(NamingStrategy.remove_all_and_camel);// 表名生成策略
         strategy.setInclude(new String[] { tableName }); // 需要生成的表,注释掉就生成全部
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
@@ -87,7 +87,7 @@ public class sqlGenerator {
         // 自定义实体vo父类
         strategy.setSuperModelVoClass("com.meida.base.vo.BaseVo");
         // 自定义 action 父类
-        strategy.setSuperControllerClass("com.meida.base.action.BaseBackendController");
+        strategy.setSuperControllerClass("com.meida.base.BaseBackendController");
         // 自定义 service 父类
         strategy.setSuperServiceClass("com.meida.base.service.inter.BaseService");
         // 自定义 service 实现类父类

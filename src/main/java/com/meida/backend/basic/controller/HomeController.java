@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.meida.backend.basic.domain.vo.LeftAuthRoleNodeVo;
+import com.meida.backend.basic.vo.LeftAuthRoleNodeVo;
 import com.meida.backend.basic.service.inter.IAuthRoleNodeService;
-import com.meida.base.domain.vo.TreeVo;
+import com.meida.base.vo.TreeVo;
 import com.meida.common.cookie.CookieUtils;
 import com.meida.common.util.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.meida.backend.basic.domain.po.User;
+import com.meida.backend.basic.po.User;
 import com.meida.backend.basic.service.inter.IUserService;
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
 import com.meida.common.util.Utits;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.security.HashEncryptUtils;
-import com.meida.common.util.security.MD5Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

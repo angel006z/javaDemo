@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.ArrayUtils;
-import org.omg.CORBA.Request;
 
-import com.meida.backend.basic.domain.po.vAuthRoleNodeButton;
+import com.meida.backend.basic.po.vAuthRoleNodeButton;
 import com.meida.backend.basic.service.impl.AuthRoleNodeButtonServiceImpl;
 import com.meida.backend.basic.service.impl.AuthRoleNodeServiceImpl;
 import com.meida.backend.basic.service.inter.IAuthRoleNodeButtonService;
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.constant.EErrorCode;
-import com.meida.common.util.security.MD5Utils;
 
 public class Utits {
 	public static UUID getCurrentUserId() {

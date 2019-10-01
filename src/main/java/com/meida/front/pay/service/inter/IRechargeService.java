@@ -2,11 +2,11 @@ package com.meida.front.pay.service.inter;
 
 import java.io.Serializable;
 
-import com.meida.base.domain.vo.ResultMessage;
-import com.meida.front.pay.domain.dto.AlipayNotifyParamDto;
-import com.meida.front.pay.domain.dto.AlipayReturnParamDto;
-import com.meida.front.pay.domain.dto.BuildRechargeOrderDto;
-import com.meida.front.pay.domain.po.Recharge;
+import com.meida.base.vo.ResultMessage;
+import com.meida.front.pay.dto.AlipayNotifyParamDto;
+import com.meida.front.pay.dto.AlipayReturnParamDto;
+import com.meida.front.pay.dto.BuildRechargeOrderDto;
+import com.meida.front.pay.po.Recharge;
 
 public interface IRechargeService {
 	/**

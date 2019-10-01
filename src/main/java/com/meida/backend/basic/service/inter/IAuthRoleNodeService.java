@@ -1,8 +1,7 @@
 package com.meida.backend.basic.service.inter;
 
-import com.meida.backend.basic.domain.po.AuthRoleNode;
-import com.meida.backend.basic.domain.po.AuthRoleNode;
-import com.meida.backend.basic.domain.vo.LeftAuthRoleNodeVo;
+import com.meida.backend.basic.po.AuthRoleNode;
+import com.meida.backend.basic.vo.LeftAuthRoleNodeVo;
 
 import java.io.Serializable;
 import java.util.List;

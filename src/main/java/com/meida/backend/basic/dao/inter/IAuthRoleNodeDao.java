@@ -1,7 +1,7 @@
 package com.meida.backend.basic.dao.inter;
 
-import com.meida.backend.basic.domain.po.AuthRoleNode;
-import com.meida.backend.basic.domain.vo.LeftAuthRoleNodeVo;
+import com.meida.backend.basic.po.AuthRoleNode;
+import com.meida.backend.basic.vo.LeftAuthRoleNodeVo;
 import com.meida.base.dao.inter.IBaseDao;
 
 import java.io.Serializable;

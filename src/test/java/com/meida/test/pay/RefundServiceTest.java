@@ -1,10 +1,10 @@
 package com.meida.test.pay;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.FrontUtils;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.constant.EErrorCode;
-import com.meida.front.pay.domain.dto.OriginalRefundDto;
+import com.meida.front.pay.dto.OriginalRefundDto;
 import com.meida.front.pay.service.inter.IRefundService;
 import org.junit.Assert;
 import org.junit.Test;

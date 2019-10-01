@@ -2,7 +2,7 @@ package com.meida.front.pay.service.inter;
 
 import java.io.Serializable;
 
-import com.meida.front.pay.domain.po.FundIn;
+import com.meida.front.pay.po.FundIn;
 
 public interface IFundInService {
 	

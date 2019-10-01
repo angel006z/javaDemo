@@ -1,7 +1,7 @@
 package com.meida.front.pay.service.impl;
 
 import com.meida.front.pay.dao.inter.IAlipayReturnDao;
-import com.meida.front.pay.domain.po.AlipayReturn;
+import com.meida.front.pay.po.AlipayReturn;
 import com.meida.front.pay.service.inter.IAlipayReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

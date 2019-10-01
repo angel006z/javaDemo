@@ -2,7 +2,7 @@ package com.meida.front.pay.service.inter;
 
 import java.io.Serializable;
 
-import com.meida.front.pay.domain.po.FundOut;
+import com.meida.front.pay.po.FundOut;
 
 public interface IFundOutService {
 	

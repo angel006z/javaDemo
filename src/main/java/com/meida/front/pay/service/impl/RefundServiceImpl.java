@@ -1,13 +1,13 @@
 package com.meida.front.pay.service.impl;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.DateUtils;
 import com.meida.common.util.StringUtils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.constant.ESystemStatus;
 import com.meida.front.pay.dao.inter.*;
-import com.meida.front.pay.domain.dto.OriginalRefundDto;
-import com.meida.front.pay.domain.po.*;
+import com.meida.front.pay.dto.OriginalRefundDto;
+import com.meida.front.pay.po.*;
 import com.meida.front.pay.service.inter.IRefundService;
 import com.meida.pay.pojo.EPayType;
 import com.meida.pay.pojo.ParametersTradeRefund;

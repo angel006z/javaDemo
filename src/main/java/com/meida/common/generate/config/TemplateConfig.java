@@ -6,6 +6,8 @@ public class TemplateConfig {
 
     private String vo = ConstVal.TEMPLATE_VO;
 
+    private String dto = ConstVal.TEMPLATE_DTO;
+
     private String service = ConstVal.TEMPLATE_SERVICE;
 
     private String serviceImpl = ConstVal.TEMPLATE_SERVICEIMPL;
@@ -92,4 +94,11 @@ public class TemplateConfig {
 		this.addOrUpdate = addOrUpdate;
 	}
 
+    public String getDto() {
+        return dto;
+    }
+
+    public void setDto(String dto) {
+        this.dto = dto;
+    }
 }

@@ -13,11 +13,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.meida.base.domain.vo.ResultMessage;
-import com.meida.common.util.RequestParameters;
-import com.meida.common.util.Utits;
-import com.meida.common.util.constant.EErrorCode;
-
 @Controller
 @RequestMapping(value = "/backend/basic/upload")
 public class UploadController {

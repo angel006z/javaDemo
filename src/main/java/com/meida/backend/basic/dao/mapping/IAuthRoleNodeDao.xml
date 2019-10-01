@@ -3,7 +3,7 @@
 <mapper namespace="com.meida.backend.basic.dao.inter.IAuthRoleNodeDao">
 
 	<resultMap id="myResultMap"
-		type="com.meida.backend.basic.domain.po.AuthRoleNode">
+		type="com.meida.backend.basic.po.AuthRoleNode">
 		<id property="authRoleNodeId" column="authRoleNodeId"></id>
 		<result property="nodeId" column="nodeId"></result>
 		<result property="roleId" column="roleId"></result>
@@ -32,7 +32,7 @@
 	</select>
 
 	<select id="getListByPage"
-		parameterType="com.meida.backend.basic.domain.po.AuthRoleNode"
+		parameterType="com.meida.backend.basic.po.AuthRoleNode"
 		resultMap="myResultMap">
 		select
 		authRoleNodeId,nodeId,roleId,operateDate		from tbAuthRoleNode
@@ -44,7 +44,7 @@
 
 
 	<select id="getTotalRecord"
-		parameterType="com.meida.backend.basic.domain.po.AuthRoleNode" resultType="java.lang.Long">
+            parameterType="com.meida.backend.basic.po.AuthRoleNode" resultType="java.lang.Long">
 		select count(*) from tbAuthRoleNode
 		where isValid=1		
 		LIMIT
@@ -53,14 +53,14 @@
 
 
 	<insert id="save"
-		parameterType="com.meida.backend.basic.domain.po.AuthRoleNode">
+		parameterType="com.meida.backend.basic.po.AuthRoleNode">
 		insert into tbAuthRoleNode (authRoleNodeId,nodeId,roleId,operateDate) values 
 		(#{authRoleNodeId},#{nodeId},#{roleId},#{operateDate})
 	</insert>
 
 
 	<update id="update"
-		parameterType="com.meida.backend.basic.domain.po.AuthRoleNode">
+		parameterType="com.meida.backend.basic.po.AuthRoleNode">
 		update tbAuthRoleNode
 		<set>
 			<if test="nodeId!=null">

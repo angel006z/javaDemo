@@ -1,10 +1,10 @@
 package com.meida.front.pay.controller;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.FrontUtils;
 import com.meida.common.util.JsonUtils;
-import com.meida.front.pay.domain.dto.BuildRechargeOrderDto;
-import com.meida.front.pay.domain.dto.RechargeParamDto;
+import com.meida.front.pay.dto.BuildRechargeOrderDto;
+import com.meida.front.pay.dto.RechargeParamDto;
 import com.meida.front.pay.service.inter.IRechargeService;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;

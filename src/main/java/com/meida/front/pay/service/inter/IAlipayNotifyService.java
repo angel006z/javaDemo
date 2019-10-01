@@ -1,8 +1,6 @@
 package com.meida.front.pay.service.inter;
 
-import java.io.Serializable;
-
-import com.meida.front.pay.domain.po.AlipayNotify;
+import com.meida.front.pay.po.AlipayNotify;
 
 public interface IAlipayNotifyService {
 	

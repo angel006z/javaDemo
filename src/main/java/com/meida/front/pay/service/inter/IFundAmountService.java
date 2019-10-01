@@ -1,6 +1,6 @@
 package com.meida.front.pay.service.inter;
 
-import com.meida.front.pay.domain.po.FundAmount;
+import com.meida.front.pay.po.FundAmount;
 
 public interface IFundAmountService {
 	

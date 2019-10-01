@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meida.backend.basic.dao.inter.IDeptDao;
-import com.meida.backend.basic.domain.dto.DeptListDto;
-import com.meida.backend.basic.domain.po.Dept;
+import com.meida.backend.basic.dto.DeptListDto;
+import com.meida.backend.basic.po.Dept;
 import com.meida.backend.basic.service.inter.IDeptService;
-import com.meida.base.domain.vo.Pagination;
+import com.meida.base.vo.Pagination;
 import com.meida.common.util.constant.EButtonType;
 
 @Service

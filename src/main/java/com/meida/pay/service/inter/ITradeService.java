@@ -1,6 +1,6 @@
 package com.meida.pay.service.inter;
 
-import com.meida.base.domain.vo.ResultMessage;
+import com.meida.base.vo.ResultMessage;
 import com.meida.pay.pojo.ParametersTradeBillDownload;
 import com.meida.pay.pojo.ParametersTradeClose;
 import com.meida.pay.pojo.ParametersTradeNotifyVerify;

@@ -24,6 +24,10 @@ public class PackageConfig {
 	 * Model VO 包名
 	 */
 	private String vo = "vo";
+	/**
+	 * Model DTO 包名
+	 */
+	private String dto = "dto";
 
 	/**
 	 * Service包名
@@ -195,4 +199,11 @@ public class PackageConfig {
 		this.baseUrl = baseUrl;
 	}
 
+	public String getDto() {
+		return dto;
+	}
+
+	public void setDto(String dto) {
+		this.dto = dto;
+	}
 }

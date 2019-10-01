@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meida.front.pay.dao.inter.IFundInDao;
-import com.meida.front.pay.domain.po.FundIn;
+import com.meida.front.pay.po.FundIn;
 import com.meida.front.pay.service.inter.IFundInService;
 
 @Service

@@ -43,6 +43,7 @@ public class ConstVal {
 
     public static final String TEMPLATE_PO = BASEPATH + "/template/po.java.vm";
     public static final String TEMPLATE_VO = BASEPATH + "/template/vo.java.vm";
+    public static final String TEMPLATE_DTO = BASEPATH + "/template/dto.java.vm";
     public static final String TEMPLATE_SERVICE = BASEPATH + "/template/service.java.vm";
     public static final String TEMPLATE_SERVICEIMPL = BASEPATH + "/template/serviceImpl.java.vm";
     public static final String TEMPLATE_DAO = BASEPATH + "/template/dao.java.vm";
