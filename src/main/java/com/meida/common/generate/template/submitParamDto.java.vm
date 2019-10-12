@@ -5,9 +5,7 @@ import ${superModelClassPackage};
 #end
 #if(${table.hasDate})
 import java.util.Date;
-#end
-#if(${table.hasBigDecimal})
-import java.math.BigDecimal;
+
 #end
 #if(${field.isAuto})
 import javax.persistence.GeneratedValue;
@@ -28,7 +26,7 @@ import javax.persistence.Table;
 #if(${superModelClass})
 public class ${po} extends ${superModelClass} {
 #else
-public class ${po}{
+public class ${po} extends Convert{
 #end
 
 	private static final long serialVersionUID=1L;

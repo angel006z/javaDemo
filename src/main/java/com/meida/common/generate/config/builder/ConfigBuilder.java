@@ -27,7 +27,6 @@ import com.meida.common.util.StringUtils;
 
 /**
  * 配置汇总 传递给文件生成工具
- *
  */
 public class ConfigBuilder {
 
@@ -81,7 +80,7 @@ public class ConfigBuilder {
      * @param packageConfig    包配置
      * @param dataSourceConfig 数据源配置
      * @param strategyConfig   表配置
-     * @throws Exception 
+     * @throws Exception
      */
     public ConfigBuilder(PackageConfig packageConfig, DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
                          TemplateConfig template, GlobalConfig globalConfig) throws Exception {
@@ -136,11 +135,11 @@ public class ConfigBuilder {
     public String getSuperModelClass() {
         return superModelClass;
     }
-    
+
     public String getSuperModelVoClass() {
         return superModelVoClass;
     }
-    
+
     public String getSuperDaoClass() {
         return superDaoClass;
     }
@@ -196,6 +195,10 @@ public class ConfigBuilder {
         packageInfo.put(ConstVal.MODULENAME, config.getModuleName());
         packageInfo.put(ConstVal.PO, joinPackage(config.getParent(), config.getPo()));
         packageInfo.put(ConstVal.VO, joinPackage(config.getParent(), config.getVo()));
+        packageInfo.put(ConstVal.LISTDTO, joinPackage(config.getParent(), config.getDto()));
+        packageInfo.put(ConstVal.LISTPARAMDTO, joinPackage(config.getParent(), config.getDto()));
+        packageInfo.put(ConstVal.SUBMITDTO, joinPackage(config.getParent(), config.getDto()));
+        packageInfo.put(ConstVal.SUBMITPARAMDTO, joinPackage(config.getParent(), config.getDto()));
         packageInfo.put(ConstVal.DAO, joinPackage(config.getParent(), config.getDao()));
         packageInfo.put(ConstVal.DAOIMPL, joinPackage(config.getParent(), config.getDaoImpl()));
         packageInfo.put(ConstVal.SERIVCE, joinPackage(config.getParent(), config.getService()));
@@ -209,23 +212,27 @@ public class ConfigBuilder {
         pathInfo = new HashMap<String, String>();
         pathInfo.put(ConstVal.PO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.PO)));
         pathInfo.put(ConstVal.VO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.VO)));
+        pathInfo.put(ConstVal.LISTDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.LISTDTO)));
+        pathInfo.put(ConstVal.LISTPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.LISTPARAMDTO)));
+        pathInfo.put(ConstVal.SUBMITDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SUBMITDTO)));
+        pathInfo.put(ConstVal.SUBMITPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SUBMITPARAMDTO)));
         pathInfo.put(ConstVal.DAO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAO)));
         pathInfo.put(ConstVal.DAOIMPL_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAOIMPL)));
         pathInfo.put(ConstVal.SERIVCE_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SERIVCE)));
         pathInfo.put(ConstVal.SERVICEIMPL_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SERVICEIMPL)));
         pathInfo.put(ConstVal.CONTROLLER_PATH, joinPath(outputDir, packageInfo.get(ConstVal.CONTROLLER)));
-        
+
         String managerlist = "";
         String addOrUpdate = "";
         if (StringUtils.isEmpty(config.getManagerList())) {
-        	managerlist = config.getParentJsp() + config.getManagerList();
+            managerlist = config.getParentJsp() + config.getManagerList();
         } else {
-        	managerlist = config.getParentJsp() +File.separator+ config.getManagerList();
+            managerlist = config.getParentJsp() + File.separator + config.getManagerList();
         }
         if (StringUtils.isEmpty(config.getAddOrUpdate())) {
-        	addOrUpdate = config.getParentJsp() + config.getAddOrUpdate();
+            addOrUpdate = config.getParentJsp() + config.getAddOrUpdate();
         } else {
-        	addOrUpdate = config.getParentJsp() +File.separator+ config.getAddOrUpdate();
+            addOrUpdate = config.getParentJsp() + File.separator + config.getAddOrUpdate();
         }
         pathInfo.put(ConstVal.MANAGERLIST_PATH, outputJspDir + managerlist);
         pathInfo.put(ConstVal.ADDORPDATE_PATH, outputJspDir + addOrUpdate);
@@ -235,7 +242,7 @@ public class ConfigBuilder {
      * 处理数据源配置
      *
      * @param config DataSourceConfig
-     * @throws Exception 
+     * @throws Exception
      */
     private void handlerDataSource(DataSourceConfig config) throws Exception {
         connection = config.getConn();
@@ -293,16 +300,16 @@ public class ConfigBuilder {
      */
     private List<TableInfo> processTable(List<TableInfo> tableList, NamingStrategy strategy, String tablePrefix, String tableBehind) {
         for (TableInfo tableInfo : tableList) {
-        	if (!StringUtils.isEmpty(tableInfo.getComment())) {
-        		String comment = tableInfo.getComment();
-        		if (comment.substring(comment.length()-1, comment.length()).equals("表")) {
-        			comment = comment.substring(0, comment.length()-1);
-        			tableInfo.setBaseComment(comment);
-        		} else {
-        			tableInfo.setBaseComment(comment);
-        		}
-        	}
-        	tableInfo.setBaseName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
+            if (!StringUtils.isEmpty(tableInfo.getComment())) {
+                String comment = tableInfo.getComment();
+                if (comment.substring(comment.length() - 1, comment.length()).equals("表")) {
+                    comment = comment.substring(0, comment.length() - 1);
+                    tableInfo.setBaseComment(comment);
+                } else {
+                    tableInfo.setBaseComment(comment);
+                }
+            }
+            tableInfo.setBaseName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
             tableInfo.setPoName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
             tableInfo.setVoName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
             if (!StringUtils.isEmpty(globalConfig.getDaoName())) {
@@ -320,6 +327,7 @@ public class ConfigBuilder {
             } else {
                 tableInfo.setServiceName(tableInfo.getPoName() + ConstVal.SERIVCE);
             }
+
             if (!StringUtils.isEmpty(globalConfig.getServiceImplName())) {
                 tableInfo.setServiceImplName(String.format(globalConfig.getServiceImplName(), tableInfo.getPoName()));
             } else {
@@ -335,16 +343,42 @@ public class ConfigBuilder {
             } else {
                 tableInfo.setVoName(tableInfo.getPoName() + ConstVal.VO);
             }
+
+            if (!StringUtils.isEmpty(globalConfig.getListDtoName())) {
+                tableInfo.setListDtoName(String.format(globalConfig.getListDtoName(), tableInfo.getPoName()));
+            } else {
+                tableInfo.setListDtoName(tableInfo.getPoName() + ConstVal.LISTDTO);
+            }
+            if (!StringUtils.isEmpty(globalConfig.getListParamDtoName())) {
+                tableInfo.setListParamDtoName(String.format(globalConfig.getListParamDtoName(), tableInfo.getPoName()));
+            } else {
+                tableInfo.setListParamDtoName(tableInfo.getPoName() + ConstVal.LISTPARAMDTO);
+            }
+
+            if (!StringUtils.isEmpty(globalConfig.getSubmitDtoName())) {
+                tableInfo.setSubmitDtoName(String.format(globalConfig.getSubmitDtoName(), tableInfo.getPoName()));
+            } else {
+                tableInfo.setSubmitDtoName(tableInfo.getPoName() + ConstVal.SUBMITDTO);
+            }
+
+            if (!StringUtils.isEmpty(globalConfig.getSubmitParamDtoName())) {
+                tableInfo.setSubmitParamDtoName(String.format(globalConfig.getSubmitParamDtoName(), tableInfo.getPoName()));
+            } else {
+                tableInfo.setSubmitParamDtoName(tableInfo.getPoName() + ConstVal.SUBMITPARAMDTO);
+            }
+
             if (!StringUtils.isEmpty(globalConfig.getManagerListName())) {
                 tableInfo.setManagerListName(String.format(globalConfig.getManagerListName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setManagerListName(NamingStrategy.capitalToLow(tableInfo.getPoName()) + ConstVal.MANAGER);
             }
+
             if (!StringUtils.isEmpty(globalConfig.getAddOrUpdateName())) {
                 tableInfo.setAddOrUpdateName(String.format(globalConfig.getAddOrUpdateName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setAddOrUpdateName(ConstVal.ADDORUPDATE + tableInfo.getPoName());
             }
+
             if (!StringUtils.isEmpty(globalConfig.getPoName())) {
                 tableInfo.setPoName(String.format(globalConfig.getPoName(), tableInfo.getPoName()));
             } else {
@@ -501,7 +535,7 @@ public class ConfigBuilder {
         if (StringUtils.isEmpty(parentDir)) {
             parentDir = System.getProperty(ConstVal.JAVA_TMPDIR);
         }
-        if (!endsWith(parentDir, File.separator,false)) {
+        if (!endsWith(parentDir, File.separator, false)) {
             parentDir += File.separator;
         }
         packageName = packageName.replaceAll("\\.", "\\" + File.separator);
@@ -511,18 +545,16 @@ public class ConfigBuilder {
     /**
      * \转为/
      *
-     * @param parentDir   路径常量字符串
-     * @param packageName 包名
      * @return 连接后的路径
      */
     private String transPath(String pathName) {
         if (StringUtils.isEmpty(pathName)) {
             return pathName;
         }
-        pathName = pathName.replaceAll("\\" + File.separator, "/" );
+        pathName = pathName.replaceAll("\\" + File.separator, "/");
         return pathName;
     }
-    
+
     /**
      * 连接父子包名
      *
@@ -543,7 +575,7 @@ public class ConfigBuilder {
      * @return 转换成JAVA包装类型
      */
     private String processFiledType(String type) {
-    	if (QuerySQL.SQLSERVER == querySQL) {
+        if (QuerySQL.SQLSERVER == querySQL) {
             return processSqlserverType(type);
         } else if (QuerySQL.MYSQL == querySQL) {
             return processMySqlType(type);
@@ -616,12 +648,12 @@ public class ConfigBuilder {
             return "Double";
         } else if (t.contains("json") || t.contains("enum") || t.contains("varchar")) {
             return "String";
-        } else if(t.contains("smallint")) {
-        	return "Short";
+        } else if (t.contains("smallint")) {
+            return "Short";
         }
         return "String";
     }
-    
+
     /**
      * MYSQL字段类型转换
      *

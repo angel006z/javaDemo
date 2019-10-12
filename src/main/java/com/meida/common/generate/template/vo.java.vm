@@ -6,7 +6,9 @@ import ${superModelVoClassPackage};
 #if(${table.hasDate})
 import java.util.Date;
 #end
-
+#if(${table.hasBigDecimal})
+import java.math.BigDecimal;
+#end
 /**
  * ${table.comment} vo
  * @author ${author}
@@ -15,7 +17,7 @@ import java.util.Date;
 #if(${superModelClass})
 public class ${vo} extends ${superModelVoClass} {
 #else
-public class ${vo} extends Convert{
+public class ${vo}{
 #end
 
 #if(${superModelClass})

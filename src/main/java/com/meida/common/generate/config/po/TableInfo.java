@@ -16,6 +16,12 @@ public class TableInfo {
 
 	private String poName;
 	private String voName;
+	private String dtoName;
+	private String listDtoName;
+	private String listParamDtoName;
+	private String submitDtoName;
+	private String submitParamDtoName;
+
 	private String daoName;
 	private String daoImplName;
 	private String serviceName;
@@ -28,6 +34,49 @@ public class TableInfo {
 	private List<TableField> fields;
 	private String fieldNames;
 	private boolean hasDate;
+	private boolean hasBigDecimal;
+
+	public String getDtoName() {
+		return dtoName;
+	}
+
+	public void setDtoName(String dtoName) {
+		this.dtoName = dtoName;
+	}
+
+
+	public String getListDtoName() {
+		return listDtoName;
+	}
+
+	public void setListDtoName(String listDtoName) {
+		this.listDtoName = listDtoName;
+	}
+
+	public String getListParamDtoName() {
+		return listParamDtoName;
+	}
+
+	public void setListParamDtoName(String listParamDtoName) {
+		this.listParamDtoName = listParamDtoName;
+	}
+
+	public String getSubmitDtoName() {
+		return submitDtoName;
+	}
+
+	public void setSubmitDtoName(String submitDtoName) {
+		this.submitDtoName = submitDtoName;
+	}
+
+	public String getSubmitParamDtoName() {
+		return submitParamDtoName;
+	}
+
+	public void setSubmitParamDtoName(String submitParamDtoName) {
+		this.submitParamDtoName = submitParamDtoName;
+	}
+
 
 	public String getName() {
 		return name;
@@ -175,6 +224,21 @@ public class TableInfo {
 			}
 		}
 		return hasDate;
+	}
+
+	/**
+	 * 判断字段中是否包含BigDecimal类型
+	 *
+	 * @return 是否
+	 */
+	public boolean isHasBigDecimal() {
+		for (TableField fieldInfo : fields) {
+			if (fieldInfo.getPropertyType().equals("BigDecimal")) {
+				hasBigDecimal = true;
+				break;
+			}
+		}
+		return hasBigDecimal;
 	}
 
 	/**

@@ -55,11 +55,12 @@ public class sqlGenerator {
         mpg.setPackageInfo(pc);
      
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
-        // gc.setMapperName("%sDao");
+        //gc.setMapperName("%sDao");
         // gc.setXmlName("%sDao");
-        // gc.setServiceName("MP%sService");
-        // gc.setServiceImplName("%sServiceDiy");
-        // gc.setControllerName("%sAction");
+        gc.setDaoName("I%sDao");
+        gc.setServiceName("I%sService");
+        // gc.setServiceImplName("%sServiceImpl");
+        gc.setControllerName("%sController");
         // gc.setManagerListName("");
         // gc.setAddOrUpdateName("");
         mpg.setGlobalConfig(gc);
@@ -82,12 +83,13 @@ public class sqlGenerator {
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 字段名生成策略
         strategy.setFieldNaming(NamingStrategy.underline_to_camel);
-        // 自定义实体po父类
-        strategy.setSuperModelClass(basePo);
-        // 自定义实体vo父类
-        strategy.setSuperModelVoClass("com.meida.base.vo.BaseVo");
-        // 自定义 action 父类
-        strategy.setSuperControllerClass("com.meida.base.BaseBackendController");
+//        // 自定义实体po父类
+//        strategy.setSuperModelClass("com.meida.base.BasePo");
+//        // 自定义实体vo父类
+//        strategy.setSuperModelVoClass("com.meida.base.BaseVo");
+//        // 自定义 action 父类
+//        strategy.setSuperControllerClass("com.meida.base.BaseController");
+
         // 自定义 service 父类
         strategy.setSuperServiceClass("com.meida.base.service.inter.BaseService");
         // 自定义 service 实现类父类
