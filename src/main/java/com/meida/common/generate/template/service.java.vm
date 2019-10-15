@@ -3,16 +3,20 @@ package ${package.Service};
 import java.util.List;
 
 import ${package.BizBean}.${vo};
+#if(${superServiceClassPackage})
 import ${superServiceClassPackage};
-import com.demo.common.extremetable.QueryPage;
+#end
 
 /**
  * ${table.comment}  Service
  * @author ${author}
  * @date ${date}
  */
+#if(${superServiceClass})
 public interface ${table.serviceName} extends ${superServiceClass} {
-
+#else
+public interface ${table.serviceName} {
+#end
 	/**
 	 * 查询${table.baseComment}列表
 	 * @author ${author}
@@ -30,6 +34,6 @@ public interface ${table.serviceName} extends ${superServiceClass} {
 	 * @param id ${table.baseComment}id
 	 * @return
 	 */
-	public ${vo} find${table.baseName}ById(Long id);
+	public ${vo} find${table.baseName}ById(Serializable id);
 	
 }

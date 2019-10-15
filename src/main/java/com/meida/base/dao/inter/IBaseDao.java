@@ -1,76 +1,81 @@
 package com.meida.base.dao.inter;
 
+import com.meida.backend.basic.dto.DeleteDto;
+
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Dao接口
+ *
+ * @param <T>
+ */
 public interface IBaseDao<T> {
-	
-	/**
-	 * 保存单条记录
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public int save(T item);
+    /**
+     * 新增单条记录
+     *
+     * @param entity
+     * @return
+     */
+    public long save(T entity);
 
-	/**
-	 * 更新单条记录
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public int update(T item);
+    /**
+     * 根据主键id更新单条记录
+     *
+     * @param entity
+     * @return
+     */
+    public long update(T entity);
 
-	/**
-	 * 物理删除单条记录
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public int deletePhysicalById(Serializable id);
+    /**
+     * 物理删除多条记录
+     *
+     * @param ids
+     * @return
+     */
+    public long physicalDelete(Serializable[] ids);
 
-	/**
-	 * 逻辑删除单条记录
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public int deleteLogicById(Serializable id);
+    /**
+     * 逻辑删除多条记录
+     *
+     * @param deleteDto
+     * @return
+     */
+    public long logicDelete(DeleteDto deleteDto);
 
-	/**
-	 * 根据主键查找用户
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public T getObjectById(Serializable id);
+    /**
+     * 根据主键id获取单条记录
+     *
+     * @param id
+     * @return
+     */
+    public T getObjectById(Serializable id);
 
-	/**
-	 * 查询所有记录
-	 * 
-	 * @return
-	 */
-	public List<T> getListByAll();
+    /**
+     * 获取所有记录
+     *
+     * @return
+     */
+    public List<T> getListByAll();
 
-	/**
-	 * 查询所有有效记录
-	 * 
-	 * @return
-	 */
-	public List<T> getListByValid();
-	
-	/**
-	 * 查询分页录数
-	 * 
-	 * @return
-	 */
-	public List<T> getListByPage(Object item);
-	
-	/**
-	 * 获取总记录数
-	 * 
-	 * @return
-	 */
-	public long getTotalRecord(Object item);
+    /**
+     * 获取所有有效记录
+     *
+     * @return
+     */
+    public List<T> getListByValid();
 
+    /**
+     * 获取分页记录
+     *
+     * @return
+     */
+    public List<T> getListPage(Object condition);
+
+    /**
+     * 获取总记录数
+     *
+     * @return
+     */
+    public long getTotalRecord(Object condition);
 }

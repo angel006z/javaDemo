@@ -5,7 +5,6 @@ import java.util.List;
 import ${package.Info}.${po};
 import ${package.BizBean}.${vo};
 import ${superDaoClassPackage};
-import com.demo.common.extremetable.QueryPage;
 
 /**
  * ${table.comment} Dao类
@@ -14,17 +13,12 @@ import com.demo.common.extremetable.QueryPage;
  */
 #foreach($field in ${table.fields})
 #if(${field.keyFlag})
-public interface ${table.daoName} extends ${superDaoClass}<${field.propertyType}, ${po}> {
+public interface ${table.daoName} extends ${superDaoClass}<${po}> {
 #end#end
-
-	/**
-	 * 查询${table.baseComment}列表
-	 * @author ${author}
-	 * @date ${date}
-	 * @param condition 查询条件
-	 * @param queryPage 分页信息
-	 * @return
-	 */
-	public List<${po}> find${table.baseName}List(${vo} condition,QueryPage queryPage);
-	
+    /**
+     * 查询列表
+     * @param item 查询条件
+     * @return
+     */
+    List<${vo}> getListWhereByPage(Object item);
 }

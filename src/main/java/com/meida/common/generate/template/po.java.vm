@@ -9,22 +9,12 @@ import java.util.Date;
 #if(${table.hasBigDecimal})
 import java.math.BigDecimal;
 #end
-#if(${field.isAuto})
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-#end
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * ${table.comment} po
  * @author ${author}
  * @date ${date}
  */
-@Entity
-@Table(name = "${table.name}")
 #if(${superModelClass})
 public class ${po} extends ${superModelClass} {
 #else
@@ -37,12 +27,6 @@ public class ${po}{
 /**
 	 * ${field.comment}
 	 */
-	#if(${field.keyFlag})
-@Id
-	#if(${field.isAuto})
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    #end#end
-@Column(name = "${field.name}")
 	private ${field.propertyType} ${field.propertyName};
 	#end
 
