@@ -26,23 +26,17 @@ public class ${vo}{
 #end
 
 	#foreach($field in ${table.fields})
-    /**
+/**
 	 * ${field.comment}
 	 */
 	private ${field.propertyType} ${field.propertyName};
 	#end
 
 	#foreach($field in ${table.fields})
-    #if(${field.propertyName.equals("Boolean")})
-        #set($getprefix="is")
-    #else
-        #set($getprefix="get")
-    #end
-
 	/**
 	 * 获取  ${field.comment}
 	 */
-	public ${field.propertyType} ${getprefix}${field.capitalName}(){
+	public ${field.propertyType} get${field.capitalName}(){
         return ${field.propertyName};
     }
 
@@ -55,12 +49,5 @@ public class ${vo}{
             return this;
     #end
 }
-#end
-
-#if(${modelColumnConstant})
-    #foreach($field in ${table.fields})
-    public static final String ${field.name.toUpperCase()} = "${field.name}";
-
-    #end
 #end
 }

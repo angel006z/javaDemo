@@ -82,9 +82,15 @@ private ${table.daoName} ${daoNameFinal};
 	    ${po} item = submitDto.getItem();
         CurrentUserDto currentUserDto = submitDto.getCurrentUserDto();
         if (submitDto.getOperate().equals(EOperate.ADD)) {
-			#foreach($field in ${table.fields})#if(${field.keyFlag}&&${field.isAuto}==false)
-		item.set${field.capitalName}(UUID.randomUUID().toString());
-			#end#end
+			#foreach($field in ${table.fields})
+				#if(${field.keyFlag}&&${field.isAuto}==false)
+					#if(${field.propertyType.equals("String")})
+                       item.set${field.capitalName}(UUID.randomUUID().toString());
+					#else
+						item.set${field.capitalName}(UUID.randomUUID().toString());
+					#end
+				#end
+			#end
 
 			item.setIsValid(ESystemStatus.Valid);
 			item.setCreateDate(nowTime);

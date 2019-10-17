@@ -20,6 +20,8 @@ public class TemplateConfig {
 
     private String dao = ConstVal.TEMPLATE_DAO;
 
+    private String daoMapping = ConstVal.TEMPLATE_DAOMAPPING;
+
     private String daoImpl = ConstVal.TEMPLATE_DAOIMPL;
 
     private String controller = ConstVal.TEMPLATE_CONTROLLER;
@@ -66,6 +68,14 @@ public class TemplateConfig {
 
     public void setDao(String dao) {
         this.dao = dao;
+    }
+
+    public String getDaoMapping() {
+        return daoMapping;
+    }
+
+    public void setDaoMapping(String daoMapping) {
+        this.daoMapping = daoMapping;
     }
 
     public String getDaoImpl() {

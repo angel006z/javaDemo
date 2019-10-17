@@ -1,18 +1,17 @@
 package com.meida.backend.basic.dto;
 
-import java.util.UUID;
-
 public class CurrentUserDto {
     public CurrentUserDto(){
         isSuper=false;
     }
-    private UUID userId;
+    private String userId;
     private String userName;
     private String realName;
-    private UUID roleId;
+    private String roleId;
     private String roleName;
-
     private Boolean isSuper;
+    private String deptId;
+    private String deptName;
 
     public Boolean getIsSuper() {
         return isSuper;
@@ -22,11 +21,11 @@ public class CurrentUserDto {
         this.isSuper = isSuper;
     }
 
-    public UUID getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -46,11 +45,11 @@ public class CurrentUserDto {
         this.realName = realName;
     }
 
-    public UUID getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(UUID roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
@@ -62,11 +61,11 @@ public class CurrentUserDto {
         this.roleName = roleName;
     }
 
-    public UUID getDeptId() {
+    public String getDeptId() {
         return deptId;
     }
 
-    public void setDeptId(UUID deptId) {
+    public void setDeptId(String deptId) {
         this.deptId = deptId;
     }
 
@@ -77,7 +76,4 @@ public class CurrentUserDto {
     public void setDeptName(String deptName) {
         this.deptName = deptName;
     }
-
-    private UUID deptId;
-    private String deptName;
 }

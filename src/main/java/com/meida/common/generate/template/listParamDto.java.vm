@@ -22,33 +22,35 @@ public class ${table.baseName}ListParamDto extends ${superModelClass} {
 #else
 public class ${table.baseName}ListParamDto extends BaseParamDto{
 #end
-
 	private static final long serialVersionUID=1L;
 
     private Pagination pagination;
 
 	#foreach($field in ${table.fields})
+		#if(${field.keyFlag}==false)
 /**
 	 * ${field.comment}
 	 */
 	private ${field.propertyType} ${field.propertyName};
 	#end
+	#end
 
 	#foreach($field in ${table.fields})
+		#if(${field.keyFlag}==false)
     #if(${field.propertyType.equals("Boolean")})
         #set($getprefix="is")
     #else
         #set($getprefix="get")
     #end
 
-	/**
+/**
 	 * 获取  ${field.comment}
 	 */
 	public ${field.propertyType} ${getprefix}${field.capitalName}(){
         return ${field.propertyName};
 	}
 
-	/**
+/**
 	 * 设置  ${field.comment}
 	 */
 	public void set${field.capitalName}(${field.propertyType} ${field.propertyName}){
@@ -58,6 +60,7 @@ public class ${table.baseName}ListParamDto extends BaseParamDto{
 	    return this;
 	}
 	    #end
+	#end
 	#end
 
 	#if(${modelColumnConstant})

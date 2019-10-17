@@ -40,6 +40,7 @@ public class GlobalConfig {
 	private String submitParamDtoName;
 	private String daoName;
 	private String daoImplName;
+	private String daoMappingName;
 	private String serviceName;
 	private String serviceImplName;
 	private String controllerName;
@@ -125,6 +126,14 @@ public class GlobalConfig {
 
 	public void setDaoImplName(String daoImplName) {
 		this.daoImplName = daoImplName;
+	}
+
+	public String getDaoMappingName() {
+		return daoMappingName;
+	}
+
+	public void setDaoMappingName(String daoMappingName) {
+		this.daoMappingName = daoMappingName;
 	}
 
 	public String getServiceName() {

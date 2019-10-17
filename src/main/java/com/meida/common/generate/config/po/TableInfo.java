@@ -23,6 +23,7 @@ public class TableInfo {
 	private String submitParamDtoName;
 
 	private String daoName;
+	private String daoMappingName;
 	private String daoImplName;
 	private String serviceName;
 	private String serviceImplName;
@@ -116,6 +117,14 @@ public class TableInfo {
 
 	public void setDaoName(String daoName) {
 		this.daoName = daoName;
+	}
+
+	public String getDaoMappingName() {
+		return daoMappingName;
+	}
+
+	public void setDaoMappingName(String daoMappingName) {
+		this.daoMappingName = daoMappingName;
 	}
 
 	public String getDaoImplName() {

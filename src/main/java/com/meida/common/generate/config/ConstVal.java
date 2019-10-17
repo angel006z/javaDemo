@@ -26,6 +26,7 @@ public class ConstVal {
     public static final String SERIVCE = "Service";
     public static final String SERVICEIMPL = "ServiceImpl";
     public static final String DAO = "Dao";
+    public static final String DAOMAPPING = "Mapping";
     public static final String DAOIMPL = "DaoImpl";
     public static final String CONTROLLER = "Controller";
     public static final String MANAGER = "Manager";
@@ -40,6 +41,7 @@ public class ConstVal {
     public static final String SERIVCE_PATH = "serivce_path";
     public static final String SERVICEIMPL_PATH = "serviceimpl_path";
     public static final String DAO_PATH = "dao_path";
+    public static final String DAOMAPPING_PATH = "daomapping_path";
     public static final String DAOIMPL_PATH = "daoimpl_path";
     public static final String CONTROLLER_PATH = "controller_path";
     public static final String MANAGERLIST_PATH = "managerlist_path";
@@ -62,6 +64,7 @@ public class ConstVal {
     public static final String TEMPLATE_SERVICE = BASEPATH + "/template/service.java.vm";
     public static final String TEMPLATE_SERVICEIMPL = BASEPATH + "/template/serviceImpl.java.vm";
     public static final String TEMPLATE_DAO = BASEPATH + "/template/dao.java.vm";
+    public static final String TEMPLATE_DAOMAPPING = BASEPATH + "/template/daoMapping.xml.vm";
     public static final String TEMPLATE_DAOIMPL = BASEPATH + "/template/daoimpl.java.vm";
     public static final String TEMPLATE_CONTROLLER = BASEPATH + "/template/controller.java.vm";
     public static final String TEMPLATE_MANAGERLIST = BASEPATH + "/template/managerList.jsp.vm";

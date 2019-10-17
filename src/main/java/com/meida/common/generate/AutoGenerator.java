@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import com.meida.common.generate.config.ConstVal;
 import com.meida.common.generate.config.TemplateConfig;
 import com.meida.common.generate.config.builder.ConfigBuilder;
-import com.meida.common.generate.config.po.TableField;
 import com.meida.common.generate.config.po.TableInfo;
 import com.meida.common.util.StringUtils;
 
@@ -174,6 +171,7 @@ public class AutoGenerator extends AbstractGenerator {
             String submitParamDtoFile = String.format((pathInfo.get(ConstVal.SUBMITPARAMDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getSubmitParamDtoName());
 
             String daoFile = String.format((pathInfo.get(ConstVal.DAO_PATH) + File.separator + tableInfo.getDaoName() + ConstVal.JAVA_SUFFIX), poName);
+            String daoMappingFile = String.format((pathInfo.get(ConstVal.DAOMAPPING_PATH) + File.separator + tableInfo.getDaoMappingName() + ConstVal.XML_SUFFIX), poName);
             String daoimplFile = String.format((pathInfo.get(ConstVal.DAOIMPL_PATH) + File.separator + tableInfo.getDaoImplName() + ConstVal.JAVA_SUFFIX), poName);
             String serviceFile = String.format((pathInfo.get(ConstVal.SERIVCE_PATH) + File.separator + tableInfo.getServiceName() + ConstVal.JAVA_SUFFIX), poName);
             String serviceimplFile = String.format((pathInfo.get(ConstVal.SERVICEIMPL_PATH) + File.separator + tableInfo.getServiceImplName() + ConstVal.JAVA_SUFFIX), poName);
@@ -211,18 +209,27 @@ public class AutoGenerator extends AbstractGenerator {
             if (isCreate(daoFile)) {
                 vmToFile(context, template.getDao(), daoFile);
             }
+
+            if (isCreate(daoMappingFile)) {
+                vmToFile(context, template.getDaoMapping(), daoMappingFile);
+            }
+
 //            if (isCreate(daoimplFile)) {
 //                vmToFile(context, template.getDaoImpl(), daoimplFile);
 //            }
+
             if (isCreate(serviceFile)) {
                 vmToFile(context, template.getService(), serviceFile);
             }
+
             if (isCreate(serviceimplFile)) {
                 vmToFile(context, template.getServiceImpl(), serviceimplFile);
             }
+
             if (isCreate(controllerFile)) {
                 vmToFile(context, template.getController(), controllerFile);
             }
+
 //            if (isCreate(managerlistFile)) {
 //                vmToFile(context, template.getManagerList(), managerlistFile);
 //            }

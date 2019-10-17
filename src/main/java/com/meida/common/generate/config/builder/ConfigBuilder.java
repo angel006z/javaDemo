@@ -197,6 +197,7 @@ public class ConfigBuilder {
         packageInfo.put(ConstVal.VO, joinPackage(config.getParent(), config.getVo()));
         packageInfo.put(ConstVal.DTO, joinPackage(config.getParent(), config.getDto()));
         packageInfo.put(ConstVal.DAO, joinPackage(config.getParent(), config.getDao()));
+        packageInfo.put(ConstVal.DAOMAPPING, joinPackage(config.getParent(), config.getDaoMapping()));
         packageInfo.put(ConstVal.DAOIMPL, joinPackage(config.getParent(), config.getDaoImpl()));
         packageInfo.put(ConstVal.SERIVCE, joinPackage(config.getParent(), config.getService()));
         packageInfo.put(ConstVal.SERVICEIMPL, joinPackage(config.getParent(), config.getServiceImpl()));
@@ -214,6 +215,7 @@ public class ConfigBuilder {
         pathInfo.put(ConstVal.SUBMITDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DTO)));
         pathInfo.put(ConstVal.SUBMITPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DTO)));
         pathInfo.put(ConstVal.DAO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAO)));
+        pathInfo.put(ConstVal.DAOMAPPING_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAOMAPPING)));
         pathInfo.put(ConstVal.DAOIMPL_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAOIMPL)));
         pathInfo.put(ConstVal.SERIVCE_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SERIVCE)));
         pathInfo.put(ConstVal.SERVICEIMPL_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SERVICEIMPL)));
@@ -309,73 +311,85 @@ public class ConfigBuilder {
             tableInfo.setBaseName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
             tableInfo.setPoName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
             tableInfo.setVoName(NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix, tableBehind)));
+            //dao
             if (!StringUtils.isEmpty(globalConfig.getDaoName())) {
                 tableInfo.setDaoName(String.format(globalConfig.getDaoName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setDaoName(tableInfo.getPoName() + ConstVal.DAO);
             }
+            //daoMapping
+            if (!StringUtils.isEmpty(globalConfig.getDaoMappingName())) {
+                tableInfo.setDaoMappingName(String.format(globalConfig.getDaoMappingName(), tableInfo.getPoName()));
+            } else {
+                tableInfo.setDaoMappingName(tableInfo.getPoName() + ConstVal.DAO);
+            }
+            //daoImpl
             if (!StringUtils.isEmpty(globalConfig.getDaoImplName())) {
                 tableInfo.setDaoImplName(String.format(globalConfig.getDaoImplName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setDaoImplName(tableInfo.getPoName() + ConstVal.DAOIMPL);
             }
+            //service
             if (!StringUtils.isEmpty(globalConfig.getServiceName())) {
                 tableInfo.setServiceName(String.format(globalConfig.getServiceName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setServiceName(tableInfo.getPoName() + ConstVal.SERIVCE);
             }
-
+            //serviceImpl
             if (!StringUtils.isEmpty(globalConfig.getServiceImplName())) {
                 tableInfo.setServiceImplName(String.format(globalConfig.getServiceImplName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setServiceImplName(tableInfo.getPoName() + ConstVal.SERVICEIMPL);
             }
+            //controller
             if (!StringUtils.isEmpty(globalConfig.getControllerName())) {
                 tableInfo.setControllerName(String.format(globalConfig.getControllerName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setControllerName(tableInfo.getPoName() + ConstVal.CONTROLLER);
             }
+            //vo
             if (!StringUtils.isEmpty(globalConfig.getVoName())) {
                 tableInfo.setVoName(String.format(globalConfig.getVoName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setVoName(tableInfo.getPoName() + ConstVal.VO);
             }
-
+            //listDto
             if (!StringUtils.isEmpty(globalConfig.getListDtoName())) {
                 tableInfo.setListDtoName(String.format(globalConfig.getListDtoName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setListDtoName(tableInfo.getPoName() + ConstVal.LISTDTO);
             }
+            //listParamDto
             if (!StringUtils.isEmpty(globalConfig.getListParamDtoName())) {
                 tableInfo.setListParamDtoName(String.format(globalConfig.getListParamDtoName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setListParamDtoName(tableInfo.getPoName() + ConstVal.LISTPARAMDTO);
             }
-
+            //submitDto
             if (!StringUtils.isEmpty(globalConfig.getSubmitDtoName())) {
                 tableInfo.setSubmitDtoName(String.format(globalConfig.getSubmitDtoName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setSubmitDtoName(tableInfo.getPoName() + ConstVal.SUBMITDTO);
             }
-
+            //submitParamDto
             if (!StringUtils.isEmpty(globalConfig.getSubmitParamDtoName())) {
                 tableInfo.setSubmitParamDtoName(String.format(globalConfig.getSubmitParamDtoName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setSubmitParamDtoName(tableInfo.getPoName() + ConstVal.SUBMITPARAMDTO);
             }
-
+            //ManagerList
             if (!StringUtils.isEmpty(globalConfig.getManagerListName())) {
                 tableInfo.setManagerListName(String.format(globalConfig.getManagerListName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setManagerListName(NamingStrategy.capitalToLow(tableInfo.getPoName()) + ConstVal.MANAGER);
             }
-
+            //AddOrUpdate
             if (!StringUtils.isEmpty(globalConfig.getAddOrUpdateName())) {
                 tableInfo.setAddOrUpdateName(String.format(globalConfig.getAddOrUpdateName(), tableInfo.getPoName()));
             } else {
                 tableInfo.setAddOrUpdateName(ConstVal.ADDORUPDATE + tableInfo.getPoName());
             }
-
+            //po
             if (!StringUtils.isEmpty(globalConfig.getPoName())) {
                 tableInfo.setPoName(String.format(globalConfig.getPoName(), tableInfo.getPoName()));
             } else {
