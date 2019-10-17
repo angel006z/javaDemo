@@ -1,6 +1,8 @@
 package com.meida.base.dao.inter;
 
 import com.meida.backend.basic.dto.DeleteDto;
+import com.meida.backend.basic.dto.DisableDto;
+import com.meida.backend.basic.dto.EnableDto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +19,7 @@ public interface IBaseDao<T> {
      * @param entity
      * @return
      */
-    public long save(T entity);
+    long save(T entity);
 
     /**
      * 根据主键id更新单条记录
@@ -25,7 +27,7 @@ public interface IBaseDao<T> {
      * @param entity
      * @return
      */
-    public long update(T entity);
+    long update(T entity);
 
     /**
      * 物理删除多条记录
@@ -33,7 +35,7 @@ public interface IBaseDao<T> {
      * @param ids
      * @return
      */
-    public long physicalDelete(Serializable[] ids);
+    long physicalDelete(Serializable[] ids);
 
     /**
      * 逻辑删除多条记录
@@ -41,7 +43,23 @@ public interface IBaseDao<T> {
      * @param deleteDto
      * @return
      */
-    public long logicDelete(DeleteDto deleteDto);
+    long logicDelete(DeleteDto deleteDto);
+
+    /**
+     * 启用多条记录
+     *
+     * @param enableDto
+     * @return
+     */
+    long enable(EnableDto enableDto);
+
+    /**
+     * 禁用多条记录
+     *
+     * @param disableDto
+     * @return
+     */
+    long disable(DisableDto disableDto);
 
     /**
      * 根据主键id获取单条记录
@@ -49,33 +67,33 @@ public interface IBaseDao<T> {
      * @param id
      * @return
      */
-    public T getObjectById(Serializable id);
+    T getObjectById(Serializable id);
 
     /**
      * 获取所有记录
      *
      * @return
      */
-    public List<T> getListByAll();
+    List<T> getListByAll();
 
     /**
      * 获取所有有效记录
      *
      * @return
      */
-    public List<T> getListByValid();
+    List<T> getListByValid();
 
     /**
      * 获取分页记录
      *
      * @return
      */
-    public List<T> getListPage(Object condition);
+    List<T> getListPage(Object condition);
 
     /**
      * 获取总记录数
      *
      * @return
      */
-    public long getTotalRecord(Object condition);
+    long getTotalRecord(Object condition);
 }

@@ -11,7 +11,7 @@ public class BaseOperateDto {
      *
      * @return
      */
-    private CurrentUserDto currentUser;
+    private CurrentUserDto currentUserDto;
 
     public String[] getIds() {
         return ids;
@@ -21,11 +21,11 @@ public class BaseOperateDto {
         this.ids = ids;
     }
 
-    public CurrentUserDto getCurrentUser() {
-        return currentUser;
+    public CurrentUserDto getCurrentUserDto() {
+        return currentUserDto;
     }
 
-    public void setCurrentUser(CurrentUserDto currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUserDto(CurrentUserDto currentUserDto) {
+        this.currentUserDto = currentUserDto;
     }
 }

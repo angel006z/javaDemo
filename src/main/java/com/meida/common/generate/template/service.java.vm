@@ -11,8 +11,8 @@ import ${superServiceClassPackage};
 #end
 
 /**
- * ${table.comment}  Service
- *
+ * ${table.baseName}业务接口
+ * ${table.comment}
  * @author ${author}
  * @date ${date}
  */

@@ -1,46 +1,37 @@
-package ${package.Info};
+package ${package.Dto};
+
+import com.meida.backend.basic.dto.CurrentUserDto;
+import com.meida.base.vo.Pagination;
 
 #if(${superModelClassPackage})
 import ${superModelClassPackage};
 #end
 #if(${table.hasDate})
 import java.util.Date;
-
 #end
-#if(${field.isAuto})
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+#if(${table.hasBigDecimal})
+import java.math.BigDecimal;
 #end
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
- * ${table.comment} po
+ * ${table.comment} listDto
  * @author ${author}
  * @date ${date}
  */
-@Entity
-@Table(name = "${table.name}")
 #if(${superModelClass})
-public class ${po} extends ${superModelClass} {
+public class ${table.baseName}ListDto extends ${superModelClass} {
 #else
-public class ${po} extends Convert{
+public class ${table.baseName}ListDto{
 #end
 
 	private static final long serialVersionUID=1L;
+    private CurrentUserDto currentUserDto;
+    private Pagination pagination;
 
 	#foreach($field in ${table.fields})
 /**
 	 * ${field.comment}
 	 */
-	#if(${field.keyFlag})
-@Id
-	#if(${field.isAuto})
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    #end#end
-@Column(name = "${field.name}")
 	private ${field.propertyType} ${field.propertyName};
 	#end
 
@@ -75,4 +66,22 @@ public class ${po} extends Convert{
 	    public static final String ${field.name.toUpperCase()} = "${field.name}";
 	    #end
 	#end
+
+
+    public CurrentUserDto getCurrentUserDto() {
+        return currentUserDto;
+    }
+
+    public void setCurrentUserDto(CurrentUserDto currentUserDto) {
+        this.currentUserDto = currentUserDto;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
+
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
+
 }

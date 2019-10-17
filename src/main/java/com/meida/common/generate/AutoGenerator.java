@@ -168,6 +168,8 @@ public class AutoGenerator extends AbstractGenerator {
             Map<String, String> pathInfo = config.getPathInfo();
             String poFile = String.format((pathInfo.get(ConstVal.PO_PATH) + ConstVal.MODEL_NAME), poName);
             String voFile = String.format((pathInfo.get(ConstVal.VO_PATH) + ConstVal.MODEL_NAME), tableInfo.getVoName());
+            String listDtoFile = String.format((pathInfo.get(ConstVal.LISTDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getListDtoName());
+            String listParamDtoFile = String.format((pathInfo.get(ConstVal.LISTPARAMDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getListParamDtoName());
             String submitDtoFile = String.format((pathInfo.get(ConstVal.SUBMITDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getSubmitDtoName());
             String submitParamDtoFile = String.format((pathInfo.get(ConstVal.SUBMITPARAMDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getSubmitParamDtoName());
 
@@ -190,6 +192,14 @@ public class AutoGenerator extends AbstractGenerator {
                 vmToFile(context, template.getVo(), voFile);
             }
 
+            if (isCreate(listDtoFile)) {
+                vmToFile(context, template.getListDto(), listDtoFile);
+            }
+
+            if (isCreate(listParamDtoFile)) {
+                vmToFile(context, template.getListParamDto(), listParamDtoFile);
+            }
+
             if (isCreate(submitDtoFile)) {
                 vmToFile(context, template.getSubmitDto(), submitDtoFile);
             }
@@ -201,9 +211,9 @@ public class AutoGenerator extends AbstractGenerator {
             if (isCreate(daoFile)) {
                 vmToFile(context, template.getDao(), daoFile);
             }
-            if (isCreate(daoimplFile)) {
-                vmToFile(context, template.getDaoImpl(), daoimplFile);
-            }
+//            if (isCreate(daoimplFile)) {
+//                vmToFile(context, template.getDaoImpl(), daoimplFile);
+//            }
             if (isCreate(serviceFile)) {
                 vmToFile(context, template.getService(), serviceFile);
             }

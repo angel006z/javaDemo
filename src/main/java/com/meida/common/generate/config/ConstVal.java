@@ -51,6 +51,7 @@ public class ConstVal {
 
     public static final String JAVA_SUFFIX = ".java";
     public static final String JSP_SUFFIX = ".jsp";
+    public static final String XML_SUFFIX = ".xml";
 
     public static final String TEMPLATE_PO = BASEPATH + "/template/po.java.vm";
     public static final String TEMPLATE_VO = BASEPATH + "/template/vo.java.vm";
