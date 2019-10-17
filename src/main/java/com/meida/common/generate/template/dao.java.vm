@@ -3,11 +3,12 @@ package ${package.Dao};
 import java.util.List;
 
 import ${package.Info}.${po};
-import ${package.BizBean}.${vo};
+import ${package.Vo}.${vo};
 import ${superDaoClassPackage};
 
 /**
  * ${table.comment} Dao类
+ *
  * @author ${author}
  * @date ${date}
  */
@@ -16,9 +17,18 @@ import ${superDaoClassPackage};
 public interface ${table.daoName} extends ${superDaoClass}<${po}> {
 #end#end
     /**
-     * 查询列表
-     * @param item 查询条件
-     * @return
+     * 获取Vo分页记录
+     *
+     * @param condition 查询条件
+     * @return vo list
      */
-    List<${vo}> getListWhereByPage(Object item);
+    List<${vo}> getVoListPage(Object condition);
+
+    /**
+     * 获取Vo总记录数
+     *
+     * @param condition 查询条件
+     * @return vo total record
+    */
+    long getVoTotalRecord(Object condition);
 }

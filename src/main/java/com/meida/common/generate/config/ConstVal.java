@@ -15,7 +15,7 @@ public class ConstVal {
     public static final String MODULENAME = "ModuleName";
 
     public static final String PO = "Info";
-    public static final String VO = "BizBean";
+    public static final String VO = "Vo";
     public static final String DTO = "Dto";
 
     public static final String LISTDTO = "ListDto";
@@ -76,6 +76,9 @@ public class ConstVal {
     public static final String SUPERD_DAOIMPL_CLASS = "";
     public static final String SUPERD_SERVICE_CLASS = "";
     public static final String SUPERD_SERVICEIMPL_CLASS = "";
+
+    public static final String SUPERD_SUBMITDTO_CLASS = "";
+    public static final String SUPERD_SUBMITPARAMDTO_CLASS = "";
 
     //java文件路径
     public static final String javaPath(String packageName) throws IOException {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import ${package.Dao}.${table.daoName};
 import ${package.Info}.${po};
-import ${package.BizBean}.${vo};
+import ${package.Vo}.${vo};
 import ${superDaoImplClassPackage};
 import com.demo.base.dao.HQLHelper;
 import com.demo.common.extremetable.QueryPage;

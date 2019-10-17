@@ -1,4 +1,4 @@
-package ${package.BizBean};
+package ${package.Vo};
 
 #if(${superModelVoClassPackage})
 import ${superModelVoClassPackage};
@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 #end
 /**
  * ${table.comment} vo
+ *
  * @author ${author}
  * @date ${date}
  */
@@ -25,7 +26,7 @@ public class ${vo}{
 #end
 
 	#foreach($field in ${table.fields})
-/**
+    /**
 	 * ${field.comment}
 	 */
 	private ${field.propertyType} ${field.propertyName};

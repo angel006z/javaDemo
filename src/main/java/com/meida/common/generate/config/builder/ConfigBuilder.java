@@ -195,10 +195,7 @@ public class ConfigBuilder {
         packageInfo.put(ConstVal.MODULENAME, config.getModuleName());
         packageInfo.put(ConstVal.PO, joinPackage(config.getParent(), config.getPo()));
         packageInfo.put(ConstVal.VO, joinPackage(config.getParent(), config.getVo()));
-        packageInfo.put(ConstVal.LISTDTO, joinPackage(config.getParent(), config.getDto()));
-        packageInfo.put(ConstVal.LISTPARAMDTO, joinPackage(config.getParent(), config.getDto()));
-        packageInfo.put(ConstVal.SUBMITDTO, joinPackage(config.getParent(), config.getDto()));
-        packageInfo.put(ConstVal.SUBMITPARAMDTO, joinPackage(config.getParent(), config.getDto()));
+        packageInfo.put(ConstVal.DTO, joinPackage(config.getParent(), config.getDto()));
         packageInfo.put(ConstVal.DAO, joinPackage(config.getParent(), config.getDao()));
         packageInfo.put(ConstVal.DAOIMPL, joinPackage(config.getParent(), config.getDaoImpl()));
         packageInfo.put(ConstVal.SERIVCE, joinPackage(config.getParent(), config.getService()));
@@ -212,10 +209,10 @@ public class ConfigBuilder {
         pathInfo = new HashMap<String, String>();
         pathInfo.put(ConstVal.PO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.PO)));
         pathInfo.put(ConstVal.VO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.VO)));
-        pathInfo.put(ConstVal.LISTDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.LISTDTO)));
-        pathInfo.put(ConstVal.LISTPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.LISTPARAMDTO)));
-        pathInfo.put(ConstVal.SUBMITDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SUBMITDTO)));
-        pathInfo.put(ConstVal.SUBMITPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SUBMITPARAMDTO)));
+        pathInfo.put(ConstVal.LISTDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DTO)));
+        pathInfo.put(ConstVal.LISTPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DTO)));
+        pathInfo.put(ConstVal.SUBMITDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DTO)));
+        pathInfo.put(ConstVal.SUBMITPARAMDTO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DTO)));
         pathInfo.put(ConstVal.DAO_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAO)));
         pathInfo.put(ConstVal.DAOIMPL_PATH, joinPath(outputDir, packageInfo.get(ConstVal.DAOIMPL)));
         pathInfo.put(ConstVal.SERIVCE_PATH, joinPath(outputDir, packageInfo.get(ConstVal.SERIVCE)));

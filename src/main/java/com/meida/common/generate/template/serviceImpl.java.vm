@@ -1,22 +1,22 @@
 package ${package.ServiceImpl};
 
-import java.util.List;
-import java.util.ArrayList;
+import ${package.Info}.${po};
+import ${package.Vo}.${vo};
+import ${package.Dto}.*;
+import com.meida.backend.basic.dto.*;
+import ${package.Service}.${table.serviceName};
+#if(${superServiceImplClass})
+import ${superServiceImplClassPackage};
+#end
+import ${package.Dao}.${table.daoName};
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ${package.Info}.${po};
-import ${package.BizBean}.${vo};
-import ${package.Service}.${table.serviceName};
-import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
-import ${package.Dao}.${table.daoName};
-import com.demo.common.extremetable.QueryPage;
-import com.demo.common.util.PropertyUtils;
-import com.demo.exception.ApplicationException;
-import com.demo.exception.SystemException;
-#foreach($field in ${table.fields})#if(${field.keyFlag})#if(!${field.isAuto})
-import com.demo.base.dao.NumberMachine;
-#end#end#end
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 #macro( lowOrUp $name $type )
 #if($type.equals("low"))
@@ -36,8 +36,11 @@ ${nameFinal}#end#end
 #set ($headServiceName = $serviceName.substring(0,1).toLowerCase())
 #set ($serviceNameFinal = $headServiceName + $serviceName.substring(1))
 @Service("${serviceNameFinal}")
+#if(${superServiceImplClass})
 public class ${table.serviceImplName} extends ${superServiceImplClass} implements ${table.serviceName} {
-
+#else
+public class ${table.serviceImplName} implements ${table.serviceName} {
+#end
 	@Autowired
 	#set ($daoName = $table.daoName)
     #set ($headDaoName = $daoName.substring(0,1).toLowerCase())

@@ -52,8 +52,8 @@ public class sqlGenerator {
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
         //gc.setMapperName("%sDao");
         // gc.setXmlName("%sDao");
-        gc.setDaoName("I%sDao");
-        gc.setServiceName("I%sService");
+        //gc.setDaoName("%sDao");
+        //gc.setServiceName("%sService");
         // gc.setServiceImplName("%sServiceImpl");
         gc.setControllerName("%sController");
         // gc.setManagerListName("");
@@ -93,6 +93,7 @@ public class sqlGenerator {
         strategy.setSuperDaoClass("com.meida.base.dao.inter.IBaseDao");
 //        // 自定义 Dao 实现类父类
 //        strategy.setSuperDaoImplClass("com.meida.base.dao.BaseDaoImpl");
+
         // 自定义实体，公共字段
         strategy.setSuperModelColumns(new String[]{"id"});
         // 自定义 mapper 父类

@@ -1,78 +1,48 @@
-package ${package.Info};
+package ${package.Dto};
 
-#if(${superModelClassPackage})
+import com.meida.backend.basic.dto.BaseParamDto;
+import ${package.Info}.${po};
+#if(${superModelClass})
 import ${superModelClassPackage};
 #end
-#if(${table.hasDate})
-import java.util.Date;
-
-#end
-#if(${field.isAuto})
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-#end
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 /**
- * ${table.comment} po
+ * ${table.comment} submitParamDto
  * @author ${author}
  * @date ${date}
  */
-@Entity
-@Table(name = "${table.name}")
 #if(${superModelClass})
-public class ${po} extends ${superModelClass} {
+public class ${table.baseName}SubmitParamDto extends ${superModelClass} {
 #else
-public class ${po} extends Convert{
+public class ${table.baseName}SubmitParamDto extends BaseParamDto{
 #end
 
 	private static final long serialVersionUID=1L;
 
-	#foreach($field in ${table.fields})
-/**
-	 * ${field.comment}
-	 */
-	#if(${field.keyFlag})
-@Id
-	#if(${field.isAuto})
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    #end#end
-@Column(name = "${field.name}")
-	private ${field.propertyType} ${field.propertyName};
-	#end
+    /**
+     * 操作参数
+     * 新增传递固定值：add
+     * 修改传递固定值：update
+     */
+    @NotBlank(message = "operate参数不能为空")
+    private String operate;
 
-	#foreach($field in ${table.fields})
-    #if(${field.propertyType.equals("Boolean")})
-        #set($getprefix="is")
-    #else
-        #set($getprefix="get")
-    #end
+    private ${po} item;
 
-	/**
-	 * 获取  ${field.comment}
-	 */
-	public ${field.propertyType} ${getprefix}${field.capitalName}(){
-        return ${field.propertyName};
-	}
+    public String getOperate() {
+        return operate;
+    }
 
-	/**
-	 * 设置  ${field.comment}
-	 */
-	public void set${field.capitalName}(${field.propertyType} ${field.propertyName}){
-	    this.${field.propertyName} = ${field.propertyName};
-	}
-	    #if(${modelBuliderModel})
-	    return this;
-	}
-	    #end
-	#end
+    public void setOperate(String operate) {
+        this.operate = operate;
+    }
 
-	#if(${modelColumnConstant})
-	    #foreach($field in ${table.fields})
-	    public static final String ${field.name.toUpperCase()} = "${field.name}";
-	    #end
-	#end
+    public ${po} getItem() {
+        return item;
+    }
+
+	public void setItem(${po} item) {
+        this.item = item;
+    }
 }

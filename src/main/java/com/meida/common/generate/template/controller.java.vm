@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.demo.common.util.StringUtils;
 
-import ${package.BizBean}.${vo};
+import ${package.Vo}.${vo};
 import ${package.Service}.${table.serviceName};
 import com.demo.common.constant.CodeConstants;
 import com.demo.common.constant.Constants;
@@ -103,12 +103,12 @@ public class ${table.controllerName} {
 	 */
 	@RequestMapping("add${table.baseName}.save")
 	@ResponseBody
-	public UIMessageResult add${table.baseName}(${vo} #lowOrUp(${vo}, "low")BizBean, HttpServletRequest request) {
+	public UIMessageResult add${table.baseName}(${vo} #lowOrUp(${vo}, "low")Vo, HttpServletRequest request) {
 		try {
-			if (checkInput(#lowOrUp(${vo}, "low")BizBean)) {
-				#lowOrUp(${table.serviceName}, "low").execute(#lowOrUp(${vo}, "low")BizBean, BaseService.COMMAND_SAVE);
+			if (checkInput(#lowOrUp(${vo}, "low")Vo)) {
+				#lowOrUp(${table.serviceName}, "low").execute(#lowOrUp(${vo}, "low")Vo, BaseService.COMMAND_SAVE);
 				messageResult = new UIMessageResult(Constants.MESSAGE_STATE_SUCCESS, "添加${table.baseComment}信息成功！");
-				addSystemOperateLogInfo("", CodeConstants.SYS_OPERATE_LOG_TYPE_ADD, JsonUtils.object2Json(#lowOrUp(${vo}, "low")BizBean), request);
+				addSystemOperateLogInfo("", CodeConstants.SYS_OPERATE_LOG_TYPE_ADD, JsonUtils.object2Json(#lowOrUp(${vo}, "low")Vo), request);
 			} else {
 				messageResult = new UIMessageResult(Constants.MESSAGE_STATE_ERROR, resultError);
 			}
