@@ -39,12 +39,12 @@ public class Pagination {
 	private long totalRecord;
 
 	public int getPageIndex() {
-		return this.currentPage-1;
+		return pageIndex;
 	}
 
-//	public void setPageIndex(int pageIndex) {
-//		this.pageIndex = pageIndex;
-//	}
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
 
 	public int getCurrentPage() {
 		return currentPage;
@@ -67,12 +67,13 @@ public class Pagination {
 	}
 
 	public long getPageCount() {
-		return this.totalRecord % this.pageSize == 0 ? this.totalRecord / this.pageSize : this.totalRecord / this.pageSize + 1;		
+		return this.pageCount;
+		//return this.totalRecord % this.pageSize == 0 ? this.totalRecord / this.pageSize : this.totalRecord / this.pageSize + 1;
 	}
 
-//	public void setPageCount(long pageCount) {
-//		this.pageCount = pageCount;
-//	}
+	public void setPageCount(long pageCount) {
+		this.pageCount = pageCount;
+	}
 
 	public long getTotalRecord() {
 		return totalRecord;
@@ -80,6 +81,7 @@ public class Pagination {
 
 	public void setTotalRecord(long totalRecord) {
 		this.totalRecord = totalRecord;
+		this.pageCount = this.totalRecord % this.pageSize == 0 ? this.totalRecord / this.pageSize : this.totalRecord / this.pageSize + 1;
 	}
 
 }

@@ -1,4 +1,7 @@
-package ${package.Info};
+package ${package.Dto};
+
+import com.meida.backend.basic.dto.CurrentUserDto;
+import com.meida.base.vo.Pagination;
 
 #if(${superModelClassPackage})
 import ${superModelClassPackage};
@@ -11,40 +14,45 @@ import java.math.BigDecimal;
 #end
 
 /**
- * ${table.comment} po
+ * ${table.comment} listDto
  * @author ${author}
  * @date ${date}
  */
 #if(${superModelClass})
-public class ${po} extends ${superModelClass} {
+public class ${table.baseName}ListDto extends ${superModelClass} {
 #else
-public class ${po}{
+public class ${table.baseName}ListDto{
 #end
-
 	private static final long serialVersionUID=1L;
 
+    private CurrentUserDto currentUserDto;
+
+    private Pagination pagination;
+
 	#foreach($field in ${table.fields})
+		#if(${field.keyFlag}==false)
 /**
 	 * ${field.comment}
 	 */
 	private ${field.propertyType} ${field.propertyName};
+		#end
 	#end
 
 	#foreach($field in ${table.fields})
+	#if(${field.keyFlag}==false)
     #if(${field.propertyType.equals("Boolean")})
         #set($getprefix="is")
     #else
         #set($getprefix="get")
     #end
-
-	/**
+/**
 	 * 获取  ${field.comment}
 	 */
 	public ${field.propertyType} ${getprefix}${field.capitalName}(){
         return ${field.propertyName};
 	}
 
-	/**
+/**
 	 * 设置  ${field.comment}
 	 */
 	public void set${field.capitalName}(${field.propertyType} ${field.propertyName}){
@@ -55,10 +63,28 @@ public class ${po}{
 	}
 	    #end
 	#end
-
+	#end
 	#if(${modelColumnConstant})
 	    #foreach($field in ${table.fields})
 	    public static final String ${field.name.toUpperCase()} = "${field.name}";
 	    #end
 	#end
+
+
+    public CurrentUserDto getCurrentUserDto() {
+        return currentUserDto;
+    }
+
+    public void setCurrentUserDto(CurrentUserDto currentUserDto) {
+        this.currentUserDto = currentUserDto;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
+
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
+
 }

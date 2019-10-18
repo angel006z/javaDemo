@@ -3,28 +3,32 @@ package ${package.Dao};
 import java.util.List;
 
 import ${package.Info}.${po};
-import ${package.BizBean}.${vo};
+import ${package.Vo}.${vo};
 import ${superDaoClassPackage};
-import com.demo.common.extremetable.QueryPage;
 
 /**
  * ${table.comment} Dao类
+ *
  * @author ${author}
  * @date ${date}
  */
 #foreach($field in ${table.fields})
 #if(${field.keyFlag})
-public interface ${table.daoName} extends ${superDaoClass}<${field.propertyType}, ${po}> {
+public interface ${table.daoName} extends ${superDaoClass}<${po}> {
 #end#end
+    /**
+     * 获取Vo分页记录
+     *
+     * @param condition 查询条件
+     * @return vo list
+     */
+    List<${vo}> getVoListPage(Object condition);
 
-	/**
-	 * 查询${table.baseComment}列表
-	 * @author ${author}
-	 * @date ${date}
-	 * @param condition 查询条件
-	 * @param queryPage 分页信息
-	 * @return
-	 */
-	public List<${po}> find${table.baseName}List(${vo} condition,QueryPage queryPage);
-	
+    /**
+     * 获取Vo总记录数
+     *
+     * @param condition 查询条件
+     * @return vo total record
+    */
+    long getVoTotalRecord(Object condition);
 }

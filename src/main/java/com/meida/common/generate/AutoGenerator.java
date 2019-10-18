@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import com.meida.common.generate.config.ConstVal;
 import com.meida.common.generate.config.TemplateConfig;
 import com.meida.common.generate.config.builder.ConfigBuilder;
-import com.meida.common.generate.config.po.TableField;
 import com.meida.common.generate.config.po.TableInfo;
 import com.meida.common.util.StringUtils;
 
@@ -104,22 +101,6 @@ public class AutoGenerator extends AbstractGenerator {
             ctx.put("author", config.getGlobalConfig().getAuthor());
             ctx.put("date", date);
             ctx.put("table", tableInfo);
-//            //此处是根据大漠业务做的特殊化处理，以为有公共的父类，所有公共参数没必要加在子类实体类里
-//            if(superModelClass.contains("BaseApplicationInfo")) {
-//            	Field[] baseFields = BaseInfo.class.getDeclaredFields();
-//            	String baseFieldsStr = "";
-//            	for(Field baseField : baseFields) {
-//            		baseFieldsStr += baseField.getName() + ",";
-//            	}
-//                List<TableField> fieldList = new ArrayList<TableField>();
-//                tableInfo.getFields();
-//                for(TableField field : tableInfo.getFields()) {
-//                	if(!baseFieldsStr.contains(field.getName())) {
-//                		fieldList.add(field);
-//                	}
-//                }
-//                tableInfo.setFields(fieldList);
-//            }
             ctx.put("po", tableInfo.getPoName());
             ctx.put("vo", tableInfo.getVoName());
             ctx.put("modelColumnConstant", config.getStrategyConfig().isModelColumnConstant());
@@ -184,7 +165,13 @@ public class AutoGenerator extends AbstractGenerator {
             Map<String, String> pathInfo = config.getPathInfo();
             String poFile = String.format((pathInfo.get(ConstVal.PO_PATH) + ConstVal.MODEL_NAME), poName);
             String voFile = String.format((pathInfo.get(ConstVal.VO_PATH) + ConstVal.MODEL_NAME), tableInfo.getVoName());
+            String listDtoFile = String.format((pathInfo.get(ConstVal.LISTDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getListDtoName());
+            String listParamDtoFile = String.format((pathInfo.get(ConstVal.LISTPARAMDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getListParamDtoName());
+            String submitDtoFile = String.format((pathInfo.get(ConstVal.SUBMITDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getSubmitDtoName());
+            String submitParamDtoFile = String.format((pathInfo.get(ConstVal.SUBMITPARAMDTO_PATH) + ConstVal.MODEL_NAME), tableInfo.getSubmitParamDtoName());
+
             String daoFile = String.format((pathInfo.get(ConstVal.DAO_PATH) + File.separator + tableInfo.getDaoName() + ConstVal.JAVA_SUFFIX), poName);
+            String daoMappingFile = String.format((pathInfo.get(ConstVal.DAOMAPPING_PATH) + File.separator + tableInfo.getDaoMappingName() + ConstVal.XML_SUFFIX), poName);
             String daoimplFile = String.format((pathInfo.get(ConstVal.DAOIMPL_PATH) + File.separator + tableInfo.getDaoImplName() + ConstVal.JAVA_SUFFIX), poName);
             String serviceFile = String.format((pathInfo.get(ConstVal.SERIVCE_PATH) + File.separator + tableInfo.getServiceName() + ConstVal.JAVA_SUFFIX), poName);
             String serviceimplFile = String.format((pathInfo.get(ConstVal.SERVICEIMPL_PATH) + File.separator + tableInfo.getServiceImplName() + ConstVal.JAVA_SUFFIX), poName);
@@ -198,25 +185,51 @@ public class AutoGenerator extends AbstractGenerator {
             if (isCreate(poFile)) {
                 vmToFile(context, template.getPo(), poFile);
             }
-            //根据override标识来判断是否需要创建文件
+
             if (isCreate(voFile)) {
                 vmToFile(context, template.getVo(), voFile);
             }
+
+            if (isCreate(listDtoFile)) {
+                vmToFile(context, template.getListDto(), listDtoFile);
+            }
+
+            if (isCreate(listParamDtoFile)) {
+                vmToFile(context, template.getListParamDto(), listParamDtoFile);
+            }
+
+            if (isCreate(submitDtoFile)) {
+                vmToFile(context, template.getSubmitDto(), submitDtoFile);
+            }
+
+            if (isCreate(submitParamDtoFile)) {
+                vmToFile(context, template.getSubmitParamDto(), submitParamDtoFile);
+            }
+
             if (isCreate(daoFile)) {
                 vmToFile(context, template.getDao(), daoFile);
             }
-            if (isCreate(daoimplFile)) {
-                vmToFile(context, template.getDaoImpl(), daoimplFile);
+
+            if (isCreate(daoMappingFile)) {
+                vmToFile(context, template.getDaoMapping(), daoMappingFile);
             }
+
+//            if (isCreate(daoimplFile)) {
+//                vmToFile(context, template.getDaoImpl(), daoimplFile);
+//            }
+
             if (isCreate(serviceFile)) {
                 vmToFile(context, template.getService(), serviceFile);
             }
+
             if (isCreate(serviceimplFile)) {
                 vmToFile(context, template.getServiceImpl(), serviceimplFile);
             }
+
             if (isCreate(controllerFile)) {
                 vmToFile(context, template.getController(), controllerFile);
             }
+
 //            if (isCreate(managerlistFile)) {
 //                vmToFile(context, template.getManagerList(), managerlistFile);
 //            }

@@ -43,6 +43,8 @@ public class PackageConfig {
 	 */
 	private String dao = "dao.inter";
 
+	private String daoMapping = "dao.mapping";
+
 	/**
 	 * Mapper XML包名
 	 */
@@ -145,6 +147,14 @@ public class PackageConfig {
 
 	public void setDao(String dao) {
 		this.dao = dao;
+	}
+
+	public String getDaoMapping() {
+		return daoMapping;
+	}
+
+	public void setDaoMapping(String daoMapping) {
+		this.daoMapping = daoMapping;
 	}
 
 	public String getDaoImpl() {

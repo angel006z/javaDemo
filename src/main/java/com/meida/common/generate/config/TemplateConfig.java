@@ -6,13 +6,21 @@ public class TemplateConfig {
 
     private String vo = ConstVal.TEMPLATE_VO;
 
-    private String dto = ConstVal.TEMPLATE_DTO;
+    private String listDto = ConstVal.TEMPLATE_LISTDTO;
+
+    private String listParamDto = ConstVal.TEMPLATE_LISTPARAMDTO;
+
+    private String submitDto = ConstVal.TEMPLATE_SUBMITDTO;
+
+    private String submitParamDto = ConstVal.TEMPLATE_SUBMITPARAMDTO;
 
     private String service = ConstVal.TEMPLATE_SERVICE;
 
     private String serviceImpl = ConstVal.TEMPLATE_SERVICEIMPL;
 
     private String dao = ConstVal.TEMPLATE_DAO;
+
+    private String daoMapping = ConstVal.TEMPLATE_DAOMAPPING;
 
     private String daoImpl = ConstVal.TEMPLATE_DAOIMPL;
 
@@ -62,6 +70,14 @@ public class TemplateConfig {
         this.dao = dao;
     }
 
+    public String getDaoMapping() {
+        return daoMapping;
+    }
+
+    public void setDaoMapping(String daoMapping) {
+        this.daoMapping = daoMapping;
+    }
+
     public String getDaoImpl() {
         return daoImpl;
     }
@@ -94,11 +110,35 @@ public class TemplateConfig {
 		this.addOrUpdate = addOrUpdate;
 	}
 
-    public String getDto() {
-        return dto;
+    public String getListDto() {
+        return listDto;
     }
 
-    public void setDto(String dto) {
-        this.dto = dto;
+    public void setListDto(String listDto) {
+        this.listDto = listDto;
+    }
+
+    public String getListParamDto() {
+        return listParamDto;
+    }
+
+    public void setListParamDto(String listParamDto) {
+        this.listParamDto = listParamDto;
+    }
+
+    public String getSubmitDto() {
+        return submitDto;
+    }
+
+    public void setSubmitDto(String submitDto) {
+        this.submitDto = submitDto;
+    }
+
+    public String getSubmitParamDto() {
+        return submitParamDto;
+    }
+
+    public void setSubmitParamDto(String submitParamDto) {
+        this.submitParamDto = submitParamDto;
     }
 }

@@ -1,76 +1,99 @@
 package com.meida.base.dao.inter;
 
+import com.meida.backend.basic.dto.DeleteDto;
+import com.meida.backend.basic.dto.DisableDto;
+import com.meida.backend.basic.dto.EnableDto;
+
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Dao接口
+ *
+ * @param <T>
+ */
 public interface IBaseDao<T> {
-	
-	/**
-	 * 保存单条记录
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public int save(T item);
+    /**
+     * 新增单条记录
+     *
+     * @param entity
+     * @return
+     */
+    long save(T entity);
 
-	/**
-	 * 更新单条记录
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public int update(T item);
+    /**
+     * 根据主键id更新单条记录
+     *
+     * @param entity
+     * @return
+     */
+    long update(T entity);
 
-	/**
-	 * 物理删除单条记录
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public int deletePhysicalById(Serializable id);
+    /**
+     * 物理删除多条记录
+     *
+     * @param ids
+     * @return
+     */
+    long physicalDelete(Serializable[] ids);
 
-	/**
-	 * 逻辑删除单条记录
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public int deleteLogicById(Serializable id);
+    /**
+     * 逻辑删除多条记录
+     *
+     * @param deleteDto
+     * @return
+     */
+    long logicDelete(DeleteDto deleteDto);
 
-	/**
-	 * 根据主键查找用户
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public T getObjectById(Serializable id);
+    /**
+     * 启用多条记录
+     *
+     * @param enableDto
+     * @return
+     */
+    long enable(EnableDto enableDto);
 
-	/**
-	 * 查询所有记录
-	 * 
-	 * @return
-	 */
-	public List<T> getListByAll();
+    /**
+     * 禁用多条记录
+     *
+     * @param disableDto
+     * @return
+     */
+    long disable(DisableDto disableDto);
 
-	/**
-	 * 查询所有有效记录
-	 * 
-	 * @return
-	 */
-	public List<T> getListByValid();
-	
-	/**
-	 * 查询分页录数
-	 * 
-	 * @return
-	 */
-	public List<T> getListByPage(Object item);
-	
-	/**
-	 * 获取总记录数
-	 * 
-	 * @return
-	 */
-	public long getTotalRecord(Object item);
+    /**
+     * 根据主键id获取单条记录
+     *
+     * @param id
+     * @return
+     */
+    T getObjectById(Serializable id);
 
+    /**
+     * 获取所有记录
+     *
+     * @return
+     */
+    List<T> getListByAll();
+
+    /**
+     * 获取所有有效记录
+     *
+     * @return
+     */
+    List<T> getListByValid();
+
+    /**
+     * 获取分页记录
+     *
+     * @return
+     */
+    List<T> getListPage(Object condition);
+
+    /**
+     * 获取总记录数
+     *
+     * @return
+     */
+    long getTotalRecord(Object condition);
 }

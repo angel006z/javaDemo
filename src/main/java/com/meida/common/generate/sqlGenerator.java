@@ -10,10 +10,8 @@ import com.meida.common.generate.config.rules.NamingStrategy;
 
 public class sqlGenerator {
 	
-	private static String auth = "WJQ";  //作者
-	
-	private static String basePackage = "com.meida.backend.ticketSaleManager";  //包名  示例：com.meida.backend.userManager
-	
+	private static String auth = "BING";  //作者
+
 	private static String dbDriverName = "com.mysql.cj.jdbc.Driver";  //数据库连接驱动
 	
 	private static String dbUsername = "root";  //数据库用户名
@@ -22,14 +20,10 @@ public class sqlGenerator {
 	
 	//数据库连接地址
 	private static String dbUrl = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
-	
-	private static String tableName = "tb_account_recharge";  //数据库表名
-	
-	//继承公共po  示例：com.meida.base.po.BaseInfo或com.meida.base.po.BaseBackendInfo
-	private static String basePo = "com.meida.base.po.BaseBackendInfo";  
-	
-	
-	
+
+    private static String basePackage = "com.meida.backend.ticketSaleManager";  //包名  示例：com.meida.backend.userManager
+    private static String tableName = "tb_account_recharge";  //数据库表名
+    private static String baseUrl="/backend/ticketSaleManager";
 
     /**
      *  生成演示
@@ -42,24 +36,26 @@ public class sqlGenerator {
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir(ConstVal.javaPath(""));
         gc.setOutputJspDir(ConstVal.projectPath());
-        gc.setFileOverride(true);
+        gc.setFileOverride(true);//是否覆盖现有文件
         gc.setAuthor(auth);
         
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent(basePackage);
         //pc.setModuleName("WJQ");
-        //pc.setBaseUrl("/backstage/privateAuthority");  //url
+        pc.setBaseUrl(baseUrl);  //url
         //pc.setParentJsp("WebContent\\WEB-INF\\jsp"); //jsp输出父路径
         //pc.setModuleJspName("backend\\shenxiao"); //子路径，这也是controller跳转页面的路径
         mpg.setPackageInfo(pc);
      
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
-        // gc.setMapperName("%sDao");
-        // gc.setXmlName("%sDao");
-        // gc.setServiceName("MP%sService");
-        // gc.setServiceImplName("%sServiceDiy");
-        // gc.setControllerName("%sAction");
+        //gc.setMapperName("%sDao");
+        //gc.setDaoName("%sDao");
+        //gc.setDaoMappingName("%sDao");//xml和dao名一般保存一致
+        //gc.setServiceName("%sService");
+        // gc.setServiceImplName("%sServiceImpl");
+        gc.setControllerName("%sController");
+
         // gc.setManagerListName("");
         // gc.setAddOrUpdateName("");
         mpg.setGlobalConfig(gc);
@@ -82,20 +78,22 @@ public class sqlGenerator {
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 字段名生成策略
         strategy.setFieldNaming(NamingStrategy.underline_to_camel);
-        // 自定义实体po父类
-        strategy.setSuperModelClass(basePo);
-        // 自定义实体vo父类
-        strategy.setSuperModelVoClass("com.meida.base.vo.BaseVo");
-        // 自定义 action 父类
-        strategy.setSuperControllerClass("com.meida.base.BaseBackendController");
-        // 自定义 service 父类
-        strategy.setSuperServiceClass("com.meida.base.service.inter.BaseService");
-        // 自定义 service 实现类父类
-        strategy.setSuperServiceImplClass("com.meida.base.service.impl.BaseServiceImpl");
+//        // 自定义实体po父类
+//        strategy.setSuperModelClass("com.meida.base.BasePo");
+//        // 自定义实体vo父类
+//        strategy.setSuperModelVoClass("com.meida.base.BaseVo");
+//        // 自定义 action 父类
+//        strategy.setSuperControllerClass("com.meida.base.BaseController");
+
+//        // 自定义 service 父类
+//        strategy.setSuperServiceClass("com.meida.base.service.inter.BaseService");
+//        // 自定义 service 实现类父类
+//        strategy.setSuperServiceImplClass("com.meida.base.service.impl.BaseServiceImpl");
         // 自定义 Dao 类父类
-        strategy.setSuperDaoClass("com.meida.base.dao.BaseDao");
-        // 自定义 Dao 实现类父类
-        strategy.setSuperDaoImplClass("com.meida.base.dao.BaseDaoImpl");
+        strategy.setSuperDaoClass("com.meida.base.dao.inter.IBaseDao");
+//        // 自定义 Dao 实现类父类
+//        strategy.setSuperDaoImplClass("com.meida.base.dao.BaseDaoImpl");
+
         // 自定义实体，公共字段
         strategy.setSuperModelColumns(new String[]{"id"});
         // 自定义 mapper 父类

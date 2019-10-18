@@ -34,13 +34,51 @@ public class GlobalConfig {
 	 */
 	private String poName;
 	private String voName;
+	private String listDtoName;
+	private String listParamDtoName;
+	private String submitDtoName;
+	private String submitParamDtoName;
 	private String daoName;
 	private String daoImplName;
+	private String daoMappingName;
 	private String serviceName;
 	private String serviceImplName;
 	private String controllerName;
 	private String managerListName;
 	private String addOrUpdateName;
+
+
+	public String getListDtoName() {
+		return listDtoName;
+	}
+
+	public void setListDtoName(String listDtoName) {
+		this.listDtoName = listDtoName;
+	}
+
+	public String getListParamDtoName() {
+		return listParamDtoName;
+	}
+
+	public void setListParamDtoName(String listParamDtoName) {
+		this.listParamDtoName = listParamDtoName;
+	}
+
+	public String getSubmitDtoName() {
+		return submitDtoName;
+	}
+
+	public void setSubmitDtoName(String submitDtoName) {
+		this.submitDtoName = submitDtoName;
+	}
+
+	public String getSubmitParamDtoName() {
+		return submitParamDtoName;
+	}
+
+	public void setSubmitParamDtoName(String submitParamDtoName) {
+		this.submitParamDtoName = submitParamDtoName;
+	}
 
 	public String getOutputDir() {
 		return outputDir;
@@ -88,6 +126,14 @@ public class GlobalConfig {
 
 	public void setDaoImplName(String daoImplName) {
 		this.daoImplName = daoImplName;
+	}
+
+	public String getDaoMappingName() {
+		return daoMappingName;
+	}
+
+	public void setDaoMappingName(String daoMappingName) {
+		this.daoMappingName = daoMappingName;
 	}
 
 	public String getServiceName() {

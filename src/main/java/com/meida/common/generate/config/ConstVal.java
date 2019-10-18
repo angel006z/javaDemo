@@ -15,20 +15,33 @@ public class ConstVal {
     public static final String MODULENAME = "ModuleName";
 
     public static final String PO = "Info";
-    public static final String VO = "BizBean";
+    public static final String VO = "Vo";
+    public static final String DTO = "Dto";
+
+    public static final String LISTDTO = "ListDto";
+    public static final String LISTPARAMDTO = "ListParamDto";
+    public static final String SUBMITDTO = "SubmitDto";
+    public static final String SUBMITPARAMDTO = "SubmitParamDto";
+
     public static final String SERIVCE = "Service";
     public static final String SERVICEIMPL = "ServiceImpl";
     public static final String DAO = "Dao";
+    public static final String DAOMAPPING = "Mapping";
     public static final String DAOIMPL = "DaoImpl";
-    public static final String CONTROLLER = "Action";
+    public static final String CONTROLLER = "Controller";
     public static final String MANAGER = "Manager";
     public static final String ADDORUPDATE = "addOrUpdate";
 
     public static final String PO_PATH = "po_path";
     public static final String VO_PATH = "vo_path";
+    public static final String LISTDTO_PATH = "listDto_path";
+    public static final String LISTPARAMDTO_PATH = "listParamDto_path";
+    public static final String SUBMITDTO_PATH = "submitDto_path";
+    public static final String SUBMITPARAMDTO_PATH = "submitParamDto_path";
     public static final String SERIVCE_PATH = "serivce_path";
     public static final String SERVICEIMPL_PATH = "serviceimpl_path";
     public static final String DAO_PATH = "dao_path";
+    public static final String DAOMAPPING_PATH = "daomapping_path";
     public static final String DAOIMPL_PATH = "daoimpl_path";
     public static final String CONTROLLER_PATH = "controller_path";
     public static final String MANAGERLIST_PATH = "managerlist_path";
@@ -40,13 +53,18 @@ public class ConstVal {
 
     public static final String JAVA_SUFFIX = ".java";
     public static final String JSP_SUFFIX = ".jsp";
+    public static final String XML_SUFFIX = ".xml";
 
     public static final String TEMPLATE_PO = BASEPATH + "/template/po.java.vm";
     public static final String TEMPLATE_VO = BASEPATH + "/template/vo.java.vm";
-    public static final String TEMPLATE_DTO = BASEPATH + "/template/dto.java.vm";
+    public static final String TEMPLATE_LISTDTO = BASEPATH + "/template/listDto.java.vm";
+    public static final String TEMPLATE_LISTPARAMDTO = BASEPATH + "/template/listParamDto.java.vm";
+    public static final String TEMPLATE_SUBMITDTO = BASEPATH + "/template/submitDto.java.vm";
+    public static final String TEMPLATE_SUBMITPARAMDTO = BASEPATH + "/template/submitParamDto.java.vm";
     public static final String TEMPLATE_SERVICE = BASEPATH + "/template/service.java.vm";
     public static final String TEMPLATE_SERVICEIMPL = BASEPATH + "/template/serviceImpl.java.vm";
     public static final String TEMPLATE_DAO = BASEPATH + "/template/dao.java.vm";
+    public static final String TEMPLATE_DAOMAPPING = BASEPATH + "/template/daoMapping.xml.vm";
     public static final String TEMPLATE_DAOIMPL = BASEPATH + "/template/daoimpl.java.vm";
     public static final String TEMPLATE_CONTROLLER = BASEPATH + "/template/controller.java.vm";
     public static final String TEMPLATE_MANAGERLIST = BASEPATH + "/template/managerList.jsp.vm";
@@ -62,6 +80,9 @@ public class ConstVal {
     public static final String SUPERD_DAOIMPL_CLASS = "";
     public static final String SUPERD_SERVICE_CLASS = "";
     public static final String SUPERD_SERVICEIMPL_CLASS = "";
+
+    public static final String SUPERD_SUBMITDTO_CLASS = "";
+    public static final String SUPERD_SUBMITPARAMDTO_CLASS = "";
 
     //java文件路径
     public static final String javaPath(String packageName) throws IOException {

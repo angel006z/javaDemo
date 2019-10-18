@@ -15,6 +15,17 @@ public class RegexValidate {
 		return false;
 	}
 
+	public static boolean isInteger(String s) {
+		if(StringUtils.isEmpty(s)){
+			return false;
+		}
+		String regex = "^-?\\d+$";
+		if (s.matches(regex)) {
+			return true;
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
 		String uuid1 = "e65deb4c-a110-49c8-a4ef-6e69447968d6";
 		String uuid2 = "ca4a8a92d4ed4fc48a4f345c587fbdcb";

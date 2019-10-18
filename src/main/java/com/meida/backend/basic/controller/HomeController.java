@@ -22,7 +22,7 @@ import com.meida.backend.basic.service.inter.IUserService;
 import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
-import com.meida.common.util.Utits;
+import com.meida.common.util.Utils;
 import com.meida.common.util.constant.EErrorCode;
 import com.meida.common.util.security.HashEncryptUtils;
 
@@ -49,7 +49,7 @@ public class HomeController {
     @ResponseBody
     public String modifyPassword() {
         ResultMessage resultMessage = new ResultMessage();
-        if (!Utits.isLogin()) {
+        if (!Utils.isLogin()) {
             resultMessage.setCode(EErrorCode.NoLogin);
             resultMessage.setMessage("未登录.");
             return JsonUtils.toJSONString(resultMessage);
@@ -67,7 +67,7 @@ public class HomeController {
             return JsonUtils.toJSONString(resultMessage);
         }
 
-        UUID currentUserId = Utits.getCurrentUserId();
+        UUID currentUserId = Utils.getCurrentUserId();
         User item = userService.getObjectById(currentUserId.toString());
         if (item == null) {
             resultMessage.setCode(EErrorCode.Error);
@@ -112,8 +112,8 @@ public class HomeController {
     @RequestMapping(value = "/achieveLeftAuthNode")
     @ResponseBody
     public String achieveLeftAuthNode() {
-        if (Utits.isLogin()) {
-            List<LeftAuthRoleNodeVo> listLeftAuthNode = authRoleNodeService.getListByLeftUserId(Utits.getCurrentUserId(), Utits.isSuper());
+        if (Utils.isLogin()) {
+            List<LeftAuthRoleNodeVo> listLeftAuthNode = authRoleNodeService.getListByLeftUserId(Utils.getCurrentUserId(), Utils.isSuper());
             if (listLeftAuthNode != null) {
                 List<TreeVo> listTree = new ArrayList<TreeVo>();
                 TreeVo treeVo;

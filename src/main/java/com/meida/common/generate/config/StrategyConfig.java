@@ -39,6 +39,14 @@ public class StrategyConfig {
 	 * 自定义基础的Model类，公共字段
 	 */
 	private String[] superModelColumns;
+	/**
+	 * 自定义继承的SubmitDto类全称，带包名
+	 */
+	private String superSubmitDtoClass = ConstVal.SUPERD_SUBMITDTO_CLASS;
+	/**
+	 * 自定义继承的SubmitParamDto类全称，带包名
+	 */
+	private String superSubmitParamDtoClass = ConstVal.SUPERD_SUBMITPARAMDTO_CLASS;
 
 	/**
 	 * 自定义继承的Dao类全称，带包名
@@ -226,4 +234,19 @@ public class StrategyConfig {
 		this.superModelVoClass = superModelVoClass;
 	}
 
+	public String getSuperSubmitDtoClass() {
+		return superSubmitDtoClass;
+	}
+
+	public void setSuperSubmitDtoClass(String superSubmitDtoClass) {
+		this.superSubmitDtoClass = superSubmitDtoClass;
+	}
+
+	public String getSuperSubmitParamDtoClass() {
+		return superSubmitParamDtoClass;
+	}
+
+	public void setSuperSubmitParamDtoClass(String superSubmitParamDtoClass) {
+		this.superSubmitParamDtoClass = superSubmitParamDtoClass;
+	}
 }
