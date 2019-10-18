@@ -1,6 +1,6 @@
 package com.meida.common.util;
 
-import com.meida.backend.basic.dto.CurrentUserDto;
+import com.meida.backend.base.dto.CurrentUserDto;
 import com.meida.backend.basic.vo.UserButtonPermissionVo;
 
 import java.util.ArrayList;

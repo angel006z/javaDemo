@@ -1,0 +1,53 @@
+package ${package.Vo};
+
+#if(${superModelVoClassPackage})
+import ${superModelVoClassPackage};
+#end
+#if(${table.hasDate})
+import java.util.Date;
+#end
+#if(${table.hasBigDecimal})
+import java.math.BigDecimal;
+#end
+/**
+ * ${vo}
+ * ${table.comment}
+ * @author ${author}
+ * @date ${date}
+ */
+#if(${superModelClass})
+public class ${vo} extends ${superModelVoClass} {
+#else
+public class ${vo}{
+#end
+
+#if(${superModelClass})
+	private static final long serialVersionUID=1L;
+#end
+
+	#foreach($field in ${table.fields})
+/**
+	 * ${field.comment}
+	 */
+	private ${field.propertyType} ${field.propertyName};
+	#end
+
+	#foreach($field in ${table.fields})
+	/**
+	 * 获取  ${field.comment}
+	 */
+	public ${field.propertyType} get${field.capitalName}(){
+        return ${field.propertyName};
+    }
+
+	/**
+	 * 设置  ${field.comment}
+	 */
+	public void set${field.capitalName}(${field.propertyType} ${field.propertyName}){
+        this.${field.propertyName} = ${field.propertyName};
+    #if(${modelBuliderModel})
+            return this;
+    #end
+}
+#end
+}

@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 public class RefundServiceImpl implements IRefundService {
     @Autowired
-    private IFundAmountDao fundAmountDao;
+    private AccountAmountDao fundAmountDao;
 
     @Autowired
     private IFundOutDao fundOutDao;
@@ -32,10 +32,10 @@ public class RefundServiceImpl implements IRefundService {
     private IFundInDao fundInDao;
 
     @Autowired
-    private IAlipayReturnDao alipayReturnDao;
+    private AlipayReturnDao alipayReturnDao;
 
     @Autowired
-    private IAlipayNotifyDao alipayNotifyDao;
+    private AlipayNotifyDao alipayNotifyDao;
 
     @Autowired
     private ITradeService tradeService;

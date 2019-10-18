@@ -1,6 +1,6 @@
 package com.meida.common.util;
 
-import com.meida.front.pay.dto.CurrentMemberDto;
+import com.meida.front.base.dto.CurrentMemberDto;
 
 public class FrontUtils {
     public static CurrentMemberDto getCurrentMemberDto(){

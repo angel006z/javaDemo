@@ -1,0 +1,34 @@
+package ${package.Dao};
+
+import java.util.List;
+
+import ${package.Info}.${po};
+import ${package.Vo}.${vo};
+import ${superDaoClassPackage};
+
+/**
+ * ${table.daoName}
+ * ${table.comment}
+ * @author ${author}
+ * @date ${date}
+ */
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+public interface ${table.daoName} extends ${superDaoClass}<${po}> {
+#end#end
+    /**
+     * 获取Vo分页记录
+     *
+     * @param condition 查询条件
+     * @return vo list
+     */
+    List<${vo}> getVoListPage(Object condition);
+
+    /**
+     * 获取Vo总记录数
+     *
+     * @param condition 查询条件
+     * @return vo total record
+    */
+    long getVoTotalRecord(Object condition);
+}

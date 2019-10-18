@@ -11,9 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.meida.base.dao.inter.IBaseJdbcDao;
-
-public class BaseJdbcDaoImpl<T> implements IBaseJdbcDao<T> {
+public class BaseJdbcDaoImpl<T> {
 
 	Connection conn;
 	PreparedStatement st;

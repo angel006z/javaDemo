@@ -1,0 +1,119 @@
+#macro( lowOrUp $name $type )
+#if($type.equals("low"))
+#set ($headName = $name.substring(0,1).toLowerCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end
+#if($type.equals("up"))
+#set ($headName = $name.substring(0,1).toUpperCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end#end
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/base/baseHead.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${table.baseComment}管理</title>
+    <meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/bootstrap-3.3.7.min.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/global.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/js/common/bigautocomplete/jquery.bigautocomplete.css"/>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/common/bigautocomplete/jquery.bigautocomplete.js"></script>
+    <script type="text/javascript">
+		    var g;
+			$(function (){
+				var addAuth = hasAuth("A01XXXX01");
+				if(addAuth == "0") {
+            		$("#add").css('display','none');
+            	}
+				var updateAuth = hasAuth("A01XXXX02");
+				var deleteAuth = hasAuth("A01XXXX03");
+			    g = $("#maingrid").ligerGrid({
+                columns: [
+                #foreach($field in ${table.fields})#if(!${field.keyFlag})
+    { display: '${field.comment}', name: '${field.propertyName}', align: 'center'},	
+                #end#end
+    { display: '操作', name: '', align:'center',width:'300' ,render: function (item, record, rowindex, value, column) { 
+	                	var str = "";
+	                #foreach($field in ${table.fields})#if(${field.keyFlag})
+	if(updateAuth == "1") {
+	                		str += '<a href="javascript:void(0)"  onclick="itemClickUpdate(' + item.${field.propertyName} + ')" class="fc-bluish-green" style="margin-right:5px">修改</a>';
+                		}
+	                	if(deleteAuth == "1") {
+	                		str += '<a href="javascript:void(0)"  onclick="itemClickDelete(' + item.${field.propertyName} + ')" class="fc-bluish-green" style="margin-right:5px">删除</a>';
+                		}
+                	#end#end
+	return str;
+                    }}
+                ], 
+                url:'<%=request.getContextPath()%>${package.baseUrl}/#lowOrUp(${table.controllerName}, "low")/to${table.baseName}List.json', 
+                <%@include file="/WEB-INF/jsp/base/ligerUIParams"%>
+            });
+            $("#pageloading").hide();
+	        });
+	        //查询
+	        function resetSearch() {
+	        	search('queryForm',g);
+	    	}
+	        //删除
+	        function itemClickDelete(Id) {
+	        		deleteObj(Id,'queryForm',g,'${package.baseUrl}/#lowOrUp(${table.controllerName}, "low")/delete${table.baseName}.delete');
+	        }
+	        //添加
+	        function itemClickAdd() {
+	        	toAddPage("${table.baseComment}信息添加","360px","350px","${package.baseUrl}/pubBlackWordAction/toAddBlackwordPage.view");
+	        }
+	      	//修改
+	        function itemClickUpdate(blackWordId) {
+	        	toUpdatePage("${table.baseComment}信息修改","360px","350px","${package.baseUrl}/pubBlackWordAction/toUpdateBlackwordPage.view?blackWordId="+blackWordId );
+	        }
+	        //刷新
+		 	function reload() {
+		 		var query = $('#queryForm').serializeArray();
+	    		g.set({parms : query});
+	    		g.loadData(); 
+		 	}
+	</script>
+</head>
+    <body class="mgcgl">
+    	<div class="m-main-body">
+			<div class="m-crumb">
+				<div class="u-place f-fl"><span>当前位置：</span><span class="fc-blue">XX管理/${table.baseComment}管理</span></div>
+			</div>
+
+			<div class="container-fluid">
+				<div class="m-serch-w">
+					<form class="m-form" action="" id="queryForm" method="post" name="form1">
+						<div class="row">
+							<div class="form-inline">
+								<label class="form-label">查询条件</label>
+								<div class="input-block">
+									<input class="layui-input-inline" type="text" name="" id="" maxlength="50"/>
+								</div>
+							</div>
+							<div class="form-inline">
+								<input class="btn-blue btn" type="button" onclick="resetSearch();" value="查询" />
+								<input class="btn-green btn" type="button" onclick="itemClickAdd()" value="添加" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="container-fluid">
+				<div class="sub-nav u-nav-title">
+					<h2 class="u-sub-title">${table.baseComment}信息</h2>
+				</div>
+			</div>
+			<div class="tableWrap">
+				<div class="table_wrap">
+					<div class="l-loading" style="display:block" id="pageloading"></div> 
+				    <div id="maingrid" style="margin:0; padding:0"></div>
+				</div>
+			</div>
+
+            <div class="m-footer">
+                <p><a href="http://www.demo.com.cn" target="_blank">技术支持：上海大漠电子科技股份有限公司</a></p>
+            </div>
+    	</div>
+    </body>
+</html>

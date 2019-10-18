@@ -1,5 +1,7 @@
 package com.meida.front.pay.dto;
 
+import com.meida.front.base.dto.CurrentMemberDto;
+
 import java.math.BigDecimal;
 
 public class BuildRechargeOrderDto {

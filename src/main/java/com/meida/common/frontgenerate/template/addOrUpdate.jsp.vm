@@ -1,0 +1,74 @@
+#macro( lowOrUp $name $type )
+#if($type.equals("low"))
+#set ($headName = $name.substring(0,1).toLowerCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end
+#if($type.equals("up"))
+#set ($headName = $name.substring(0,1).toUpperCase())
+#set ($nameFinal = $headName + $name.substring(1))
+${nameFinal}#end#end
+#foreach($field in ${table.fields})#if(${field.keyFlag})
+#set ($tableId = $field.propertyName)#end#end
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/base/taglibs.jsp"%>
+<!DOCTYPE html>
+<%@include file="/WEB-INF/jsp/base/baseHead.jsp"%>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href=""/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>
+			${table.baseComment}信息--
+		        <c:if test="${#lowOrUp(${vo}, "low").${tableId} == null}">添加${table.baseComment}</c:if>
+				<c:if test="${#lowOrUp(${vo}, "low").${tableId} != null}">修改${table.baseComment}</c:if>
+		</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/global.css"/>
+		<script type="text/javascript">
+			var flag = true;
+			$(function(){			
+				$('#Modify').click(function(){					
+					if(flag) {	
+						formSubmit('myForm','load-layout','/${package.baseUrl}/#lowOrUp(${table.controllerName}, "low")/to${table.baseName}Manager.view',this);
+					}
+				});
+			});
+		</script>
+	</head>
+	<body class="wdgl">
+		<div class="m-main-body m-form-box">
+		    <div class="container-fluid u-edit">
+		        <form id="myForm" method="post" action=<c:if test="${#lowOrUp(${vo}, "low").${tableId}==null}">'add${table.baseName}.save'</c:if><c:if test="${#lowOrUp(${vo}, "low").${tableId}!=null}">'update${table.baseName}.update'</c:if>>
+		        	<input type="hidden" name="blackWordId" value="${#lowOrUp(${vo}, "low").${tableId}}" id="${tableId}"/>
+		            <table>
+#foreach($field in ${table.fields})#if(!${field.keyFlag} && ${field.propertyType.equals("String")})
+		                <tr>
+		                    <td class="u-label-text">
+		                        <label for="blackWord">${field.comment}：</label>
+		                    </td>
+		                    <td>
+		                    	<div class="m-input-w">
+									<input type="text" id="${field.propertyName}" name="${field.propertyName}" maxlength="50" value="${#lowOrUp(${vo}, "low").${field.propertyName} }" class="ui-textbox validate[required]"/>
+									<span class="red-start">*</span>
+								</div>
+		                    </td>
+		                </tr>
+#end#end
+		                <tr>
+		                    <td colspan="3">
+		                    	<div class="u-form-btn">
+		                    		<input type="button" id="Modify" value="保存" class="btn btn-blue" />
+		                        	<input type="button" value="返回" onclick="back();" class="btn btn-orange"/>
+		                        </div>
+		                    </td>
+		                </tr>
+		            </table>
+		        </form>
+		    </div>
+		    <div class="container-fluid">
+		        <form action="" method="post" name="form2">
+		            <div id="mainTable" style="margin:0; padding:0"></div>
+		        </form>
+		    </div>
+		</div>
+	</body>	
+</html>

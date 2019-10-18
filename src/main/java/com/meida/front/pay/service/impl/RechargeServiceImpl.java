@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.meida.front.pay.dao.inter.*;
 import com.meida.front.pay.dto.BuildRechargeOrderDto;
-import com.meida.front.pay.dto.CurrentMemberDto;
+import com.meida.front.base.dto.CurrentMemberDto;
 import com.meida.front.pay.po.*;
 import com.meida.pay.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +27,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RechargeServiceImpl implements IRechargeService {
     @Autowired
-    private IRechargeDao rechargeDao;
+    private AccountRechargeDao rechargeDao;
 
     @Autowired
     private IFundInDao fundInDao;
 
     @Autowired
-    private IFundAmountDao fundAmountDao;
+    private AccountAmountDao fundAmountDao;
 
     @Autowired
-    private IAlipayNotifyDao alipayNotifyDao;
+    private AlipayNotifyDao alipayNotifyDao;
 
     @Autowired
-    private IAlipayReturnDao alipayReturnDao;
+    private AlipayReturnDao alipayReturnDao;
 
     @Autowired
     private ITradeService tradeService;
