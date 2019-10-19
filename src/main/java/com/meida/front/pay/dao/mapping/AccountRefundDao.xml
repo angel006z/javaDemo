@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meida.front.pay.dao.inter.AccountRefundDao">
+
+    <resultMap id="myResultMap"
+               type="com.meida.front.pay.po.AccountRefundInfo">
+                    <id property="accountRefundId" column="account_refund_id"></id>
+                    <id property="refundNo" column="refund_no"></id>
+                    <id property="memberId" column="member_id"></id>
+                    <id property="orderNo" column="order_no"></id>
+                    <id property="tradeNo" column="trade_no"></id>
+                    <id property="refundDate" column="refund_date"></id>
+                    <id property="refundAmount" column="refund_amount"></id>
+                    <id property="refundReason" column="refund_reason"></id>
+                    <id property="refundStatus" column="refund_status"></id>
+                    <id property="createDate" column="create_date"></id>
+                    <id property="createUserId" column="create_user_id"></id>
+                    <id property="createUser" column="create_user"></id>
+                    <id property="updateDate" column="update_date"></id>
+                    <id property="updateUserId" column="update_user_id"></id>
+                    <id property="updateUser" column="update_user"></id>
+                    <id property="isValid" column="is_valid"></id>
+                    <id property="remark" column="remark"></id>
+                    <id property="signature" column="signature"></id>
+            </resultMap>
+
+    <select id="getObjectById" parameterType="java.lang.String"
+            resultMap="myResultMap">
+		select
+                a.account_refund_id,
+                a.refund_no,
+                a.member_id,
+                a.order_no,
+                a.trade_no,
+                a.refund_date,
+                a.refund_amount,
+                a.refund_reason,
+                a.refund_status,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_account_refund as a where	a.account_refund_id=#{id}
+	</select>
+
+    <select id="getListPage"  parameterType="com.meida.front.pay.dto.AccountRefundListDto"
+            resultMap="myResultMap">
+        select
+                    a.account_refund_id,
+                    a.refund_no,
+                    a.member_id,
+                    a.order_no,
+                    a.trade_no,
+                    a.refund_date,
+                    a.refund_amount,
+                    a.refund_reason,
+                    a.refund_status,
+                    a.create_date,
+                    a.create_user_id,
+                    a.create_user,
+                    a.update_date,
+                    a.update_user_id,
+                    a.update_user,
+                    a.is_valid,
+                    a.remark,
+                    a.signature        from tb_account_refund as a
+        where a.is_valid=1
+                                                                <if test="refundNo != null and refundNo!=''">
+                    AND a.refund_no like "%"#{refundNo}"%"
+                </if>
+                                                                    <if test="memberId != null">
+                    AND a.member_id = #{memberId}
+                </if>
+                                                                    <if test="orderNo != null and orderNo!=''">
+                    AND a.order_no like "%"#{orderNo}"%"
+                </if>
+                                                                    <if test="tradeNo != null and tradeNo!=''">
+                    AND a.trade_no like "%"#{tradeNo}"%"
+                </if>
+                                                                    <if test="refundDate != null">
+                    AND a.refund_date = #{refundDate}
+                </if>
+                                                                    <if test="refundAmount != null">
+                    AND a.refund_amount = #{refundAmount}
+                </if>
+                                                                    <if test="refundReason != null and refundReason!=''">
+                    AND a.refund_reason like "%"#{refundReason}"%"
+                </if>
+                                                                    <if test="refundStatus != null and refundStatus!=''">
+                    AND a.refund_status like "%"#{refundStatus}"%"
+                </if>
+                                                                    <if test="createDate != null">
+                    AND a.create_date = #{createDate}
+                </if>
+                                                                    <if test="createUserId != null and createUserId!=''">
+                    AND a.create_user_id like "%"#{createUserId}"%"
+                </if>
+                                                                    <if test="createUser != null and createUser!=''">
+                    AND a.create_user like "%"#{createUser}"%"
+                </if>
+                                                                    <if test="updateDate != null">
+                    AND a.update_date = #{updateDate}
+                </if>
+                                                                    <if test="updateUserId != null and updateUserId!=''">
+                    AND a.update_user_id like "%"#{updateUserId}"%"
+                </if>
+                                                                    <if test="updateUser != null and updateUser!=''">
+                    AND a.update_user like "%"#{updateUser}"%"
+                </if>
+                                                                                      <if test="remark != null and remark!=''">
+                    AND a.remark like "%"#{remark}"%"
+                </if>
+                                                                    <if test="signature != null and signature!=''">
+                    AND a.signature like "%"#{signature}"%"
+                </if>
+                                      LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getTotalRecord" parameterType="com.meida.front.pay.dto.AccountRefundListDto" resultType="java.lang.Long">
+        select count(*) from tb_account_refund as a where a.is_valid=1
+                                                                <if test="refundNo != null and refundNo!=''">
+                    AND a.refund_no like "%"#{refundNo}"%"
+                </if>
+                                                                    <if test="memberId != null">
+                    AND a.member_id = #{memberId}
+                </if>
+                                                                    <if test="orderNo != null and orderNo!=''">
+                    AND a.order_no like "%"#{orderNo}"%"
+                </if>
+                                                                    <if test="tradeNo != null and tradeNo!=''">
+                    AND a.trade_no like "%"#{tradeNo}"%"
+                </if>
+                                                                    <if test="refundDate != null">
+                    AND a.refund_date = #{refundDate}
+                </if>
+                                                                    <if test="refundAmount != null">
+                    AND a.refund_amount = #{refundAmount}
+                </if>
+                                                                    <if test="refundReason != null and refundReason!=''">
+                    AND a.refund_reason like "%"#{refundReason}"%"
+                </if>
+                                                                    <if test="refundStatus != null and refundStatus!=''">
+                    AND a.refund_status like "%"#{refundStatus}"%"
+                </if>
+                                                                    <if test="createDate != null">
+                    AND a.create_date = #{createDate}
+                </if>
+                                                                    <if test="createUserId != null and createUserId!=''">
+                    AND a.create_user_id like "%"#{createUserId}"%"
+                </if>
+                                                                    <if test="createUser != null and createUser!=''">
+                    AND a.create_user like "%"#{createUser}"%"
+                </if>
+                                                                    <if test="updateDate != null">
+                    AND a.update_date = #{updateDate}
+                </if>
+                                                                    <if test="updateUserId != null and updateUserId!=''">
+                    AND a.update_user_id like "%"#{updateUserId}"%"
+                </if>
+                                                                    <if test="updateUser != null and updateUser!=''">
+                    AND a.update_user like "%"#{updateUser}"%"
+                </if>
+                                                                                      <if test="remark != null and remark!=''">
+                    AND a.remark like "%"#{remark}"%"
+                </if>
+                                                                    <if test="signature != null and signature!=''">
+                    AND a.signature like "%"#{signature}"%"
+                </if>
+                                  </select>
+
+
+    <select id="getVoListPage"  parameterType="com.meida.front.pay.dto.AccountRefundListDto"
+            resultMap="myResultMap">
+        select
+                    a.account_refund_id,
+                    a.refund_no,
+                    a.member_id,
+                    a.order_no,
+                    a.trade_no,
+                    a.refund_date,
+                    a.refund_amount,
+                    a.refund_reason,
+                    a.refund_status,
+                    a.create_date,
+                    a.create_user_id,
+                    a.create_user,
+                    a.update_date,
+                    a.update_user_id,
+                    a.update_user,
+                    a.is_valid,
+                    a.remark,
+                    a.signature        from tb_account_refund as a
+        where a.is_valid=1
+                                                                            <if test="refundNo != null and refundNo!=''">
+                        AND a.refund_no like "%"#{refundNo}"%"
+                    </if>
+                                                                                    <if test="memberId != null">
+                        AND a.member_id = #{memberId}
+                    </if>
+                                                                                    <if test="orderNo != null and orderNo!=''">
+                        AND a.order_no like "%"#{orderNo}"%"
+                    </if>
+                                                                                    <if test="tradeNo != null and tradeNo!=''">
+                        AND a.trade_no like "%"#{tradeNo}"%"
+                    </if>
+                                                                                    <if test="refundDate != null">
+                        AND a.refund_date = #{refundDate}
+                    </if>
+                                                                                    <if test="refundAmount != null">
+                        AND a.refund_amount = #{refundAmount}
+                    </if>
+                                                                                    <if test="refundReason != null and refundReason!=''">
+                        AND a.refund_reason like "%"#{refundReason}"%"
+                    </if>
+                                                                                    <if test="refundStatus != null and refundStatus!=''">
+                        AND a.refund_status like "%"#{refundStatus}"%"
+                    </if>
+                                                                                    <if test="createDate != null">
+                        AND a.create_date = #{createDate}
+                    </if>
+                                                                                    <if test="createUserId != null and createUserId!=''">
+                        AND a.create_user_id like "%"#{createUserId}"%"
+                    </if>
+                                                                                    <if test="createUser != null and createUser!=''">
+                        AND a.create_user like "%"#{createUser}"%"
+                    </if>
+                                                                                    <if test="updateDate != null">
+                        AND a.update_date = #{updateDate}
+                    </if>
+                                                                                    <if test="updateUserId != null and updateUserId!=''">
+                        AND a.update_user_id like "%"#{updateUserId}"%"
+                    </if>
+                                                                                    <if test="updateUser != null and updateUser!=''">
+                        AND a.update_user like "%"#{updateUser}"%"
+                    </if>
+                                                                                                        <if test="remark != null and remark!=''">
+                        AND a.remark like "%"#{remark}"%"
+                    </if>
+                                                                                    <if test="signature != null and signature!=''">
+                        AND a.signature like "%"#{signature}"%"
+                    </if>
+                                            LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getVoTotalRecord" parameterType="com.meida.front.pay.dto.AccountRefundListDto" resultType="java.lang.Long">
+        select count(*) from tb_account_refund as a where a.is_valid=1
+                                                                            <if test="refundNo != null and refundNo!=''">
+                        AND a.refund_no like "%"#{refundNo}"%"
+                    </if>
+                                                                                    <if test="memberId != null">
+                        AND a.member_id = #{memberId}
+                    </if>
+                                                                                    <if test="orderNo != null and orderNo!=''">
+                        AND a.order_no like "%"#{orderNo}"%"
+                    </if>
+                                                                                    <if test="tradeNo != null and tradeNo!=''">
+                        AND a.trade_no like "%"#{tradeNo}"%"
+                    </if>
+                                                                                    <if test="refundDate != null">
+                        AND a.refund_date = #{refundDate}
+                    </if>
+                                                                                    <if test="refundAmount != null">
+                        AND a.refund_amount = #{refundAmount}
+                    </if>
+                                                                                    <if test="refundReason != null and refundReason!=''">
+                        AND a.refund_reason like "%"#{refundReason}"%"
+                    </if>
+                                                                                    <if test="refundStatus != null and refundStatus!=''">
+                        AND a.refund_status like "%"#{refundStatus}"%"
+                    </if>
+                                                                                    <if test="createDate != null">
+                        AND a.create_date = #{createDate}
+                    </if>
+                                                                                    <if test="createUserId != null and createUserId!=''">
+                        AND a.create_user_id like "%"#{createUserId}"%"
+                    </if>
+                                                                                    <if test="createUser != null and createUser!=''">
+                        AND a.create_user like "%"#{createUser}"%"
+                    </if>
+                                                                                    <if test="updateDate != null">
+                        AND a.update_date = #{updateDate}
+                    </if>
+                                                                                    <if test="updateUserId != null and updateUserId!=''">
+                        AND a.update_user_id like "%"#{updateUserId}"%"
+                    </if>
+                                                                                    <if test="updateUser != null and updateUser!=''">
+                        AND a.update_user like "%"#{updateUser}"%"
+                    </if>
+                                                                                                        <if test="remark != null and remark!=''">
+                        AND a.remark like "%"#{remark}"%"
+                    </if>
+                                                                                    <if test="signature != null and signature!=''">
+                        AND a.signature like "%"#{signature}"%"
+                    </if>
+                                        </select>
+
+    <select id="getListByAll" resultMap="myResultMap">
+		select
+                a.account_refund_id,
+                a.refund_no,
+                a.member_id,
+                a.order_no,
+                a.trade_no,
+                a.refund_date,
+                a.refund_amount,
+                a.refund_reason,
+                a.refund_status,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_account_refund as a
+	</select>
+
+
+    <select id="getListByValid" resultMap="myResultMap">
+		select
+                a.account_refund_id,
+                a.refund_no,
+                a.member_id,
+                a.order_no,
+                a.trade_no,
+                a.refund_date,
+                a.refund_amount,
+                a.refund_reason,
+                a.refund_status,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_account_refund as a where a.is_valid=1
+	</select>
+
+
+    <insert id="save"	parameterType="com.meida.front.pay.po.AccountRefundInfo">
+		insert into tb_account_refund (
+                        account_refund_id,                                refund_no,                                member_id,                                order_no,                                trade_no,                                refund_date,                                refund_amount,                                refund_reason,                                refund_status,                                create_date,                                create_user_id,                                create_user,                                update_date,                                update_user_id,                                update_user,                                is_valid,                                remark,                                signature                    )
+		values (
+                    #{accountRefundId},                            #{refundNo},                            #{memberId},                            #{orderNo},                            #{tradeNo},                            #{refundDate},                            #{refundAmount},                            #{refundReason},                            #{refundStatus},                            #{createDate},                            #{createUserId},                            #{createUser},                            #{updateDate},                            #{updateUserId},                            #{updateUser},                            #{isValid},                            #{remark},                            #{signature}            		)
+	</insert>
+
+    <update id="update" parameterType="com.meida.front.pay.po.AccountRefundInfo">
+        update tb_account_refund
+        <set>
+                            <if test="refundNo!=null">
+                    refund_no=#{refundNo},
+                </if>
+                            <if test="memberId!=null">
+                    member_id=#{memberId},
+                </if>
+                            <if test="orderNo!=null">
+                    order_no=#{orderNo},
+                </if>
+                            <if test="tradeNo!=null">
+                    trade_no=#{tradeNo},
+                </if>
+                            <if test="refundDate!=null">
+                    refund_date=#{refundDate},
+                </if>
+                            <if test="refundAmount!=null">
+                    refund_amount=#{refundAmount},
+                </if>
+                            <if test="refundReason!=null">
+                    refund_reason=#{refundReason},
+                </if>
+                            <if test="refundStatus!=null">
+                    refund_status=#{refundStatus},
+                </if>
+                            <if test="createDate!=null">
+                    create_date=#{createDate},
+                </if>
+                            <if test="createUserId!=null">
+                    create_user_id=#{createUserId},
+                </if>
+                            <if test="createUser!=null">
+                    create_user=#{createUser},
+                </if>
+                            <if test="updateDate!=null">
+                    update_date=#{updateDate},
+                </if>
+                            <if test="updateUserId!=null">
+                    update_user_id=#{updateUserId},
+                </if>
+                            <if test="updateUser!=null">
+                    update_user=#{updateUser},
+                </if>
+                            <if test="isValid!=null">
+                    is_valid=#{isValid},
+                </if>
+                            <if test="remark!=null">
+                    remark=#{remark},
+                </if>
+                            <if test="signature!=null">
+                    signature=#{signature},
+                </if>
+                    </set>
+        where account_refund_id=#{accountRefundId}
+    </update>
+
+    <update id="logicDelete" parameterType="com.meida.dto.DeleteDto">
+        update tb_account_refund set is_valid=-1,update_user_id=#{currentMemberDto.memberId},update_user=#{currentMemberDto.account} where account_refund_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

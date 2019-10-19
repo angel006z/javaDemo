@@ -1,252 +1,338 @@
 package com.meida.front.pay.vo;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.math.BigDecimal;
+/**
+ * AlipayReturnVo
+ * 支付宝同步通知
+ * @author BING
+ * @date 2019-10-19 15:27:58
+ */
+public class AlipayReturnVo{
 
-public class AlipayReturnVo {
-    private String code;
-    private String msg;
-    private String charset;
-    private String out_trade_no;
-    private String method;
-    private BigDecimal total_amount;
-    private String sign;
-    private String trade_no;
-    private String auth_app_id;
-    private String version;
-    private String app_id;
-    private String sign_type;
-    private String seller_id;
-    private Date timestamp;
 
-    /**
-     * 创建时间
-     */
-    private Date createDate;
-
-    /**
-     * 创建人id
-     */
-    private String createUserId;
-
-    /**
-     * 创建人
-     */
-    private String createUser;
-
-    /**
-     * 修改时间
-     */
-    private Date updateDate;
-
-    /**
-     * 修改人id
-     */
-    private String updateUserId;
-
-    /**
-     * 修改人
-     */
-    private String updateUser;
-
-    /**
-     * 状态1有效
-     */
-    private Integer isValid;
-
-    public Date getCreateDate() {
-        return createDate;
+	/**
+	 * id
+	 */
+	private Long alipayReturnId;
+	/**
+	 * 商户网站唯一订单号	
+	 */
+	private String outTradeNo;
+	/**
+	 * 该交易在支付宝系统中的交易流水号。最长64位。
+	 */
+	private String tradeNo;
+	/**
+	 * 	支付宝分配给开发者的应用Id。
+	 */
+	private String appId;
+	/**
+	 * 该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01,100000000.00]，精确到小数点后两位。	
+	 */
+	private BigDecimal totalAmount;
+	/**
+	 * 收款支付宝账号对应的支付宝唯一用户号。以2088开头的纯16位数字	
+	 */
+	private String sellerId;
+	/**
+	 * 处理结果的描述，信息来自于code返回结果的描述	
+	 */
+	private String msg;
+	/**
+	 * 编码格式	
+	 */
+	private String charset;
+	/**
+	 * 时间	
+	 */
+	private String timestamp;
+	/**
+	 * 结果码	
+	 */
+	private String code;
+	/**
+	 * 创建时间
+	 */
+	private Date createDate;
+	/**
+	 * 创建人id
+	 */
+	private String createUserId;
+	/**
+	 * 创建人
+	 */
+	private String createUser;
+	/**
+	 * 修改时间
+	 */
+	private Date updateDate;
+	/**
+	 * 创建人id
+	 */
+	private String updateUserId;
+	/**
+	 * 修改人
+	 */
+	private String updateUser;
+	/**
+	 * 状态1有效
+	 */
+	private Integer isValid;
+	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 签名
+	 */
+	private String signature;
+	
+		/**
+	 * 获取  id
+	 */
+	public Long getAlipayReturnId(){
+        return alipayReturnId;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+	/**
+	 * 设置  id
+	 */
+	public void setAlipayReturnId(Long alipayReturnId){
+        this.alipayReturnId = alipayReturnId;
+    }
+	/**
+	 * 获取  商户网站唯一订单号	
+	 */
+	public String getOutTradeNo(){
+        return outTradeNo;
     }
 
-    public String getCreateUserId() {
-        return createUserId;
+	/**
+	 * 设置  商户网站唯一订单号	
+	 */
+	public void setOutTradeNo(String outTradeNo){
+        this.outTradeNo = outTradeNo;
+    }
+	/**
+	 * 获取  该交易在支付宝系统中的交易流水号。最长64位。
+	 */
+	public String getTradeNo(){
+        return tradeNo;
     }
 
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
+	/**
+	 * 设置  该交易在支付宝系统中的交易流水号。最长64位。
+	 */
+	public void setTradeNo(String tradeNo){
+        this.tradeNo = tradeNo;
+    }
+	/**
+	 * 获取  	支付宝分配给开发者的应用Id。
+	 */
+	public String getAppId(){
+        return appId;
     }
 
-    public String getCreateUser() {
-        return createUser;
+	/**
+	 * 设置  	支付宝分配给开发者的应用Id。
+	 */
+	public void setAppId(String appId){
+        this.appId = appId;
+    }
+	/**
+	 * 获取  该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01,100000000.00]，精确到小数点后两位。	
+	 */
+	public BigDecimal getTotalAmount(){
+        return totalAmount;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+	/**
+	 * 设置  该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01,100000000.00]，精确到小数点后两位。	
+	 */
+	public void setTotalAmount(BigDecimal totalAmount){
+        this.totalAmount = totalAmount;
+    }
+	/**
+	 * 获取  收款支付宝账号对应的支付宝唯一用户号。以2088开头的纯16位数字	
+	 */
+	public String getSellerId(){
+        return sellerId;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+	/**
+	 * 设置  收款支付宝账号对应的支付宝唯一用户号。以2088开头的纯16位数字	
+	 */
+	public void setSellerId(String sellerId){
+        this.sellerId = sellerId;
     }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public String getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(String updateUserId) {
-        this.updateUserId = updateUserId;
-    }
-
-    public String getUpdateUser() {
-        return updateUser;
-    }
-
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
-    }
-
-    public Integer getIsValid() {
-        return isValid;
-    }
-
-    public void setIsValid(Integer isValid) {
-        this.isValid = isValid;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    /**
-     * 备注
-     */
-    private String remark;
-
-    /**
-     * 签名
-     */
-    private String signature;
-
-
-    public String getCharset() {
-        return charset;
-    }
-
-    public void setCharset(String charset) {
-        this.charset = charset;
-    }
-
-    public String getOut_trade_no() {
-        return out_trade_no;
-    }
-
-    public void setOut_trade_no(String out_trade_no) {
-        this.out_trade_no = out_trade_no;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
-    public BigDecimal getTotal_amount() {
-        return total_amount;
-    }
-
-    public void setTotal_amount(BigDecimal total_amount) {
-        this.total_amount = total_amount;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getTrade_no() {
-        return trade_no;
-    }
-
-    public void setTrade_no(String trade_no) {
-        this.trade_no = trade_no;
-    }
-
-    public String getAuth_app_id() {
-        return auth_app_id;
-    }
-
-    public void setAuth_app_id(String auth_app_id) {
-        this.auth_app_id = auth_app_id;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getApp_id() {
-        return app_id;
-    }
-
-    public void setApp_id(String app_id) {
-        this.app_id = app_id;
-    }
-
-    public String getSign_type() {
-        return sign_type;
-    }
-
-    public void setSign_type(String sign_type) {
-        this.sign_type = sign_type;
-    }
-
-    public String getSeller_id() {
-        return seller_id;
-    }
-
-    public void setSeller_id(String seller_id) {
-        this.seller_id = seller_id;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
+	/**
+	 * 获取  处理结果的描述，信息来自于code返回结果的描述	
+	 */
+	public String getMsg(){
         return msg;
     }
 
-    public void setMsg(String msg) {
+	/**
+	 * 设置  处理结果的描述，信息来自于code返回结果的描述	
+	 */
+	public void setMsg(String msg){
         this.msg = msg;
     }
+	/**
+	 * 获取  编码格式	
+	 */
+	public String getCharset(){
+        return charset;
+    }
 
+	/**
+	 * 设置  编码格式	
+	 */
+	public void setCharset(String charset){
+        this.charset = charset;
+    }
+	/**
+	 * 获取  时间	
+	 */
+	public String getTimestamp(){
+        return timestamp;
+    }
+
+	/**
+	 * 设置  时间	
+	 */
+	public void setTimestamp(String timestamp){
+        this.timestamp = timestamp;
+    }
+	/**
+	 * 获取  结果码	
+	 */
+	public String getCode(){
+        return code;
+    }
+
+	/**
+	 * 设置  结果码	
+	 */
+	public void setCode(String code){
+        this.code = code;
+    }
+	/**
+	 * 获取  创建时间
+	 */
+	public Date getCreateDate(){
+        return createDate;
+    }
+
+	/**
+	 * 设置  创建时间
+	 */
+	public void setCreateDate(Date createDate){
+        this.createDate = createDate;
+    }
+	/**
+	 * 获取  创建人id
+	 */
+	public String getCreateUserId(){
+        return createUserId;
+    }
+
+	/**
+	 * 设置  创建人id
+	 */
+	public void setCreateUserId(String createUserId){
+        this.createUserId = createUserId;
+    }
+	/**
+	 * 获取  创建人
+	 */
+	public String getCreateUser(){
+        return createUser;
+    }
+
+	/**
+	 * 设置  创建人
+	 */
+	public void setCreateUser(String createUser){
+        this.createUser = createUser;
+    }
+	/**
+	 * 获取  修改时间
+	 */
+	public Date getUpdateDate(){
+        return updateDate;
+    }
+
+	/**
+	 * 设置  修改时间
+	 */
+	public void setUpdateDate(Date updateDate){
+        this.updateDate = updateDate;
+    }
+	/**
+	 * 获取  创建人id
+	 */
+	public String getUpdateUserId(){
+        return updateUserId;
+    }
+
+	/**
+	 * 设置  创建人id
+	 */
+	public void setUpdateUserId(String updateUserId){
+        this.updateUserId = updateUserId;
+    }
+	/**
+	 * 获取  修改人
+	 */
+	public String getUpdateUser(){
+        return updateUser;
+    }
+
+	/**
+	 * 设置  修改人
+	 */
+	public void setUpdateUser(String updateUser){
+        this.updateUser = updateUser;
+    }
+	/**
+	 * 获取  状态1有效
+	 */
+	public Integer getIsValid(){
+        return isValid;
+    }
+
+	/**
+	 * 设置  状态1有效
+	 */
+	public void setIsValid(Integer isValid){
+        this.isValid = isValid;
+    }
+	/**
+	 * 获取  备注
+	 */
+	public String getRemark(){
+        return remark;
+    }
+
+	/**
+	 * 设置  备注
+	 */
+	public void setRemark(String remark){
+        this.remark = remark;
+    }
+	/**
+	 * 获取  签名
+	 */
+	public String getSignature(){
+        return signature;
+    }
+
+	/**
+	 * 设置  签名
+	 */
+	public void setSignature(String signature){
+        this.signature = signature;
+    }
 }

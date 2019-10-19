@@ -20,10 +20,10 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
-import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.constant.EErrorCode;
 import com.meida.front.pay.dto.AlipayReturnParamDto;
-import com.meida.front.pay.po.Recharge;
-import com.meida.front.pay.service.inter.IRechargeService;
+import com.meida.front.pay.po.AccountRechargeInfo;
+import com.meida.front.pay.service.inter.AccountRechargeService;
 import com.meida.pay.alipay.config.AlipayConfig;
 
 @Controller
@@ -31,7 +31,7 @@ import com.meida.pay.alipay.config.AlipayConfig;
 public class AlipayReturnController {
 	private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
 	@Autowired
-	private IRechargeService rehargeService;
+	private AccountRechargeService rehargeService;
 
 	@RequestMapping(value = "/index")
 	public ModelAndView index(HttpServletRequest request) {
@@ -111,14 +111,14 @@ public class AlipayReturnController {
 		String out_trade_no = params.get("out_trade_no");
 
 		// 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-		Recharge fundCharge = rehargeService.getObjectByOrderNo(out_trade_no);
+		AccountRechargeInfo fundCharge = rehargeService.getObjectByOrderNo(out_trade_no);
 		if (fundCharge == null) {
 			throw new AlipayApiException("out_trade_no错误");
 		}
 
 		// 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
 		long total_amount = new BigDecimal(params.get("total_amount")).multiply(new BigDecimal(100)).longValue();
-		if (total_amount != fundCharge.getRechargeMoney().multiply(new BigDecimal(100)).longValue()) {
+		if (total_amount != fundCharge.getRechargeAmount().multiply(new BigDecimal(100)).longValue()) {
 			throw new AlipayApiException("error total_amount");
 		}
 

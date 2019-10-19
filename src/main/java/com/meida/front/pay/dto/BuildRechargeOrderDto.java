@@ -16,7 +16,7 @@ public class BuildRechargeOrderDto {
 	/**
 	 * 总金额（人民币单位元）
 	 */
-	private BigDecimal total_fee;
+	private BigDecimal totalFee;
 
 	/**
 	 * 充值会员id
@@ -41,12 +41,12 @@ public class BuildRechargeOrderDto {
 		this.payChannel = payChannel;
 	}
 
-	public BigDecimal getTotal_fee() {
-		return total_fee;
+	public BigDecimal getTotalFee() {
+		return totalFee;
 	}
 
-	public void setTotal_fee(BigDecimal total_fee) {
-		this.total_fee = total_fee;
+	public void setTotalFee(BigDecimal totalFee) {
+		this.totalFee = totalFee;
 	}
 
 	public Long getRechargeMemberId() {

@@ -1,270 +1,882 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.meida.front.pay.dao.inter.AlipayNotifyDao">
+<mapper namespace="com.meida.front.pay.dao.inter.AlipayNotifyDao">
 
-	<resultMap id="myResultMap"
-		type="com.meida.front.pay.po.AlipayNotify">
-		<id property="alipayNotifyId" column="alipayNotifyId"></id>
-		<result property="notify_time" column="notify_time"></result>
-		<result property="notify_type" column="notify_type"></result>
-		<result property="notify_id" column="notify_id"></result>
-		<result property="charset" column="charset"></result>
-		<result property="version" column="version"></result>
-		<result property="createDate" column="createDate"></result>
-		<result property="createUserId" column="createUserId"></result>
-		<result property="createUser" column="createUser"></result>
-		<result property="updateDate" column="updateDate"></result>
-		<result property="updateUserId" column="updateUserId"></result>
-		<result property="updateUser" column="updateUser"></result>
-		<result property="isValid" column="isValid"></result>
-		<result property="remark" column="remark"></result>
-	</resultMap>
+    <resultMap id="myResultMap"
+               type="com.meida.front.pay.po.AlipayNotifyInfo">
+                    <id property="alipayNotifyId" column="alipay_notify_id"></id>
+                    <id property="notifyTime" column="notify_time"></id>
+                    <id property="notifyType" column="notify_type"></id>
+                    <id property="notifyId" column="notify_id"></id>
+                    <id property="charset" column="charset"></id>
+                    <id property="version" column="version"></id>
+                    <id property="signType" column="sign_type"></id>
+                    <id property="sign" column="sign"></id>
+                    <id property="authAppId" column="auth_app_id"></id>
+                    <id property="tradeNo" column="trade_no"></id>
+                    <id property="appId" column="app_id"></id>
+                    <id property="outTradeNo" column="out_trade_no"></id>
+                    <id property="outBizNo" column="out_biz_no"></id>
+                    <id property="buyerId" column="buyer_id"></id>
+                    <id property="sellerId" column="seller_id"></id>
+                    <id property="tradeStatus" column="trade_status"></id>
+                    <id property="totalAmount" column="total_amount"></id>
+                    <id property="receiptAmount" column="receipt_amount"></id>
+                    <id property="invoiceAmount" column="invoice_amount"></id>
+                    <id property="buyerPayAmount" column="buyer_pay_amount"></id>
+                    <id property="pointAmount" column="point_amount"></id>
+                    <id property="refundFee" column="refund_fee"></id>
+                    <id property="subject" column="subject"></id>
+                    <id property="body" column="body"></id>
+                    <id property="gmtCreate" column="gmt_create"></id>
+                    <id property="gmtPayment" column="gmt_payment"></id>
+                    <id property="gmtRefund" column="gmt_refund"></id>
+                    <id property="gmtClose" column="gmt_close"></id>
+                    <id property="fundBillList" column="fund_bill_list"></id>
+                    <id property="voucherDetailList" column="voucher_detail_list"></id>
+                    <id property="passbackParams" column="passback_params"></id>
+                    <id property="createDate" column="create_date"></id>
+                    <id property="createUserId" column="create_user_id"></id>
+                    <id property="createUser" column="create_user"></id>
+                    <id property="updateDate" column="update_date"></id>
+                    <id property="updateUserId" column="update_user_id"></id>
+                    <id property="updateUser" column="update_user"></id>
+                    <id property="isValid" column="is_valid"></id>
+                    <id property="remark" column="remark"></id>
+                    <id property="signature" column="signature"></id>
+            </resultMap>
 
-	<select id="getObjectById" parameterType="java.lang.Long"
-		resultMap="myResultMap">
+    <select id="getObjectById" parameterType="java.lang.String"
+            resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_alipay_notify where alipayNotifyId=#{id}
+                a.alipay_notify_id,
+                a.notify_time,
+                a.notify_type,
+                a.notify_id,
+                a.charset,
+                a.version,
+                a.sign_type,
+                a.sign,
+                a.auth_app_id,
+                a.trade_no,
+                a.app_id,
+                a.out_trade_no,
+                a.out_biz_no,
+                a.buyer_id,
+                a.seller_id,
+                a.trade_status,
+                a.total_amount,
+                a.receipt_amount,
+                a.invoice_amount,
+                a.buyer_pay_amount,
+                a.point_amount,
+                a.refund_fee,
+                a.subject,
+                a.body,
+                a.gmt_create,
+                a.gmt_payment,
+                a.gmt_refund,
+                a.gmt_close,
+                a.fund_bill_list,
+                a.voucher_detail_list,
+                a.passback_params,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_alipay_notify as a where	a.alipay_notify_id=#{id}
 	</select>
-	
-	<select id="getObjectByOrderNo" parameterType="java.lang.String"
-		resultMap="myResultMap">
+
+    <select id="getListPage"  parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
+            resultMap="myResultMap">
+        select
+                    a.alipay_notify_id,
+                    a.notify_time,
+                    a.notify_type,
+                    a.notify_id,
+                    a.charset,
+                    a.version,
+                    a.sign_type,
+                    a.sign,
+                    a.auth_app_id,
+                    a.trade_no,
+                    a.app_id,
+                    a.out_trade_no,
+                    a.out_biz_no,
+                    a.buyer_id,
+                    a.seller_id,
+                    a.trade_status,
+                    a.total_amount,
+                    a.receipt_amount,
+                    a.invoice_amount,
+                    a.buyer_pay_amount,
+                    a.point_amount,
+                    a.refund_fee,
+                    a.subject,
+                    a.body,
+                    a.gmt_create,
+                    a.gmt_payment,
+                    a.gmt_refund,
+                    a.gmt_close,
+                    a.fund_bill_list,
+                    a.voucher_detail_list,
+                    a.passback_params,
+                    a.create_date,
+                    a.create_user_id,
+                    a.create_user,
+                    a.update_date,
+                    a.update_user_id,
+                    a.update_user,
+                    a.is_valid,
+                    a.remark,
+                    a.signature        from tb_alipay_notify as a
+        where a.is_valid=1
+                                                                <if test="notifyTime != null">
+                    AND a.notify_time = #{notifyTime}
+                </if>
+                                                                    <if test="notifyType != null and notifyType!=''">
+                    AND a.notify_type like "%"#{notifyType}"%"
+                </if>
+                                                                    <if test="notifyId != null and notifyId!=''">
+                    AND a.notify_id like "%"#{notifyId}"%"
+                </if>
+                                                                    <if test="charset != null and charset!=''">
+                    AND a.charset like "%"#{charset}"%"
+                </if>
+                                                                    <if test="version != null and version!=''">
+                    AND a.version like "%"#{version}"%"
+                </if>
+                                                                    <if test="signType != null and signType!=''">
+                    AND a.sign_type like "%"#{signType}"%"
+                </if>
+                                                                    <if test="sign != null and sign!=''">
+                    AND a.sign like "%"#{sign}"%"
+                </if>
+                                                                    <if test="authAppId != null and authAppId!=''">
+                    AND a.auth_app_id like "%"#{authAppId}"%"
+                </if>
+                                                                    <if test="tradeNo != null and tradeNo!=''">
+                    AND a.trade_no like "%"#{tradeNo}"%"
+                </if>
+                                                                    <if test="appId != null and appId!=''">
+                    AND a.app_id like "%"#{appId}"%"
+                </if>
+                                                                    <if test="outTradeNo != null and outTradeNo!=''">
+                    AND a.out_trade_no like "%"#{outTradeNo}"%"
+                </if>
+                                                                    <if test="outBizNo != null and outBizNo!=''">
+                    AND a.out_biz_no like "%"#{outBizNo}"%"
+                </if>
+                                                                    <if test="buyerId != null and buyerId!=''">
+                    AND a.buyer_id like "%"#{buyerId}"%"
+                </if>
+                                                                    <if test="sellerId != null and sellerId!=''">
+                    AND a.seller_id like "%"#{sellerId}"%"
+                </if>
+                                                                    <if test="tradeStatus != null and tradeStatus!=''">
+                    AND a.trade_status like "%"#{tradeStatus}"%"
+                </if>
+                                                                    <if test="totalAmount != null">
+                    AND a.total_amount = #{totalAmount}
+                </if>
+                                                                    <if test="receiptAmount != null">
+                    AND a.receipt_amount = #{receiptAmount}
+                </if>
+                                                                    <if test="invoiceAmount != null">
+                    AND a.invoice_amount = #{invoiceAmount}
+                </if>
+                                                                    <if test="buyerPayAmount != null">
+                    AND a.buyer_pay_amount = #{buyerPayAmount}
+                </if>
+                                                                    <if test="pointAmount != null">
+                    AND a.point_amount = #{pointAmount}
+                </if>
+                                                                    <if test="refundFee != null">
+                    AND a.refund_fee = #{refundFee}
+                </if>
+                                                                    <if test="subject != null and subject!=''">
+                    AND a.subject like "%"#{subject}"%"
+                </if>
+                                                                    <if test="body != null and body!=''">
+                    AND a.body like "%"#{body}"%"
+                </if>
+                                                                    <if test="gmtCreate != null">
+                    AND a.gmt_create = #{gmtCreate}
+                </if>
+                                                                    <if test="gmtPayment != null">
+                    AND a.gmt_payment = #{gmtPayment}
+                </if>
+                                                                    <if test="gmtRefund != null">
+                    AND a.gmt_refund = #{gmtRefund}
+                </if>
+                                                                    <if test="gmtClose != null">
+                    AND a.gmt_close = #{gmtClose}
+                </if>
+                                                                    <if test="fundBillList != null and fundBillList!=''">
+                    AND a.fund_bill_list like "%"#{fundBillList}"%"
+                </if>
+                                                                    <if test="voucherDetailList != null and voucherDetailList!=''">
+                    AND a.voucher_detail_list like "%"#{voucherDetailList}"%"
+                </if>
+                                                                    <if test="passbackParams != null and passbackParams!=''">
+                    AND a.passback_params like "%"#{passbackParams}"%"
+                </if>
+                                                                    <if test="createDate != null">
+                    AND a.create_date = #{createDate}
+                </if>
+                                                                    <if test="createUserId != null and createUserId!=''">
+                    AND a.create_user_id like "%"#{createUserId}"%"
+                </if>
+                                                                    <if test="createUser != null and createUser!=''">
+                    AND a.create_user like "%"#{createUser}"%"
+                </if>
+                                                                    <if test="updateDate != null">
+                    AND a.update_date = #{updateDate}
+                </if>
+                                                                    <if test="updateUserId != null and updateUserId!=''">
+                    AND a.update_user_id like "%"#{updateUserId}"%"
+                </if>
+                                                                    <if test="updateUser != null and updateUser!=''">
+                    AND a.update_user like "%"#{updateUser}"%"
+                </if>
+                                                                                      <if test="remark != null and remark!=''">
+                    AND a.remark like "%"#{remark}"%"
+                </if>
+                                                                    <if test="signature != null and signature!=''">
+                    AND a.signature like "%"#{signature}"%"
+                </if>
+                                      LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getTotalRecord" parameterType="com.meida.front.pay.dto.AlipayNotifyListDto" resultType="java.lang.Long">
+        select count(*) from tb_alipay_notify as a where a.is_valid=1
+                                                                <if test="notifyTime != null">
+                    AND a.notify_time = #{notifyTime}
+                </if>
+                                                                    <if test="notifyType != null and notifyType!=''">
+                    AND a.notify_type like "%"#{notifyType}"%"
+                </if>
+                                                                    <if test="notifyId != null and notifyId!=''">
+                    AND a.notify_id like "%"#{notifyId}"%"
+                </if>
+                                                                    <if test="charset != null and charset!=''">
+                    AND a.charset like "%"#{charset}"%"
+                </if>
+                                                                    <if test="version != null and version!=''">
+                    AND a.version like "%"#{version}"%"
+                </if>
+                                                                    <if test="signType != null and signType!=''">
+                    AND a.sign_type like "%"#{signType}"%"
+                </if>
+                                                                    <if test="sign != null and sign!=''">
+                    AND a.sign like "%"#{sign}"%"
+                </if>
+                                                                    <if test="authAppId != null and authAppId!=''">
+                    AND a.auth_app_id like "%"#{authAppId}"%"
+                </if>
+                                                                    <if test="tradeNo != null and tradeNo!=''">
+                    AND a.trade_no like "%"#{tradeNo}"%"
+                </if>
+                                                                    <if test="appId != null and appId!=''">
+                    AND a.app_id like "%"#{appId}"%"
+                </if>
+                                                                    <if test="outTradeNo != null and outTradeNo!=''">
+                    AND a.out_trade_no like "%"#{outTradeNo}"%"
+                </if>
+                                                                    <if test="outBizNo != null and outBizNo!=''">
+                    AND a.out_biz_no like "%"#{outBizNo}"%"
+                </if>
+                                                                    <if test="buyerId != null and buyerId!=''">
+                    AND a.buyer_id like "%"#{buyerId}"%"
+                </if>
+                                                                    <if test="sellerId != null and sellerId!=''">
+                    AND a.seller_id like "%"#{sellerId}"%"
+                </if>
+                                                                    <if test="tradeStatus != null and tradeStatus!=''">
+                    AND a.trade_status like "%"#{tradeStatus}"%"
+                </if>
+                                                                    <if test="totalAmount != null">
+                    AND a.total_amount = #{totalAmount}
+                </if>
+                                                                    <if test="receiptAmount != null">
+                    AND a.receipt_amount = #{receiptAmount}
+                </if>
+                                                                    <if test="invoiceAmount != null">
+                    AND a.invoice_amount = #{invoiceAmount}
+                </if>
+                                                                    <if test="buyerPayAmount != null">
+                    AND a.buyer_pay_amount = #{buyerPayAmount}
+                </if>
+                                                                    <if test="pointAmount != null">
+                    AND a.point_amount = #{pointAmount}
+                </if>
+                                                                    <if test="refundFee != null">
+                    AND a.refund_fee = #{refundFee}
+                </if>
+                                                                    <if test="subject != null and subject!=''">
+                    AND a.subject like "%"#{subject}"%"
+                </if>
+                                                                    <if test="body != null and body!=''">
+                    AND a.body like "%"#{body}"%"
+                </if>
+                                                                    <if test="gmtCreate != null">
+                    AND a.gmt_create = #{gmtCreate}
+                </if>
+                                                                    <if test="gmtPayment != null">
+                    AND a.gmt_payment = #{gmtPayment}
+                </if>
+                                                                    <if test="gmtRefund != null">
+                    AND a.gmt_refund = #{gmtRefund}
+                </if>
+                                                                    <if test="gmtClose != null">
+                    AND a.gmt_close = #{gmtClose}
+                </if>
+                                                                    <if test="fundBillList != null and fundBillList!=''">
+                    AND a.fund_bill_list like "%"#{fundBillList}"%"
+                </if>
+                                                                    <if test="voucherDetailList != null and voucherDetailList!=''">
+                    AND a.voucher_detail_list like "%"#{voucherDetailList}"%"
+                </if>
+                                                                    <if test="passbackParams != null and passbackParams!=''">
+                    AND a.passback_params like "%"#{passbackParams}"%"
+                </if>
+                                                                    <if test="createDate != null">
+                    AND a.create_date = #{createDate}
+                </if>
+                                                                    <if test="createUserId != null and createUserId!=''">
+                    AND a.create_user_id like "%"#{createUserId}"%"
+                </if>
+                                                                    <if test="createUser != null and createUser!=''">
+                    AND a.create_user like "%"#{createUser}"%"
+                </if>
+                                                                    <if test="updateDate != null">
+                    AND a.update_date = #{updateDate}
+                </if>
+                                                                    <if test="updateUserId != null and updateUserId!=''">
+                    AND a.update_user_id like "%"#{updateUserId}"%"
+                </if>
+                                                                    <if test="updateUser != null and updateUser!=''">
+                    AND a.update_user like "%"#{updateUser}"%"
+                </if>
+                                                                                      <if test="remark != null and remark!=''">
+                    AND a.remark like "%"#{remark}"%"
+                </if>
+                                                                    <if test="signature != null and signature!=''">
+                    AND a.signature like "%"#{signature}"%"
+                </if>
+                                  </select>
+
+
+    <select id="getVoListPage"  parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
+            resultMap="myResultMap">
+        select
+                    a.alipay_notify_id,
+                    a.notify_time,
+                    a.notify_type,
+                    a.notify_id,
+                    a.charset,
+                    a.version,
+                    a.sign_type,
+                    a.sign,
+                    a.auth_app_id,
+                    a.trade_no,
+                    a.app_id,
+                    a.out_trade_no,
+                    a.out_biz_no,
+                    a.buyer_id,
+                    a.seller_id,
+                    a.trade_status,
+                    a.total_amount,
+                    a.receipt_amount,
+                    a.invoice_amount,
+                    a.buyer_pay_amount,
+                    a.point_amount,
+                    a.refund_fee,
+                    a.subject,
+                    a.body,
+                    a.gmt_create,
+                    a.gmt_payment,
+                    a.gmt_refund,
+                    a.gmt_close,
+                    a.fund_bill_list,
+                    a.voucher_detail_list,
+                    a.passback_params,
+                    a.create_date,
+                    a.create_user_id,
+                    a.create_user,
+                    a.update_date,
+                    a.update_user_id,
+                    a.update_user,
+                    a.is_valid,
+                    a.remark,
+                    a.signature        from tb_alipay_notify as a
+        where a.is_valid=1
+                                                                            <if test="notifyTime != null">
+                        AND a.notify_time = #{notifyTime}
+                    </if>
+                                                                                    <if test="notifyType != null and notifyType!=''">
+                        AND a.notify_type like "%"#{notifyType}"%"
+                    </if>
+                                                                                    <if test="notifyId != null and notifyId!=''">
+                        AND a.notify_id like "%"#{notifyId}"%"
+                    </if>
+                                                                                    <if test="charset != null and charset!=''">
+                        AND a.charset like "%"#{charset}"%"
+                    </if>
+                                                                                    <if test="version != null and version!=''">
+                        AND a.version like "%"#{version}"%"
+                    </if>
+                                                                                    <if test="signType != null and signType!=''">
+                        AND a.sign_type like "%"#{signType}"%"
+                    </if>
+                                                                                    <if test="sign != null and sign!=''">
+                        AND a.sign like "%"#{sign}"%"
+                    </if>
+                                                                                    <if test="authAppId != null and authAppId!=''">
+                        AND a.auth_app_id like "%"#{authAppId}"%"
+                    </if>
+                                                                                    <if test="tradeNo != null and tradeNo!=''">
+                        AND a.trade_no like "%"#{tradeNo}"%"
+                    </if>
+                                                                                    <if test="appId != null and appId!=''">
+                        AND a.app_id like "%"#{appId}"%"
+                    </if>
+                                                                                    <if test="outTradeNo != null and outTradeNo!=''">
+                        AND a.out_trade_no like "%"#{outTradeNo}"%"
+                    </if>
+                                                                                    <if test="outBizNo != null and outBizNo!=''">
+                        AND a.out_biz_no like "%"#{outBizNo}"%"
+                    </if>
+                                                                                    <if test="buyerId != null and buyerId!=''">
+                        AND a.buyer_id like "%"#{buyerId}"%"
+                    </if>
+                                                                                    <if test="sellerId != null and sellerId!=''">
+                        AND a.seller_id like "%"#{sellerId}"%"
+                    </if>
+                                                                                    <if test="tradeStatus != null and tradeStatus!=''">
+                        AND a.trade_status like "%"#{tradeStatus}"%"
+                    </if>
+                                                                                    <if test="totalAmount != null">
+                        AND a.total_amount = #{totalAmount}
+                    </if>
+                                                                                    <if test="receiptAmount != null">
+                        AND a.receipt_amount = #{receiptAmount}
+                    </if>
+                                                                                    <if test="invoiceAmount != null">
+                        AND a.invoice_amount = #{invoiceAmount}
+                    </if>
+                                                                                    <if test="buyerPayAmount != null">
+                        AND a.buyer_pay_amount = #{buyerPayAmount}
+                    </if>
+                                                                                    <if test="pointAmount != null">
+                        AND a.point_amount = #{pointAmount}
+                    </if>
+                                                                                    <if test="refundFee != null">
+                        AND a.refund_fee = #{refundFee}
+                    </if>
+                                                                                    <if test="subject != null and subject!=''">
+                        AND a.subject like "%"#{subject}"%"
+                    </if>
+                                                                                    <if test="body != null and body!=''">
+                        AND a.body like "%"#{body}"%"
+                    </if>
+                                                                                    <if test="gmtCreate != null">
+                        AND a.gmt_create = #{gmtCreate}
+                    </if>
+                                                                                    <if test="gmtPayment != null">
+                        AND a.gmt_payment = #{gmtPayment}
+                    </if>
+                                                                                    <if test="gmtRefund != null">
+                        AND a.gmt_refund = #{gmtRefund}
+                    </if>
+                                                                                    <if test="gmtClose != null">
+                        AND a.gmt_close = #{gmtClose}
+                    </if>
+                                                                                    <if test="fundBillList != null and fundBillList!=''">
+                        AND a.fund_bill_list like "%"#{fundBillList}"%"
+                    </if>
+                                                                                    <if test="voucherDetailList != null and voucherDetailList!=''">
+                        AND a.voucher_detail_list like "%"#{voucherDetailList}"%"
+                    </if>
+                                                                                    <if test="passbackParams != null and passbackParams!=''">
+                        AND a.passback_params like "%"#{passbackParams}"%"
+                    </if>
+                                                                                    <if test="createDate != null">
+                        AND a.create_date = #{createDate}
+                    </if>
+                                                                                    <if test="createUserId != null and createUserId!=''">
+                        AND a.create_user_id like "%"#{createUserId}"%"
+                    </if>
+                                                                                    <if test="createUser != null and createUser!=''">
+                        AND a.create_user like "%"#{createUser}"%"
+                    </if>
+                                                                                    <if test="updateDate != null">
+                        AND a.update_date = #{updateDate}
+                    </if>
+                                                                                    <if test="updateUserId != null and updateUserId!=''">
+                        AND a.update_user_id like "%"#{updateUserId}"%"
+                    </if>
+                                                                                    <if test="updateUser != null and updateUser!=''">
+                        AND a.update_user like "%"#{updateUser}"%"
+                    </if>
+                                                                                                        <if test="remark != null and remark!=''">
+                        AND a.remark like "%"#{remark}"%"
+                    </if>
+                                                                                    <if test="signature != null and signature!=''">
+                        AND a.signature like "%"#{signature}"%"
+                    </if>
+                                            LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getVoTotalRecord" parameterType="com.meida.front.pay.dto.AlipayNotifyListDto" resultType="java.lang.Long">
+        select count(*) from tb_alipay_notify as a where a.is_valid=1
+                                                                            <if test="notifyTime != null">
+                        AND a.notify_time = #{notifyTime}
+                    </if>
+                                                                                    <if test="notifyType != null and notifyType!=''">
+                        AND a.notify_type like "%"#{notifyType}"%"
+                    </if>
+                                                                                    <if test="notifyId != null and notifyId!=''">
+                        AND a.notify_id like "%"#{notifyId}"%"
+                    </if>
+                                                                                    <if test="charset != null and charset!=''">
+                        AND a.charset like "%"#{charset}"%"
+                    </if>
+                                                                                    <if test="version != null and version!=''">
+                        AND a.version like "%"#{version}"%"
+                    </if>
+                                                                                    <if test="signType != null and signType!=''">
+                        AND a.sign_type like "%"#{signType}"%"
+                    </if>
+                                                                                    <if test="sign != null and sign!=''">
+                        AND a.sign like "%"#{sign}"%"
+                    </if>
+                                                                                    <if test="authAppId != null and authAppId!=''">
+                        AND a.auth_app_id like "%"#{authAppId}"%"
+                    </if>
+                                                                                    <if test="tradeNo != null and tradeNo!=''">
+                        AND a.trade_no like "%"#{tradeNo}"%"
+                    </if>
+                                                                                    <if test="appId != null and appId!=''">
+                        AND a.app_id like "%"#{appId}"%"
+                    </if>
+                                                                                    <if test="outTradeNo != null and outTradeNo!=''">
+                        AND a.out_trade_no like "%"#{outTradeNo}"%"
+                    </if>
+                                                                                    <if test="outBizNo != null and outBizNo!=''">
+                        AND a.out_biz_no like "%"#{outBizNo}"%"
+                    </if>
+                                                                                    <if test="buyerId != null and buyerId!=''">
+                        AND a.buyer_id like "%"#{buyerId}"%"
+                    </if>
+                                                                                    <if test="sellerId != null and sellerId!=''">
+                        AND a.seller_id like "%"#{sellerId}"%"
+                    </if>
+                                                                                    <if test="tradeStatus != null and tradeStatus!=''">
+                        AND a.trade_status like "%"#{tradeStatus}"%"
+                    </if>
+                                                                                    <if test="totalAmount != null">
+                        AND a.total_amount = #{totalAmount}
+                    </if>
+                                                                                    <if test="receiptAmount != null">
+                        AND a.receipt_amount = #{receiptAmount}
+                    </if>
+                                                                                    <if test="invoiceAmount != null">
+                        AND a.invoice_amount = #{invoiceAmount}
+                    </if>
+                                                                                    <if test="buyerPayAmount != null">
+                        AND a.buyer_pay_amount = #{buyerPayAmount}
+                    </if>
+                                                                                    <if test="pointAmount != null">
+                        AND a.point_amount = #{pointAmount}
+                    </if>
+                                                                                    <if test="refundFee != null">
+                        AND a.refund_fee = #{refundFee}
+                    </if>
+                                                                                    <if test="subject != null and subject!=''">
+                        AND a.subject like "%"#{subject}"%"
+                    </if>
+                                                                                    <if test="body != null and body!=''">
+                        AND a.body like "%"#{body}"%"
+                    </if>
+                                                                                    <if test="gmtCreate != null">
+                        AND a.gmt_create = #{gmtCreate}
+                    </if>
+                                                                                    <if test="gmtPayment != null">
+                        AND a.gmt_payment = #{gmtPayment}
+                    </if>
+                                                                                    <if test="gmtRefund != null">
+                        AND a.gmt_refund = #{gmtRefund}
+                    </if>
+                                                                                    <if test="gmtClose != null">
+                        AND a.gmt_close = #{gmtClose}
+                    </if>
+                                                                                    <if test="fundBillList != null and fundBillList!=''">
+                        AND a.fund_bill_list like "%"#{fundBillList}"%"
+                    </if>
+                                                                                    <if test="voucherDetailList != null and voucherDetailList!=''">
+                        AND a.voucher_detail_list like "%"#{voucherDetailList}"%"
+                    </if>
+                                                                                    <if test="passbackParams != null and passbackParams!=''">
+                        AND a.passback_params like "%"#{passbackParams}"%"
+                    </if>
+                                                                                    <if test="createDate != null">
+                        AND a.create_date = #{createDate}
+                    </if>
+                                                                                    <if test="createUserId != null and createUserId!=''">
+                        AND a.create_user_id like "%"#{createUserId}"%"
+                    </if>
+                                                                                    <if test="createUser != null and createUser!=''">
+                        AND a.create_user like "%"#{createUser}"%"
+                    </if>
+                                                                                    <if test="updateDate != null">
+                        AND a.update_date = #{updateDate}
+                    </if>
+                                                                                    <if test="updateUserId != null and updateUserId!=''">
+                        AND a.update_user_id like "%"#{updateUserId}"%"
+                    </if>
+                                                                                    <if test="updateUser != null and updateUser!=''">
+                        AND a.update_user like "%"#{updateUser}"%"
+                    </if>
+                                                                                                        <if test="remark != null and remark!=''">
+                        AND a.remark like "%"#{remark}"%"
+                    </if>
+                                                                                    <if test="signature != null and signature!=''">
+                        AND a.signature like "%"#{signature}"%"
+                    </if>
+                                        </select>
+
+    <select id="getListByAll" resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_alipay_notify where out_trade_no=#{out_trade_no}
-	</select>
-	
-	<select id="isExistOrderNo" parameterType="java.lang.String"
-		resultType="java.lang.Long">
-		select count(*) from tb_alipay_notify where
-		out_trade_no=#{out_trade_no}
+                a.alipay_notify_id,
+                a.notify_time,
+                a.notify_type,
+                a.notify_id,
+                a.charset,
+                a.version,
+                a.sign_type,
+                a.sign,
+                a.auth_app_id,
+                a.trade_no,
+                a.app_id,
+                a.out_trade_no,
+                a.out_biz_no,
+                a.buyer_id,
+                a.seller_id,
+                a.trade_status,
+                a.total_amount,
+                a.receipt_amount,
+                a.invoice_amount,
+                a.buyer_pay_amount,
+                a.point_amount,
+                a.refund_fee,
+                a.subject,
+                a.body,
+                a.gmt_create,
+                a.gmt_payment,
+                a.gmt_refund,
+                a.gmt_close,
+                a.fund_bill_list,
+                a.voucher_detail_list,
+                a.passback_params,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_alipay_notify as a
 	</select>
 
 
-	<select id="getListByAll" resultMap="myResultMap">
+    <select id="getListByValid" resultMap="myResultMap">
 		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_alipay_notify
+                a.alipay_notify_id,
+                a.notify_time,
+                a.notify_type,
+                a.notify_id,
+                a.charset,
+                a.version,
+                a.sign_type,
+                a.sign,
+                a.auth_app_id,
+                a.trade_no,
+                a.app_id,
+                a.out_trade_no,
+                a.out_biz_no,
+                a.buyer_id,
+                a.seller_id,
+                a.trade_status,
+                a.total_amount,
+                a.receipt_amount,
+                a.invoice_amount,
+                a.buyer_pay_amount,
+                a.point_amount,
+                a.refund_fee,
+                a.subject,
+                a.body,
+                a.gmt_create,
+                a.gmt_payment,
+                a.gmt_refund,
+                a.gmt_close,
+                a.fund_bill_list,
+                a.voucher_detail_list,
+                a.passback_params,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_alipay_notify as a where a.is_valid=1
 	</select>
 
 
-	<select id="getListByValid" resultMap="myResultMap">
-		select
-		alipayNotifyId,notify_time,notify_type,notify_id,charset,version,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark
-		from tb_alipay_notify where isValid=1
-	</select>
-
-	<resultMap id="myPageResultMap"
-		type="com.meida.front.pay.vo.AlipayNotifyVo">
-		<id property="alipayNotifyId" column="alipayNotifyId"></id>
-		<result property="notify_time" column="notify_time"></result>
-		<result property="notify_type" column="notify_type"></result>
-		<result property="notify_id" column="notify_id"></result>
-		<result property="charset" column="charset"></result>
-		<result property="version" column="version"></result>
-		<result property="sign_type" column="sign_type"></result>
-		<result property="sign" column="sign"></result>
-		<result property="auth_app_id" column="auth_app_id"></result>
-		<result property="trade_no" column="trade_no"></result>
-		<result property="app_id" column="app_id"></result>
-		<result property="out_trade_no" column="out_trade_no"></result>
-		<result property="out_biz_no" column="out_biz_no"></result>
-		<result property="buyer_id" column="buyer_id"></result>
-		<result property="seller_id" column="seller_id"></result>
-		<result property="trade_status" column="trade_status"></result>
-		<result property="total_amount" column="total_amount"></result>
-		<result property="receipt_amount" column="receipt_amount"></result>
-		<result property="invoice_amount" column="invoice_amount"></result>
-		<result property="buyer_pay_amount" column="buyer_pay_amount"></result>
-		<result property="point_amount" column="point_amount"></result>
-		<result property="refund_fee" column="refund_fee"></result>
-		<result property="subject" column="subject"></result>
-		<result property="body" column="body"></result>
-		<result property="gmt_create" column="gmt_create"></result>
-		<result property="gmt_payment" column="gmt_payment"></result>
-		<result property="gmt_refund" column="gmt_refund"></result>
-		<result property="gmt_close" column="gmt_close"></result>
-		<result property="fund_bill_list" column="fund_bill_list"></result>
-		<result property="voucher_detail_list" column="voucher_detail_list"></result>
-		<result property="passback_params" column="passback_params"></result>
-		<result property="createDate" column="createDate"></result>
-		<result property="createUserId" column="createUserId"></result>
-		<result property="createUser" column="createUser"></result>
-		<result property="updateDate" column="updateDate"></result>
-		<result property="updateUserId" column="updateUserId"></result>
-		<result property="updateUser" column="updateUser"></result>
-		<result property="isValid" column="isValid"></result>
-		<result property="remark" column="remark"></result>
-	</resultMap>
-	
-	<select id="getListWhereByPage"
-		parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
-		resultMap="myPageResultMap">
-		select
-		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
-		from tb_alipay_notify as a
-		where a.isValid=1
-		<if test="out_trade_no != null and out_trade_no!=''">
-			AND a.out_trade_no like "%"#{out_trade_no}"%"
-		</if>
-		<if test="notify_type != null and notify_type!=''">
-			AND a.notify_type like "%"#{notify_type}"%"
-		</if>
-		LIMIT
-		#{pagination.pageIndex},#{pagination.pageSize}
-	</select>
-	
-	<select id="getListByPage"
-		parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
-		resultMap="myPageResultMap">
-		select
-		a.alipayNotifyId,a.notify_time,a.notify_type,a.notify_id,a.charset,a.version,a.createDate,a.createUserId,a.createUser,a.updateDate,a.updateUserId,a.updateUser,a.isValid,a.remark
-		from tb_alipay_notify as a
-		where a.isValid=1
-		<if test="out_trade_no != null and out_trade_no!=''">
-			AND a.out_trade_no like "%"#{out_trade_no}"%"
-		</if>
-		<if test="notify_type != null and notify_type!=''">
-			AND a.notify_type like "%"#{notify_type}"%"
-		</if>
-		LIMIT
-		#{pagination.pageIndex},#{pagination.pageSize}
-	</select>
-
-
-	<select id="getTotalRecord"
-		parameterType="com.meida.front.pay.dto.AlipayNotifyListDto"
-		resultType="java.lang.Long">
-		select count(*) from tb_alipay_notify
-		where isValid=1
-		<if test="out_trade_no != null and out_trade_no!=''">
-			AND out_trade_no like "%"#{out_trade_no}"%"
-		</if>
-		<if test="notify_type != null and notify_type!=''">
-			AND notify_type like "%"#{notify_type}"%"
-		</if>
-		LIMIT
-		#{pagination.pageIndex},#{pagination.pageSize}
-	</select>
-
-
-	<insert id="save"
-		parameterType="com.meida.front.pay.po.AlipayNotify">
-		insert into tb_alipay_notify
-		(notify_time,notify_type,notify_id,version,charset,createDate,createUserId,createUser,updateDate,updateUserId,updateUser,isValid,remark,signature)
-		values
-		(#{notify_time},#{notify_type},#{notify_id},#{version},#{charset},
-		#{createDate},#{createUserId},#{createUser},#{updateDate},#{updateUserId},#{updateUser},#{isValid},#{remark},#{signature})
-
+    <insert id="save"	parameterType="com.meida.front.pay.po.AlipayNotifyInfo">
+		insert into tb_alipay_notify (
+                        alipay_notify_id,                                notify_time,                                notify_type,                                notify_id,                                charset,                                version,                                sign_type,                                sign,                                auth_app_id,                                trade_no,                                app_id,                                out_trade_no,                                out_biz_no,                                buyer_id,                                seller_id,                                trade_status,                                total_amount,                                receipt_amount,                                invoice_amount,                                buyer_pay_amount,                                point_amount,                                refund_fee,                                subject,                                body,                                gmt_create,                                gmt_payment,                                gmt_refund,                                gmt_close,                                fund_bill_list,                                voucher_detail_list,                                passback_params,                                create_date,                                create_user_id,                                create_user,                                update_date,                                update_user_id,                                update_user,                                is_valid,                                remark,                                signature                    )
+		values (
+                    #{alipayNotifyId},                            #{notifyTime},                            #{notifyType},                            #{notifyId},                            #{charset},                            #{version},                            #{signType},                            #{sign},                            #{authAppId},                            #{tradeNo},                            #{appId},                            #{outTradeNo},                            #{outBizNo},                            #{buyerId},                            #{sellerId},                            #{tradeStatus},                            #{totalAmount},                            #{receiptAmount},                            #{invoiceAmount},                            #{buyerPayAmount},                            #{pointAmount},                            #{refundFee},                            #{subject},                            #{body},                            #{gmtCreate},                            #{gmtPayment},                            #{gmtRefund},                            #{gmtClose},                            #{fundBillList},                            #{voucherDetailList},                            #{passbackParams},                            #{createDate},                            #{createUserId},                            #{createUser},                            #{updateDate},                            #{updateUserId},                            #{updateUser},                            #{isValid},                            #{remark},                            #{signature}            		)
 	</insert>
 
+    <update id="update" parameterType="com.meida.front.pay.po.AlipayNotifyInfo">
+        update tb_alipay_notify
+        <set>
+                            <if test="notifyTime!=null">
+                    notify_time=#{notifyTime},
+                </if>
+                            <if test="notifyType!=null">
+                    notify_type=#{notifyType},
+                </if>
+                            <if test="notifyId!=null">
+                    notify_id=#{notifyId},
+                </if>
+                            <if test="charset!=null">
+                    charset=#{charset},
+                </if>
+                            <if test="version!=null">
+                    version=#{version},
+                </if>
+                            <if test="signType!=null">
+                    sign_type=#{signType},
+                </if>
+                            <if test="sign!=null">
+                    sign=#{sign},
+                </if>
+                            <if test="authAppId!=null">
+                    auth_app_id=#{authAppId},
+                </if>
+                            <if test="tradeNo!=null">
+                    trade_no=#{tradeNo},
+                </if>
+                            <if test="appId!=null">
+                    app_id=#{appId},
+                </if>
+                            <if test="outTradeNo!=null">
+                    out_trade_no=#{outTradeNo},
+                </if>
+                            <if test="outBizNo!=null">
+                    out_biz_no=#{outBizNo},
+                </if>
+                            <if test="buyerId!=null">
+                    buyer_id=#{buyerId},
+                </if>
+                            <if test="sellerId!=null">
+                    seller_id=#{sellerId},
+                </if>
+                            <if test="tradeStatus!=null">
+                    trade_status=#{tradeStatus},
+                </if>
+                            <if test="totalAmount!=null">
+                    total_amount=#{totalAmount},
+                </if>
+                            <if test="receiptAmount!=null">
+                    receipt_amount=#{receiptAmount},
+                </if>
+                            <if test="invoiceAmount!=null">
+                    invoice_amount=#{invoiceAmount},
+                </if>
+                            <if test="buyerPayAmount!=null">
+                    buyer_pay_amount=#{buyerPayAmount},
+                </if>
+                            <if test="pointAmount!=null">
+                    point_amount=#{pointAmount},
+                </if>
+                            <if test="refundFee!=null">
+                    refund_fee=#{refundFee},
+                </if>
+                            <if test="subject!=null">
+                    subject=#{subject},
+                </if>
+                            <if test="body!=null">
+                    body=#{body},
+                </if>
+                            <if test="gmtCreate!=null">
+                    gmt_create=#{gmtCreate},
+                </if>
+                            <if test="gmtPayment!=null">
+                    gmt_payment=#{gmtPayment},
+                </if>
+                            <if test="gmtRefund!=null">
+                    gmt_refund=#{gmtRefund},
+                </if>
+                            <if test="gmtClose!=null">
+                    gmt_close=#{gmtClose},
+                </if>
+                            <if test="fundBillList!=null">
+                    fund_bill_list=#{fundBillList},
+                </if>
+                            <if test="voucherDetailList!=null">
+                    voucher_detail_list=#{voucherDetailList},
+                </if>
+                            <if test="passbackParams!=null">
+                    passback_params=#{passbackParams},
+                </if>
+                            <if test="createDate!=null">
+                    create_date=#{createDate},
+                </if>
+                            <if test="createUserId!=null">
+                    create_user_id=#{createUserId},
+                </if>
+                            <if test="createUser!=null">
+                    create_user=#{createUser},
+                </if>
+                            <if test="updateDate!=null">
+                    update_date=#{updateDate},
+                </if>
+                            <if test="updateUserId!=null">
+                    update_user_id=#{updateUserId},
+                </if>
+                            <if test="updateUser!=null">
+                    update_user=#{updateUser},
+                </if>
+                            <if test="isValid!=null">
+                    is_valid=#{isValid},
+                </if>
+                            <if test="remark!=null">
+                    remark=#{remark},
+                </if>
+                            <if test="signature!=null">
+                    signature=#{signature},
+                </if>
+                    </set>
+        where alipay_notify_id=#{alipayNotifyId}
+    </update>
 
-	<update id="update"
-		parameterType="com.meida.front.pay.po.AlipayNotify">
-		update tb_alipay_notify
-		<set>
-			<if test="notify_time!=null">
-				notify_time=#{notify_time},
-			</if>
-			<if test="notify_type!=null">
-				notify_type=#{notify_type},
-			</if>
-			<if test="notify_id!=null">
-				notify_id=#{notify_id},
-			</if>
-			<if test="charset!=null">
-				charset=#{charset},
-			</if>
-			<if test="version!=null">
-				version=#{version},
-			</if>
-			<if test="createDate!=null">
-				createDate=#{createDate},
-			</if>
-			<if test="createUserId!=null">
-				createUserId=#{createUserId},
-			</if>
-			<if test="createUser!=null">
-				createUser=#{createUser},
-			</if>
-			<if test="updateDate!=null">
-				updateDate=#{updateDate},
-			</if>
-			<if test="updateUserId!=null">
-				updateUserId=#{updateUserId},
-			</if>
-			<if test="updateUser!=null">
-				updateUser=#{updateUser},
-			</if>
-			<if test="remark!=null">
-				remark=#{remark}
-			</if>
-			<if test="signature!=null">
-				signature=#{signature}
-			</if>
-		</set>
-		where alipayNotifyId=#{alipayNotifyId}
-	</update>
-	<update id="updateByOrderNo"
-		parameterType="com.meida.front.pay.po.AlipayNotify">
-		update tb_alipay_notify
-		<set>
-			<if test="notify_time!=null">
-				notify_time=#{notify_time},
-			</if>
-			<if test="notify_type!=null">
-				notify_type=#{notify_type},
-			</if>
-			<if test="notify_id!=null">
-				notify_id=#{notify_id},
-			</if>
-			<if test="charset!=null">
-				charset=#{charset},
-			</if>
-			<if test="version!=null">
-				version=#{version},
-			</if>
-			<if test="createDate!=null">
-				createDate=#{createDate},
-			</if>
-			<if test="createUserId!=null">
-				createUserId=#{createUserId},
-			</if>
-			<if test="createUser!=null">
-				createUser=#{createUser},
-			</if>
-			<if test="updateDate!=null">
-				updateDate=#{updateDate},
-			</if>
-			<if test="updateUserId!=null">
-				updateUserId=#{updateUserId},
-			</if>
-			<if test="updateUser!=null">
-				updateUser=#{updateUser},
-			</if>
-			<if test="remark!=null">
-				remark=#{remark}
-			</if>
-			<if test="signature!=null">
-				signature=#{signature}
-			</if>
-		</set>
-		where out_trade_no=#{out_trade_no}
-	</update>
-
-
-	<delete id="deletePhysicalById" parameterType="java.lang.Long">
-		delete from
-		tb_alipay_notify
-		where alipayNotifyId=#{id}
-	</delete>
-
-
-	<delete id="deleteLogicById" parameterType="java.lang.Long">
-		update
-		tb_alipay_notify set
-		isValid=-1 where alipayNotifyId=#{id}
-	</delete>
-
+    <update id="logicDelete" parameterType="com.meida.dto.DeleteDto">
+        update tb_alipay_notify set is_valid=-1,update_user_id=#{currentMemberDto.memberId},update_user=#{currentMemberDto.account} where alipay_notify_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 </mapper>

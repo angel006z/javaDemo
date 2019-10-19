@@ -22,9 +22,9 @@ import com.meida.backend.basic.service.inter.IUserService;
 import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
-import com.meida.common.util.Utils;
-import com.meida.common.util.constant.EErrorCode;
-import com.meida.common.util.security.HashEncryptUtils;
+import com.meida.backend.base.util.BackendUtils;
+import com.meida.common.constant.EErrorCode;
+import com.meida.common.security.HashEncryptUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +49,7 @@ public class HomeController {
     @ResponseBody
     public String modifyPassword() {
         ResultMessage resultMessage = new ResultMessage();
-        if (!Utils.isLogin()) {
+        if (!BackendUtils.isLogin()) {
             resultMessage.setCode(EErrorCode.NoLogin);
             resultMessage.setMessage("未登录.");
             return JsonUtils.toJSONString(resultMessage);
@@ -67,7 +67,7 @@ public class HomeController {
             return JsonUtils.toJSONString(resultMessage);
         }
 
-        UUID currentUserId = Utils.getCurrentUserId();
+        UUID currentUserId = BackendUtils.getCurrentUserId();
         User item = userService.getObjectById(currentUserId.toString());
         if (item == null) {
             resultMessage.setCode(EErrorCode.Error);
@@ -112,8 +112,8 @@ public class HomeController {
     @RequestMapping(value = "/achieveLeftAuthNode")
     @ResponseBody
     public String achieveLeftAuthNode() {
-        if (Utils.isLogin()) {
-            List<LeftAuthRoleNodeVo> listLeftAuthNode = authRoleNodeService.getListByLeftUserId(Utils.getCurrentUserId(), Utils.isSuper());
+        if (BackendUtils.isLogin()) {
+            List<LeftAuthRoleNodeVo> listLeftAuthNode = authRoleNodeService.getListByLeftUserId(BackendUtils.getCurrentUserId(), BackendUtils.isSuper());
             if (listLeftAuthNode != null) {
                 List<TreeVo> listTree = new ArrayList<TreeVo>();
                 TreeVo treeVo;

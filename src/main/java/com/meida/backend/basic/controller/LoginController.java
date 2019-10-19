@@ -3,8 +3,8 @@ package com.meida.backend.basic.controller;
 import javax.servlet.http.HttpServletResponse;
 
 import com.meida.common.cookie.CookieUtils;
-import com.meida.common.util.security.DesUtils;
-import com.meida.common.util.security.HashEncryptUtils;
+import com.meida.common.security.DesUtils;
+import com.meida.common.security.HashEncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.util.RequestParameters;
 import com.meida.common.util.SessionHelper;
-import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.constant.EErrorCode;
 import com.mysql.cj.util.StringUtils;
 
 @Controller
