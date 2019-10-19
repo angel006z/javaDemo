@@ -7,7 +7,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meida.base.vo.ResultMessage;
-import com.meida.common.util.constant.EErrorCode;
+import com.meida.common.constant.EErrorCode;
 
 public class BaseBackendController extends BaseController {
 
