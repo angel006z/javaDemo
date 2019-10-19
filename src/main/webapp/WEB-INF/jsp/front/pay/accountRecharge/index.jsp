@@ -118,6 +118,7 @@
     <div>请在新打开的页面中完成支付</div>
     <div>请不要关闭此窗口，成功完成付款后将自动跳转，若未跳转可根据您的情况点击下面按钮</div>
 </div>
+<div id="form-pay" style="display: none;"></div>
 <!-- Script Begin -->
 <script src="<%=basePath%>/static/js/jquery/jquery/1.11.3/jquery.js"
         type="text/javascript"></script>
@@ -144,6 +145,7 @@
                 $(".charge-custom").hide();
             }
             $(".total_fee").text(tempPrice);
+            buildAlipayNative();
         });
         $("#custom_fee").keyup(function () {
             var tempPrice = $(this).val();
@@ -158,6 +160,7 @@
 
 
     function makeCode(tempVal) {
+        $("#qrcode").html("");
         var qrcode = new QRCode(document.getElementById("qrcode"), {
             width: 100,
             height: 100
@@ -217,10 +220,10 @@
                     return;
                 }
 
-                var body = $("body");
+
                 var action = "<%=basePath%>/front/pay/accountRecharge/jump";
                 var form = $("<form></form>");
-                body.append(form);
+                $("#form-pay").append(form);
                 form.attr("action", action);
                 form.attr("method", "post");
                 form.attr("target", "_blank");

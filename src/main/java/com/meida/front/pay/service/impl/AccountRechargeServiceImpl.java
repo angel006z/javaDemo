@@ -183,7 +183,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
             return resultMessage;
         }
 
-        if (queryRecharge.getRechargeStatus().equals("yes")) {
+        if (queryRecharge.getRechargeStatus().equals(ERechargeStatus.YES)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
             return resultMessage;
@@ -383,7 +383,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
             return resultMessage;
         }
 
-        if (queryReharge.getRechargeStatus().equals("yes")) {
+        if (queryReharge.getRechargeStatus().equals(ERechargeStatus.YES)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
             return resultMessage;
