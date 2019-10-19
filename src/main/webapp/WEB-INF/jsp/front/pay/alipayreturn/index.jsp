@@ -28,7 +28,7 @@
 	 $(function () {
          var result = '${result}';
          if(result=="success") {
-             location.href = "<%=basePath%>/front/pay/charge/index"
+             location.href = "<%=basePath%>/front/pay/accountRecharge/index"
          }else{
              $("#success").hide();
              $("#failure").show();

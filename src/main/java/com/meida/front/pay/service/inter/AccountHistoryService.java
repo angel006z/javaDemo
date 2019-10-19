@@ -59,4 +59,6 @@ public interface AccountHistoryService {
       */
      boolean delete(DeleteDto deleteDto);
 
+     String getInOutNoByAccountHistory();
+
 }
