@@ -411,7 +411,7 @@
         where account_payable_id=#{accountPayableId}
     </update>
 
-    <update id="logicDelete" parameterType="com.meida.dto.DeleteDto">
+    <update id="logicDelete" parameterType="com.meida.front.base.dto.DeleteDto">
         update tb_account_payable set is_valid=-1,update_user_id=#{currentMemberDto.memberId},update_user=#{currentMemberDto.account} where account_payable_id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}

@@ -158,21 +158,21 @@
         where #foreach($field in ${table.fields})#if(${field.keyFlag})${field.name}#end#end=#{#foreach($field in ${table.fields})#if(${field.keyFlag})${field.propertyName}#end#end}
     </update>
 
-    <update id="logicDelete" parameterType="com.meida.dto.DeleteDto">
+    <update id="logicDelete" parameterType="com.meida.backend.base.dto.DeleteDto">
         update ${table.name} set is_valid=-1,update_user_id=#{currentUserDto.userId},update_user=#{currentUserDto.realName} where #foreach($field in ${table.fields})#if(${field.keyFlag})${field.name}#end#end in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
-    <update id="enable" parameterType="com.meida.dto.EnableDto">
+    <update id="enable" parameterType="com.meida.backend.base.dto.EnableDto">
         update ${table.name} set is_valid=1,update_user_id=#{currentUserDto.userId},update_user=#{currentUserDto.realName} where #foreach($field in ${table.fields})#if(${field.keyFlag})${field.name}#end#end in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
 
-    <update id="disable" parameterType="com.meida.dto.DisableDto">
+    <update id="disable" parameterType="com.meida.backend.base.dto.DisableDto">
         update ${table.name} set is_valid=-2,update_user_id=#{currentUserDto.userId},update_user=#{currentUserDto.realName} where #foreach($field in ${table.fields})#if(${field.keyFlag})${field.name}#end#end in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}

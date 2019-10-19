@@ -46,6 +46,28 @@
                 a.remark,
                 a.signature		from tb_account_refund as a where	a.account_refund_id=#{id}
 	</select>
+<select id="getObjectByOrderNo" parameterType="java.lang.String"
+            resultMap="myResultMap">
+		select
+                a.account_refund_id,
+                a.refund_no,
+                a.member_id,
+                a.order_no,
+                a.trade_no,
+                a.refund_date,
+                a.refund_amount,
+                a.refund_reason,
+                a.refund_status,
+                a.create_date,
+                a.create_user_id,
+                a.create_user,
+                a.update_date,
+                a.update_user_id,
+                a.update_user,
+                a.is_valid,
+                a.remark,
+                a.signature		from tb_account_refund as a where a.is_valid=1	and a.order_no=#{id}
+	</select>
 
     <select id="getListPage"  parameterType="com.meida.front.pay.dto.AccountRefundListDto"
             resultMap="myResultMap">
@@ -173,6 +195,9 @@
                 </if>
                                   </select>
 
+    <select id="isExistOrderNo" parameterType="java.lang.String" resultType="java.lang.Long">
+        select count(*) from tb_account_refund as a where a.is_valid=1  and a.order_no=#{orderNo}
+    </select>
 
     <select id="getVoListPage"  parameterType="com.meida.front.pay.dto.AccountRefundListDto"
             resultMap="myResultMap">
@@ -411,7 +436,65 @@
         where account_refund_id=#{accountRefundId}
     </update>
 
-    <update id="logicDelete" parameterType="com.meida.dto.DeleteDto">
+    <update id="updateByOrderNo" parameterType="com.meida.front.pay.po.AccountRefundInfo">
+        update tb_account_refund
+        <set>
+                            <if test="refundNo!=null">
+                    refund_no=#{refundNo},
+                </if>
+                            <if test="memberId!=null">
+                    member_id=#{memberId},
+                </if>
+                            <if test="orderNo!=null">
+                    order_no=#{orderNo},
+                </if>
+                            <if test="tradeNo!=null">
+                    trade_no=#{tradeNo},
+                </if>
+                            <if test="refundDate!=null">
+                    refund_date=#{refundDate},
+                </if>
+                            <if test="refundAmount!=null">
+                    refund_amount=#{refundAmount},
+                </if>
+                            <if test="refundReason!=null">
+                    refund_reason=#{refundReason},
+                </if>
+                            <if test="refundStatus!=null">
+                    refund_status=#{refundStatus},
+                </if>
+                            <if test="createDate!=null">
+                    create_date=#{createDate},
+                </if>
+                            <if test="createUserId!=null">
+                    create_user_id=#{createUserId},
+                </if>
+                            <if test="createUser!=null">
+                    create_user=#{createUser},
+                </if>
+                            <if test="updateDate!=null">
+                    update_date=#{updateDate},
+                </if>
+                            <if test="updateUserId!=null">
+                    update_user_id=#{updateUserId},
+                </if>
+                            <if test="updateUser!=null">
+                    update_user=#{updateUser},
+                </if>
+                            <if test="isValid!=null">
+                    is_valid=#{isValid},
+                </if>
+                            <if test="remark!=null">
+                    remark=#{remark},
+                </if>
+                            <if test="signature!=null">
+                    signature=#{signature},
+                </if>
+                    </set>
+        where order_no=#{orderNo} and is_valid=1
+    </update>
+
+    <update id="logicDelete" parameterType="com.meida.front.base.dto.DeleteDto">
         update tb_account_refund set is_valid=-1,update_user_id=#{currentMemberDto.memberId},update_user=#{currentMemberDto.account} where account_refund_id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}

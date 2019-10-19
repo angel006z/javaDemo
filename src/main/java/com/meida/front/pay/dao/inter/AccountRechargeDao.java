@@ -30,7 +30,7 @@ public interface AccountRechargeDao extends BaseDao<AccountRechargeInfo> {
     */
     long getVoTotalRecord(Object condition);
 
-    long isExistOrderNo(String orderNo);
+    long isExistOrderNo(Serializable orderNo);
 
     AccountRechargeInfo getObjectByOrderNo(Serializable orderNo);
 

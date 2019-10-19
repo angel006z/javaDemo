@@ -37,7 +37,7 @@ ${nameFinal}#end#end
  * @author ${author}
  * @date ${date}
  */
-@Controller
+@Controller("backend${table.controllerName}")
 @RequestMapping("${package.baseUrl}/#lowOrUp(${table.baseName}, "low")")
 #if(${superControllerClass})
 public class ${table.controllerName} extends ${superControllerClass} {
@@ -118,7 +118,7 @@ public class ${table.controllerName} {
 		}
 
 		${table.baseName}ListDto whereItemDto = new ${table.baseName}ListDto();
-		whereItemDto.setCurrentUserDto(Utils.getCurrentUserDto());
+		whereItemDto.setCurrentUserDto(BackendUtils.getCurrentUserDto());
 		whereItemDto.setPagination(paramDto.getPagination());
 	#foreach($field in ${table.fields})
 	#if(${field.keyFlag}==false)
@@ -234,7 +234,7 @@ whereItemDto.set${field.capitalName}(paramDto.get${field.capitalName}());
 
 		DeleteDto deleteDto = new DeleteDto();
 		deleteDto.setIds(ids);
-		deleteDto.setCurrentUserDto(Utils.getCurrentUserDto());
+		deleteDto.setCurrentUserDto(BackendUtils.getCurrentUserDto());
 		boolean isFlag = ${serviceNameFinal}.delete(deleteDto);
 		if (isFlag) {
 			ResultMessage resultMessage = new ResultMessage();

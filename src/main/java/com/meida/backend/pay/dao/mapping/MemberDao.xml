@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meida.backend.pay.dao.inter.MemberDao">
+
+    <resultMap id="myResultMap"
+               type="com.meida.backend.pay.po.MemberInfo">
+                    <id property="memberId" column="memberId"></id>
+                    <id property="nickname" column="nickname"></id>
+                    <id property="account" column="account"></id>
+                    <id property="telphone" column="telphone"></id>
+                    <id property="password" column="password"></id>
+                    <id property="email" column="email"></id>
+                    <id property="weixin" column="weixin"></id>
+                    <id property="qq" column="qq"></id>
+                    <id property="alipay" column="alipay"></id>
+                    <id property="weibo" column="weibo"></id>
+                    <id property="createDate" column="createDate"></id>
+                    <id property="createUserId" column="createUserId"></id>
+                    <id property="createUser" column="createUser"></id>
+                    <id property="updateDate" column="updateDate"></id>
+                    <id property="updateUserId" column="updateUserId"></id>
+                    <id property="updateUser" column="updateUser"></id>
+                    <id property="isValid" column="isValid"></id>
+                    <id property="remark" column="remark"></id>
+                    <id property="signature" column="signature"></id>
+            </resultMap>
+
+    <select id="getObjectById" parameterType="java.lang.String"
+            resultMap="myResultMap">
+		select
+                a.memberId,
+                a.nickname,
+                a.account,
+                a.telphone,
+                a.password,
+                a.email,
+                a.weixin,
+                a.qq,
+                a.alipay,
+                a.weibo,
+                a.createDate,
+                a.createUserId,
+                a.createUser,
+                a.updateDate,
+                a.updateUserId,
+                a.updateUser,
+                a.isValid,
+                a.remark,
+                a.signature		from tb_member as a where	a.memberId=#{id}
+	</select>
+
+    <select id="getListPage"  parameterType="com.meida.backend.pay.dto.MemberListDto"
+            resultMap="myResultMap">
+        select
+                    a.memberId,
+                    a.nickname,
+                    a.account,
+                    a.telphone,
+                    a.password,
+                    a.email,
+                    a.weixin,
+                    a.qq,
+                    a.alipay,
+                    a.weibo,
+                    a.createDate,
+                    a.createUserId,
+                    a.createUser,
+                    a.updateDate,
+                    a.updateUserId,
+                    a.updateUser,
+                    a.isValid,
+                    a.remark,
+                    a.signature        from tb_member as a
+        where a.is_valid=1
+                                                                <if test="nickname != null and nickname!=''">
+                    AND a.nickname like "%"#{nickname}"%"
+                </if>
+                                                                    <if test="account != null and account!=''">
+                    AND a.account like "%"#{account}"%"
+                </if>
+                                                                    <if test="telphone != null and telphone!=''">
+                    AND a.telphone like "%"#{telphone}"%"
+                </if>
+                                                                    <if test="password != null and password!=''">
+                    AND a.password like "%"#{password}"%"
+                </if>
+                                                                    <if test="email != null and email!=''">
+                    AND a.email like "%"#{email}"%"
+                </if>
+                                                                    <if test="weixin != null and weixin!=''">
+                    AND a.weixin like "%"#{weixin}"%"
+                </if>
+                                                                    <if test="qq != null and qq!=''">
+                    AND a.qq like "%"#{qq}"%"
+                </if>
+                                                                    <if test="alipay != null and alipay!=''">
+                    AND a.alipay like "%"#{alipay}"%"
+                </if>
+                                                                    <if test="weibo != null and weibo!=''">
+                    AND a.weibo like "%"#{weibo}"%"
+                </if>
+                                                                    <if test="createDate != null">
+                    AND a.createDate = #{createDate}
+                </if>
+                                                                    <if test="createUserId != null and createUserId!=''">
+                    AND a.createUserId like "%"#{createUserId}"%"
+                </if>
+                                                                    <if test="createUser != null and createUser!=''">
+                    AND a.createUser like "%"#{createUser}"%"
+                </if>
+                                                                    <if test="updateDate != null">
+                    AND a.updateDate = #{updateDate}
+                </if>
+                                                                    <if test="updateUserId != null and updateUserId!=''">
+                    AND a.updateUserId like "%"#{updateUserId}"%"
+                </if>
+                                                                    <if test="updateUser != null and updateUser!=''">
+                    AND a.updateUser like "%"#{updateUser}"%"
+                </if>
+                                                                                      <if test="remark != null and remark!=''">
+                    AND a.remark like "%"#{remark}"%"
+                </if>
+                                                                    <if test="signature != null and signature!=''">
+                    AND a.signature like "%"#{signature}"%"
+                </if>
+                                      LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getTotalRecord" parameterType="com.meida.backend.pay.dto.MemberListDto" resultType="java.lang.Long">
+        select count(*) from tb_member as a where a.is_valid=1
+                                                                <if test="nickname != null and nickname!=''">
+                    AND a.nickname like "%"#{nickname}"%"
+                </if>
+                                                                    <if test="account != null and account!=''">
+                    AND a.account like "%"#{account}"%"
+                </if>
+                                                                    <if test="telphone != null and telphone!=''">
+                    AND a.telphone like "%"#{telphone}"%"
+                </if>
+                                                                    <if test="password != null and password!=''">
+                    AND a.password like "%"#{password}"%"
+                </if>
+                                                                    <if test="email != null and email!=''">
+                    AND a.email like "%"#{email}"%"
+                </if>
+                                                                    <if test="weixin != null and weixin!=''">
+                    AND a.weixin like "%"#{weixin}"%"
+                </if>
+                                                                    <if test="qq != null and qq!=''">
+                    AND a.qq like "%"#{qq}"%"
+                </if>
+                                                                    <if test="alipay != null and alipay!=''">
+                    AND a.alipay like "%"#{alipay}"%"
+                </if>
+                                                                    <if test="weibo != null and weibo!=''">
+                    AND a.weibo like "%"#{weibo}"%"
+                </if>
+                                                                    <if test="createDate != null">
+                    AND a.createDate = #{createDate}
+                </if>
+                                                                    <if test="createUserId != null and createUserId!=''">
+                    AND a.createUserId like "%"#{createUserId}"%"
+                </if>
+                                                                    <if test="createUser != null and createUser!=''">
+                    AND a.createUser like "%"#{createUser}"%"
+                </if>
+                                                                    <if test="updateDate != null">
+                    AND a.updateDate = #{updateDate}
+                </if>
+                                                                    <if test="updateUserId != null and updateUserId!=''">
+                    AND a.updateUserId like "%"#{updateUserId}"%"
+                </if>
+                                                                    <if test="updateUser != null and updateUser!=''">
+                    AND a.updateUser like "%"#{updateUser}"%"
+                </if>
+                                                                                      <if test="remark != null and remark!=''">
+                    AND a.remark like "%"#{remark}"%"
+                </if>
+                                                                    <if test="signature != null and signature!=''">
+                    AND a.signature like "%"#{signature}"%"
+                </if>
+                                  </select>
+
+
+    <select id="getVoListPage"  parameterType="com.meida.backend.pay.dto.MemberListDto"
+            resultMap="myResultMap">
+        select
+                    a.memberId,
+                    a.nickname,
+                    a.account,
+                    a.telphone,
+                    a.password,
+                    a.email,
+                    a.weixin,
+                    a.qq,
+                    a.alipay,
+                    a.weibo,
+                    a.createDate,
+                    a.createUserId,
+                    a.createUser,
+                    a.updateDate,
+                    a.updateUserId,
+                    a.updateUser,
+                    a.isValid,
+                    a.remark,
+                    a.signature        from tb_member as a
+        where a.is_valid=1
+                                                                            <if test="nickname != null and nickname!=''">
+                        AND a.nickname like "%"#{nickname}"%"
+                    </if>
+                                                                                    <if test="account != null and account!=''">
+                        AND a.account like "%"#{account}"%"
+                    </if>
+                                                                                    <if test="telphone != null and telphone!=''">
+                        AND a.telphone like "%"#{telphone}"%"
+                    </if>
+                                                                                    <if test="password != null and password!=''">
+                        AND a.password like "%"#{password}"%"
+                    </if>
+                                                                                    <if test="email != null and email!=''">
+                        AND a.email like "%"#{email}"%"
+                    </if>
+                                                                                    <if test="weixin != null and weixin!=''">
+                        AND a.weixin like "%"#{weixin}"%"
+                    </if>
+                                                                                    <if test="qq != null and qq!=''">
+                        AND a.qq like "%"#{qq}"%"
+                    </if>
+                                                                                    <if test="alipay != null and alipay!=''">
+                        AND a.alipay like "%"#{alipay}"%"
+                    </if>
+                                                                                    <if test="weibo != null and weibo!=''">
+                        AND a.weibo like "%"#{weibo}"%"
+                    </if>
+                                                                                    <if test="createDate != null">
+                        AND a.createDate = #{createDate}
+                    </if>
+                                                                                    <if test="createUserId != null and createUserId!=''">
+                        AND a.createUserId like "%"#{createUserId}"%"
+                    </if>
+                                                                                    <if test="createUser != null and createUser!=''">
+                        AND a.createUser like "%"#{createUser}"%"
+                    </if>
+                                                                                    <if test="updateDate != null">
+                        AND a.updateDate = #{updateDate}
+                    </if>
+                                                                                    <if test="updateUserId != null and updateUserId!=''">
+                        AND a.updateUserId like "%"#{updateUserId}"%"
+                    </if>
+                                                                                    <if test="updateUser != null and updateUser!=''">
+                        AND a.updateUser like "%"#{updateUser}"%"
+                    </if>
+                                                                                                        <if test="remark != null and remark!=''">
+                        AND a.remark like "%"#{remark}"%"
+                    </if>
+                                                                                    <if test="signature != null and signature!=''">
+                        AND a.signature like "%"#{signature}"%"
+                    </if>
+                                            LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getVoTotalRecord" parameterType="com.meida.backend.pay.dto.MemberListDto" resultType="java.lang.Long">
+        select count(*) from tb_member as a where a.is_valid=1
+                                                                            <if test="nickname != null and nickname!=''">
+                        AND a.nickname like "%"#{nickname}"%"
+                    </if>
+                                                                                    <if test="account != null and account!=''">
+                        AND a.account like "%"#{account}"%"
+                    </if>
+                                                                                    <if test="telphone != null and telphone!=''">
+                        AND a.telphone like "%"#{telphone}"%"
+                    </if>
+                                                                                    <if test="password != null and password!=''">
+                        AND a.password like "%"#{password}"%"
+                    </if>
+                                                                                    <if test="email != null and email!=''">
+                        AND a.email like "%"#{email}"%"
+                    </if>
+                                                                                    <if test="weixin != null and weixin!=''">
+                        AND a.weixin like "%"#{weixin}"%"
+                    </if>
+                                                                                    <if test="qq != null and qq!=''">
+                        AND a.qq like "%"#{qq}"%"
+                    </if>
+                                                                                    <if test="alipay != null and alipay!=''">
+                        AND a.alipay like "%"#{alipay}"%"
+                    </if>
+                                                                                    <if test="weibo != null and weibo!=''">
+                        AND a.weibo like "%"#{weibo}"%"
+                    </if>
+                                                                                    <if test="createDate != null">
+                        AND a.createDate = #{createDate}
+                    </if>
+                                                                                    <if test="createUserId != null and createUserId!=''">
+                        AND a.createUserId like "%"#{createUserId}"%"
+                    </if>
+                                                                                    <if test="createUser != null and createUser!=''">
+                        AND a.createUser like "%"#{createUser}"%"
+                    </if>
+                                                                                    <if test="updateDate != null">
+                        AND a.updateDate = #{updateDate}
+                    </if>
+                                                                                    <if test="updateUserId != null and updateUserId!=''">
+                        AND a.updateUserId like "%"#{updateUserId}"%"
+                    </if>
+                                                                                    <if test="updateUser != null and updateUser!=''">
+                        AND a.updateUser like "%"#{updateUser}"%"
+                    </if>
+                                                                                                        <if test="remark != null and remark!=''">
+                        AND a.remark like "%"#{remark}"%"
+                    </if>
+                                                                                    <if test="signature != null and signature!=''">
+                        AND a.signature like "%"#{signature}"%"
+                    </if>
+                                        </select>
+
+    <select id="getListByAll" resultMap="myResultMap">
+		select
+                a.memberId,
+                a.nickname,
+                a.account,
+                a.telphone,
+                a.password,
+                a.email,
+                a.weixin,
+                a.qq,
+                a.alipay,
+                a.weibo,
+                a.createDate,
+                a.createUserId,
+                a.createUser,
+                a.updateDate,
+                a.updateUserId,
+                a.updateUser,
+                a.isValid,
+                a.remark,
+                a.signature		from tb_member as a
+	</select>
+
+
+    <select id="getListByValid" resultMap="myResultMap">
+		select
+                a.memberId,
+                a.nickname,
+                a.account,
+                a.telphone,
+                a.password,
+                a.email,
+                a.weixin,
+                a.qq,
+                a.alipay,
+                a.weibo,
+                a.createDate,
+                a.createUserId,
+                a.createUser,
+                a.updateDate,
+                a.updateUserId,
+                a.updateUser,
+                a.isValid,
+                a.remark,
+                a.signature		from tb_member as a where a.is_valid=1
+	</select>
+
+
+    <insert id="save"	parameterType="com.meida.backend.pay.po.MemberInfo">
+		insert into tb_member (
+                        memberId,                                nickname,                                account,                                telphone,                                password,                                email,                                weixin,                                qq,                                alipay,                                weibo,                                createDate,                                createUserId,                                createUser,                                updateDate,                                updateUserId,                                updateUser,                                isValid,                                remark,                                signature                    )
+		values (
+                    #{memberId},                            #{nickname},                            #{account},                            #{telphone},                            #{password},                            #{email},                            #{weixin},                            #{qq},                            #{alipay},                            #{weibo},                            #{createDate},                            #{createUserId},                            #{createUser},                            #{updateDate},                            #{updateUserId},                            #{updateUser},                            #{isValid},                            #{remark},                            #{signature}            		)
+	</insert>
+
+    <update id="update" parameterType="com.meida.backend.pay.po.MemberInfo">
+        update tb_member
+        <set>
+                            <if test="nickname!=null">
+                    nickname=#{nickname},
+                </if>
+                            <if test="account!=null">
+                    account=#{account},
+                </if>
+                            <if test="telphone!=null">
+                    telphone=#{telphone},
+                </if>
+                            <if test="password!=null">
+                    password=#{password},
+                </if>
+                            <if test="email!=null">
+                    email=#{email},
+                </if>
+                            <if test="weixin!=null">
+                    weixin=#{weixin},
+                </if>
+                            <if test="qq!=null">
+                    qq=#{qq},
+                </if>
+                            <if test="alipay!=null">
+                    alipay=#{alipay},
+                </if>
+                            <if test="weibo!=null">
+                    weibo=#{weibo},
+                </if>
+                            <if test="createDate!=null">
+                    createDate=#{createDate},
+                </if>
+                            <if test="createUserId!=null">
+                    createUserId=#{createUserId},
+                </if>
+                            <if test="createUser!=null">
+                    createUser=#{createUser},
+                </if>
+                            <if test="updateDate!=null">
+                    updateDate=#{updateDate},
+                </if>
+                            <if test="updateUserId!=null">
+                    updateUserId=#{updateUserId},
+                </if>
+                            <if test="updateUser!=null">
+                    updateUser=#{updateUser},
+                </if>
+                            <if test="isValid!=null">
+                    isValid=#{isValid},
+                </if>
+                            <if test="remark!=null">
+                    remark=#{remark},
+                </if>
+                            <if test="signature!=null">
+                    signature=#{signature},
+                </if>
+                    </set>
+        where memberId=#{memberId}
+    </update>
+
+    <update id="logicDelete" parameterType="com.meida.backend.base.dto.DeleteDto">
+        update tb_member set is_valid=-1,update_user_id=#{currentUserDto.userId},update_user=#{currentUserDto.realName} where memberId in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="enable" parameterType="com.meida.backend.base.dto.EnableDto">
+        update tb_member set is_valid=1,update_user_id=#{currentUserDto.userId},update_user=#{currentUserDto.realName} where memberId in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="disable" parameterType="com.meida.backend.base.dto.DisableDto">
+        update tb_member set is_valid=-2,update_user_id=#{currentUserDto.userId},update_user=#{currentUserDto.realName} where memberId in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="physicalDelete" parameterType="java.lang.String">
+        delete from tb_member where memberId in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -31,5 +31,5 @@ public interface AccountAmountDao extends BaseDao<AccountAmountInfo> {
 
     AccountAmountInfo getObjectByMemberId(Long memberId);
 
-    long updateByMemberId(AccountAmountInfo fundAmount);
+    long updateByMemberId(AccountAmountInfo entity);
 }

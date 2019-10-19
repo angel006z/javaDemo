@@ -3,6 +3,7 @@ package com.meida.backend.base.dao.inter;
 import com.meida.backend.base.dto.DeleteDto;
 import com.meida.backend.base.dto.DisableDto;
 import com.meida.backend.base.dto.EnableDto;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * @param <T>
  */
+@Repository("backendBaseDao")
 public interface BaseDao<T> {
     /**
      * 新增单条记录

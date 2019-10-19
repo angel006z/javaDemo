@@ -40,7 +40,7 @@ ${nameFinal}#end#end
 #set ($serviceName = $table.serviceName)
 #set ($headServiceName = $serviceName.substring(0,1).toLowerCase())
 #set ($serviceNameFinal = $headServiceName + $serviceName.substring(1))
-@Service("${serviceNameFinal}")
+@Service("backend${table.serviceImplName}")
 #if(${superServiceImplClass})
 public class ${table.serviceImplName} extends ${superServiceImplClass} implements ${table.serviceName} {
 #else
