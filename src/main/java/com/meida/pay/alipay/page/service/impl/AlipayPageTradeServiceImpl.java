@@ -1,14 +1,8 @@
 package com.meida.pay.alipay.page.service.impl;
 
 import com.alipay.api.AlipayClient;
-import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.alipay.api.request.AlipayTradePrecreateRequest;
-import com.alipay.api.request.AlipayTradeQueryRequest;
-import com.alipay.api.request.AlipayTradeRefundRequest;
-import com.alipay.api.response.AlipayTradePagePayResponse;
-import com.alipay.api.response.AlipayTradePrecreateResponse;
-import com.alipay.api.response.AlipayTradeQueryResponse;
-import com.alipay.api.response.AlipayTradeRefundResponse;
+import com.alipay.api.request.*;
+import com.alipay.api.response.*;
 import com.meida.base.vo.ResultMessage;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.constant.EErrorCode;
@@ -138,6 +132,31 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
             } else {
                 result.setCode(EErrorCode.Error);
                 result.setMessage("调用支付宝接口失败，请重新操作.");
+            }
+            return result;
+        } catch (Exception ex) {
+            logger.warn(String.format("调用支付宝接口 参数信息：%s,异常信息：%s" + JsonUtils.toJSONString(builder), ex.getMessage()));
+            // 请求支付过程中异常，请重新操作.
+            result.setCode(EErrorCode.Error);
+            result.setMessage("调用支付宝接口异常，请返回重新操作。");
+            return result;
+        }
+    }
+
+    @Override
+    public AlipayPageResultTradeBillDownloadurlQuery tradeBillDownload(AlipayPageParametersTradeBillDownloadurlQuery builder) {
+        AlipayPageResultTradeBillDownloadurlQuery result = new AlipayPageResultTradeBillDownloadurlQuery();
+        try {
+            AlipayDataDataserviceBillDownloadurlQueryRequest request = new AlipayDataDataserviceBillDownloadurlQueryRequest();
+            request.setBizContent(builder.GetParameters());
+            AlipayDataDataserviceBillDownloadurlQueryResponse response = alipayClient.execute(request);
+            if (response.isSuccess()) {
+                result.setCode(EErrorCode.Success);
+                result.setMessage("查询对账单下载地址成功.");
+                result.setBillDownloadUrl(response.getBillDownloadUrl());
+            } else {
+                result.setCode(EErrorCode.Error);
+                result.setMessage("查询对账单下载地址失败.");
             }
             return result;
         } catch (Exception ex) {

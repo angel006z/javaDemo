@@ -1,8 +1,16 @@
 package com.meida.pay.pojo;
 
+import com.meida.common.constant.EErrorCode;
 import com.meida.common.util.StringUtils;
 
 public class ResultTradeQuery {
+	public ResultTradeQuery() {
+		code = EErrorCode.Error;
+		message = "操作失败.";
+	}
+
+	private String code;
+	private String message;
 	/**
 	 * 在线支付类型
 	 */
@@ -15,6 +23,22 @@ public class ResultTradeQuery {
 	private String out_trade_no;
 	
 	private String trade_no;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	public String getPayType() {
 		return payType;

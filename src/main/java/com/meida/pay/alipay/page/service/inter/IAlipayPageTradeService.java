@@ -44,4 +44,7 @@ public interface IAlipayPageTradeService {
      * @return
      */
     AlipayPageResultTradeRefund tradeRefund(AlipayPageParametersTradeRefund builder);
+
+
+    AlipayPageResultTradeBillDownloadurlQuery tradeBillDownload(AlipayPageParametersTradeBillDownloadurlQuery builder);
 }
