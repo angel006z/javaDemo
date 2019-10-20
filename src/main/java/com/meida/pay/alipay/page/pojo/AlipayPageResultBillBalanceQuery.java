@@ -5,15 +5,24 @@ import com.meida.common.constant.EErrorCode;
 import java.math.BigDecimal;
 
 public class AlipayPageResultBillBalanceQuery {
-    public AlipayPageResultBillBalanceQuery()
-    {
+    public AlipayPageResultBillBalanceQuery() {
         code = EErrorCode.Error;
         message = "操作失败.";
     }
-    private String code ;
+
+    private String code;
     private String message;
+    /**
+     * 支付宝账户余额
+     */
     private String totalAmount;
+    /**
+     * 账户可用余额
+     */
     private String availableAmount;
+    /**
+     * 冻结金额
+     */
     private String freezeAmount;
 
     public String getCode() {

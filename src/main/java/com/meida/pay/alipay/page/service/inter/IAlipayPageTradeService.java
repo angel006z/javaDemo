@@ -2,6 +2,7 @@ package com.meida.pay.alipay.page.service.inter;
 
 import com.meida.base.vo.ResultMessage;
 import com.meida.pay.alipay.page.pojo.*;
+import com.meida.pay.pojo.ParametersTradeRefundQuery;
 
 public interface IAlipayPageTradeService {
     /**
@@ -29,7 +30,7 @@ public interface IAlipayPageTradeService {
      * @param builder
      * @return
      */
-	ResultMessage tradeIsPaySuccess(AlipayPageParametersTradeQuery builder);
+	ResultMessage tradePayIsSuccess(AlipayPageParametersTradeQuery builder);
 
     /**
      * 统一收单交易退款接口
@@ -68,4 +69,10 @@ public interface IAlipayPageTradeService {
      */
     AlipayPageResultBillBalanceQuery billBalanceQuery();
 
+    /**
+     * 查询支付宝退款是否已成功
+     * @param builder
+     * @return
+     */
+    ResultMessage tradeRefundIsSuccess(AlipayPageParametersTradeFastpayRefundQuery builder);
 }

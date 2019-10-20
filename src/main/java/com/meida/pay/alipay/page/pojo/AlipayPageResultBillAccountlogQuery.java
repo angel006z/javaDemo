@@ -9,6 +9,7 @@ public class AlipayPageResultBillAccountlogQuery {
         code = EErrorCode.Error;
         message = "操作失败.";
     }
+
     private String code;
     private String message;
     private String page_no;

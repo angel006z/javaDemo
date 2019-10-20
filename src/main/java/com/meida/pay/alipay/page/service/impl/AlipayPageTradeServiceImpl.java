@@ -8,6 +8,7 @@ import com.meida.common.util.JsonUtils;
 import com.meida.common.constant.EErrorCode;
 import com.meida.pay.alipay.config.AlipayClientFactory;
 import com.meida.pay.alipay.config.AlipayConfig;
+import com.meida.pay.alipay.constant.AlipayRefundStatus;
 import com.meida.pay.alipay.constant.AlipayTradeStatus;
 import com.meida.pay.alipay.page.pojo.*;
 import com.meida.pay.alipay.page.service.inter.IAlipayPageTradeService;
@@ -80,7 +81,7 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
     }
 
     @Override
-    public ResultMessage tradeIsPaySuccess(AlipayPageParametersTradeQuery builder) {
+    public ResultMessage tradePayIsSuccess(AlipayPageParametersTradeQuery builder) {
         ResultMessage result = new ResultMessage();
         try {
             AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
@@ -176,7 +177,7 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
     public AlipayPageResultBillAccountlogQuery billAccountlogQuery(AlipayPageParametersBillAccountlogQuery builder) {
         AlipayPageResultBillAccountlogQuery result = new AlipayPageResultBillAccountlogQuery();
         try {
-            AlipayDataBillAccountlogQueryRequest  request = new AlipayDataBillAccountlogQueryRequest();
+            AlipayDataBillAccountlogQueryRequest request = new AlipayDataBillAccountlogQueryRequest();
             request.setBizContent(builder.GetParameters());
             AlipayDataBillAccountlogQueryResponse response = alipayClient.execute(request);
             if (response.isSuccess()) {
@@ -241,6 +242,35 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
             return result;
         } catch (Exception ex) {
             logger.warn(String.format("调用支付宝接口 异常信息：%s", ex.getMessage()));
+            // 请求支付过程中异常，请重新操作.
+            result.setCode(EErrorCode.Error);
+            result.setMessage("调用支付宝接口异常，请返回重新操作。");
+            return result;
+        }
+    }
+
+    @Override
+    public ResultMessage tradeRefundIsSuccess(AlipayPageParametersTradeFastpayRefundQuery builder) {
+        ResultMessage result = new ResultMessage();
+        try {
+            AlipayTradeFastpayRefundQueryRequest request = new AlipayTradeFastpayRefundQueryRequest();
+            request.setBizContent(builder.GetParameters());
+            AlipayTradeFastpayRefundQueryResponse response = alipayClient.execute(request);
+            if (response.isSuccess()) {
+                if (response.getRefundStatus().equals(AlipayRefundStatus.REFUND_SUCCESS)) {
+                    result.setCode(EErrorCode.Success);
+                    result.setMessage("退款成功");
+                } else {
+                    result.setCode(EErrorCode.Error);
+                    result.setMessage("退款失败");
+                }
+            } else {
+                result.setCode(EErrorCode.Error);
+                result.setMessage("查询支付宝交易记录失败.");
+            }
+            return result;
+        } catch (Exception ex) {
+            logger.warn(String.format("调用支付宝接口 参数信息：%s,异常信息：%s" + JsonUtils.toJSONString(builder), ex.getMessage()));
             // 请求支付过程中异常，请重新操作.
             result.setCode(EErrorCode.Error);
             result.setMessage("调用支付宝接口异常，请返回重新操作。");

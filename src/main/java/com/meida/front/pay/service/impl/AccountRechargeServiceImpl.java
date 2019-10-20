@@ -169,7 +169,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         parametersTradeQuery.setPayType(EPayType.Alipay);
         parametersTradeQuery.setOut_trade_no(orderNo);
         parametersTradeQuery.setTrade_no(trade_no);
-        ResultMessage tradeIsPaySuccess = tradeService.tradeIsPaySuccess(parametersTradeQuery);
+        ResultMessage tradeIsPaySuccess = tradeService.tradePayIsSuccess(parametersTradeQuery);
         if (!tradeIsPaySuccess.getCode().equals(EErrorCode.Success)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("支付宝交易号：" + trade_no + "业务订单号：" + orderNo + "未支付成功.");
@@ -372,7 +372,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         parametersTradeQuery.setPayType(EPayType.Alipay);
         parametersTradeQuery.setOut_trade_no(orderNo);
         parametersTradeQuery.setTrade_no(trade_no);
-        ResultMessage tradeIsPaySuccess = tradeService.tradeIsPaySuccess(parametersTradeQuery);
+        ResultMessage tradeIsPaySuccess = tradeService.tradePayIsSuccess(parametersTradeQuery);
         if (!tradeIsPaySuccess.getCode().equals(EErrorCode.Success)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("支付宝交易号：" + trade_no + "业务订单号：" + orderNo + "未支付成功.");

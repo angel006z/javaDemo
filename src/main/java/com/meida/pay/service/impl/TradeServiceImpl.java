@@ -171,13 +171,13 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public ResultMessage tradeIsPaySuccess(ParametersTradeQuery builderParameters) {
+    public ResultMessage tradePayIsSuccess(ParametersTradeQuery builderParameters) {
         if (builderParameters.getPayType().equals(EPayType.Alipay)) {
             AlipayPageParametersTradeQuery builder = new AlipayPageParametersTradeQuery();
             builder.setOut_trade_no(builderParameters.getOut_trade_no());
             builder.setTrade_no(builderParameters.getTrade_no());
             AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
-            return tradeServiceImpl.tradeIsPaySuccess(builder);
+            return tradeServiceImpl.tradePayIsSuccess(builder);
 
         } else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
             ResultMessage resultMessage = new ResultMessage();
@@ -197,11 +197,6 @@ public class TradeServiceImpl implements ITradeService {
         }
     }
 
-    @Override
-    public ResultTradeQuery tradeQuery(ParametersTradeQuery builderParameters) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public ResultTradeRefund tradeRefund(ParametersTradeRefund builderParameters) {
@@ -260,10 +255,33 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public ResultTradeRefundQuery tradeRefundQuery(ParametersTradeRefundQuery builderParameters) {
-        // TODO Auto-generated method stub
-        return null;
+    public ResultMessage tradeRefundIsSuccess(ParametersTradeRefundQuery builderParameters) {
+
+        if (builderParameters.getPayType().equals(EPayType.Alipay)) {
+            AlipayPageParametersTradeFastpayRefundQuery builder =new AlipayPageParametersTradeFastpayRefundQuery();
+            builder.setTrade_no(builderParameters.getTrade_no());
+            builder.setOut_trade_no(builderParameters.getOut_trade_no());
+            builder.setOut_request_no(builderParameters.getOut_request_no());
+            AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
+            return tradeServiceImpl.tradeRefundIsSuccess(builder);
+        } else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
+            ResultMessage resultMessage =new ResultMessage();
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("暂不支持微信支付方式.");
+            return resultMessage;
+        } else if (builderParameters.getPayType().equals(EPayType.Banks)) {
+            ResultMessage resultMessage =new ResultMessage();
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("暂不支持银行支付方式.");
+            return resultMessage;
+        } else {
+            ResultMessage resultMessage =new ResultMessage();
+            resultMessage.setCode(EErrorCode.Error);
+            resultMessage.setMessage("在线支付类型（PayType）参数错误.");
+            return resultMessage;
+        }
     }
+
 
     @Override
     public ResultTradeClose tradeClose(ParametersTradeClose builderParameters) {
