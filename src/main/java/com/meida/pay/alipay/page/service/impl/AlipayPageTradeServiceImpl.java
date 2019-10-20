@@ -11,7 +11,7 @@ import com.meida.pay.alipay.config.AlipayConfig;
 import com.meida.pay.alipay.constant.AlipayTradeStatus;
 import com.meida.pay.alipay.page.pojo.*;
 import com.meida.pay.alipay.page.service.inter.IAlipayPageTradeService;
-import org.apache.poi.ss.formula.functions.T;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -176,7 +176,7 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
     public AlipayPageResultBillAccountlogQuery billAccountlogQuery(AlipayPageParametersBillAccountlogQuery builder) {
         AlipayPageResultBillAccountlogQuery result = new AlipayPageResultBillAccountlogQuery();
         try {
-            AlipayDataBillAccountlogQueryRequest request = new AlipayDataBillAccountlogQueryRequest();
+            AlipayDataBillAccountlogQueryRequest  request = new AlipayDataBillAccountlogQueryRequest();
             request.setBizContent(builder.GetParameters());
             AlipayDataBillAccountlogQueryResponse response = alipayClient.execute(request);
             if (response.isSuccess()) {
@@ -221,5 +221,32 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
             return result;
         }
     }
+
+    @Override
+    public AlipayPageResultBillBalanceQuery billBalanceQuery() {
+        AlipayPageResultBillBalanceQuery result = new AlipayPageResultBillBalanceQuery();
+        try {
+            AlipayDataBillBalanceQueryRequest request = new AlipayDataBillBalanceQueryRequest();
+            AlipayDataBillBalanceQueryResponse response = alipayClient.execute(request);
+            if (response.isSuccess()) {
+                result.setCode(EErrorCode.Success);
+                result.setMessage("支付宝商家账户当前余额查询成功.");
+                result.setTotalAmount(response.getTotalAmount());
+                result.setAvailableAmount(response.getAvailableAmount());
+                result.setFreezeAmount(response.getFreezeAmount());
+            } else {
+                result.setCode(EErrorCode.Error);
+                result.setMessage("支付宝商家账户当前余额查询失败.");
+            }
+            return result;
+        } catch (Exception ex) {
+            logger.warn(String.format("调用支付宝接口 异常信息：%s", ex.getMessage()));
+            // 请求支付过程中异常，请重新操作.
+            result.setCode(EErrorCode.Error);
+            result.setMessage("调用支付宝接口异常，请返回重新操作。");
+            return result;
+        }
+    }
+
 
 }

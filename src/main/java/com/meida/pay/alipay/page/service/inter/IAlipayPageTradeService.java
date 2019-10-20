@@ -45,7 +45,27 @@ public interface IAlipayPageTradeService {
      */
     AlipayPageResultTradeRefund tradeRefund(AlipayPageParametersTradeRefund builder);
 
-
+    /**
+     * 查询对账单下载地址
+     * 为方便商户快速查账，支持商户通过本接口获取商户离线账单下载地址
+     * @param builder
+     * @return
+     */
     AlipayPageResultBillDownloadurlQuery billDownloadurlQuery(AlipayPageParametersBillDownloadurlQuery builder);
+
+    /**
+     * 支付宝商家账户账务明细查询
+     * 为支付宝商家提供支付宝账户的账务流水信息，供对账使用。
+     * @param builder
+     * @return
+     */
     AlipayPageResultBillAccountlogQuery billAccountlogQuery(AlipayPageParametersBillAccountlogQuery builder);
+
+    /**
+     * 支付宝商家账户当前余额查询
+     * 为支付宝商家提供支付宝账户当前余额信息，包括冻结金额，可用余额和总额，供对账使用。
+     * @return
+     */
+    AlipayPageResultBillBalanceQuery billBalanceQuery();
+
 }

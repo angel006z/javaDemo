@@ -307,4 +307,34 @@ public class TradeServiceImpl implements ITradeService {
         return false;
     }
 
+    @Override
+    public ResultBillBalanceQuery billBalanceQuery(ParametersBillBalanceQuery builderParameters) {
+        if (builderParameters.getPayType().equals(EPayType.Alipay)) {
+            AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
+            AlipayPageResultBillBalanceQuery result= tradeServiceImpl.billBalanceQuery();
+            ResultBillBalanceQuery resultBillBalanceQuery =new ResultBillBalanceQuery();
+            resultBillBalanceQuery.setCode(result.getCode());
+            resultBillBalanceQuery.setMessage(result.getMessage());
+            resultBillBalanceQuery.setTotalAmount(result.getTotalAmount());
+            resultBillBalanceQuery.setAvailableAmount(result.getAvailableAmount());
+            resultBillBalanceQuery.setFreezeAmount(result.getFreezeAmount());
+            return resultBillBalanceQuery;
+        } else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
+            ResultBillBalanceQuery resultBillBalanceQuery = new ResultBillBalanceQuery();
+            resultBillBalanceQuery.setCode(EErrorCode.Error);
+            resultBillBalanceQuery.setMessage("暂不支持微信支付方式.");
+            return resultBillBalanceQuery;
+        } else if (builderParameters.getPayType().equals(EPayType.Banks)) {
+            ResultBillBalanceQuery resultBillBalanceQuery = new ResultBillBalanceQuery();
+            resultBillBalanceQuery.setCode(EErrorCode.Error);
+            resultBillBalanceQuery.setMessage("暂不支持银行支付方式.");
+            return resultBillBalanceQuery;
+        } else {
+            ResultBillBalanceQuery resultBillDownloadurlQuery = new ResultBillBalanceQuery();
+            resultBillDownloadurlQuery.setCode(EErrorCode.Error);
+            resultBillDownloadurlQuery.setMessage("在线支付类型（PayType）参数错误.");
+            return resultBillDownloadurlQuery;
+        }
+    }
+
 }
