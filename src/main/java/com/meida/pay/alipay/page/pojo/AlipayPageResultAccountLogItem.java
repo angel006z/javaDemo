@@ -1,6 +1,6 @@
 package com.meida.pay.alipay.page.pojo;
 
-public class AccountLogItemResult {
+public class AlipayPageResultAccountLogItem {
     private String trans_dt;//	String	必填	20	入账时间	2019-01-01 00:00:00
     private String account_log_id;//	String	必填	256	支付宝账务流水号。对账使用，不脱敏	1***
     private String alipay_order_no;//	String	必填	255	支付宝订单号。对账使用，不脱敏	20190101***

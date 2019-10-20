@@ -1,6 +1,7 @@
 package com.meida.pay.alipay.page.service.impl;
 
 import com.alipay.api.AlipayClient;
+import com.alipay.api.domain.AccountLogItemResult;
 import com.alipay.api.request.*;
 import com.alipay.api.response.*;
 import com.meida.base.vo.ResultMessage;
@@ -186,27 +187,27 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
                 result.setPage_no(response.getPageNo());
                 result.setPage_size(response.getPageSize());
                 result.setTotal_size(response.getTotalSize());
-                List<com.alipay.api.domain.AccountLogItemResult> listApiAccountLogItemResult = response.getDetailList();
-                AccountLogItemResult accountLogItemResult;
-                List<AccountLogItemResult> listAccountLogItemResult = new ArrayList<AccountLogItemResult>();
-                for (com.alipay.api.domain.AccountLogItemResult item : listApiAccountLogItemResult) {
-                    accountLogItemResult = new AccountLogItemResult();
-                    listAccountLogItemResult.add(accountLogItemResult);
-                    accountLogItemResult.setTrans_dt(item.getTransDt());
-                    accountLogItemResult.setAccount_log_id(item.getAccountLogId());
-                    accountLogItemResult.setAlipay_order_no(item.getAlipayOrderNo());
-                    accountLogItemResult.setMerchant_order_no(item.getMerchantOrderNo());
-                    accountLogItemResult.setTrans_amount(item.getTransAmount());
-                    accountLogItemResult.setBalance(item.getBalance());
-                    accountLogItemResult.setType(item.getType());
-                    accountLogItemResult.setOther_account(item.getOtherAccount());
-                    accountLogItemResult.setTrans_memo(item.getTransMemo());
-                    accountLogItemResult.setDirection(item.getDirection());
-                    accountLogItemResult.setBill_source(item.getBillSource());
-                    accountLogItemResult.setBiz_nos(item.getBizNos());
-                    accountLogItemResult.setBiz_orig_no(item.getBizOrigNo());
-                    accountLogItemResult.setBiz_desc(item.getBizDesc());
-                    listAccountLogItemResult.add(accountLogItemResult);
+                List<AccountLogItemResult> listApiAccountLogItemResult = response.getDetailList();
+                AlipayPageResultAccountLogItem accountLogItem;
+                List<AlipayPageResultAccountLogItem> listAccountLogItemResult = new ArrayList<AlipayPageResultAccountLogItem>();
+                for (AccountLogItemResult item : listApiAccountLogItemResult) {
+                    accountLogItem = new AlipayPageResultAccountLogItem();
+                    listAccountLogItemResult.add(accountLogItem);
+                    accountLogItem.setTrans_dt(item.getTransDt());
+                    accountLogItem.setAccount_log_id(item.getAccountLogId());
+                    accountLogItem.setAlipay_order_no(item.getAlipayOrderNo());
+                    accountLogItem.setMerchant_order_no(item.getMerchantOrderNo());
+                    accountLogItem.setTrans_amount(item.getTransAmount());
+                    accountLogItem.setBalance(item.getBalance());
+                    accountLogItem.setType(item.getType());
+                    accountLogItem.setOther_account(item.getOtherAccount());
+                    accountLogItem.setTrans_memo(item.getTransMemo());
+                    accountLogItem.setDirection(item.getDirection());
+                    accountLogItem.setBill_source(item.getBillSource());
+                    accountLogItem.setBiz_nos(item.getBizNos());
+                    accountLogItem.setBiz_orig_no(item.getBizOrigNo());
+                    accountLogItem.setBiz_desc(item.getBizDesc());
+                    listAccountLogItemResult.add(accountLogItem);
                 }
                 result.setListAccountLogItemResult(listAccountLogItemResult);
             } else {

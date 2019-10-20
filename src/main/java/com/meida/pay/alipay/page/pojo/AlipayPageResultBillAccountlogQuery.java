@@ -15,7 +15,7 @@ public class AlipayPageResultBillAccountlogQuery {
     private String page_no;
     private String page_size;
     private String total_size;
-    private List<AccountLogItemResult> listAccountLogItemResult;
+    private List<AlipayPageResultAccountLogItem> listAccountLogItemResult;
 
     public String getCode() {
         return code;
@@ -57,11 +57,11 @@ public class AlipayPageResultBillAccountlogQuery {
         this.total_size = total_size;
     }
 
-    public List<AccountLogItemResult> getListAccountLogItemResult() {
+    public List<AlipayPageResultAccountLogItem> getListAccountLogItemResult() {
         return listAccountLogItemResult;
     }
 
-    public void setListAccountLogItemResult(List<AccountLogItemResult> listAccountLogItemResult) {
+    public void setListAccountLogItemResult(List<AlipayPageResultAccountLogItem> listAccountLogItemResult) {
         this.listAccountLogItemResult = listAccountLogItemResult;
     }
 }
