@@ -11,8 +11,12 @@ import com.meida.pay.alipay.config.AlipayConfig;
 import com.meida.pay.alipay.constant.AlipayTradeStatus;
 import com.meida.pay.alipay.page.pojo.*;
 import com.meida.pay.alipay.page.service.inter.IAlipayPageTradeService;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
     private static final Logger logger = LoggerFactory.getLogger(AlipayPageTradeServiceImpl.class);// slf4j日志记录器
@@ -144,8 +148,8 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
     }
 
     @Override
-    public AlipayPageResultTradeBillDownloadurlQuery tradeBillDownload(AlipayPageParametersTradeBillDownloadurlQuery builder) {
-        AlipayPageResultTradeBillDownloadurlQuery result = new AlipayPageResultTradeBillDownloadurlQuery();
+    public AlipayPageResultBillDownloadurlQuery billDownloadurlQuery(AlipayPageParametersBillDownloadurlQuery builder) {
+        AlipayPageResultBillDownloadurlQuery result = new AlipayPageResultBillDownloadurlQuery();
         try {
             AlipayDataDataserviceBillDownloadurlQueryRequest request = new AlipayDataDataserviceBillDownloadurlQueryRequest();
             request.setBizContent(builder.GetParameters());
@@ -157,6 +161,56 @@ public class AlipayPageTradeServiceImpl implements IAlipayPageTradeService {
             } else {
                 result.setCode(EErrorCode.Error);
                 result.setMessage("查询对账单下载地址失败.");
+            }
+            return result;
+        } catch (Exception ex) {
+            logger.warn(String.format("调用支付宝接口 参数信息：%s,异常信息：%s" + JsonUtils.toJSONString(builder), ex.getMessage()));
+            // 请求支付过程中异常，请重新操作.
+            result.setCode(EErrorCode.Error);
+            result.setMessage("调用支付宝接口异常，请返回重新操作。");
+            return result;
+        }
+    }
+
+    @Override
+    public AlipayPageResultBillAccountlogQuery billAccountlogQuery(AlipayPageParametersBillAccountlogQuery builder) {
+        AlipayPageResultBillAccountlogQuery result = new AlipayPageResultBillAccountlogQuery();
+        try {
+            AlipayDataBillAccountlogQueryRequest request = new AlipayDataBillAccountlogQueryRequest();
+            request.setBizContent(builder.GetParameters());
+            AlipayDataBillAccountlogQueryResponse response = alipayClient.execute(request);
+            if (response.isSuccess()) {
+                result.setCode(EErrorCode.Success);
+                result.setMessage("支付宝商家账户账务明细查询成功.");
+                result.setPage_no(response.getPageNo());
+                result.setPage_size(response.getPageSize());
+                result.setTotal_size(response.getTotalSize());
+                List<com.alipay.api.domain.AccountLogItemResult> listApiAccountLogItemResult = response.getDetailList();
+                AccountLogItemResult accountLogItemResult;
+                List<AccountLogItemResult> listAccountLogItemResult = new ArrayList<AccountLogItemResult>();
+                for (com.alipay.api.domain.AccountLogItemResult item : listApiAccountLogItemResult) {
+                    accountLogItemResult = new AccountLogItemResult();
+                    listAccountLogItemResult.add(accountLogItemResult);
+                    accountLogItemResult.setTrans_dt(item.getTransDt());
+                    accountLogItemResult.setAccount_log_id(item.getAccountLogId());
+                    accountLogItemResult.setAlipay_order_no(item.getAlipayOrderNo());
+                    accountLogItemResult.setMerchant_order_no(item.getMerchantOrderNo());
+                    accountLogItemResult.setTrans_amount(item.getTransAmount());
+                    accountLogItemResult.setBalance(item.getBalance());
+                    accountLogItemResult.setType(item.getType());
+                    accountLogItemResult.setOther_account(item.getOtherAccount());
+                    accountLogItemResult.setTrans_memo(item.getTransMemo());
+                    accountLogItemResult.setDirection(item.getDirection());
+                    accountLogItemResult.setBill_source(item.getBillSource());
+                    accountLogItemResult.setBiz_nos(item.getBizNos());
+                    accountLogItemResult.setBiz_orig_no(item.getBizOrigNo());
+                    accountLogItemResult.setBiz_desc(item.getBizDesc());
+                    listAccountLogItemResult.add(accountLogItemResult);
+                }
+                result.setListAccountLogItemResult(listAccountLogItemResult);
+            } else {
+                result.setCode(EErrorCode.Error);
+                result.setMessage("支付宝商家账户账务明细查询失败.");
             }
             return result;
         } catch (Exception ex) {

@@ -5,8 +5,8 @@ import com.meida.common.util.DateUtils;
 import com.meida.common.util.JsonUtils;
 import com.meida.pay.pojo.EPayChannel;
 import com.meida.pay.pojo.EPayType;
-import com.meida.pay.pojo.ParametersTradeBillDownloadurlQuery;
-import com.meida.pay.pojo.ResultTradeBillDownloadurlQuery;
+import com.meida.pay.pojo.ParametersBillDownloadurlQuery;
+import com.meida.pay.pojo.ResultBillDownloadurlQuery;
 import com.meida.pay.service.inter.ITradeService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,11 +23,11 @@ public class TradeTest {
     private ITradeService tradeService;
     @Test
     public void test_tradeBillDownload() {
-        ParametersTradeBillDownloadurlQuery builderParameters=new ParametersTradeBillDownloadurlQuery();
+        ParametersBillDownloadurlQuery builderParameters=new ParametersBillDownloadurlQuery();
         builderParameters.setPayType(EPayType.Alipay);
         builderParameters.setPayChannel(EPayChannel.Alipay_PAGE);
         builderParameters.setBillDate(DateUtils.formatDate(DateUtils.addMonths(DateUtils.now(),-1),"yyyy-MM"));
-        ResultTradeBillDownloadurlQuery result = tradeService.tradeBillDownloadurlQuery(builderParameters);
+        ResultBillDownloadurlQuery result = tradeService.billDownloadurlQuery(builderParameters);
         System.out.println("result:"+JsonUtils.toJSONString(result));
         Assert.assertEquals(result.getCode(),EErrorCode.Success);
     }

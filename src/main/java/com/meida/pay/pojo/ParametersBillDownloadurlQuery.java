@@ -2,8 +2,8 @@ package com.meida.pay.pojo;
 
 import com.meida.common.util.DateUtils;
 
-public class ParametersTradeBillDownloadurlQuery {
-    public ParametersTradeBillDownloadurlQuery() {
+public class ParametersBillDownloadurlQuery {
+    public ParametersBillDownloadurlQuery() {
         payType = EPayType.Alipay;// 默认支付宝
         payChannel = EPayChannel.Alipay_PAGE;// 电脑网站
         billDate=DateUtils.formatDate(DateUtils.addMonths(DateUtils.now(),-1),"yyyy-MM");

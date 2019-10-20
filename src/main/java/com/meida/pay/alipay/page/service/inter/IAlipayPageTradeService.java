@@ -46,5 +46,6 @@ public interface IAlipayPageTradeService {
     AlipayPageResultTradeRefund tradeRefund(AlipayPageParametersTradeRefund builder);
 
 
-    AlipayPageResultTradeBillDownloadurlQuery tradeBillDownload(AlipayPageParametersTradeBillDownloadurlQuery builder);
+    AlipayPageResultBillDownloadurlQuery billDownloadurlQuery(AlipayPageParametersBillDownloadurlQuery builder);
+    AlipayPageResultBillAccountlogQuery billAccountlogQuery(AlipayPageParametersBillAccountlogQuery builder);
 }

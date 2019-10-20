@@ -2,8 +2,8 @@ package com.meida.pay.pojo;
 
 import com.meida.common.constant.EErrorCode;
 
-public class ResultTradeBillDownloadurlQuery {
-    public ResultTradeBillDownloadurlQuery()
+public class ResultBillDownloadurlQuery {
+    public ResultBillDownloadurlQuery()
     {
         code = EErrorCode.Error;
         message = "操作失败.";

@@ -272,32 +272,32 @@ public class TradeServiceImpl implements ITradeService {
     }
 
     @Override
-    public ResultTradeBillDownloadurlQuery tradeBillDownloadurlQuery(ParametersTradeBillDownloadurlQuery builderParameters) {
+    public ResultBillDownloadurlQuery billDownloadurlQuery(ParametersBillDownloadurlQuery builderParameters) {
         if (builderParameters.getPayType().equals(EPayType.Alipay)) {
-            AlipayPageParametersTradeBillDownloadurlQuery builder = new AlipayPageParametersTradeBillDownloadurlQuery();
+            AlipayPageParametersBillDownloadurlQuery builder = new AlipayPageParametersBillDownloadurlQuery();
             builder.setBill_date(builderParameters.getBillDate());
             AlipayPageTradeServiceImpl tradeServiceImpl = new AlipayPageTradeServiceImpl();
-            AlipayPageResultTradeBillDownloadurlQuery result= tradeServiceImpl.tradeBillDownload(builder);
-            ResultTradeBillDownloadurlQuery resultTradeBillDownloadurlQuery =new ResultTradeBillDownloadurlQuery();
-            resultTradeBillDownloadurlQuery.setCode(result.getCode());
-            resultTradeBillDownloadurlQuery.setMessage(result.getMessage());
-            resultTradeBillDownloadurlQuery.setBillDownloadUrl(result.getBillDownloadUrl());
-            return resultTradeBillDownloadurlQuery;
+            AlipayPageResultBillDownloadurlQuery result= tradeServiceImpl.billDownloadurlQuery(builder);
+            ResultBillDownloadurlQuery resultBillDownloadurlQuery =new ResultBillDownloadurlQuery();
+            resultBillDownloadurlQuery.setCode(result.getCode());
+            resultBillDownloadurlQuery.setMessage(result.getMessage());
+            resultBillDownloadurlQuery.setBillDownloadUrl(result.getBillDownloadUrl());
+            return resultBillDownloadurlQuery;
         } else if (builderParameters.getPayType().equals(EPayType.Weixin)) {
-            ResultTradeBillDownloadurlQuery resultTradeBillDownload = new ResultTradeBillDownloadurlQuery();
-            resultTradeBillDownload.setCode(EErrorCode.Error);
-            resultTradeBillDownload.setMessage("暂不支持微信支付方式.");
-            return resultTradeBillDownload;
+            ResultBillDownloadurlQuery resultBillDownloadurlQuery = new ResultBillDownloadurlQuery();
+            resultBillDownloadurlQuery.setCode(EErrorCode.Error);
+            resultBillDownloadurlQuery.setMessage("暂不支持微信支付方式.");
+            return resultBillDownloadurlQuery;
         } else if (builderParameters.getPayType().equals(EPayType.Banks)) {
-            ResultTradeBillDownloadurlQuery resultTradeBillDownload = new ResultTradeBillDownloadurlQuery();
-            resultTradeBillDownload.setCode(EErrorCode.Error);
-            resultTradeBillDownload.setMessage("暂不支持银行支付方式.");
-            return resultTradeBillDownload;
+            ResultBillDownloadurlQuery resultBillDownloadurlQuery = new ResultBillDownloadurlQuery();
+            resultBillDownloadurlQuery.setCode(EErrorCode.Error);
+            resultBillDownloadurlQuery.setMessage("暂不支持银行支付方式.");
+            return resultBillDownloadurlQuery;
         } else {
-            ResultTradeBillDownloadurlQuery resultTradeBillDownload = new ResultTradeBillDownloadurlQuery();
-            resultTradeBillDownload.setCode(EErrorCode.Error);
-            resultTradeBillDownload.setMessage("在线支付类型（PayType）参数错误.");
-            return resultTradeBillDownload;
+            ResultBillDownloadurlQuery resultBillDownloadurlQuery = new ResultBillDownloadurlQuery();
+            resultBillDownloadurlQuery.setCode(EErrorCode.Error);
+            resultBillDownloadurlQuery.setMessage("在线支付类型（PayType）参数错误.");
+            return resultBillDownloadurlQuery;
         }
     }
 

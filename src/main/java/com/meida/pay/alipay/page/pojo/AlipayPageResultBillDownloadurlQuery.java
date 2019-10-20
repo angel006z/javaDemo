@@ -2,8 +2,8 @@ package com.meida.pay.alipay.page.pojo;
 
 import com.meida.common.constant.EErrorCode;
 
-public class AlipayPageResultTradeBillDownloadurlQuery {
-    public AlipayPageResultTradeBillDownloadurlQuery()
+public class AlipayPageResultBillDownloadurlQuery {
+    public AlipayPageResultBillDownloadurlQuery()
     {
         code = EErrorCode.Error;
         message = "操作失败.";

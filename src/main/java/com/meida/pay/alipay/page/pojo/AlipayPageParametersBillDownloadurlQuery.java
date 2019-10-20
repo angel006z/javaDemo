@@ -2,8 +2,8 @@ package com.meida.pay.alipay.page.pojo;
 
 import com.meida.common.util.StringUtils;
 
-public class AlipayPageParametersTradeBillDownloadurlQuery extends AlipayPageParametersBuilder {
-    public AlipayPageParametersTradeBillDownloadurlQuery() {
+public class AlipayPageParametersBillDownloadurlQuery extends AlipayPageParametersBuilder {
+    public AlipayPageParametersBillDownloadurlQuery() {
         bill_type = "signcustomer";
     }
 
