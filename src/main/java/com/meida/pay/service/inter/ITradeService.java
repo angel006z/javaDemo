@@ -28,11 +28,6 @@ public interface ITradeService {
     ResultMessage tradeRefundIsSuccess(ParametersTradeRefundQuery builderParameters);
 
     /**
-     * 交易关闭
-     */
-    ResultTradeClose tradeClose(ParametersTradeClose builderParameters);
-
-    /**
      * 查询对账单下载地址
      */
     ResultBillDownloadurlQuery billDownloadurlQuery(ParametersBillDownloadurlQuery builderParameters);

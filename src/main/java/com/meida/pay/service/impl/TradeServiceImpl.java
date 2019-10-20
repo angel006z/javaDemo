@@ -284,12 +284,6 @@ public class TradeServiceImpl implements ITradeService {
 
 
     @Override
-    public ResultTradeClose tradeClose(ParametersTradeClose builderParameters) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public ResultBillDownloadurlQuery billDownloadurlQuery(ParametersBillDownloadurlQuery builderParameters) {
         if (builderParameters.getPayType().equals(EPayType.Alipay)) {
             AlipayPageParametersBillDownloadurlQuery builder = new AlipayPageParametersBillDownloadurlQuery();
