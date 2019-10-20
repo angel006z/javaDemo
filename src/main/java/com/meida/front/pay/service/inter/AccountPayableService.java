@@ -59,4 +59,6 @@ public interface AccountPayableService {
       */
      boolean delete(DeleteDto deleteDto);
 
+
+     String getPayableNoByAccountPayable();
 }

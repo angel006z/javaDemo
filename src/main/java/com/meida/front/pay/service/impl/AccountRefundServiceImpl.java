@@ -1,16 +1,16 @@
 package com.meida.front.pay.service.impl;
 
 import com.meida.base.vo.ResultMessage;
-import com.meida.common.constant.EErrorCode;
+import com.meida.common.constant.*;
 import com.meida.common.util.StringUtils;
 import com.meida.front.pay.dao.inter.*;
 import com.meida.front.pay.po.*;
 import com.meida.front.pay.dto.*;
 import com.meida.front.base.dto.*;
+import com.meida.front.pay.service.inter.AccountHistoryService;
+import com.meida.front.pay.service.inter.AccountPayableService;
 import com.meida.front.pay.service.inter.AccountRefundService;
 
-import com.meida.common.constant.EOperate;
-import com.meida.common.constant.ESystemStatus;
 import com.meida.common.util.DateUtils;
 
 import com.meida.pay.pojo.EPayType;
@@ -45,7 +45,16 @@ public class AccountRefundServiceImpl implements AccountRefundService {
     private AccountPayableDao accountPayableDao;
 
     @Autowired
+    private AccountPayableService accountPayableService;
+
+    @Autowired
+    private AccountHistoryDao accountHistoryDao;
+
+    @Autowired
     private AccountReceivableDao accountReceivableDao;
+
+    @Autowired
+    private AccountHistoryService accountHistoryService;
 
     @Autowired
     private AlipayReturnDao alipayReturnDao;
@@ -108,19 +117,24 @@ public class AccountRefundServiceImpl implements AccountRefundService {
         return isFlag;
     }
 
-
+    /**
+     * 原路退款
+     *
+     * @param originalRefundDto
+     * @return
+     */
     @Override
     public ResultMessage originalRefund(OriginalRefundDto originalRefundDto) {
         Date nowTime = DateUtils.now();
         ResultMessage resultMessage = new ResultMessage();
-        AccountReceivableInfo queryFundIn = accountReceivableDao.getObjectByOrderNo(originalRefundDto.getOrderNo());
-        if (queryFundIn == null) {
+        AccountReceivableInfo queryAccountReceivable = accountReceivableDao.getObjectByOrderNo(originalRefundDto.getOrderNo());
+        if (queryAccountReceivable == null) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("该订单号不存在");
             return resultMessage;
         }
         long refundMemberId = originalRefundDto.getRefundMemberId();
-        if (queryFundIn.getMemberId() != refundMemberId) {
+        if (queryAccountReceivable.getMemberId() != refundMemberId) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("该订单号和退款人不一致");
             return resultMessage;
@@ -141,76 +155,107 @@ public class AccountRefundServiceImpl implements AccountRefundService {
             resultMessage.setMessage("未查找到支付交易号");
             return resultMessage;
         }
-        String inWay = queryFundIn.getReceivableType();
-        BigDecimal refund_amount = queryFundIn.getReceivableAmount();
+        String payType = queryAccountReceivable.getReceivableType();
+        String payChannel = queryAccountReceivable.getReceivableChannel();
+        BigDecimal refundAmount = queryAccountReceivable.getReceivableAmount();
         //退款
-        AccountRefundInfo refund = new AccountRefundInfo();
-        refund.setRefundNo(getNoByRefund());
-        refund.setOrderNo(queryFundIn.getOrderNo());
-        refund.setTradeNo(tradeNo);
-        refund.setRefundAmount(refund_amount);
-        refund.setRefundDate(nowTime);
-        refund.setMemberId(refundMemberId);
-        refund.setRefundReason(originalRefundDto.getRefundReason());
-        refund.setRefundStatus("no");
-        refund.setCreateDate(nowTime);
-        refund.setCreateUserId("系统id");
-        refund.setCreateUser("系统");
-        refund.setUpdateDate(nowTime);
-        refund.setUpdateUserId("系统id");
-        refund.setUpdateUser("系统");
-        refund.setIsValid(ESystemStatus.Valid);
-        refund.setRemark("正常退款");
-        refund.setSignature("待签名");
+        String refundNo = getNoByRefund();//退款订单号
+        AccountRefundInfo accountRefund = new AccountRefundInfo();
+        accountRefund.setRefundNo(refundNo);
+        accountRefund.setOrderNo(queryAccountReceivable.getOrderNo());
+        accountRefund.setTradeNo(tradeNo);
+        accountRefund.setRefundAmount(refundAmount);
+        accountRefund.setRefundDate(nowTime);
+        accountRefund.setMemberId(refundMemberId);
+        accountRefund.setRefundReason(originalRefundDto.getRefundReason());
+        accountRefund.setRefundStatus(ERechargeStatus.YES);
+        accountRefund.setCreateDate(nowTime);
+        accountRefund.setCreateUserId("系统id");
+        accountRefund.setCreateUser("系统");
+        accountRefund.setUpdateDate(nowTime);
+        accountRefund.setUpdateUserId("系统id");
+        accountRefund.setUpdateUser("系统");
+        accountRefund.setIsValid(ESystemStatus.Valid);
+        accountRefund.setRemark("正常退款");
+        accountRefund.setSignature("待签名");
+        boolean isFlagAccountRefund = accountRefundDao.save(accountRefund) > 0;
 
-        boolean isFlagFundAmount = false;
-        AccountAmountInfo queryFundAmount = accountAmountDao.getObjectByMemberId(refundMemberId);
-        if (queryFundAmount != null) {
-            if (queryFundAmount.getTotalAmount().multiply(new BigDecimal(100)).longValue() < refund_amount.multiply(new BigDecimal(100)).longValue()) {
+        //修改总金额
+        boolean isFlagAccountAmount = false;
+        AccountAmountInfo queryAccountAmount = accountAmountDao.getObjectByMemberId(refundMemberId);
+        if (queryAccountAmount != null) {
+            if (queryAccountAmount.getTotalAmount().multiply(new BigDecimal(100)).longValue() < refundAmount.multiply(new BigDecimal(100)).longValue()) {
                 resultMessage.setCode(EErrorCode.Error);
                 resultMessage.setMessage("该退款人总金额小于退款额，不能退款");
                 return resultMessage;
             }
-            AccountAmountInfo fundAmount = new AccountAmountInfo();
-            fundAmount.setMemberId(refundMemberId);
-            BigDecimal totalMoney = queryFundAmount.getTotalAmount().subtract(refund_amount);
-            fundAmount.setTotalAmount(totalMoney);
-            fundAmount.setUpdateDate(nowTime);
-            fundAmount.setUpdateUserId("系统id");
-            fundAmount.setUpdateUser("系统");
-            isFlagFundAmount = accountAmountDao.updateByMemberId(fundAmount) > 0;
+            AccountAmountInfo accountAmount = new AccountAmountInfo();
+            accountAmount.setMemberId(refundMemberId);
+            BigDecimal totalMoney = queryAccountAmount.getTotalAmount().subtract(refundAmount);
+            accountAmount.setTotalAmount(totalMoney);
+            accountAmount.setUpdateDate(nowTime);
+            accountAmount.setUpdateUserId("系统id");
+            accountAmount.setUpdateUser("系统");
+            isFlagAccountAmount = accountAmountDao.updateByMemberId(accountAmount) > 0;
         }
+        //出账（付款）记录
+        AccountPayableInfo accountPayable = new AccountPayableInfo();
+        accountPayable.setPayableNo(accountPayableService.getPayableNoByAccountPayable());
+        accountPayable.setMemberId(refundMemberId);
+        accountPayable.setOrderNo(refundNo);
+        accountPayable.setPayableAmount(refundAmount);
+        accountPayable.setPayableDate(nowTime);
+        accountPayable.setPayableReason(originalRefundDto.getRefundReason());
+        accountPayable.setPayableType(payType);
+        accountPayable.setPayableChannel(payChannel);
+        accountPayable.setCreateDate(nowTime);
+        accountPayable.setCreateUserId("系统id");
+        accountPayable.setCreateUser("系统");
+        accountPayable.setUpdateDate(nowTime);
+        accountPayable.setUpdateUserId("系统id");
+        accountPayable.setUpdateUser("系统");
+        accountPayable.setIsValid(ESystemStatus.Valid);
+        accountPayable.setRemark("正常退款");
+        accountPayable.setSignature("待签名");
+        boolean isFlagFundOut = accountPayableDao.save(accountPayable) > 0;
 
-        AccountPayableInfo fundOut = new AccountPayableInfo();
-        fundOut.setMemberId(refundMemberId);
-        fundOut.setPayableAmount(refund_amount);
-        fundOut.setPayableDate(nowTime);
-        fundOut.setPayableType(inWay);
-        fundOut.setCreateDate(nowTime);
-        fundOut.setCreateUserId("系统id");
-        fundOut.setCreateUser("系统");
-        fundOut.setUpdateDate(nowTime);
-        fundOut.setUpdateUserId("系统id");
-        fundOut.setUpdateUser("系统");
-        fundOut.setIsValid(ESystemStatus.Valid);
-        fundOut.setRemark("正常退款");
-        fundOut.setSignature("待签名");
-        boolean isFlagFundOut = accountPayableDao.save(fundOut) > 0;
+        //账单记录（出账、付款）
+        AccountHistoryInfo accountHistory = new AccountHistoryInfo();
+        accountHistory.setInOutNo(accountHistoryService.getInOutNoByAccountHistory());
+        accountHistory.setMemberId(refundMemberId);
+        accountHistory.setOrderNo(refundNo);
+        accountHistory.setInOutAmount(refundAmount);
+        accountHistory.setInOutDate(nowTime);
+        accountHistory.setInOutType(payType);
+        accountHistory.setInOutChannel(payChannel);
+        accountHistory.setInOutStatus("yes");
+        accountHistory.setAccountHistoryType(EAccountHistoryType.OUT);
+        accountHistory.setCreateDate(nowTime);
+        accountHistory.setCreateUserId("系统id");
+        accountHistory.setCreateUser("系统");
+        accountHistory.setUpdateDate(nowTime);
+        accountHistory.setUpdateUserId("系统id");
+        accountHistory.setUpdateUser("系统");
+        accountHistory.setIsValid(ESystemStatus.Valid);
+        accountHistory.setRemark("系统自动记录");
+        accountHistory.setSignature("待签名");
+        boolean isFlagAccountHistory = accountHistoryDao.save(accountHistory) > 0;
+
         //第三方支付系统退款
-        if (inWay.equals(EPayType.Alipay)) {
+        if (payType.equals(EPayType.Alipay)) {
             ParametersTradeRefund builderParameters = new ParametersTradeRefund();
-            builderParameters.setPayType(inWay);
-            builderParameters.setOut_trade_no(queryFundIn.getOrderNo());
+            builderParameters.setPayType(payType);
+            builderParameters.setOut_trade_no(queryAccountReceivable.getOrderNo());
             builderParameters.setTrade_no(tradeNo);
-            builderParameters.setRefund_amount(refund_amount);
+            builderParameters.setRefund_amount(refundAmount);
             builderParameters.setRefund_reason(originalRefundDto.getRefundReason());
             ResultTradeRefund resultTradeRefund = tradeService.tradeRefund(builderParameters);
             resultMessage.setCode(resultTradeRefund.getCode());
             resultMessage.setMessage(resultTradeRefund.getMessage());
-        } else if (inWay.equals(EPayType.Weixin)) {
+        } else if (payType.equals(EPayType.Weixin)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("暂不支持微信退款");
-        } else if (inWay.equals(EPayType.Banks)) {
+        } else if (payType.equals(EPayType.Banks)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("暂不支持银行退款");
         } else {

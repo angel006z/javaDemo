@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * AccountReceivable业务实现类
@@ -78,5 +79,22 @@ public class AccountReceivableServiceImpl implements AccountReceivableService {
 	public boolean delete(DeleteDto deleteDto) {
         boolean isFlag = accountReceivableDao.logicDelete(deleteDto) > 0;
         return isFlag;
+	}
+
+	/**
+	 * 收款单号
+	 *
+	 * @return 返回20位订单号
+	 */
+	public String getReceivableNoByAccountReceivable() {
+		int hashCodeV = UUID.randomUUID().toString().hashCode();
+		if (hashCodeV < 0) {// 有可能是负数
+			hashCodeV = -hashCodeV;
+		}
+		// 0 代表前面补充0
+		// 4 代表长度为4
+		// d 代表参数为正数型
+		return "R" + DateUtils.formatDate(DateUtils.now(), "yyyyMMdd") + String.format("%011d", hashCodeV);
+		// 1+8+11
 	}
 }

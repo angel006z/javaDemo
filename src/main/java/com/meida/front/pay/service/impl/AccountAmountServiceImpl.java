@@ -57,8 +57,7 @@ public class AccountAmountServiceImpl implements AccountAmountService {
         Date nowTime = DateUtils.now();
 	    AccountAmountInfo item = submitDto.getItem();
         CurrentMemberDto currentMemberDto = submitDto.getCurrentMemberDto();
-        if (submitDto.getOperate().equals(EOperate.ADD)) {
-																																																																																										item.setIsValid(ESystemStatus.Valid);
+        if (submitDto.getOperate().equals(EOperate.ADD)) {																																																																																										item.setIsValid(ESystemStatus.Valid);
 			item.setCreateDate(nowTime);
 			item.setCreateUserId(currentMemberDto.getMemberId().toString());
 			item.setCreateUser(currentMemberDto.getAccount());

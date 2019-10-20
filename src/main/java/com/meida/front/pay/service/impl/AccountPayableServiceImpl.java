@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * AccountPayable业务实现类
@@ -78,5 +79,22 @@ public class AccountPayableServiceImpl implements AccountPayableService {
 	public boolean delete(DeleteDto deleteDto) {
         boolean isFlag = accountPayableDao.logicDelete(deleteDto) > 0;
         return isFlag;
+	}
+
+	/**
+	 * 付款单号
+	 *
+	 * @return 返回20位订单号
+	 */
+	public String getPayableNoByAccountPayable() {
+		int hashCodeV = UUID.randomUUID().toString().hashCode();
+		if (hashCodeV < 0) {// 有可能是负数
+			hashCodeV = -hashCodeV;
+		}
+		// 0 代表前面补充0
+		// 4 代表长度为4
+		// d 代表参数为正数型
+		return "P" + DateUtils.formatDate(DateUtils.now(), "yyyyMMdd") + String.format("%011d", hashCodeV);
+		// 1+8+11
 	}
 }

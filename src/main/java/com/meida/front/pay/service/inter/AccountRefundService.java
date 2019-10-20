@@ -64,6 +64,7 @@ public interface AccountRefundService {
 
      /**
       * 原路退款
+      * @param originalRefundDto
       * @return
       */
      ResultMessage originalRefund(OriginalRefundDto originalRefundDto);

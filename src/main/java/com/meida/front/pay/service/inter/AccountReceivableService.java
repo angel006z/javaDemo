@@ -58,5 +58,5 @@ public interface AccountReceivableService {
       * @return
       */
      boolean delete(DeleteDto deleteDto);
-
+     String getReceivableNoByAccountReceivable();
 }

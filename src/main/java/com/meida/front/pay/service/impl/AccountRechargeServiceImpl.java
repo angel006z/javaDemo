@@ -1,18 +1,16 @@
 package com.meida.front.pay.service.impl;
 
 import com.meida.base.vo.ResultMessage;
-import com.meida.common.constant.EErrorCode;
-import com.meida.common.constant.ERechargeStatus;
+import com.meida.common.constant.*;
 import com.meida.common.util.StringUtils;
 import com.meida.front.pay.dao.inter.*;
 import com.meida.front.pay.po.*;
 import com.meida.front.pay.dto.*;
 import com.meida.front.base.dto.*;
 import com.meida.front.pay.service.inter.AccountHistoryService;
+import com.meida.front.pay.service.inter.AccountReceivableService;
 import com.meida.front.pay.service.inter.AccountRechargeService;
 
-import com.meida.common.constant.EOperate;
-import com.meida.common.constant.ESystemStatus;
 import com.meida.common.util.DateUtils;
 
 import com.meida.pay.pojo.*;
@@ -40,6 +38,9 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
 
     @Autowired
     private AccountReceivableDao accountReceivableDao;
+
+    @Autowired
+    private AccountReceivableService accountReceivableService;
 
     @Autowired
     private AccountHistoryDao accountHistoryDao;
@@ -189,8 +190,11 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
             return resultMessage;
         }
 
+        String payType = queryRecharge.getRechargeType();
+        String payChannel = queryRecharge.getRechargeChannel();
+        BigDecimal rechargeAmount = queryRecharge.getRechargeAmount();
         long totalAmount = alipayNotifyParamDto.getTotal_amount().multiply(new BigDecimal(100)).longValue();
-        if (totalAmount != queryRecharge.getRechargeAmount().multiply(new BigDecimal(100)).longValue()) {
+        if (totalAmount != rechargeAmount.multiply(new BigDecimal(100)).longValue()) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单金额和支付宝通知金额不相等");
             return resultMessage;
@@ -258,18 +262,19 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         accountRecharge.setUpdateDate(nowTime);
         accountRecharge.setUpdateUserId("系统id");
         accountRecharge.setUpdateUser("系统");
-        boolean isFlagPay = accountRechargeDao.updateByOrderNo(accountRecharge) > 0;
+        boolean isFlagAccountRecharge = accountRechargeDao.updateByOrderNo(accountRecharge) > 0;
 
 
         // 入账记录
         Long memberId = queryRecharge.getMemberId();
         AccountReceivableInfo accountReceivable = new AccountReceivableInfo();
+        accountReceivable.setReceivableNo(accountReceivableService.getReceivableNoByAccountReceivable());
         accountReceivable.setMemberId(memberId);
         accountReceivable.setOrderNo(orderNo);
         accountReceivable.setReceivableDate(nowTime);
-        accountReceivable.setReceivableAmount(alipayNotifyParamDto.getTotal_amount());
-        accountReceivable.setReceivableType("alipay");
-        accountReceivable.setReceivableChannel("alipay");
+        accountReceivable.setReceivableAmount(rechargeAmount);
+        accountReceivable.setReceivableType(payType);
+        accountReceivable.setReceivableChannel(payChannel);
         accountReceivable.setReceivableReason("正常充值");
         accountReceivable.setCreateDate(nowTime);
         accountReceivable.setCreateUserId("系统id");
@@ -282,17 +287,17 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         accountReceivable.setSignature("待签名");
         boolean isFlagAccountReceivable = accountReceivableDao.save(accountReceivable) > 0;
 
-        //账单记录
+        //账单记录(入账、收款)
         AccountHistoryInfo accountHistory = new AccountHistoryInfo();
         accountHistory.setInOutNo(accountHistoryService.getInOutNoByAccountHistory());
         accountHistory.setMemberId(memberId);
         accountHistory.setOrderNo(orderNo);
-        accountHistory.setInOutAmount(alipayNotifyParamDto.getTotal_amount());
+        accountHistory.setInOutAmount(rechargeAmount);
         accountHistory.setInOutDate(nowTime);
-        accountHistory.setInOutType("alipay");
-        accountHistory.setInOutChannel("alipay");
+        accountHistory.setInOutType(payType);
+        accountHistory.setInOutChannel(payChannel);
         accountHistory.setInOutStatus("yes");
-        accountHistory.setAccountHistoryType("in");
+        accountHistory.setAccountHistoryType(EAccountHistoryType.IN);
         accountHistory.setCreateDate(nowTime);
         accountHistory.setCreateUserId("系统id");
         accountHistory.setCreateUser("系统");
@@ -304,14 +309,13 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         accountHistory.setSignature("待签名");
         boolean isFlagAccountHistory = accountHistoryDao.save(accountHistory) > 0;
 
-        // 总资金
+        // 变更总资金
         boolean isFlagAccountAmount = false;
         AccountAmountInfo queryAccountAmount = accountAmountDao.getObjectByMemberId(memberId);
         if (queryAccountAmount != null) {
             AccountAmountInfo accountAmount = new AccountAmountInfo();
             accountAmount.setMemberId(memberId);
-            BigDecimal totalMoney = queryAccountAmount.getTotalAmount().add(alipayNotifyParamDto.getTotal_amount());
-            accountAmount.setTotalAmount(totalMoney);
+            accountAmount.setTotalAmount(queryAccountAmount.getTotalAmount().add(rechargeAmount));
             accountAmount.setUpdateDate(nowTime);
             accountAmount.setUpdateUserId("系统id");
             accountAmount.setUpdateUser("系统");
@@ -319,7 +323,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         } else {
             AccountAmountInfo accountAmount = new AccountAmountInfo();
             accountAmount.setMemberId(memberId);
-            accountAmount.setTotalAmount(alipayNotifyParamDto.getTotal_amount());
+            accountAmount.setTotalAmount(rechargeAmount);
             accountAmount.setCreateDate(nowTime);
             accountAmount.setCreateUserId("系统id");
             accountAmount.setCreateUser("系统");
@@ -376,21 +380,24 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         }
 
 
-        AccountRechargeInfo queryReharge = accountRechargeDao.getObjectByOrderNo(orderNo);
-        if (queryReharge == null) {
+        AccountRechargeInfo queryRecharge = accountRechargeDao.getObjectByOrderNo(orderNo);
+        if (queryRecharge == null) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单不存在");
             return resultMessage;
         }
 
-        if (queryReharge.getRechargeStatus().equals(ERechargeStatus.YES)) {
+        if (queryRecharge.getRechargeStatus().equals(ERechargeStatus.YES)) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单状态已经是支付状态");
             return resultMessage;
         }
 
+        String payType = queryRecharge.getRechargeType();
+        String payChannel = queryRecharge.getRechargeChannel();
+        BigDecimal rechargeAmount = queryRecharge.getRechargeAmount();
         long total_amount = alipayReturnParamDto.getTotal_amount().multiply(new BigDecimal(100)).longValue();
-        if (total_amount != queryReharge.getRechargeAmount().multiply(new BigDecimal(100)).longValue()) {
+        if (total_amount != rechargeAmount.multiply(new BigDecimal(100)).longValue()) {
             resultMessage.setCode(EErrorCode.Error);
             resultMessage.setMessage("业务订单号：" + orderNo + "充值订单金额和支付宝通知金额不相等");
             return resultMessage;
@@ -436,24 +443,25 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
 
 
         // 修改充值记录为已充值
-        AccountRechargeInfo recharge = new AccountRechargeInfo();
-        recharge.setOrderNo(orderNo);
-        recharge.setRechargeStatus(ERechargeStatus.YES);
-        recharge.setUpdateDate(nowTime);
-        recharge.setUpdateUserId("系统id");
-        recharge.setUpdateUser("系统");
-        boolean isFlagPay = accountRechargeDao.updateByOrderNo(recharge) > 0;
+        AccountRechargeInfo accountRecharge = new AccountRechargeInfo();
+        accountRecharge.setOrderNo(orderNo);
+        accountRecharge.setRechargeStatus(ERechargeStatus.YES);
+        accountRecharge.setUpdateDate(nowTime);
+        accountRecharge.setUpdateUserId("系统id");
+        accountRecharge.setUpdateUser("系统");
+        boolean isFlagAccountRecharge = accountRechargeDao.updateByOrderNo(accountRecharge) > 0;
 
 
         // 入账记录
-        Long memberId = queryReharge.getMemberId();
+        Long memberId = queryRecharge.getMemberId();
         AccountReceivableInfo accountReceivable = new AccountReceivableInfo();
+        accountReceivable.setReceivableNo(accountReceivableService.getReceivableNoByAccountReceivable());
         accountReceivable.setMemberId(memberId);
         accountReceivable.setOrderNo(orderNo);
         accountReceivable.setReceivableDate(nowTime);
-        accountReceivable.setReceivableAmount(alipayReturnParamDto.getTotal_amount());
-        accountReceivable.setReceivableType("alipay");
-        accountReceivable.setReceivableChannel("alipay");
+        accountReceivable.setReceivableAmount(rechargeAmount);
+        accountReceivable.setReceivableType(payType);
+        accountReceivable.setReceivableChannel(payChannel);
         accountReceivable.setReceivableReason("正常充值");
         accountReceivable.setCreateDate(nowTime);
         accountReceivable.setCreateUserId("系统id");
@@ -464,19 +472,19 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         accountReceivable.setIsValid(ESystemStatus.Valid);
         accountReceivable.setRemark("系统自动记录");
         accountReceivable.setSignature("待签名");
-        accountReceivableDao.save(accountReceivable);
+        boolean isFlagAccountReceivable = accountReceivableDao.save(accountReceivable) > 0;
 
-        //账单记录
+        //账单记录(入账、收款)
         AccountHistoryInfo accountHistory = new AccountHistoryInfo();
         accountHistory.setInOutNo(accountHistoryService.getInOutNoByAccountHistory());
         accountHistory.setMemberId(memberId);
         accountHistory.setOrderNo(orderNo);
-        accountHistory.setInOutAmount(alipayReturnParamDto.getTotal_amount());
+        accountHistory.setInOutAmount(rechargeAmount);
         accountHistory.setInOutDate(nowTime);
-        accountHistory.setInOutType("alipay");
-        accountHistory.setInOutChannel("alipay");
+        accountHistory.setInOutType(payType);
+        accountHistory.setInOutChannel(payChannel);
         accountHistory.setInOutStatus("yes");
-        accountHistory.setAccountHistoryType("in");
+        accountHistory.setAccountHistoryType(EAccountHistoryType.IN);
         accountHistory.setCreateDate(nowTime);
         accountHistory.setCreateUserId("系统id");
         accountHistory.setCreateUser("系统");
@@ -488,14 +496,13 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         accountHistory.setSignature("待签名");
         boolean isFlagAccountHistory = accountHistoryDao.save(accountHistory) > 0;
 
-        // 总资金
+        // 变更总资金
         boolean isFlagAccountAmount = false;
         AccountAmountInfo queryAccountAmount = accountAmountDao.getObjectByMemberId(memberId);
         if (queryAccountAmount != null) {
             AccountAmountInfo accountAmount = new AccountAmountInfo();
             accountAmount.setMemberId(memberId);
-            BigDecimal totalMoney = queryAccountAmount.getTotalAmount().add(alipayReturnParamDto.getTotal_amount());
-            accountAmount.setTotalAmount(totalMoney);
+            accountAmount.setTotalAmount(queryAccountAmount.getTotalAmount().add(rechargeAmount));
             accountAmount.setUpdateDate(nowTime);
             accountAmount.setUpdateUserId("系统id");
             accountAmount.setUpdateUser("系统");
@@ -503,7 +510,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         } else {
             AccountAmountInfo accountAmount = new AccountAmountInfo();
             accountAmount.setMemberId(memberId);
-            accountAmount.setTotalAmount(alipayReturnParamDto.getTotal_amount());
+            accountAmount.setTotalAmount(rechargeAmount);
             accountAmount.setCreateDate(nowTime);
             accountAmount.setCreateUserId("系统id");
             accountAmount.setCreateUser("系统");
@@ -631,7 +638,7 @@ public class AccountRechargeServiceImpl implements AccountRechargeService {
         // 0 代表前面补充0
         // 4 代表长度为4
         // d 代表参数为正数型
-        return "D" + DateUtils.formatDate(DateUtils.now(), "yyyyMMdd") + String.format("%011d", hashCodeV);
+        return "C" + DateUtils.formatDate(DateUtils.now(), "yyyyMMdd") + String.format("%011d", hashCodeV);
         // 1+8+11
     }
 
