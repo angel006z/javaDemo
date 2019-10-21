@@ -23,13 +23,13 @@
     </div>
     <div class="container-main">
         <div class="row clearfix">
-            <div class="title"> 当前充值账号：</div>
+            <div class="title">当前充值账号：</div>
             <div class="content">
                 AAA
             </div>
         </div>
         <div class="row clearfix">
-            <div class="title"> 请选择充值金额：</div>
+            <div class="title">请选择充值金额：</div>
             <div class="content">
                 <ul class="charge-money">
                     <li class="item" data-price="100">
@@ -75,29 +75,29 @@
             </div>
         </div>
         <div class="row charge-custom clearfix" style="display: none;">
-            <div class="title"> 请输入充值金额：</div>
+            <div class="title">请输入充值金额：</div>
             <div class="content">
                 <input type="text" id="custom_fee" value="1" name="custom_fee" maxlength="10" autocomplete="off"> 元
             </div>
         </div>
         <div class="row charge-cost clearfix">
-            <div class="title"> 应付金额：</div>
+            <div class="title">应付金额：</div>
             <div class="content">
                 <span class="number total_fee" style="color:#ff6a06">100</span>
                 <span class="number1">元</span>
             </div>
         </div>
-        <div class="row clearfix">
-            <div class="title"> 支付方式：</div>
+        <div class="row charge-type clearfix">
+            <div class="title">支付方式：</div>
             <div class="content">
-                <ul class="charge-channel">
-                    <li class="alipay" data-channel="alipay">
+                <ul class="charge-pay-type">
+                    <li class="pay-type-item alipay active" data-pay-type="alipay" data-pay-channel="Alipay_PAGE">
                         <a href="javascript:void(0);">
-                            <img src="<%=basePath%>/static/images/charge-channel-alipay.jpg" height="38" width="107"/>
+                            <img src="<%=basePath%>/static/img/charge-channel-alipay.jpg" height="38" width="107"/>
                         </a>
                     </li>
-                    <li class="weixin" data-channel="weixin">
-                        <a href="javascript:void(0);"><img src="<%=basePath%>/static/images/charge-channel-weixin.jpg"
+                    <li class="pay-type-item weixin" data-pay-type="weixin" data-pay-channel="Weixin_NATIVE">
+                        <a href="javascript:void(0);"><img src="<%=basePath%>/static/img/charge-channel-weixin.jpg"
                                                            height="38" width="107"/></a>
                     </li>
                 </ul>
@@ -114,9 +114,21 @@
         </div>
     </div>
 </div>
-<div id="divDialogPayLoadingTip" style="display:none;">
-    <div>请在新打开的页面中完成支付</div>
-    <div>请不要关闭此窗口，成功完成付款后将自动跳转，若未跳转可根据您的情况点击下面按钮</div>
+<div id="divDialogPayLoadingTip" style="display:none;" title="请支付订单">
+    <div class="charge-bankpay-tip">
+        <div class="content">
+        <div class="tip">请您在<strong class="timer"><span class="hour">1</span>小时<span class="minute">59</span>分<span
+                class="second"></span></strong>内，在新打开的支付页面中完成支付...
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-complete" href="javascript:void(0);">支付完成</a>
+            <a class="btn btn-problem" target="_blank"
+               href="http://bbs.360safe.com/forum.php?mod=viewthread&amp;tid=6999505&amp;page=1">遇到问题?</a>
+        </div>
+        <div class="tail">
+            <a class="modify" href="javascript:void(0);">&lt;返回修改支付方式</a>
+        </div></div>
+    </div>
 </div>
 <div id="form-pay" style="display: none;"></div>
 <!-- Script Begin -->
@@ -141,23 +153,30 @@
             var tempPrice = $(this).attr("data-price");
             if (tempPrice == 1) {
                 $(".charge-custom").show();
+                $("#custom_fee").val("").focus().val(tempPrice);
             } else {
                 $(".charge-custom").hide();
             }
             $(".total_fee").text(tempPrice);
-            buildAlipayNative();
+            $(".charge-money .item").removeClass("active");
+            $(this).addClass("active");
         });
         $("#custom_fee").keyup(function () {
             var tempPrice = $(this).val();
             $(".total_fee").text(tempPrice);
         });
+
+        $(".charge-type").on("click", ".pay-type-item", function () {
+            $(".charge-type .pay-type-item").removeClass("active");
+            $(this).addClass("active");
+        });
+        $(".charge-bankpay-tip").on("click",".modify",function(){
+            MISSY.iHideDialog();
+        });
         $(".confirm-charge").click(function () {
             rechargeOperate();
         });
-
-        buildAlipayNative();
     });
-
 
     function makeCode(tempVal) {
         $("#qrcode").html("");
@@ -168,46 +187,18 @@
         qrcode.makeCode(tempVal);
     }
 
-    function buildAlipayNative() {
-        var data = {
-            payChannel: "Alipay_NATIVE",
-            totalFee: $(".total_fee").text()
-        };
-        $.ajax({
-            url: "rechargeOperate",
-            data: JSON.stringify(data),
-            type: "post",
-            dataType: "json",
-            beforeSend: function () {
-            },
-            contentType: "application/json;charset=utf-8",
-            success: function (response) {
-                if (response.code != "1") {
-                    MISSY.iWrongMessage(response.code, response.message);
-                    return;
-                }
-                console.log(response.message);
-                makeCode(response.message);
-            },
-            error: function (xmlHttpRequest, textStatus, errorThrown) {
-                MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);
-                MISSY.iSystemAjaxError();
-            },
-            complete: function (xmlHttpRequest, textStatus) {
-
-            }
-        });
-    }
-
     function rechargeOperate() {
-        var data = {
-            payChannel: "Alipay_PAGE",
-            totalFee: $(".total_fee").text()
-        };
+        var payType = $(".charge-type .pay-type-item.active").attr("data-pay-type");
+        var payChannel = $(".charge-type .pay-type-item.active").attr("data-pay-channel");
+        var totalFee = $(".total_fee").text();
         var layerLoadIndex;
         $.ajax({
             url: "rechargeOperate",
-            data: JSON.stringify(data),
+            data: JSON.stringify({
+                payType: payType,
+                payChannel: payChannel,
+                totalFee: totalFee
+            }),
             type: "post",
             dataType: "json",
             beforeSend: function () {
@@ -219,18 +210,21 @@
                     MISSY.iWrongMessage(response.code, response.message);
                     return;
                 }
+                if (payType == "weixin") {
 
-
-                var action = "<%=basePath%>/front/pay/accountRecharge/jump";
-                var form = $("<form></form>");
-                $("#form-pay").append(form);
-                form.attr("action", action);
-                form.attr("method", "post");
-                form.attr("target", "_blank");
-                var formMsg = $('<input type="text" name="formMsg" />');
-                formMsg.attr('value', $.base64.encode(response.message, "utf-8"));
-                form.append(formMsg);
-                form.submit();
+                } else {
+                    MISSY.iShowDialog("divDialogPayLoadingTip", "请支付订单", 480, 236);
+                    var action = "<%=basePath%>/front/pay/accountRecharge/jump";
+                    var form = $("<form></form>");
+                    $("#form-pay").append(form);
+                    form.attr("action", action);
+                    form.attr("method", "post");
+                    form.attr("target", "_blank");
+                    var formMsg = $('<input type="text" name="formMsg" />');
+                    formMsg.attr('value', $.base64.encode(response.message, "utf-8"));
+                    form.append(formMsg);
+                    form.submit();
+                }
             },
             error: function (xmlHttpRequest, textStatus, errorThrown) {
                 MISSY.iDebugAjaxError(xmlHttpRequest, textStatus, errorThrown);

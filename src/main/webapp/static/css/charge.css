@@ -92,7 +92,7 @@ a{
 
 .charge-money li.active {
   border: 1px solid #1cd388;
-  background: url(../img/icon_v1.png) -13px -153px no-repeat #fff;
+  background: url(../img/flag-right.png) 118px 38px no-repeat #fff;
   color: #333;
 }
 .charge-money .item .amount,.charge-money .item .price {
@@ -113,12 +113,12 @@ a{
 }
 
 
-.charge-channel {
+.charge-type {
   display: inline-block;
   vertical-align: middle;
 }
 
-.charge-channel li {
+.charge-type li {
   float: left;
   width: 120px;
   margin: 7px;
@@ -128,12 +128,67 @@ a{
   text-align: center;
   cursor: pointer;
 }
-.charge-channel li.active {
+.charge-type li.active {
   border: 1px solid #1cd388;
-  background: url(../img/icon_v1.png) -13px -151px no-repeat #fff;
+  background: url(../img/flag-right.png) 118px 38px no-repeat #fff;
   color: #333;
 }
-.charge-channel li:hover {
+.charge-type li:hover {
   border: 1px solid #1cd388;
   background-color: #fff
 }
+
+.charge-bankpay-tip{
+
+ }
+.charge-bankpay-tip .content {
+  padding: 20px;
+  text-align: center;
+}
+.charge-bankpay-tip .content .tip .timer {
+   color: #fc4e53;
+ }
+.charge-bankpay-tip .content .tip {
+    padding: 15px;
+  }
+.charge-bankpay-tip .btn-group {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+}
+.btn {
+  display: inline;
+  padding: 13px 90px;
+  line-height: 45px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+.charge-bankpay-tip .btn {
+   display: inline;
+   padding: 10px 40px;
+   border-radius: 5px;
+ }
+.charge-bankpay-tip .btn-complete {
+   background-color: #009e96;
+   margin-right: 25px;
+ }
+.charge-bankpay-tip .btn-complete:hover {
+  background-color: rgba(0,158,150,0.8);
+}
+.charge-bankpay-tip .btn-problem {
+    background-color: #fc4e53;
+  }.charge-bankpay-tip .btn-problem:hover {
+     background-color: #ff7579;
+   }
+.charge-bankpay-tip .tail{
+  text-align: right;
+  margin-top: 15px;
+  padding-right: 20px;
+}
+
+.charge-bankpay-tip .tail a {
+   color: blue;
+ }
