@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="renderer" content="webkit"/>
-    <title>支付首页</title>
+    <title>充值</title>
     <link rel="stylesheet" href="<%=basePath%>/static/css/normalize.css?v=1.0.0">
 
     <link rel="stylesheet" href="<%=basePath%>/static/css/charge.css?v=1.0.1">
@@ -19,7 +19,7 @@
 <body>
 <div class="container">
     <div class="container-title">
-        <h2>充值中心</h2>
+        <h2>充值中心<a href="record">充值记录</a></h2>
     </div>
     <div class="container-main">
         <div class="row clearfix">
@@ -104,15 +104,15 @@
             </div>
         </div>
         <div class="row clearfix">
-            <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
-        </div>
-        <div class="row clearfix">
             <div class="title">&nbsp;</div>
             <div class="content">
                 <button class="confirm-charge">确认充值</button>
             </div>
         </div>
     </div>
+</div>
+<div id="divDialogWeixinTip" style="display: none;">
+    <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
 </div>
 <div id="divDialogPayLoadingTip" style="display:none;" title="请支付订单">
     <div class="charge-bankpay-tip">

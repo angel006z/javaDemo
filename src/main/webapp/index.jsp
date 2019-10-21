@@ -28,5 +28,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <br>
 	<a href="<%=basePath%>/front/pay/accountRecharge/index">charge index</a>
 <br>
+
+	<a href="<%=basePath%>/front/pay/accountRecharge/record">charge record</a>
+<br>
 </body>
 </html>

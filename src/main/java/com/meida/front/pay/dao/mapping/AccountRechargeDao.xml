@@ -97,8 +97,11 @@
                                                                     <if test="rechargeAmount != null">
                     AND a.recharge_amount = #{rechargeAmount}
                 </if>
-                                                                    <if test="rechargeDate != null">
-                    AND a.recharge_date = #{rechargeDate}
+                <if test="beginRechargeDate != null">
+                    AND a.recharge_date <![CDATA[>=]]> #{beginRechargeDate}
+                </if>
+                <if test="endRechargeDate != null">
+                    AND a.recharge_date <![CDATA[<]]> #{endRechargeDate}
                 </if>
                                                                     <if test="rechargeType != null and rechargeType!=''">
                     AND a.recharge_type like "%"#{rechargeType}"%"
@@ -148,8 +151,11 @@
                                                                     <if test="rechargeAmount != null">
                     AND a.recharge_amount = #{rechargeAmount}
                 </if>
-                                                                    <if test="rechargeDate != null">
-                    AND a.recharge_date = #{rechargeDate}
+                <if test="beginRechargeDate != null">
+                    AND a.recharge_date <![CDATA[>=]]> #{beginRechargeDate}
+                </if>
+                <if test="endRechargeDate != null">
+                    AND a.recharge_date <![CDATA[<]]> #{endRechargeDate}
                 </if>
                                                                     <if test="rechargeType != null and rechargeType!=''">
                     AND a.recharge_type like "%"#{rechargeType}"%"
