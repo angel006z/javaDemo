@@ -1,5 +1,8 @@
 package com.meida.pay.alipay.constant;
 
+/**
+ * 支付宝交易状态
+ */
 public class AlipayTradeStatus {
 	/**
 	 * 交易完成	

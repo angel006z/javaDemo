@@ -1,5 +1,8 @@
 package com.meida.pay.alipay.constant;
 
+/**
+ * 支付宝退款状态
+ */
 public class AlipayRefundStatus {
     /**
      * 退款处理成功
