@@ -1,9 +1,9 @@
 package com.meida.pay.weixin.wxpay.sdk;
 
+import com.meida.pay.weixin.wxpay.sdk.WXPayConstants.SignType;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.meida.pay.weixin.wxpay.sdk.WXPayConstants.SignType;
 
 public class WXPay {
 

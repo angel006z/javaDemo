@@ -1,11 +1,10 @@
 package com.meida.pay.weixin.wxpay.sdk;
 
+import com.meida.pay.weixin.wxpay.sdk.WXPayConstants.SignType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.meida.pay.weixin.wxpay.sdk.WXPayConstants.SignType;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -240,7 +239,7 @@ public class WXPayUtil {
      * @return MD5结果
      */
     public static String MD5(String data) throws Exception {
-        java.security.MessageDigest md = MessageDigest.getInstance("MD5");
+        MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] array = md.digest(data.getBytes("UTF-8"));
         StringBuilder sb = new StringBuilder();
         for (byte item : array) {

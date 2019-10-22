@@ -18,14 +18,13 @@ import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-
-import static com.meida.pay.weixin.wxpay.sdk.WXPayConstants.USER_AGENT;
-
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+
+import static com.meida.pay.weixin.wxpay.sdk.WXPayConstants.USER_AGENT;
 
 public class WXPayRequest {
     private WXPayConfig config;

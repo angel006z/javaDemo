@@ -1,5 +1,6 @@
 package com.meida.pay.weixin.config;
 
-public class Config {
+public class Config  {
+
 
 }
