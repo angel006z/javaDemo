@@ -31,7 +31,7 @@ import java.util.List;
  * @date 2019-10-19 15:27:58
  */
 @Controller
-@RequestMapping("/front/pay/recharge")
+@RequestMapping("/pay/recharge")
 public class RechargeController {
 
     private static final long serialVersionUID = 1L;

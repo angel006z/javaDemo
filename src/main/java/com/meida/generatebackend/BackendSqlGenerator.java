@@ -21,7 +21,7 @@ public class BackendSqlGenerator {
 	//数据库连接地址
 	private static String dbUrl = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
 
-    private static String basePackage = "com.meida.backend.pay";  //包名  示例：com.meida.backend.userManager
+    private static String basePackage = "com.meida.manage";  //包名  示例：com.meida.backend.userManager
     //private static String tableName = "tb_account_amount";  //数据库表名
     private static String[] tableNames =new String[]{
             "tb_member",
@@ -34,7 +34,7 @@ public class BackendSqlGenerator {
             "tb_account_amount",
             "tb_account_history"
     } ;  //数据库表名
-    private static String baseUrl="/backend/pay";
+    private static String baseUrl="/manage";
 
     /**
      *  生成演示

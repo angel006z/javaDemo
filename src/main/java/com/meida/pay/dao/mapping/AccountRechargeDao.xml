@@ -136,8 +136,8 @@
                                                                     <if test="signature != null and signature!=''">
                     AND a.signature like "%"#{signature}"%"
                 </if>
-                                      LIMIT
-        #{pagination.pageIndex},#{pagination.pageSize}
+        order by a.recharge_date desc
+        LIMIT  #{pagination.pageIndex},#{pagination.pageSize}
     </select>
 
     <select id="getTotalRecord" parameterType="com.meida.pay.dto.AccountRechargeListDto" resultType="java.lang.Long">
@@ -263,8 +263,8 @@
                                                                                     <if test="signature != null and signature!=''">
                         AND a.signature like "%"#{signature}"%"
                     </if>
-                                            LIMIT
-        #{pagination.pageIndex},#{pagination.pageSize}
+        order by a.recharge_date desc
+        LIMIT  #{pagination.pageIndex},#{pagination.pageSize}
     </select>
 
     <select id="getVoTotalRecord" parameterType="com.meida.pay.dto.AccountRechargeListDto" resultType="java.lang.Long">

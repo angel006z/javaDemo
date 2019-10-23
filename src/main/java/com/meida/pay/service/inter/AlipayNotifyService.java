@@ -6,7 +6,6 @@ import java.util.List;
 import com.meida.pay.dto.AlipayNotifyListDto;
 import com.meida.pay.dto.AlipayNotifySubmitDto;
 import com.meida.pay.po.AlipayNotifyInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.dto.*;
 
 /**

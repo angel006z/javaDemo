@@ -43,7 +43,7 @@ import com.meida.paysdk.alipay.config.AlipayConfig;
  * 当商户收到服务器异步通知并打印出success时，服务器异步通知参数notify_id才会失效。也就是说在支付宝发送同一条异步通知时（包含商户并未成功打印出success导致支付宝重发数次通知），服务器异步通知参数notify_id是不变的。
  */
 @Controller
-@RequestMapping(value = "/front/pay/alipaynotify")
+@RequestMapping(value = "/pay/alipaynotify")
 public class AlipayNotifyController {
 	private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
 	@Autowired

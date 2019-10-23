@@ -26,7 +26,7 @@ import java.util.List;
  * @date 2019-10-19 15:27:58
  */
 @Controller
-@RequestMapping("/front/pay/accountHistory" )
+@RequestMapping("/pay/accountHistory" )
 public class AccountHistoryController {
 
     private static final long serialVersionUID = 1L;
@@ -36,12 +36,12 @@ public class AccountHistoryController {
 
     @RequestMapping("/list" )
     public String list() {
-        return "/front/pay/AccountHistory/list";
+        return "/pay/AccountHistory/list";
     }
 
     @RequestMapping("/detail" )
     public String detail() {
-        return "/front/pay/AccountHistory/detail";
+        return "/pay/AccountHistory/detail";
     }
 
     /**

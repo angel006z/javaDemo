@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2019-10-19 15:27:58
  */
 @Controller
-@RequestMapping("/front/pay/accountRefund" )
+@RequestMapping("/pay/accountRefund" )
 public class AccountRefundController {
 
     private static final long serialVersionUID = 1L;
@@ -37,12 +37,12 @@ public class AccountRefundController {
 
     @RequestMapping("/list" )
     public String list() {
-        return "/front/pay/AccountRefund/list";
+        return "/pay/AccountRefund/list";
     }
 
     @RequestMapping("/detail" )
     public String detail() {
-        return "/front/pay/AccountRefund/detail";
+        return "/pay/AccountRefund/detail";
     }
 
     /**

@@ -3,7 +3,6 @@ package com.meida.pay.service.impl;
 import com.meida.pay.dto.AccountAmountListDto;
 import com.meida.pay.dto.AccountAmountSubmitDto;
 import com.meida.pay.po.AccountAmountInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.dto.*;
 import com.meida.pay.service.inter.AccountAmountService;
 import com.meida.pay.dao.inter.AccountAmountDao;

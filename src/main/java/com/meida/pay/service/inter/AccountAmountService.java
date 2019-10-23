@@ -6,7 +6,6 @@ import java.util.List;
 import com.meida.pay.dto.AccountAmountListDto;
 import com.meida.pay.dto.AccountAmountSubmitDto;
 import com.meida.pay.po.AccountAmountInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.dto.*;
 
 /**

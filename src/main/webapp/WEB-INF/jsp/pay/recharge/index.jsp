@@ -215,7 +215,7 @@
 
                 } else {
                     MISSY.iShowDialog("divDialogPayLoadingTip", "请支付订单", 480, 236);
-                    var action = g_basePath+"/front/pay/recharge/jump";
+                    var action = g_basePath+"/pay/recharge/jump";
                     var form = $("<form></form>");
                     $("#form-pay").append(form);
                     form.attr("action", action);

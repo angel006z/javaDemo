@@ -3,7 +3,6 @@ package com.meida.pay.service.impl;
 import com.meida.pay.dto.MemberListDto;
 import com.meida.pay.dto.MemberSubmitDto;
 import com.meida.pay.po.MemberInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.dto.*;
 import com.meida.pay.service.inter.MemberService;
 import com.meida.pay.dao.inter.MemberDao;

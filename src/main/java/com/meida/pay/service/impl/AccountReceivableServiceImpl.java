@@ -3,7 +3,6 @@ package com.meida.pay.service.impl;
 import com.meida.pay.dto.AccountReceivableListDto;
 import com.meida.pay.dto.AccountReceivableSubmitDto;
 import com.meida.pay.po.AccountReceivableInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.dto.*;
 import com.meida.pay.service.inter.AccountReceivableService;
 import com.meida.pay.dao.inter.AccountReceivableDao;

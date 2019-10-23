@@ -14,12 +14,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	server.xml 的path修改为/ 则不需要项目名称
 	<br>
 
-	<a href="<%=basePath%>/backend/basic/upload/upload">upload list</a>
+	<a href="<%=basePath%>/basic/upload/upload">upload list</a>
 <br>
-	<a href="<%=basePath%>/pay/accountRecharge/index">charge index</a>
+	<a href="<%=basePath%>/pay/recharge/index">charge index</a>
 <br>
 
-	<a href="<%=basePath%>/pay/accountRecharge/record">charge record</a>
+	<a href="<%=basePath%>/pay/recharge/record">charge record</a>
 <br>
 </body>
 </html>

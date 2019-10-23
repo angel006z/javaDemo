@@ -27,7 +27,7 @@ import com.meida.pay.service.inter.AccountRechargeService;
 import com.meida.paysdk.alipay.config.AlipayConfig;
 
 @Controller
-@RequestMapping(value = "/front/pay/alipayreturn")
+@RequestMapping(value = "/pay/alipayreturn")
 public class AlipayReturnController {
 	private static final Logger logger = LoggerFactory.getLogger(AlipayNotifyController.class);// slf4j日志记录器
 	@Autowired
