@@ -1,14 +1,14 @@
 package com.meida.test.pay;
 
 import com.meida.base.vo.ResultMessage;
-import com.meida.front.base.util.FrontUtils;
+import com.meida.basefront.util.FrontUtils;
 import com.meida.common.util.JsonUtils;
 import com.meida.common.constant.EErrorCode;
-import com.meida.front.pay.dto.AlipayNotifyParamDto;
-import com.meida.front.pay.dto.BuildRechargeOrderDto;
-import com.meida.front.pay.service.inter.AccountRechargeService;
-import com.meida.pay.pojo.EPayChannel;
-import com.meida.pay.pojo.EPayType;
+import com.meida.pay.dto.AlipayNotifyParamDto;
+import com.meida.pay.dto.BuildRechargeOrderDto;
+import com.meida.pay.service.inter.AccountRechargeService;
+import com.meida.paysdk.pojo.EPayChannel;
+import com.meida.paysdk.pojo.EPayType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,0 +1,89 @@
+package ${package.Dto};
+
+import com.meida.basefront.dto.CurrentMemberDto;
+import com.meida.base.vo.Pagination;
+
+#if(${superModelClassPackage})
+import ${superModelClassPackage};
+#end
+#if(${table.hasDate})
+#end
+#if(${table.hasBigDecimal})
+#end
+
+/**
+ * ${table.baseName}ListDto
+ * ${table.comment}
+ * @author ${author}
+ * @date ${date}
+ */
+#if(${superModelClass})
+public class ${table.baseName}ListDto extends ${superModelClass} {
+#else
+public class ${table.baseName}ListDto{
+#end
+	private static final long serialVersionUID=1L;
+
+    private CurrentMemberDto currentMemberDto;
+
+    private Pagination pagination;
+
+	#foreach($field in ${table.fields})
+		#if(${field.keyFlag}==false)
+/**
+	 * ${field.comment}
+	 */
+	private ${field.propertyType} ${field.propertyName};
+		#end
+	#end
+
+	#foreach($field in ${table.fields})
+	#if(${field.keyFlag}==false)
+    #if(${field.propertyType.equals("Boolean")})
+        #set($getprefix="is")
+    #else
+        #set($getprefix="get")
+    #end
+/**
+	 * 获取  ${field.comment}
+	 */
+	public ${field.propertyType} ${getprefix}${field.capitalName}(){
+        return ${field.propertyName};
+	}
+
+/**
+	 * 设置  ${field.comment}
+	 */
+	public void set${field.capitalName}(${field.propertyType} ${field.propertyName}){
+	    this.${field.propertyName} = ${field.propertyName};
+	}
+	    #if(${modelBuliderModel})
+	    return this;
+	}
+	    #end
+	#end
+	#end
+	#if(${modelColumnConstant})
+	    #foreach($field in ${table.fields})
+	    public static final String ${field.name.toUpperCase()} = "${field.name}";
+	    #end
+	#end
+
+
+    public CurrentMemberDto getCurrentMemberDto() {
+        return currentMemberDto;
+    }
+
+    public void setCurrentMemberDto(CurrentMemberDto currentMemberDto) {
+        this.currentMemberDto = currentMemberDto;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
+
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
+
+}

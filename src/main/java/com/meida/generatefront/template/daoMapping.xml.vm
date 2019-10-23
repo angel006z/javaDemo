@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Dao}.${table.daoName}">
+
+    <resultMap id="myResultMap"
+               type="${package.Info}.${po}">
+        #foreach($field in ${table.fields})
+            <id property="${field.propertyName}" column="${field.name}"></id>
+        #end
+    </resultMap>
+
+    <select id="getObjectById" parameterType="java.lang.String"
+            resultMap="myResultMap">
+		select
+        #foreach($field in ${table.fields})
+        a.${field.name}#if($velocityCount<${table.fields.size()}),
+        #end#end
+		from ${table.name} as a where	#foreach($field in ${table.fields})#if(${field.keyFlag})a.${field.name}#end#end=#{id}
+	</select>
+
+    <select id="getListPage"  parameterType="${package.Dto}.${table.baseName}ListDto"
+            resultMap="myResultMap">
+        select
+        #foreach($field in ${table.fields})
+            a.${field.name}#if($velocityCount<${table.fields.size()}),
+        #end#end
+        from ${table.name} as a
+        where a.is_valid=1
+        #foreach($field in ${table.fields})
+          #if(!${field.keyFlag}&&!${field.propertyName.equals("isValid")})
+            #if(${field.propertyType.equals("String")})
+                <if test="${field.propertyName} != null and ${field.propertyName}!=''">
+                    AND a.${field.name} like "%"#{${field.propertyName}}"%"
+                </if>
+            #else
+                <if test="${field.propertyName} != null">
+                    AND a.${field.name} = #{${field.propertyName}}
+                </if>
+            #end
+          #end
+        #end
+        LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getTotalRecord" parameterType="${package.Dto}.${table.baseName}ListDto" resultType="java.lang.Long">
+        select count(*) from ${table.name} as a where a.is_valid=1
+        #foreach($field in ${table.fields})
+          #if(!${field.keyFlag}&&!${field.propertyName.equals("isValid")})
+            #if(${field.propertyType.equals("String")})
+                <if test="${field.propertyName} != null and ${field.propertyName}!=''">
+                    AND a.${field.name} like "%"#{${field.propertyName}}"%"
+                </if>
+            #else
+                <if test="${field.propertyName} != null">
+                    AND a.${field.name} = #{${field.propertyName}}
+                </if>
+            #end
+          #end
+        #end
+    </select>
+
+
+    <select id="getVoListPage"  parameterType="${package.Dto}.${table.baseName}ListDto"
+            resultMap="myResultMap">
+        select
+        #foreach($field in ${table.fields})
+            a.${field.name}#if($velocityCount<${table.fields.size()}),
+        #end#end
+        from ${table.name} as a
+        where a.is_valid=1
+        #foreach($field in ${table.fields})
+            #if(!${field.keyFlag}&&!${field.propertyName.equals("isValid")})
+                #if(${field.propertyType.equals("String")})
+                    <if test="${field.propertyName} != null and ${field.propertyName}!=''">
+                        AND a.${field.name} like "%"#{${field.propertyName}}"%"
+                    </if>
+                #else
+                    <if test="${field.propertyName} != null">
+                        AND a.${field.name} = #{${field.propertyName}}
+                    </if>
+                #end
+            #end
+        #end
+        LIMIT
+        #{pagination.pageIndex},#{pagination.pageSize}
+    </select>
+
+    <select id="getVoTotalRecord" parameterType="${package.Dto}.${table.baseName}ListDto" resultType="java.lang.Long">
+        select count(*) from ${table.name} as a where a.is_valid=1
+        #foreach($field in ${table.fields})
+            #if(!${field.keyFlag}&&!${field.propertyName.equals("isValid")})
+                #if(${field.propertyType.equals("String")})
+                    <if test="${field.propertyName} != null and ${field.propertyName}!=''">
+                        AND a.${field.name} like "%"#{${field.propertyName}}"%"
+                    </if>
+                #else
+                    <if test="${field.propertyName} != null">
+                        AND a.${field.name} = #{${field.propertyName}}
+                    </if>
+                #end
+            #end
+        #end
+    </select>
+
+    <select id="getListByAll" resultMap="myResultMap">
+		select
+        #foreach($field in ${table.fields})
+        a.${field.name}#if($velocityCount<${table.fields.size()}),
+        #end#end
+		from ${table.name} as a
+	</select>
+
+
+    <select id="getListByValid" resultMap="myResultMap">
+		select
+        #foreach($field in ${table.fields})
+        a.${field.name}#if($velocityCount<${table.fields.size()}),
+        #end#end
+		from ${table.name} as a where a.is_valid=1
+	</select>
+
+
+    <insert id="save"	parameterType="${package.Info}.${po}">
+		insert into ${table.name} (
+    #foreach($field in ${table.fields})
+        #if(${keyFlag})
+            #if(!${isAuto})
+                ${field.name}#if($velocityCount<${table.fields.size()}),#end
+            #end
+        #else
+            ${field.name}#if($velocityCount<${table.fields.size()}),#end
+        #end
+    #end
+        )
+		values (
+    #foreach($field in ${table.fields})
+        #if(${keyFlag})
+            #if(!${isAuto})
+            #{${field.propertyName}}#if($velocityCount<${table.fields.size()}),#end
+            #end
+        #else
+        #{${field.propertyName}}#if($velocityCount<${table.fields.size()}),#end
+        #end
+    #end
+		)
+	</insert>
+
+    <update id="update" parameterType="${package.Info}.${po}">
+        update ${table.name}
+        <set>
+            #foreach($field in ${table.fields})#if(!${field.keyFlag})
+                <if test="${field.propertyName}!=null">
+                    ${field.name}=#{${field.propertyName}},
+                </if>
+            #end#end
+        </set>
+        where #foreach($field in ${table.fields})#if(${field.keyFlag})${field.name}#end#end=#{#foreach($field in ${table.fields})#if(${field.keyFlag})${field.propertyName}#end#end}
+    </update>
+
+    <update id="logicDelete" parameterType="com.meida.basefront.dto.DeleteDto">
+        update ${table.name} set is_valid=-1,update_user_id=#{currentMemberDto.memberId},update_user=#{currentMemberDto.account} where #foreach($field in ${table.fields})#if(${field.keyFlag})${field.name}#end#end in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,55 @@
+package ${package.Dto};
+
+import com.meida.basefront.dto.CurrentMemberDto;
+import ${package.Info}.${po};
+#if(${superModelClass})
+import ${superModelClassPackage};
+#end
+
+/**
+ * ${table.comment} submitDto
+ * @author ${author}
+ * @date ${date}
+ */
+#if(${superModelClass})
+public class ${table.baseName}SubmitDto extends ${superModelClass} {
+#else
+public class ${table.baseName}SubmitDto{
+#end
+
+	private static final long serialVersionUID=1L;
+    /**
+         * 提交操作参数
+         * 新增传递固定值：add
+         * 修改传递固定值：update
+         */
+    private String operate;
+
+    private ${po} item;
+
+    private CurrentMemberDto currentMemberDto;
+
+    public String getOperate() {
+        return operate;
+    }
+
+    public void setOperate(String operate) {
+        this.operate = operate;
+    }
+
+    public ${po} getItem() {
+        return item;
+    }
+
+    public void setItem(${po} item) {
+        this.item = item;
+    }
+
+    public CurrentMemberDto getCurrentMemberDto() {
+        return currentMemberDto;
+    }
+
+    public void setCurrentMemberDto(CurrentMemberDto currentMemberDto) {
+        this.currentMemberDto = currentMemberDto;
+    }
+}
