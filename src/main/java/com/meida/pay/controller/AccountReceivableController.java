@@ -5,7 +5,6 @@ import com.meida.pay.dto.AccountReceivableListParamDto;
 import com.meida.pay.dto.AccountReceivableSubmitDto;
 import com.meida.pay.dto.AccountReceivableSubmitParamDto;
 import com.meida.pay.po.AccountReceivableInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.util.*;
 import com.meida.base.vo.*;
 import com.meida.basefront.dto.*;

@@ -5,7 +5,6 @@ import com.meida.pay.dto.MemberListParamDto;
 import com.meida.pay.dto.MemberSubmitDto;
 import com.meida.pay.dto.MemberSubmitParamDto;
 import com.meida.pay.po.MemberInfo;
-import com.meida.front.pay.dto.*;
 import com.meida.basefront.util.*;
 import com.meida.base.vo.*;
 import com.meida.basefront.dto.*;
