@@ -6,9 +6,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by blaketang on 2017/6/16.
- */
 public class WXPayDomainSimpleImpl implements IWXPayDomain {
     private WXPayDomainSimpleImpl(){}
     private static class WxpayDomainHolder{
